@@ -81,7 +81,7 @@ const int LexicalAnalysis::nfa[NFA_ROW_MAX][NFA_COL_MAX]{
    {0, 0, 0, 0, 0, 0 ,0 ,0 ,0, 0,  0, 0, 0, 0, 0, 0, 0 ,0  ,0 ,0 ,0, 0, 0, 0, 0, 0, 0, 0, 0,40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0, 0 ,0 ,0, 0, 0, 0},//×´Ì¬39
    {0, 0, 0, 0, 0, 0 ,0 ,0 ,0, 0,  0, 0, 0, 0, 0, 0, 0 ,0  ,0 ,0 ,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0, 0 ,0 ,0, 0, 0, 0},//×´Ì¬40 ÖÕÌ¬ insert
 
-   {0, 0, 0, 0, 0, 0 ,0 ,0 ,0, 0,  0, 0, 0, 0, 0, 0, 0 ,0  ,0 ,0 ,0, 0, 0, 0,42, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,0 ,232,0,0 ,0 ,0, 0, 0, 0},//×´Ì¬41 ÖÕÌ¬ int
+   {0, 0, 0, 0, 0, 0 ,0 ,0 ,0, 0,  0, 0, 0, 0, 0, 0, 0 ,0  ,0 ,0 ,0, 0, 0, 0,42, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,0 ,236,0,0 ,0 ,0, 0, 0, 0},//×´Ì¬41 ÖÕÌ¬ int
    {0, 0, 0, 0, 0, 0 ,0 ,0 ,0, 0,  0, 0, 0, 0, 0, 0, 0 ,0  ,0 ,0 ,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0, 0 ,0 ,0, 0, 0, 0},//×´Ì¬42 ÖÕÌ¬ into
 
 /*
@@ -415,7 +415,7 @@ const int LexicalAnalysis::nfa[NFA_ROW_MAX][NFA_COL_MAX]{
    { 0  ,0   ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 , 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,238,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  , 0 ,0  ,0  ,0  ,  0,0  ,0  ,0  ,0  ,0  ,0  ,0 },//×´Ì¬237
    { 0  ,0   ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 , 239,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  , 0 ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 },//×´Ì¬238
    { 0  ,0   ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 , 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,240,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  , 0 ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 },//×´Ì¬239
-   { 0  ,0   ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 , 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  , 0 ,0  ,0  ,0  ,241,0  ,0  ,0  ,0  ,0  ,0  ,0 },//×´Ì¬240  float
+   { 0  ,0   ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 , 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  , 0 ,0  ,0  ,0  ,245,0  ,0  ,0  ,0  ,0  ,0  ,0 },//×´Ì¬240  float
    { 0  ,0   ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 , 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  , 0 ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,242},//×´Ì¬241
    { 0  ,0   ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 , 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  , 0 ,0  ,0  ,0  ,0  ,245,0  ,0  ,0  ,0  ,0  ,243},//×´Ì¬242
    {244 ,244 ,244,244,244,244,244,244,244,244, 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  , 0 ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 },//×´Ì¬243
@@ -424,7 +424,7 @@ const int LexicalAnalysis::nfa[NFA_ROW_MAX][NFA_COL_MAX]{
 
    { 0  ,0   ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 , 247,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  , 0 ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 },//×´Ì¬246
    { 0  ,0   ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 , 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,248,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  , 0 ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 },//×´Ì¬247
-   { 0  ,0   ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 , 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  , 0 ,0  ,0  ,0  ,251,0  ,0  ,0  ,0  ,0  ,0  ,0 },//×´Ì¬248
+   { 0  ,0   ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 , 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  , 0 ,0  ,0  ,0  ,253,0  ,0  ,0  ,0  ,0  ,0  ,0 },//×´Ì¬248
    {250 ,250 ,250,250,250,250,250,250,250,250, 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  , 0 ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 },//×´Ì¬249
    { 0  ,0   ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 , 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  , 0 ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,252},//×´Ì¬250
    { 0  ,0   ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 , 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  , 0 ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,252},//×´Ì¬251
@@ -446,8 +446,63 @@ const int LexicalAnalysis::startStatus[START_STATUS_MAX]{
 	169,171,173,175,177,180,183,185,187,189,
 	200,205,254
 };
+const int LexicalAnalysis::endStatus[END_STATUS_MAX]{
+	6,11,253,20,25,27,30,36,40,236,
+	42,47,52,56,59,61,67,245,72,78,
+	84,88,89,90,92,94,98,
+	//total 27
+	102,104,109,115,256,124,125,128,131,138,
+	143,145,149,157,168,170,172,174,176,178,
+	257,179,181,182,
+	//total 24
+	184,186,188,191,197,202,221,231,255
+	//total 9
+};
 vector<StatusSet>LexicalAnalysis::status;
 ConverTable LexicalAnalysis::conver;
+inline void LexicalAnalysis::init_end_status_map_category()
+{
+	int i;
+	endStatusMapCategory[191] = NUM;//NUMÀà
+	endStatusMapCategory[197] = REAL;//realÀà
+	endStatusMapCategory[202] = ID;//IDÀà
+	endStatusMapCategory[221] = CHARACTER;//×Ö·ûÀà
+	endStatusMapCategory[231] = CHARACTERMATCH;//×Ö·ûÆ¥ÅäÀà
+
+	endStatusMapCategory[170] = OPERATOR_SYMBOL;//ÔËËãÀà
+	endStatusMapCategory[172] = OPERATOR_SYMBOL;
+	endStatusMapCategory[174] = OPERATOR_SYMBOL;
+	endStatusMapCategory[176] = OPERATOR_SYMBOL;
+
+
+	endStatusMapCategory[178] = LOGCIAL_SYMBOL;//Âß¼­Àà
+	endStatusMapCategory[179] = LOGCIAL_SYMBOL;
+	endStatusMapCategory[181] = LOGCIAL_SYMBOL;
+	endStatusMapCategory[182] = LOGCIAL_SYMBOL;
+	endStatusMapCategory[257] = LOGCIAL_SYMBOL;
+
+	endStatusMapCategory[184] = ASSIGNMENT_SYMBOL;//¸³ÖµÀà
+
+	endStatusMapCategory[186] = L_BRACKET;//×óÀ¨ºÅÀà
+
+	endStatusMapCategory[188] = R_BRACKET;//ÓÒÀ¨ºÅÀà
+
+	endStatusMapCategory[255] = COMMA;//¶ººÅÀà
+
+	for (i = 0; i < END_STATUS_MAX; i++) {
+		if (endStatusMapCategory.count(endStatus[i]) == 0) {
+			endStatusMapCategory[endStatus[i]] = KEYWORD;
+			}
+		}
+	for (int i = 0; i < END_STATUS_MAX; i++) {
+		cout << "ÖÕÌ¬:" << endStatus[i] << endStatusMapCategory[endStatus[i]] << endl;
+	}
+}
+void LexicalAnalysis::set_out_file_name()
+{
+
+
+}
 std::vector<int> LexicalAnalysis::edge(int s, char c)
 {
 	int   nextStates, index;
@@ -518,7 +573,7 @@ std::vector<int> LexicalAnalysis::closure(int s)//×´Ì¬S£¬ÇóÎÞÐèÈÎºÎ×Ö·û¶øµÃµ½µÄ×
 	return status;
 }
 
-std::vector<int> LexicalAnalysis::dfaEdge(vector<int>& vec, char ch)
+std::vector<int> LexicalAnalysis::dfa_edge(vector<int>& vec, char ch)
 {
 	unsigned i, j;
 	vector<int>result, temp;//½á¹û¼¯ºÏ
@@ -537,7 +592,7 @@ std::vector<int> LexicalAnalysis::dfaEdge(vector<int>& vec, char ch)
 	return result;
 }
 
-void LexicalAnalysis:: NfaConvertToDfa()
+void LexicalAnalysis:: nfa_Convert_to_dfa()
 {
 	StatusSet s;
 	int j=0, p=1, c, k;
@@ -560,19 +615,19 @@ void LexicalAnalysis:: NfaConvertToDfa()
 
 		}
 		for (c = 0; c < ALPH_MAX; c++) {//×Ö·û¼¯
-			s = dfaEdge(status[j].getSet(), alphabet[c]);//ÇóÔÚ×´Ì¬¼¯status[j]ÖÐ³Ôµô×Ö·ûcµÃµ½×´Ì¬¼¯
+			s = dfa_edge(status[j].get_set(), alphabet[c]);//ÇóÔÚ×´Ì¬¼¯status[j]ÖÐ³Ôµô×Ö·ûcµÃµ½×´Ì¬¼¯
 			cout << "×´Ì¬"<<j << " "<<alphabet[c]<<" ×Ö·ûµÃµ½µÄ×´Ì¬¼¯" << endl;
 			s.print();
 			for (k = 0; k <= p; k++) {//ÔÚstatusÖÐÓÐÖØ¸´µÄ¾ÍÌø³ö
 				if (status[k] == s)break;
 			}
 			if (k <= p) {//ÔÚstatusÖÐÓÐÓësÏàÍ¬µÄ×´Ì¬¼¯
-				conver.addMap(j, alphabet[c], k);//Ìí¼ÓÖµ £¬¼´×´Ì¬j£¬ÔÚ×Ö·ûalphabet[c]£¬ÖµÎªk
+				conver.add_map(j, alphabet[c], k);//Ìí¼ÓÖµ £¬¼´×´Ì¬j£¬ÔÚ×Ö·ûalphabet[c]£¬ÖµÎªk
 			}
 			else {
 				status.push_back(s);//Ã»ÓÐÓësÏàÍ¬µÄ×´Ì¬¼¯ÔòÐÂÌíÒ»¸ö
 				p++;//×´Ì¬¼¯¸öÊý×ÔÔö
-				conver.addMap(j, alphabet[c], p);
+				conver.add_map(j, alphabet[c], p);
 			}
 
 		}
@@ -605,16 +660,14 @@ StatusSet& StatusSet::operator=(initializer_list<int> list)
 
 void StatusSet::print()
 {
-
 	for each (int var in status)
 	{
 		cout << var << " ";
 	}
 	cout << endl;
-
 }
 
-vector<int> StatusSet::getSet()
+vector<int> StatusSet::get_set()
 {
 	return status;
 }
@@ -628,7 +681,7 @@ StatusSet & StatusSet::operator=(vector<int>&vec)
 
 StatusSet & StatusSet::operator=(StatusSet & obj)
 {
-	status= obj.getSet();
+	status= obj.get_set();
 	return *this;
 	// TODO: ÔÚ´Ë´¦²åÈë return Óï¾ä
 }
@@ -649,7 +702,8 @@ bool StatusSet::operator==(StatusSet & obj)const
 	return false;
 }
 
-bool LexicalAnalysis::setFileName(string filename)
+
+bool LexicalAnalysis::set_file_name(string filename)
 {
 	ifstream input(filename);
 	if (!input) {
@@ -660,20 +714,65 @@ bool LexicalAnalysis::setFileName(string filename)
 	return true;
 }
 
-void ConverTable::addMap(int sta,char ch,int val)
+LexicalAnalysis::LexicalAnalysis()
 {
-	static vector<int>vec(ALPH_MAX, 0);//ÎªÒ»ÐÐµÄ³õÊ¼Öµ 
+		nfa_Convert_to_dfa();
+		init_end_status_map_category();
+}
+
+void LexicalAnalysis::run(string str)
+{
+	unsigned i,j,k;
+	int curStatus = 1;
+	bool flag;
+	vector<int>temp;
+	for (i = 0; i < str.size(); i++) {
+		//cout << "curStatus:" << curStatus << endl;
+		curStatus = conver.get_values(curStatus, str[i]);
+		flag = true;
+		for (j = 0; j < END_STATUS_MAX; j++) {
+			temp = status[curStatus].get_set();
+			for (k = 0; k < temp.size(); k++) {
+				if (endStatus[j] == temp[k]) {
+					flag = false;
+					break;
+				}
+			}
+			if (!flag)break;
+		}
+		if (!flag) {
+
+		}
+
+	}
+	cout << "status[curStatus].print" << endl;
+	status[curStatus].print();
+	/*
+	for (i = 0; i < END_STATUS_MAX; i++) {
+		const vector<int>temp = status[i].get_set();
+		for (j = 0; j < temp.size(); j++) {
+			if (endStatus[i] == temp[j]) {
+				cout << "ÕÒµ½ÖÕÌ¬£¡" << endl;
+				return;
+			}
+		}
+	}*/
+}
+
+void ConverTable::add_map(int sta,char ch,int val)
+{
+	static vector<int>vec(ALPH_MAX, 0);//ÎªÒ»ÐÐµÄ³õÊ¼Öµ £¬Îª50¸ö0
 	if (mapStatus.count(sta) == 0) {//²»Îª¿ÕÔòÐÂ½¨Ò»ÐÐ
-		mapStatus[sta] = this->status.size();
+		mapStatus[sta] = this->status.size();//Ò»¸ö×´Ì¬¼¯Ó³Éäµ½ÁíÒ»¸ö×´Ì¬¼¯
 		status.push_back(vec);
 	}
-	int index(letterConvertToIndex(LexicalAnalysis::alphabet, ALPH_MAX, ch));//×Ö·û¶ÔÓ¦µÄÊý×éÏÂ±ê
+	int index(letter_convert_to_index(LexicalAnalysis::alphabet, ALPH_MAX, ch));//×Ö·û¶ÔÓ¦µÄÊý×éÏÂ±ê
 		status[mapStatus[sta]][index] = val;//ÉèÖÃÖµ
 }
 
-int ConverTable::getValues(int sta, char ch)
+int ConverTable::get_values(int sta, char ch)
 {
-	int index(letterConvertToIndex(LexicalAnalysis::alphabet, ALPH_MAX, ch));
+	int index(letter_convert_to_index(LexicalAnalysis::alphabet, ALPH_MAX, ch));
 	return status[mapStatus[sta]][index];
 }
 
@@ -682,7 +781,7 @@ vector<vector<int>> ConverTable::getStatus()
 	return status;
 }
 
-int  letterConvertToIndex(const char alphabet[],size_t size,char ch)
+inline int  letter_convert_to_index(const char alphabet[],size_t size,char ch)
 {
 	int index = 0;
 	unsigned i;

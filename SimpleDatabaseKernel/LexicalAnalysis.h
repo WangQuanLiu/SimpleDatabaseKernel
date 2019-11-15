@@ -19,20 +19,49 @@
 #define ALPH_MAX 50
 #define NFA_ROW_MAX 258
 #define NFA_COL_MAX 51
-#define START_STATUS_MAX 33
+#define START_STATUS_MAX 33 //开始状态的个数
+#define END_STATUS_MAX 60
+
+#define KEYWORD "keyword"
+#define NUM "num"
+#define REAL "real"
+#define ID "id"
+#define OPERATOR_SYMBOL "operator_symbol"
+#define LOGCIAL_SYMBOL "logcial_symbol"
+#define CHARACTER "character"
+#define CHARACTERMATCH "characterMatch"
+#define L_BRACKET "l_bracket"
+#define R_BRACKET "r_bracket"
+#define COMMA "comma"
+#define ASSIGNMENT_SYMBOL "assignment_symbol"
+
+enum endStatusType {
+	keyword = 1,//关键字
+	num,//数字
+	real,//浮点数
+	id,//自定义id
+	operator_symbol,//运算符号
+	logcial_symbol,//逻辑符号
+	assignment_symbol,//赋值符号
+	character,//字符串
+	characterMatch,//字符串匹配
+	l_bracket,//左括号 
+	r_bracket,//右括号
+	comma//逗号
+};//对语句进行分类
 using namespace std;
 
 struct ConverTable {//映射表
 private:
-	
 	vector<vector<int>>status;
 	map<int, int>mapStatus;
+
 public:
 	
 	ConverTable() = default;
 //添加映射，即sta行ch在字符表下标中的值为val
-	void addMap(int sta,char ch,int val);
-	int getValues(int sta, char ch);//获取映射的值 
+	void add_map(int sta,char ch,int val);
+	int get_values(int sta, char ch);//获取映射的值 
 	vector<vector<int>>getStatus();
 #if LEXICAL_TEST==true
 	friend  class LexicalTest;
@@ -49,39 +78,49 @@ public:
 	StatusSet(vector<int>&vec);
 	StatusSet& operator=(initializer_list<int>list);
 	void print();
-	vector<int>getSet();
+	vector<int>get_set();
 	StatusSet&operator=(vector<int>&obj);
 	StatusSet&operator=(StatusSet&obj);
 	bool operator==(StatusSet&obj)const;
+	
 };
 class LexicalAnalysis {
 private:
+	string outFileName;//语法分析后产生的文件
 	string filename;
+	map<int, string>endStatusMapCategory;//终态映射类别
 	static vector<StatusSet>status;//dfa状态集合
+	 inline void init_end_status_map_category();//初始化终态映射类别
 	static ConverTable conver;//转换表
+	void set_out_file_name();//产生.lex文件
 	//求在状态S,输入字符C而得到的最大集合 
 	static std::vector<int> edge(int s, char c);
 
 	//状态S，求无需任何字符而得到的最大集合
 	static std::vector<int>closure(int s);
 
-	/*	dfaedge函数是输入一状态集合，然后返回出这个状态集合吃入字符ch后得到的一组状态集合	*/
-	static std::vector<int>dfaEdge(vector<int>&vec, char ch);
+	/*	dfa_edge函数是输入一状态集合，然后返回出这个状态集合吃入字符ch后得到的一组状态集合	*/
+	static std::vector<int>dfa_edge(vector<int>&vec, char ch);
+
 	//NFA转换成DFA
-	 void NfaConvertToDfa();
+	 void nfa_Convert_to_dfa();
 
 public:
-	bool setFileName(string filename);
+
+	bool set_file_name(string filename);
+	LexicalAnalysis();
 	static const char alphabet[ALPH_MAX];//字符数组
 	static const int nfa[NFA_ROW_MAX][NFA_COL_MAX];//nfa自动机
-	static const int startStatus[START_STATUS_MAX];
+	static const int startStatus[START_STATUS_MAX];//开始状态集
+	static const int endStatus[END_STATUS_MAX];//结束状态集
+	void run(string str);
 #if LEXICAL_TEST==true
 	friend  class LexicalTest;
 #endif
 
 };
 //ch字符在alphabet数组中的下标
-int letterConvertToIndex(const char alphabet[] ,size_t size, char ch);
+inline int letter_convert_to_index(const char alphabet[] ,size_t size, char ch);
 /*
   ---------------字母表------------------
 	0  1  2  3  4  5  6  7   8  9

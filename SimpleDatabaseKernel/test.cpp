@@ -1,5 +1,5 @@
 #include"test.h"
-void LexicalTest::checkDfa()//²é¿´DFA
+void LexicalTest::check_dfa()//²é¿´DFA
 {
 	int i,j;
 	//LexicalAnalysis lexcalAnalysis;
@@ -26,14 +26,14 @@ void print(vector<T>&vec) {
 	}
 	cout << endl;
 }
-void LexicalTest::checkedge()
+void LexicalTest::check_edge()
 {
 	char c;
 	while(cin>>c&&c!='#')
 	LexicalAnalysis::edge(0, c);
 }
 
-void LexicalTest::checkclosure()
+void LexicalTest::check_closure()
 {
 	cout << "check closure:" << endl;
 	int s;
@@ -44,10 +44,10 @@ void LexicalTest::checkclosure()
 	}
 }
 
-void LexicalTest::checkDfaEdge()
+void LexicalTest::check_dfa_edge()
 {
 
-	cout << "check DfaEdge:" << endl;
+	cout << "check dfa_edge:" << endl;
 	char  ch;
 	int input;
 	vector<int>vec;
@@ -57,7 +57,7 @@ void LexicalTest::checkDfaEdge()
 			vec.push_back(input);
 		cout << "ÊäÈë×Ö·û" << endl;
 		cin >> ch;
-		vec = LexicalAnalysis::dfaEdge(vec, ch);
+		vec = LexicalAnalysis::dfa_edge(vec, ch);
 		print<int>(vec);
 		vec.clear();
 		cout << "#½áÊøÑ­»·" << endl;
@@ -66,14 +66,14 @@ void LexicalTest::checkDfaEdge()
 
 }
 
-void LexicalTest::checkConverTable()
+void LexicalTest::check_conver_table()
 {
 	ConverTable con;
 	int status, val;
 	char ch;
 	while (cout << "ÊäÈë×´Ì¬ºÅ£¬×Ö·ûÓëÖµ ÊäÈë×´Ì¬ºÅÎª-1½áÊø"<<endl&&cin >> status >> ch
 		>> val&&status!=-1) {
-		con.addMap(status, ch, val);
+		con.add_map(status, ch, val);
 	}
 	vector<vector<int>>vec(con.getStatus());
 	for (unsigned i = 0; i < vec.size(); i++) {
@@ -86,16 +86,16 @@ void LexicalTest::checkConverTable()
 	}
 	while (cout << "ÊäÈë×´Ì¬ºÅ£¬×Ö·û ÊäÈë×´Ì¬ºÅÎª-1½áÊø" << endl && cin >>
 		status >> ch  && status != -1) {
-		int index(letterConvertToIndex(LexicalAnalysis::alphabet, ALPH_MAX, ch));
+		int index(letter_convert_to_index(LexicalAnalysis::alphabet, ALPH_MAX, ch));
 		cout << con.status[con.mapStatus[status]][index] << endl;
 	}
 
 }
 
-void LexicalTest::checkNfaConvertToDfa()
+void LexicalTest::check_nfa_conver_to_dfa()
 {
 	LexicalAnalysis lex;
-	lex.NfaConvertToDfa();
+	lex.nfa_Convert_to_dfa();
 	/*StatusSet s1({ 1,3,4,5,9 }), s2({ 1,4,5,3,8 });
 	if (s1 == s2)cout << "yes";*/
 
@@ -104,12 +104,12 @@ void LexicalTest::checkNfaConvertToDfa()
 void LexicalTest::test()
 {
 #if  LEXICAL_TEST==true
-		  // checkDfa();
-          //checkedge();
-          //checkclosure();
-	//checkDfaEdge();
-	//checkConverTable();
-	checkNfaConvertToDfa();
+		  // check_dfa();
+          //check_edge();
+          //check_closure();
+	//check_dfa_edge();
+	//check_conver_table();
+	check_nfa_conver_to_dfa();
 
 #endif;
 }
@@ -126,7 +126,7 @@ void Test::test()
 
 }
 
-void FileTest::checkGetToken()
+void FileTest::check_get_token()
 {
 	File file("C:\\Users\\THINKPAD\\Desktop\\sql.txt");
 	string str;
@@ -143,6 +143,6 @@ void FileTest::checkGetToken()
 
 void FileTest::test()
 {
-	checkGetToken();
+	check_get_token();
 
 }

@@ -6,17 +6,17 @@
 #endif
 class FileTest {
 public:
-	void checkGetToken();
+	void check_get_token();
 	void test();
 };
 class LexicalTest {
 public:
-	void  checkDfa();
-	void checkedge();
-	void checkclosure();
-	void checkDfaEdge();
-	void checkConverTable();
-	void checkNfaConvertToDfa();
+	void  check_dfa();
+	void check_edge();
+	void check_closure();
+	void check_dfa_edge();
+	void check_conver_table();
+	void check_nfa_conver_to_dfa();
 	void test();
 };
 class Test {

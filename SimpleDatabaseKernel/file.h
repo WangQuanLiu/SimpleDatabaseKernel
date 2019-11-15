@@ -5,7 +5,9 @@
 #include<fstream>
 #include<vector>
 #include<queue>
+#include<list>
 #include<string>
+#include<Windows.h>
 #ifndef _TESTSWITCH_
 #include"testswitch.h"
 #endif
@@ -19,15 +21,17 @@ using FilePtr = FILE * ;
 class File
 {
 public:
+	static string GetProgramDir();
 	File(string filename);
-	File() {};
-	//设置文件 名
-	bool setFileName(string filename);
-	bool setFileName(char*filename);
+	File() { flag = false; };
+	bool set_file_name(string filename);//设置文件 名
+	bool set_file_name(char*filename);
+	string executeRellback();//回滚函数,只能回滚一次
+	string getRellback();//获取回滚值 
 	//获取符号
 	string getToken();
-	string getFile();
-	bool getFlag() { return flag; }
+	string getFile();//获取文件名
+	bool get_flag() { return flag; }
 #if FILE_TEST==true
 	friend class FileTest;
 #endif
@@ -35,8 +39,11 @@ public:
 private:
 	bool flag;//检测文件是否成功打开 
 	//读取文件
-	bool readFile();
-	queue<string>token;//
+	static string split_file_name(string fullPath);//获取文件名
+	static string split_file_name(char*fullPath);
+	bool read_file();//读取文件
+	string rellback;//回滚值
+	list<string>token;//存储符号
 	std::string filename;//文件名
 };
 

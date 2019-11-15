@@ -1,11 +1,23 @@
 
 #include"file.h"
 
-File::File(string filename){
-	setFileName(filename);
+string File::GetProgramDir()
+{
+	char exeFullPath[MAX_PATH]; // Full path 
+	string strPath = "";
+
+	GetModuleFileName(NULL, exeFullPath, MAX_PATH);
+	strPath = (string)exeFullPath;    // Get full path of the file 
+
+	int pos = strPath.find_last_of('\\', strPath.length());
+	return strPath.substr(0, pos);  // Return the directory without the file name 
 }
 
-inline bool File::setFileName(string filename)
+File::File(string filename):File(){
+	set_file_name(filename);
+}
+
+inline bool File::set_file_name(string filename)
 {
 	ifstream input(filename);
 	if (!input) {
@@ -13,26 +25,38 @@ inline bool File::setFileName(string filename)
 		return false;
 	}
 	this->filename = filename;
-	if (!readFile())return false;
+	if (!read_file())return false;
+	flag = true;
 	return true;
 
 }
 
-bool File::setFileName(char * filename)
+bool File::set_file_name(char * filename)
 {
 	char ch;
 	string temp;
 	for (ch = *filename; ch; ch = *(++filename))
 		temp += ch;
-	return setFileName(temp);
+	return set_file_name(temp);
+}
+
+string File::executeRellback()
+{
+	token.push_front(rellback);
+	return rellback;
+}
+
+string File::getRellback()
+{
+	return rellback;
 }
 
 string File::getToken()
 {
 	string str;
 	if (token.empty()||!flag)return EOF;//队列为空，返回EOF
-	str = token.front();
-	token.pop();
+	rellback=str = token.front();
+	token.pop_front();
 	return str;
 }
 
@@ -41,7 +65,31 @@ string File::getFile()
 	return filename;
 }
 
-bool File::readFile()
+string File::split_file_name(string fullPath)
+{
+	string str = "";
+	for (int i = fullPath.length() - 1; i >= 0; i--) {
+
+		str = fullPath[i] + str;
+		if (fullPath[i] == '.') {
+			str = "";
+		}
+		else if (fullPath[i] == 92)break;
+	}
+
+	return str;
+}
+
+string File::split_file_name(char * fullPath)
+{
+	string filePath="";
+	int i;
+	for (i = 0; fullPath[i] != '\0'; i++)
+		filePath = fullPath[i];
+	return split_file_name(filePath);
+}
+
+bool File::read_file()
 {
 	FilePtr file = freopen(filename.c_str(), "r", stdin);
 	string str;
@@ -52,8 +100,7 @@ bool File::readFile()
 	}
 	else {
 		while (!feof(file)&& cin >> str) {//读取文件，放入队列
-			token.push(str);
-
+			token.push_back(str);
 		}
 		fclose(file);
 	}
