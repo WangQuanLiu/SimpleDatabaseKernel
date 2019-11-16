@@ -67,17 +67,17 @@ string File::getFile()
 
 string File::split_file_name(string fullPath)
 {
-	string str = "";
+	string fileName = "";
 	for (int i = fullPath.length() - 1; i >= 0; i--) {
 
-		str = fullPath[i] + str;
+		fileName = fullPath[i] + fileName;
 		if (fullPath[i] == '.') {
-			str = "";
+			fileName = "";
 		}
 		else if (fullPath[i] == 92)break;
 	}
 
-	return str;
+	return fileName;
 }
 
 string File::split_file_name(char * fullPath)
