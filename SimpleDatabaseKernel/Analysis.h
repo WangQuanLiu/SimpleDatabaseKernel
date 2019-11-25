@@ -14,13 +14,13 @@
 #include"testswitch.h"
 #include"file.h"
 #endif
-#ifndef _LexicalAnalysis_
-#define _LexicalAnalysis_
-#define ALPH_MAX 50
-#define NFA_ROW_MAX 258
-#define NFA_COL_MAX 51
+#ifndef _Analysis_
+#define _Analysis_
+#define ALPH_MAX 50 //字符的个数
+#define NFA_ROW_MAX 260 //NFA的行
+#define NFA_COL_MAX 51 //NFA的列
 #define START_STATUS_MAX 33 //开始状态的个数
-#define END_STATUS_MAX 60
+#define END_STATUS_MAX 61 //结束状态的个数
 
 #define KEYWORD "keyword"
 #define NUM "num"
@@ -34,7 +34,7 @@
 #define R_BRACKET "r_bracket"
 #define COMMA "comma"
 #define ASSIGNMENT_SYMBOL "assignment_symbol"
-
+#define MAX 1000
 enum endStatusType {
 	keyword = 1,//关键字
 	num,//数字
@@ -61,7 +61,7 @@ public:
 	ConverTable() = default;
 //添加映射，即sta行ch在字符表下标中的值为val
 	void add_map(int sta,char ch,int val);
-	int get_values(int sta, char ch);//获取映射的值 
+inline	int get_values(int sta, char ch);//获取映射的值 
 	vector<vector<int>>getStatus();
 #if LEXICAL_TEST==true
 	friend  class LexicalTest;
@@ -86,13 +86,13 @@ public:
 };
 class LexicalAnalysis {
 private:
-	string outFileName;//语法分析后产生的文件
-	string filename;
+	
+	string outFilePath;//语法分析后产生的文件
 	map<int, string>endStatusMapCategory;//终态映射类别
 	static vector<StatusSet>status;//dfa状态集合
 	 inline void init_end_status_map_category();//初始化终态映射类别
 	static ConverTable conver;//转换表
-	void set_out_file_name();//产生.lex文件
+	void set_out_file_path();//产生.lex文件
 	//求在状态S,输入字符C而得到的最大集合 
 	static std::vector<int> edge(int s, char c);
 
@@ -106,14 +106,15 @@ private:
 	 void nfa_Convert_to_dfa();
 
 public:
-
-	bool set_file_name(string filename);
-	LexicalAnalysis();
+	CFilePtr file;
+	bool set_file_path(string filename);//设置文件路径
+	LexicalAnalysis(string filePath);
 	static const char alphabet[ALPH_MAX];//字符数组
 	static const int nfa[NFA_ROW_MAX][NFA_COL_MAX];//nfa自动机
 	static const int startStatus[START_STATUS_MAX];//开始状态集
 	static const int endStatus[END_STATUS_MAX];//结束状态集
-	void run(string str);
+	static int string_map_category(string str);//str映射类别
+	void run();
 #if LEXICAL_TEST==true
 	friend  class LexicalTest;
 #endif

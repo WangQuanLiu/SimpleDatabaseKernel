@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="LexicalAnalysis.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="test.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -27,18 +24,21 @@
     <ClInclude Include="file.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Analysis.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="LexicalAnalysis.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="test.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="file.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Analysis.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

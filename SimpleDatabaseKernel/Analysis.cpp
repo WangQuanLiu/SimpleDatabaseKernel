@@ -1,6 +1,6 @@
 
-#ifndef _LexicalAnalysis_
-#include"LexicalAnalysis.h"
+#ifndef _Analysis_
+#include"Analysis.h"
 #endif // DEBUG
 
 const char LexicalAnalysis::alphabet[ALPH_MAX]{//表示DFA数组各个下标所代表的值 
@@ -238,7 +238,7 @@ const int LexicalAnalysis::nfa[NFA_ROW_MAX][NFA_COL_MAX]{
     {0  ,0   ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 , 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0,  0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 },//状态131 终态 by
 
     {0  ,0   ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 , 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,133,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0,  0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 },//状态132 开始状态
-    {0  ,0   ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 , 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,134,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0,  0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 },//状态133 
+    {0  ,0   ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 , 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,134,0  ,0  ,258,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0,  0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 },//状态133 
     {0  ,0   ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 , 0  ,0  ,0  ,135,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0,  0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 },//状态134
     {0  ,0   ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 , 136,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0,  0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 },//状态135
     {0  ,0   ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 , 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,137,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0,  0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 },//状态136
@@ -437,7 +437,13 @@ const int LexicalAnalysis::nfa[NFA_ROW_MAX][NFA_COL_MAX]{
 	{ 0  ,0   ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 , 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  , 0 ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 },//状态256 having
 
 	{ 0  ,0   ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 , 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  , 0 ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 },//状态257 <>
-
+/*
+  ---------------字母表------------------
+	 0   1   2   3   4   5   6   7   8   9    a   b   c   d   e   f   g   h   i   j   k   l   m   n   o   p   q   r   s   t   u   v   w   x   y   z   >   <   =    +   -   *   /   (   )   '   %   _   .  ,  ε
+	{0  ,0   ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 , 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  , 0 ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0},//状态0
+*/
+	{0  ,0   ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 , 0  ,0  ,0  ,0  ,259,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  , 0 ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 },//状态258
+	{0  ,0   ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 , 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  , 0 ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 }//状态259 use
 
 };
 const int LexicalAnalysis::startStatus[START_STATUS_MAX]{
@@ -455,11 +461,13 @@ const int LexicalAnalysis::endStatus[END_STATUS_MAX]{
 	143,145,149,157,168,170,172,174,176,178,
 	257,179,181,182,
 	//total 24
-	184,186,188,191,197,202,221,231,255
+	184,186,188,191,197,202,221,231,255,
 	//total 9
+	259
 };
 vector<StatusSet>LexicalAnalysis::status;
 ConverTable LexicalAnalysis::conver;
+
 inline void LexicalAnalysis::init_end_status_map_category()
 {
 	int i;
@@ -491,18 +499,22 @@ inline void LexicalAnalysis::init_end_status_map_category()
 
 	for (i = 0; i < END_STATUS_MAX; i++) {
 		if (endStatusMapCategory.count(endStatus[i]) == 0) {
-			endStatusMapCategory[endStatus[i]] = KEYWORD;
+			endStatusMapCategory[endStatus[i]] = KEYWORD;//设置键值
 			}
 		}
+#if (TEST==true&&LEXICAL_TEST==true)
 	for (int i = 0; i < END_STATUS_MAX; i++) {
 		cout << "终态:" << endStatus[i] << endStatusMapCategory[endStatus[i]] << endl;
 	}
+#endif
 }
-void LexicalAnalysis::set_out_file_name()
+
+void LexicalAnalysis::set_out_file_path()
 {
-
-
+	outFilePath = File::split_file_dir(file->get_file())+File::split_file_name(file->get_file())+".lex";//文件目录加文件名
+	
 }
+
 std::vector<int> LexicalAnalysis::edge(int s, char c)
 {
 	int   nextStates, index;
@@ -607,17 +619,21 @@ void LexicalAnalysis:: nfa_Convert_to_dfa()
 	status.push_back(s);//第二个状态为起始状态
 	while (j <= p) {			
 		{
+#if (TEST==true&&LEXICAL_TEST==true)
 			int i;
 			for (i = 0; i < status.size(); i++) {
 				cout << "状态" << i << endl;
 				status[i].print();
 			}
+#endif
 
 		}
 		for (c = 0; c < ALPH_MAX; c++) {//字符集
 			s = dfa_edge(status[j].get_set(), alphabet[c]);//求在状态集status[j]中吃掉字符c得到状态集
+#if (TEST==true&&LEXICAL_TEST==true)
 			cout << "状态"<<j << " "<<alphabet[c]<<" 字符得到的状态集" << endl;
 			s.print();
+#endif
 			for (k = 0; k <= p; k++) {//在status中有重复的就跳出
 				if (status[k] == s)break;
 			}
@@ -703,50 +719,140 @@ bool StatusSet::operator==(StatusSet & obj)const
 }
 
 
-bool LexicalAnalysis::set_file_name(string filename)
+bool LexicalAnalysis::set_file_path(string filename)
 {
 	ifstream input(filename);
 	if (!input) {
 		cerr << "文件不存在，路径错误或者文件已被删除！";
 		return false;
 	}
-	this->filename = filename;
+	file->set_file_path(filename);
 	return true;
 }
 
-LexicalAnalysis::LexicalAnalysis()
+LexicalAnalysis::LexicalAnalysis(string filePath)
 {
-		nfa_Convert_to_dfa();
-		init_end_status_map_category();
+	file = new LexicalAnalysisFile(filePath);
+		set_file_path(filePath);//设置文件路径
+		set_out_file_path();//设置输出文件路径 
+		nfa_Convert_to_dfa();//NFA转DFA
+		init_end_status_map_category();//初始化终态映射类别
 }
 
-void LexicalAnalysis::run(string str)
+int LexicalAnalysis::string_map_category(string str)
 {
-	unsigned i,j,k;
-	int curStatus = 1;
-	bool flag;
-	vector<int>temp;
-	for (i = 0; i < str.size(); i++) {
-		//cout << "curStatus:" << curStatus << endl;
-		curStatus = conver.get_values(curStatus, str[i]);
-		flag = true;
-		for (j = 0; j < END_STATUS_MAX; j++) {
-			temp = status[curStatus].get_set();
-			for (k = 0; k < temp.size(); k++) {
-				if (endStatus[j] == temp[k]) {
-					flag = false;
-					break;
-				}
-			}
-			if (!flag)break;
-		}
-		if (!flag) {
-
-		}
-
+	//int category = -1;
+	switch (str[0])
+	{
+	case 'N':
+		return num;
+	case 'K':
+		return keyword;
+	case 'R':
+		if(str==REAL)
+		return real;
+		else if (str == R_BRACKET)return r_bracket;
+	case 'I':
+		return id;
+	case 'O':
+		return operator_symbol;
+	case 'L':
+		if (str == LOGCIAL_SYMBOL)return logcial_symbol;
+		else if (str == L_BRACKET)return l_bracket;
+	case 'C':
+		if (str == CHARACTER)return character;
+		else if (str == CHARACTERMATCH)return characterMatch;
+		else if (str == COMMA)return comma;
+	case 'A':
+		 return assignment_symbol;
+	default:
+		break;
 	}
-	cout << "status[curStatus].print" << endl;
-	status[curStatus].print();
+	return MAX;
+}
+
+void LexicalAnalysis::run()
+{
+	
+	unsigned i,j=0,startIndex=0,stu,level;//stu为开始状态
+	int curStatus = 1;//初始状态
+	//cout << "outFilePath: " << outFilePath << endl;
+	ofstream filePath(outFilePath, ios::out|ios::trunc);
+	ifstream onputSteam(outFilePath);
+	/*if (onputSteam) {
+		if (rmdir(outFilePath.c_str()) != 0) {
+			printf("文件:%s未能成功删除\n", outFilePath.c_str());
+		}
+	}*/
+	if (!filePath) {
+		cerr << "文件打开失败" << endl;
+		return;
+	}
+	vector<int>vec;//保存字符状态
+	for (string str = file->get_token(); file->get_token_size() > 0; str = file->get_token())
+	{
+		if (str == ENTER||str==" ") {
+			char ch = str==ENTER? '\n':' ';
+			filePath.write(&ch, 1);
+			continue;
+		}
+		
+		vector<int>temp;
+		curStatus = 1;
+		for (i = 0; i < str.size(); i++) {
+			//cout << "curStatus:" << curStatus << endl;
+			curStatus = conver.get_values(curStatus, str[i]);//由一个状态到另一个状态
+		/*	flag = true;*/
+		}
+	//	(status[curStatus]).print();
+		//temp = status[curStatus].get_set();//获取curStatus的状态
+
+			//for (k = 0; k < temp.size(); k++)//循环当前的状态集 
+			//{
+
+			//for (j = 0; j < END_STATUS_MAX; j++) //循环终态 
+			//{
+			//	if (endStatus[j] == temp[k]) //相等
+			//	{
+			//		flag = false;
+			//		break;
+			//	}
+
+			//}
+			/*if (!flag)break;*/
+
+	/*	if (!flag) {*/
+		stu = MAX;
+		vec = status[curStatus].get_set();//获取状态
+		for (j = 0; j < vec.size(); j++) {
+			if (endStatusMapCategory.count(vec[j]) != 0) {
+				level = string_map_category(endStatusMapCategory[vec[j]]);
+				stu = stu > level ? level : stu;
+			}
+		}
+		string category = endStatusMapCategory[endStatus[stu]];//获取终态类别
+		filePath.write((category).c_str(), category.length());
+		filePath.put('(');
+		filePath.write(str.c_str(), str.length());
+
+		filePath.put(')');
+		filePath.put(' ');
+		/*	curStatus = 1;*/
+			/*}*/
+
+		//}
+#if (TEST==true&&LEXICAL_TEST==true)
+
+		std::cout << "character:	" << str << std::endl;
+		std::cout << "status[curStatus].print" << endl;
+		status[curStatus].print();
+#endif
+		
+		
+	}
+	filePath.close();
+	
+	//}
 	/*
 	for (i = 0; i < END_STATUS_MAX; i++) {
 		const vector<int>temp = status[i].get_set();
@@ -770,7 +876,7 @@ void ConverTable::add_map(int sta,char ch,int val)
 		status[mapStatus[sta]][index] = val;//设置值
 }
 
-int ConverTable::get_values(int sta, char ch)
+ inline int ConverTable::get_values(int sta, char ch)
 {
 	int index(letter_convert_to_index(LexicalAnalysis::alphabet, ALPH_MAX, ch));
 	return status[mapStatus[sta]][index];

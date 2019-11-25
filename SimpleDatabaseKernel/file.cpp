@@ -1,7 +1,7 @@
 
 #include"file.h"
 
-string File::GetProgramDir()
+string File::get_program_dir()
 {
 	char exeFullPath[MAX_PATH]; // Full path 
 	string strPath = "";
@@ -14,10 +14,15 @@ string File::GetProgramDir()
 }
 
 File::File(string filename):File(){
-	set_file_name(filename);
+	set_file_path(filename);
 }
 
-inline bool File::set_file_name(string filename)
+unsigned long long File::get_token_size()
+{
+	return token.size();
+}
+
+inline bool File::set_file_path(string filename)
 {
 	ifstream input(filename);
 	if (!input) {
@@ -25,42 +30,57 @@ inline bool File::set_file_name(string filename)
 		return false;
 	}
 	this->filename = filename;
-	if (!read_file())return false;
+//	if (!read_file())return false;
 	flag = true;
 	return true;
 
 }
 
-bool File::set_file_name(char * filename)
+inline bool File::set_file_path(char * filename)
 {
 	char ch;
 	string temp;
 	for (ch = *filename; ch; ch = *(++filename))
 		temp += ch;
-	return set_file_name(temp);
+	return set_file_path(temp);
 }
 
-string File::executeRellback()
-{
-	token.push_front(rellback);
-	return rellback;
-}
+//string File::executeRellback()
+//{
+//	token.push_front(rellback);
+//	return rellback;
+//}
+//
+//string File::getRellback()
+//{
+//	return rellback;
+//}
 
-string File::getRellback()
-{
-	return rellback;
-}
-
-string File::getToken()
+string LexicalAnalysisFile::get_token()
 {
 	string str;
-	if (token.empty()||!flag)return EOF;//队列为空，返回EOF
-	rellback=str = token.front();
-	token.pop_front();
+	if (token.empty()||!flag)return ENTER;//队列为空，返回EOF
+	if ((token.front()).size() <= 0) {
+		token.pop_front();
+		curLine++;
+		return "";
+	}
+	list<list<string>>::iterator begin;
+	begin = token.begin();
+	list<string>::iterator iter;
+	iter = (*begin).begin();
+
+	str = *iter;
+	if ((token.front()).size() <= 1) {
+		token.pop_front();
+		curLine++;
+		return str;
+	}
+	begin->pop_front();
 	return str;
 }
 
-string File::getFile()
+string File::get_file()
 {
 	return filename;
 }
@@ -79,7 +99,32 @@ string File::split_file_name(string fullPath)
 
 	return fileName;
 }
-
+unsigned long long File::get_cur_line()
+{
+	return curLine;
+}
+string File::split_file_dir(string fullPath)
+{
+	string filePath = "";
+	bool flag = true;
+	for (int i = fullPath.length() - 1; i >= 0; i--) {
+		filePath = fullPath[i] + filePath;
+		if (fullPath[i] == 92 && flag) {
+			filePath = "";
+			flag = !flag;
+		}
+		//else if (fullPath[i] == 92)break;
+	}
+	return filePath;
+}
+string File::split_file_dir(char * fullPath)
+{
+	string filePath = "";
+	int i;
+	for (i = 0; fullPath[i] != '\0'; i++)
+		filePath = fullPath[i];
+	return split_file_dir(filePath);
+}
 string File::split_file_name(char * fullPath)
 {
 	string filePath="";
@@ -89,23 +134,80 @@ string File::split_file_name(char * fullPath)
 	return split_file_name(filePath);
 }
 
-bool File::read_file()
+bool LexicalAnalysisFile::read_file()
 {
-	FilePtr file = freopen(filename.c_str(), "r", stdin);
-	string str;
-	if (file == NULL) {
+	//FilePtr file = freopen(filename.c_str(), "r", stdin);
+	
+	fstream file(filename, ios::in);
+	string str,temp;
+	list<string>ls;//保存临时列表
+	int i;
+	int lastIndex;//上一个下标
+	if (!file) {
 		cerr << "文件打开失败！" << endl;
 		flag = false;
 		return false;
 	}
 	else {
-		while (!feof(file)&& cin >> str) {//读取文件，放入队列
-			token.push_back(str);
+		char tempCharacter[FILE_MAX_NUMBER];
+		list<string>saveList;
+		while (!file.eof()) {	//读出文件数据到saveList
+			file.getline(tempCharacter, FILE_MAX_NUMBER);
+			saveList.push_back(tempCharacter);
 		}
-		fclose(file);
+		while (!saveList.empty()) {//读取文件，放入队列
+			str.clear();
+			ls.clear();
+			lastIndex = 0;//置为零
+			str = saveList.front();//出数据
+			saveList.pop_front();
+			if (str[0] != '\0') {	//不为空格
+				
+				for (i = 0; i < str.length(); i++) {	//如果为操作运算符或逻辑运算符
+					if (str[i] == ',' || str[i] == '+' || str[i] == '-' || str[i] == '*' ||
+						str[i] == '/' || str[i] == '<' || str[i] == '>' || str[i] == '=' ||
+						str[i] == ')' || str[i] == '(' || str[i] == ' ') {
+						if (lastIndex != i) {			//先保存与运算符连接在一起的数据
+							temp = str.substr(lastIndex, i - lastIndex);
+							ls.push_back(temp);
+
+						}
+						temp = str[i];	//保存运算符
+						ls.push_back(temp);
+						lastIndex = i + 1;
+					}
+					else if (str[i] == ' ') {
+						temp = str.substr(lastIndex, i - lastIndex);
+						ls.push_back(temp);
+						lastIndex = i + 1;
+					}
+					/*else if (str[i] == 'd' || str[i] == 'r' || str[i] == 't') {
+
+					}*/
+				}
+
+				if (lastIndex < str.length()) {		//后面一截数据
+					temp = str.substr(lastIndex, str.length() - lastIndex);
+					ls.push_back(temp);
+				}
+				token.push_back(ls);
+				ls.clear();
+			}
+		
+			ls.push_back("");
+			token.push_back(ls);
+		}
+		file.close();
 	}
 	flag = true;
 	return true;
+}
+
+
+
+bool LexicalAnalysisFile::set_file_path(string fileName)
+{
+	return File::set_file_path(fileName) && read_file();
 }
 
 
