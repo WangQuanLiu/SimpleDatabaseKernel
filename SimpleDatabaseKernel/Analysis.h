@@ -17,10 +17,10 @@
 #ifndef _Analysis_
 #define _Analysis_
 #define ALPH_MAX 50 //字符的个数
-#define NFA_ROW_MAX 260 //NFA的行
+#define NFA_ROW_MAX 289 //NFA的行
 #define NFA_COL_MAX 51 //NFA的列
-#define START_STATUS_MAX 33 //开始状态的个数
-#define END_STATUS_MAX 61 //结束状态的个数
+#define START_STATUS_MAX 34 //开始状态的个数
+#define END_STATUS_MAX 68 //结束状态的个数
 
 #define KEYWORD "keyword"
 #define NUM "num"
@@ -34,14 +34,16 @@
 #define R_BRACKET "r_bracket"
 #define COMMA "comma"
 #define ASSIGNMENT_SYMBOL "assignment_symbol"
+#define BLANK "blank"
 #define MAX 1000
 enum endStatusType {
-	keyword = 1,//关键字
+	logcial_symbol=1,//逻辑符号
+	keyword ,//关键字
 	num,//数字
 	real,//浮点数
 	id,//自定义id
 	operator_symbol,//运算符号
-	logcial_symbol,//逻辑符号
+	
 	assignment_symbol,//赋值符号
 	character,//字符串
 	characterMatch,//字符串匹配

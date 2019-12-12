@@ -65,17 +65,22 @@ string LexicalAnalysisFile::get_token()
 		curLine++;
 		return "";
 	}
+	else if ((token.front()).size() <= 1 && (token.front().front() == "")) {
+		token.pop_front();
+		curLine++;
+		return "";
+	}
 	list<list<string>>::iterator begin;
 	begin = token.begin();
 	list<string>::iterator iter;
 	iter = (*begin).begin();
 
 	str = *iter;
-	if ((token.front()).size() <= 1) {
+	/*if ((token.front()).size() <= 1) {
 		token.pop_front();
 		curLine++;
 		return str;
-	}
+	}*/
 	begin->pop_front();
 	return str;
 }
@@ -142,6 +147,7 @@ bool LexicalAnalysisFile::read_file()
 	string str,temp;
 	list<string>ls;//保存临时列表
 	int i;
+	
 	int lastIndex;//上一个下标
 	if (!file) {
 		cerr << "文件打开失败！" << endl;
@@ -161,7 +167,7 @@ bool LexicalAnalysisFile::read_file()
 			lastIndex = 0;//置为零
 			str = saveList.front();//出数据
 			saveList.pop_front();
-			if (str[0] != '\0') {	//不为空格
+			if (str != "") {	//不为回车
 				
 				for (i = 0; i < str.length(); i++) {	//如果为操作运算符或逻辑运算符
 					if (str[i] == ',' || str[i] == '+' || str[i] == '-' || str[i] == '*' ||
@@ -193,9 +199,11 @@ bool LexicalAnalysisFile::read_file()
 				token.push_back(ls);
 				ls.clear();
 			}
-		
-			ls.push_back("");
-			token.push_back(ls);
+			else{
+				ls.push_back("");
+				token.push_back(ls);
+			}
+			
 		}
 		file.close();
 	}
