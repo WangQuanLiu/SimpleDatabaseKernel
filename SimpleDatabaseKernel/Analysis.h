@@ -17,10 +17,10 @@
 #ifndef _Analysis_
 #define _Analysis_
 #define ALPH_MAX 50 //字符的个数
-#define NFA_ROW_MAX 289 //NFA的行
+#define NFA_ROW_MAX 292 //NFA的行
 #define NFA_COL_MAX 51 //NFA的列
 #define START_STATUS_MAX 34 //开始状态的个数
-#define END_STATUS_MAX 68 //结束状态的个数
+#define END_STATUS_MAX 69 //结束状态的个数
 
 #define KEYWORD "keyword"
 #define NUM "num"
