@@ -1,7 +1,7 @@
 /*
 */
-#ifndef _Analysis_
-#include"Analysis.h"
+#ifndef _LexicalAnalysis_
+#include"LexicalAnalysis.h"
 #ifndef _FILE_
 #include"file.h"
 #endif
@@ -38,14 +38,14 @@ bool check_input_file(int argc, char*argv[]) {
 }
 void Compile::run()
 {
-	//file = new LexicalAnalysisFile;
+	//file = new LexicalLexicalAnalysisFile;
 	lexical_run(file->get_file());
 
 
 }
 void Compile::lexical_run(string filePath)
 {
-	LexicalAnalysis lex(filePath);
+	LexicalLexicalAnalysis lex(filePath);
 
 		lex.run();
 	//	cout << "file.get_token() " << temp << endl;
@@ -55,7 +55,7 @@ void Compile::lexical_run(string filePath)
 Compile::Compile(int argc,char*argv[])
 {
 	string str = "C:\\Users\\THINKPAD\\Desktop\\sql.txt";
-	file = new LexicalAnalysisFile(str);
+	file = new LexicalLexicalAnalysisFile(str);
 		//file->set_file_path(argv[2]);
 }
 int main(int argc,char *argv[]) {

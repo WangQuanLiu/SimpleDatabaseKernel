@@ -14,8 +14,8 @@
 #include"testswitch.h"
 #include"file.h"
 #endif
-#ifndef _Analysis_
-#define _Analysis_
+#ifndef _LexicalAnalysis_
+#define _LexicalAnalysis_
 #define ALPH_MAX 50 //字符的个数
 #define NFA_ROW_MAX 292 //NFA的行
 #define NFA_COL_MAX 51 //NFA的列
@@ -86,7 +86,7 @@ public:
 	bool operator==(StatusSet&obj)const;
 	
 };
-class LexicalAnalysis {
+class LexicalLexicalAnalysis {
 private:
 	
 	string outFilePath;//语法分析后产生的文件
@@ -110,7 +110,7 @@ private:
 public:
 	CFilePtr file;
 	bool set_file_path(string filename);//设置文件路径
-	LexicalAnalysis(string filePath);
+	LexicalLexicalAnalysis(string filePath);
 	static const char alphabet[ALPH_MAX];//字符数组
 	static const int nfa[NFA_ROW_MAX][NFA_COL_MAX];//nfa自动机
 	static const int startStatus[START_STATUS_MAX];//开始状态集

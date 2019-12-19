@@ -1,5 +1,5 @@
-//#ifndef _Analysis_
-//#include"Analysis.h"
+//#ifndef _LexicalAnalysis_
+//#include"LexicalAnalysis.h"
 //#endif
 //#ifndef _TEST_
 //#define _TEST_

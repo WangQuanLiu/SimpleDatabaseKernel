@@ -2,16 +2,16 @@
 //void LexicalTest::check_dfa()//²é¿´DFA
 //{
 //	int i,j;
-//	//LexicalAnalysis lexcalAnalysis;
+//	//LexicalLexicalAnalysis lexcalLexicalAnalysis;
 //	for (i = 1; i <NFA_ROW_MAX; i++) {
 //		std::cout << "cur status:" << i << std::endl;
 //		for (j = 0; j < NFA_COL_MAX-1; j++) {
-//			if (LexicalAnalysis::nfa[i][j] != 0) {
-//				std::cout << LexicalAnalysis::alphabet[j] << "->" <<LexicalAnalysis:: nfa[i][j] << "  ,";
+//			if (LexicalLexicalAnalysis::nfa[i][j] != 0) {
+//				std::cout << LexicalLexicalAnalysis::alphabet[j] << "->" <<LexicalLexicalAnalysis:: nfa[i][j] << "  ,";
 //			}
 //		}
-//		if (LexicalAnalysis::nfa[i][j] != 0)
-//			std::cout << "¦Å" << "->" <<LexicalAnalysis::nfa[i][j];
+//		if (LexicalLexicalAnalysis::nfa[i][j] != 0)
+//			std::cout << "¦Å" << "->" <<LexicalLexicalAnalysis::nfa[i][j];
 //		std::cout << "\n";
 //		getchar();
 //}
@@ -30,7 +30,7 @@
 //{
 //	char c;
 //	while(cin>>c&&c!='#')
-//	LexicalAnalysis::edge(0, c);
+//	LexicalLexicalAnalysis::edge(0, c);
 //}
 //
 //void LexicalTest::check_closure()
@@ -38,7 +38,7 @@
 //	cout << "check closure:" << endl;
 //	int s;
 //	while (cin >> s &&s!=0&&s<NFA_ROW_MAX) {
-//		vector<int>temp(LexicalAnalysis::closure(s));
+//		vector<int>temp(LexicalLexicalAnalysis::closure(s));
 //		cout << "it has status item as follow:" << endl;
 //		print<int>(temp);
 //	}
@@ -57,7 +57,7 @@
 //			vec.push_back(input);
 //		cout << "ÊäÈë×Ö·û" << endl;
 //		cin >> ch;
-//		vec = LexicalAnalysis::dfa_edge(vec, ch);
+//		vec = LexicalLexicalAnalysis::dfa_edge(vec, ch);
 //		print<int>(vec);
 //		vec.clear();
 //		cout << "#½áÊøÑ­»·" << endl;
@@ -86,7 +86,7 @@
 //	}
 //	while (cout << "ÊäÈë×´Ì¬ºÅ£¬×Ö·û ÊäÈë×´Ì¬ºÅÎª-1½áÊø" << endl && cin >>
 //		status >> ch  && status != -1) {
-//		int index(letter_convert_to_index(LexicalAnalysis::alphabet, ALPH_MAX, ch));
+//		int index(letter_convert_to_index(LexicalLexicalAnalysis::alphabet, ALPH_MAX, ch));
 //		cout << con.status[con.mapStatus[status]][index] << endl;
 //	}
 //
@@ -94,7 +94,7 @@
 //
 //void LexicalTest::check_nfa_conver_to_dfa()
 //{
-//	LexicalAnalysis lex("C:\\Users\\THINKPAD\\Desktop\\sql.txt");
+//	LexicalLexicalAnalysis lex("C:\\Users\\THINKPAD\\Desktop\\sql.txt");
 //	lex.nfa_Convert_to_dfa();
 //	/*StatusSet s1({ 1,3,4,5,9 }), s2({ 1,4,5,3,8 });
 //	if (s1 == s2)cout << "yes";*/
