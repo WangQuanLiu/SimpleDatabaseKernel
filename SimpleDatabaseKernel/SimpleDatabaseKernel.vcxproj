@@ -116,12 +116,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="file.h" />
+    <ClInclude Include="GrammaticalAnalysis.h" />
     <ClInclude Include="LexicalAnalysis.h" />
     <ClInclude Include="test.h" />
     <ClInclude Include="testswitch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="file.cpp" />
+    <ClCompile Include="GrammaticalAnalysis.cpp" />
     <ClCompile Include="LexicalAnalysis.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="test.cpp" />
