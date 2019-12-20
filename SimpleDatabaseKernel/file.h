@@ -55,16 +55,16 @@ protected:
 	std::string filename;//文件名
 };
 using CFilePtr = File * ;
-class LexicalLexicalAnalysisFile:public File { //语法分析文件类型
+class LexicalAnalysisFile:public File { //语法分析文件类型
 protected:
 	
 	bool read_file();
 	
 public:
 	string get_token();
-	LexicalLexicalAnalysisFile(string filePath) :File(filePath) {  }
+	LexicalAnalysisFile(string filePath) :File(filePath) {  }
 	bool set_file_path(string fileName);
-	/*LexicalLexicalAnalysisFile(char*ch) {
+	/*LexicalAnalysisFile(char*ch) {
 
 	}*/
 };

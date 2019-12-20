@@ -56,7 +56,7 @@ inline bool File::set_file_path(char * filename)
 //	return rellback;
 //}
 
-string LexicalLexicalAnalysisFile::get_token()
+string LexicalAnalysisFile::get_token()
 {
 	string str;
 	if (token.empty()||!flag)return ENTER;//队列为空，返回EOF
@@ -139,7 +139,7 @@ string File::split_file_name(char * fullPath)
 	return split_file_name(filePath);
 }
 
-bool LexicalLexicalAnalysisFile::read_file()
+bool LexicalAnalysisFile::read_file()
 {
 	//FilePtr file = freopen(filename.c_str(), "r", stdin);
 	
@@ -213,7 +213,7 @@ bool LexicalLexicalAnalysisFile::read_file()
 
 
 
-bool LexicalLexicalAnalysisFile::set_file_path(string fileName)
+bool LexicalAnalysisFile::set_file_path(string fileName)
 {
 	return File::set_file_path(fileName) && read_file();
 }

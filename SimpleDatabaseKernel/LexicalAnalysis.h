@@ -26,7 +26,9 @@
 #define NUM "num"
 #define REAL "real"
 #define ID "id"
-#define OPERATOR_SYMBOL "operator_symbol"
+#define ADD_SUB_SYMBOL "add_sub_symbol"
+#define MUL_SYMBOL "mul_symbol"
+#define DIV_SYMBOL "div_symbol"
 #define LOGCIAL_SYMBOL "logcial_symbol"
 #define CHARACTER "character"
 #define CHARACTERMATCH "characterMatch"
@@ -42,8 +44,9 @@ enum endStatusType {
 	num,//数字
 	real,//浮点数
 	id,//自定义id
-	operator_symbol,//运算符号
-	
+	add_sub_symbol,//加法运算符号
+	mul_symbol,//乘法符号
+	div_symbol,//除法符号
 	assignment_symbol,//赋值符号
 	character,//字符串
 	characterMatch,//字符串匹配
@@ -86,7 +89,7 @@ public:
 	bool operator==(StatusSet&obj)const;
 	
 };
-class LexicalLexicalAnalysis {
+class LexicalAnalysis {
 private:
 	
 	string outFilePath;//语法分析后产生的文件
@@ -110,7 +113,7 @@ private:
 public:
 	CFilePtr file;
 	bool set_file_path(string filename);//设置文件路径
-	LexicalLexicalAnalysis(string filePath);
+	LexicalAnalysis(string filePath);
 	static const char alphabet[ALPH_MAX];//字符数组
 	static const int nfa[NFA_ROW_MAX][NFA_COL_MAX];//nfa自动机
 	static const int startStatus[START_STATUS_MAX];//开始状态集

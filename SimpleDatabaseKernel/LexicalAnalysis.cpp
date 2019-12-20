@@ -3,7 +3,7 @@
 #include"LexicalAnalysis.h"
 #endif // DEBUG
 
-const char LexicalLexicalAnalysis::alphabet[ALPH_MAX]{//±íÊ¾DFAÊı×é¸÷¸öÏÂ±êËù´ú±íµÄÖµ 
+const char LexicalAnalysis::alphabet[ALPH_MAX]{//±íÊ¾DFAÊı×é¸÷¸öÏÂ±êËù´ú±íµÄÖµ 
 	'0','1','2','3','4','5','6','7','8','9',
 	'a','b','c','d','e','f','g','h','i','j',
 	'k','l','m','n','o','p','q','r','s','t',
@@ -15,7 +15,7 @@ const char LexicalLexicalAnalysis::alphabet[ALPH_MAX]{//±íÊ¾DFAÊı×é¸÷¸öÏÂ±êËù´ú±
   ---------------×ÖÄ¸±í------------------
 	0  1  2  3  4  5  6  7  8  9   a  b  c  d  e  f  g  h	i  j  k  l  m  n  o  p  q  r  s  t  u  v  w  x  y  z  >  <  =  +  -  *  /  (  )  '  %  _  .  , ¦Å 
 */
-const int LexicalLexicalAnalysis::nfa[NFA_ROW_MAX][NFA_COL_MAX]{
+const int LexicalAnalysis::nfa[NFA_ROW_MAX][NFA_COL_MAX]{
    {0, 0, 0, 0, 0, 0 ,0 ,0 ,0, 0,  0, 0, 0, 0, 0, 0, 0 ,0  ,0 ,0 ,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0, 0 ,0 ,0, 0, 0, 0},//×´Ì¬0 ±íÃ»ÓĞ±ß
    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 2, 0, 0, 0, 0, 0,  0, 0 ,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0, 0 ,0 ,0, 0, 0, 0},//×´Ì¬1 ¿ªÊ¼×´Ì¬
    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,246, 0, 0 ,0, 0, 0, 0, 3, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0, 0 ,0 ,0, 0, 0, 0},//2
@@ -494,13 +494,13 @@ const int LexicalLexicalAnalysis::nfa[NFA_ROW_MAX][NFA_COL_MAX]{
   { 0  ,0   ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 , 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  , 0 ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 },//×´Ì¬291 full
 
 };
-const int LexicalLexicalAnalysis::startStatus[START_STATUS_MAX]{
+const int LexicalAnalysis::startStatus[START_STATUS_MAX]{
 	1,12,31,43,53,62,68,79,85,99,
 	105,110,116,122,129,132,139,146,150,158,
 	169,171,173,175,177,180,183,185,187,189,
 	200,205,254,284
 };
-const int LexicalLexicalAnalysis::endStatus[END_STATUS_MAX]{
+const int LexicalAnalysis::endStatus[END_STATUS_MAX]{
 	6,11,248,20,25,27,30,36,40,41,
 	42,47,52,56,59,61,67,240,72,78,
 	84,88,89,90,92,94,98,33,279,270,276,283,288,291,
@@ -513,10 +513,10 @@ const int LexicalLexicalAnalysis::endStatus[END_STATUS_MAX]{
 	//total 9
 	259,263
 };
-vector<StatusSet>LexicalLexicalAnalysis::status;
-ConverTable LexicalLexicalAnalysis::conver;
+vector<StatusSet>LexicalAnalysis::status;
+ConverTable LexicalAnalysis::conver;
 
-inline void LexicalLexicalAnalysis::init_end_status_map_category()
+inline void LexicalAnalysis::init_end_status_map_category()
 {
 	int i;
 	endStatusMapCategory[191] = NUM;//NUMÀà
@@ -525,10 +525,10 @@ inline void LexicalLexicalAnalysis::init_end_status_map_category()
 	endStatusMapCategory[221] = CHARACTER;//×Ö·ûÀà
 	endStatusMapCategory[231] = CHARACTERMATCH;//×Ö·ûÆ¥ÅäÀà
 
-	endStatusMapCategory[170] = OPERATOR_SYMBOL;//ÔËËãÀà
-	endStatusMapCategory[172] = OPERATOR_SYMBOL;
-	endStatusMapCategory[174] = OPERATOR_SYMBOL;
-	endStatusMapCategory[176] = OPERATOR_SYMBOL;
+	endStatusMapCategory[170] = ADD_SUB_SYMBOL;//ÔËËãÀà
+	endStatusMapCategory[172] = ADD_SUB_SYMBOL;
+	endStatusMapCategory[174] = MUL_SYMBOL;//³Ë·¨Àà
+	endStatusMapCategory[176] = DIV_SYMBOL;//³ı·¨
 
 
 	endStatusMapCategory[178] = LOGCIAL_SYMBOL;//Âß¼­Àà
@@ -560,13 +560,13 @@ inline void LexicalLexicalAnalysis::init_end_status_map_category()
 #endif
 }
 
-void LexicalLexicalAnalysis::set_out_file_path()
+void LexicalAnalysis::set_out_file_path()
 {
 	outFilePath = File::split_file_dir(file->get_file())+File::split_file_name(file->get_file())+".lex";//ÎÄ¼şÄ¿Â¼¼ÓÎÄ¼şÃû
 	
 }
 
-std::vector<int> LexicalLexicalAnalysis::edge(int s, char c)
+std::vector<int> LexicalAnalysis::edge(int s, char c)
 {
 	int   nextStates, index;
 	std::vector<int>status;
@@ -590,7 +590,7 @@ std::vector<int> LexicalLexicalAnalysis::edge(int s, char c)
 	try {
 		int i;
 		for (i = 0; i < ALPH_MAX; i++) {
-			if(c==LexicalLexicalAnalysis::alphabet[i])
+			if(c==LexicalAnalysis::alphabet[i])
 			{
 				index = i;
 				break;
@@ -604,7 +604,7 @@ std::vector<int> LexicalLexicalAnalysis::edge(int s, char c)
 		//system("pause");
 		//exit(1);
 	}
-	nextStates = LexicalLexicalAnalysis::nfa[s][index];
+	nextStates = LexicalAnalysis::nfa[s][index];
 	if (nextStates) {
 		status.push_back(nextStates);
 		vector<int>temp = closure(nextStates);//ÕÒµ½Õâ¸ö×´Ì¬ÎŞĞèÊäÈë×Ö·ûµÄ×î´ó×´Ì¬
@@ -614,13 +614,13 @@ std::vector<int> LexicalLexicalAnalysis::edge(int s, char c)
 
 
 
-//	cout << LexicalLexicalAnalysis::alphabet[index] << endl;
+//	cout << LexicalAnalysis::alphabet[index] << endl;
 	return status;
 }
 
-std::vector<int> LexicalLexicalAnalysis::closure(int s)//×´Ì¬S£¬ÇóÎŞĞèÈÎºÎ×Ö·û¶øµÃµ½µÄ×î´ó¼¯ºÏ
+std::vector<int> LexicalAnalysis::closure(int s)//×´Ì¬S£¬ÇóÎŞĞèÈÎºÎ×Ö·û¶øµÃµ½µÄ×î´ó¼¯ºÏ
 {
-	int nextStatus = LexicalLexicalAnalysis::nfa[s][50];//ÇóÓĞÎŞ²»ĞèÒªÊäÈëÈÎºÎ×Ö·ûµÄ±ß£¬¼´¦ÅÊÇ·ñ·Ç0
+	int nextStatus = LexicalAnalysis::nfa[s][50];//ÇóÓĞÎŞ²»ĞèÒªÊäÈëÈÎºÎ×Ö·ûµÄ±ß£¬¼´¦ÅÊÇ·ñ·Ç0
 	vector<int>status;
 	set<int>sets;//Ğ£¼ìÊÇ·ñÓĞÖØ¸´µÄ×´Ì¬±» ¼ÓÈë£¬Í¬Ê±²»»áÔì³ÉËÀÑ­»·
 	while (nextStatus!=0&&sets.count(nextStatus)== 0) {//Èç¹û²»Îª0¾Í±íÊ¾´æÔÚÓĞÎŞĞèÈÎºÎ×Ö·ûµÄ±ß
@@ -630,13 +630,13 @@ std::vector<int> LexicalLexicalAnalysis::closure(int s)//×´Ì¬S£¬ÇóÎŞĞèÈÎºÎ×Ö·û¶ø
 			sets.insert(nextStatus);
 		//}
 		
-		nextStatus = LexicalLexicalAnalysis::nfa[nextStatus][50];
+		nextStatus = LexicalAnalysis::nfa[nextStatus][50];
 	}
 	status.insert(status.end(), sets.begin(), sets.end());
 	return status;
 }
 
-std::vector<int> LexicalLexicalAnalysis::dfa_edge(vector<int>& vec, char ch)
+std::vector<int> LexicalAnalysis::dfa_edge(vector<int>& vec, char ch)
 {
 	unsigned i, j;
 	vector<int>result, temp;//½á¹û¼¯ºÏ
@@ -655,7 +655,7 @@ std::vector<int> LexicalLexicalAnalysis::dfa_edge(vector<int>& vec, char ch)
 	return result;
 }
 
-void LexicalLexicalAnalysis:: nfa_Convert_to_dfa()
+void LexicalAnalysis:: nfa_Convert_to_dfa()
 {
 	StatusSet s;
 	int j=0, p=1, c, k;
@@ -770,7 +770,7 @@ bool StatusSet::operator==(StatusSet & obj)const
 }
 
 
-bool LexicalLexicalAnalysis::set_file_path(string filename)
+bool LexicalAnalysis::set_file_path(string filename)
 {
 	ifstream input(filename);
 	if (!input) {
@@ -781,16 +781,16 @@ bool LexicalLexicalAnalysis::set_file_path(string filename)
 	return true;
 }
 
-LexicalLexicalAnalysis::LexicalLexicalAnalysis(string filePath)
+LexicalAnalysis::LexicalAnalysis(string filePath)
 {
-	file = new LexicalLexicalAnalysisFile(filePath);
+	file = new LexicalAnalysisFile(filePath);
 		set_file_path(filePath);//ÉèÖÃÎÄ¼şÂ·¾¶
 		set_out_file_path();//ÉèÖÃÊä³öÎÄ¼şÂ·¾¶ 
 		nfa_Convert_to_dfa();//NFA×ªDFA
 		init_end_status_map_category();//³õÊ¼»¯ÖÕÌ¬Ó³ÉäÀà±ğ
 }
 
-int LexicalLexicalAnalysis::string_map_category(string str)
+int LexicalAnalysis::string_map_category(string str)
 {
 	//int category = -1;
 	switch (str[0])
@@ -805,8 +805,8 @@ int LexicalLexicalAnalysis::string_map_category(string str)
 		else if (str == R_BRACKET)return r_bracket;
 	case 'i':
 		return id;
-	case 'o':
-		return operator_symbol;
+	case 'm':
+		return mul_symbol;
 	case 'l':
 		if (str == LOGCIAL_SYMBOL)return logcial_symbol;
 		else if (str == L_BRACKET)return l_bracket;
@@ -815,14 +815,18 @@ int LexicalLexicalAnalysis::string_map_category(string str)
 		else if (str == CHARACTERMATCH)return characterMatch;
 		else if (str == COMMA)return comma;
 	case 'a':
+		if(str==ASSIGNMENT_SYMBOL)
 		 return assignment_symbol;
+		else return add_sub_symbol;
+	case 'd':
+		return div_symbol;
 	default:
 		break;
 	}
 	return MAX;
 }
 
-void LexicalLexicalAnalysis::run()
+void LexicalAnalysis::run()
 {
 	
 	unsigned i,j=0,startIndex=0,stu,level;//stuÎª¿ªÊ¼×´Ì¬
@@ -940,13 +944,13 @@ void ConverTable::add_map(int sta,char ch,int val)
 		mapStatus[sta] = this->status.size();//Ò»¸ö×´Ì¬¼¯Ó³Éäµ½ÁíÒ»¸ö×´Ì¬¼¯
 		status.push_back(vec);
 	}
-	int index(letter_convert_to_index(LexicalLexicalAnalysis::alphabet, ALPH_MAX, ch));//×Ö·û¶ÔÓ¦µÄÊı×éÏÂ±ê
+	int index(letter_convert_to_index(LexicalAnalysis::alphabet, ALPH_MAX, ch));//×Ö·û¶ÔÓ¦µÄÊı×éÏÂ±ê
 		status[mapStatus[sta]][index] = val;//ÉèÖÃÖµ
 }
 
  inline int ConverTable::get_values(int sta, char ch)
 {
-	int index(letter_convert_to_index(LexicalLexicalAnalysis::alphabet, ALPH_MAX, ch));
+	int index(letter_convert_to_index(LexicalAnalysis::alphabet, ALPH_MAX, ch));
 	return status[mapStatus[sta]][index];
 }
 
