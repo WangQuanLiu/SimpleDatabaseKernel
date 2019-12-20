@@ -218,4 +218,22 @@ bool LexicalAnalysisFile::set_file_path(string fileName)
 	return File::set_file_path(fileName) && read_file();
 }
 
+bool GrammaticalAnalysisFile::read_file()
+{
+	fstream file(filename, ios::in);
+	string str, temp;
+	list<string>ls;//保存临时列表
+	if (!file) {
+		cerr << "文件打开失败！" << endl;
+		flag = false;
+		return false;
+	}
 
+
+	return false;
+}
+
+bool GrammaticalAnalysisFile::set_file_path(string fileName)
+{
+	return File::set_file_path(fileName) && read_file();
+}

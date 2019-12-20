@@ -68,6 +68,13 @@ public:
 
 	}*/
 };
+class GrammaticalAnalysisFile :public File {
+protected :
+	bool read_file();
+public :
+	GrammaticalAnalysisFile(string filePath) :File(filePath) {}
+	bool set_file_path(string fileName);
+};
 
 
 
