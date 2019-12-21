@@ -852,8 +852,8 @@ void LexicalAnalysis::run()
 			continue;
 		}
 		else if (str == " ") {
-			char ch[6] = BLANK;
-			filePath.write(ch, 6);
+			/*char ch[6] = BLANK;
+			filePath.write(ch, 6);*/
 			continue;
 		}
 		vector<int>temp;

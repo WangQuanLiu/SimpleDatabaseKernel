@@ -228,6 +228,13 @@ bool GrammaticalAnalysisFile::read_file()
 		flag = false;
 		return false;
 	}
+	else {
+		
+		list<string>saveList;
+		/*while (!file.eof()) {
+
+		}*/
+	}
 
 
 	return false;
