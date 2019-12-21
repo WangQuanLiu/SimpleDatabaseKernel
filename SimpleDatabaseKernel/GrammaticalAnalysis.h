@@ -8,7 +8,10 @@
 #define ALPHA_MAX 40
 
 class GrammaticalAnalysis {
-	static const int nfa[NFA_MAX];
-	static const string alphabet[ALPHA_MAX];
+public:
+	CFilePtr file;
+	GrammaticalAnalysis() {
+
+	}
 };
 

@@ -155,10 +155,10 @@ bool LexicalAnalysisFile::read_file()
 		return false;
 	}
 	else {
-		char tempCharacter[FILE_MAX_NUMBER];
+		char tempCharacter[FILE_LINE_MAX_NUMBER];
 		list<string>saveList;
 		while (!file.eof()) {	//读出文件数据到saveList
-			file.getline(tempCharacter, FILE_MAX_NUMBER);
+			file.getline(tempCharacter, FILE_LINE_MAX_NUMBER);
 			saveList.push_back(tempCharacter);
 		}
 		while (!saveList.empty()) {//读取文件，放入队列
@@ -229,11 +229,13 @@ bool GrammaticalAnalysisFile::read_file()
 		return false;
 	}
 	else {
-		
+		char tempCharacter[FILE_LINE_MAX_NUMBER];
 		list<string>saveList;
-		/*while (!file.eof()) {
-
-		}*/
+		while (!file.eof()) { //保存到saveList
+			file.getline(tempCharacter, FILE_LINE_MAX_NUMBER);
+			saveList.push_back(tempCharacter);
+		}
+		
 	}
 
 

@@ -18,7 +18,7 @@
 #define READ_MAX 10
 #define ENTER ""
 #endif
-#define FILE_MAX_NUMBER 1024
+#define FILE_LINE_MAX_NUMBER 1024
 using namespace std;
 using FilePtr = FILE * ;
 class File //父文件类型

@@ -109,9 +109,9 @@ private:
 
 	//NFA转换成DFA
 	 void nfa_Convert_to_dfa();
-
+		CFilePtr file;
 public:
-	CFilePtr file;
+	
 	bool set_file_path(string filename);//设置文件路径
 	LexicalAnalysis(string filePath);
 	static const char alphabet[ALPH_MAX];//字符数组
