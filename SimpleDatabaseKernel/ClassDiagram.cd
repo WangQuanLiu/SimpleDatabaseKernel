@@ -31,14 +31,14 @@
   <Class Name="GrammaticalAnalysis" Collapsed="true">
     <Position X="7" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAA=</HashCode>
       <FileName>GrammaticalAnalysis.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LexicalAnalysis" Collapsed="true">
     <Position X="5.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAQgABAgBAAAAAAAEA0AAAAAIAIAAKBAwAAIgAAAA=</HashCode>
+      <HashCode>EASAQgABAgBAAAAAAAAAkAAAAAIAIAAIBAwAAIgAgAA=</HashCode>
       <FileName>LexicalAnalysis.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -56,7 +56,7 @@
       <FileName>LexicalAnalysis.h</FileName>
     </TypeIdentifier>
   </Struct>
-  <Enum Name="endStatusType" Collapsed="true">
+  <Enum Name="end_statusType" Collapsed="true">
     <Position X="5.25" Y="4" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAIAGAQAAAAAAAAIAAlCAABAIAQAAAAAAAAQAAAAgA=</HashCode>

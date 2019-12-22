@@ -38,7 +38,7 @@
 #define ASSIGNMENT_SYMBOL "assignment_symbol"
 #define BLANK "blank"
 #define MAX 1000
-enum endStatusType {
+enum end_statusType {
 	logcial_symbol=1,//逻辑符号
 	keyword ,//关键字
 	num,//数字
@@ -93,7 +93,7 @@ class LexicalAnalysis {
 private:
 	
 	string outFilePath;//语法分析后产生的文件
-	map<int, string>endStatusMapCategory;//终态映射类别
+	map<int, string>end_status_map_category;//终态映射类别
 	static vector<StatusSet>status;//dfa状态集合
 	 inline void init_end_status_map_category();//初始化终态映射类别
 	static ConverTable conver;//转换表
@@ -116,8 +116,8 @@ public:
 	LexicalAnalysis(string filePath);
 	static const char alphabet[ALPH_MAX];//字符数组
 	static const int nfa[NFA_ROW_MAX][NFA_COL_MAX];//nfa自动机
-	static const int startStatus[START_STATUS_MAX];//开始状态集
-	static const int endStatus[END_STATUS_MAX];//结束状态集
+	static const int start_status[START_STATUS_MAX];//开始状态集
+	static const int end_status[END_STATUS_MAX];//结束状态集
 	static int string_map_category(string str);//str映射类别
 	void run();
 #if LEXICAL_TEST==true
