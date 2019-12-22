@@ -37,4 +37,4 @@ const GramType Grammatical::v_create_data_def{
 				DataType("(",l_block),
 				DataType("integer",integer),
 				DataType(")",r_block)}
-}
+};
