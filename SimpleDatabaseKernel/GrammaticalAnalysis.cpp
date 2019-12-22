@@ -1,22 +1,40 @@
 #ifndef _GrammaticalAnalysis_
 #include"GrammaticalAnalysis.h"
 #endif
-const GrammaticalType Grammatical::start{
-	GrammaticalDataType{"s","$"}
+const GramType Grammatical::start{
+	GramDataType{DataType("s"),DataType("$",eof)}
 };
-const GrammaticalType Grammatical::s{
-	GrammaticalDataType{"v_create_def"},
-	GrammaticalDataType{"v_select_def"},
-	GrammaticalDataType{"v_create_database_def"},
-	GrammaticalDataType{"v_use_database_def"},
-	GrammaticalDataType{"v_delete_element_def"},
-	GrammaticalDataType{"v_delete_table_def"},
-	GrammaticalDataType{"v_alter_table_add_column_def"},
-	GrammaticalDataType{"v_alter_table_drop_column_def"},
-	GrammaticalDataType{"v_insert_def"},
-	GrammaticalDataType{"v_update_def"},
-	GrammaticalDataType{"v_create_view_def"},
-	GrammaticalDataType{"v_drop_view_def"},
-	GrammaticalDataType{"v_create_index_def"},
-	GrammaticalDataType{"v_drop_index_def"}
+const GramType Grammatical::s{
+	GramDataType{DataType("v_create_def")},
+	GramDataType{DataType("v_select_def")},
+	GramDataType{DataType("v_create_database_def")},
+	GramDataType{DataType("v_use_database_def")},
+	GramDataType{DataType("v_delete_element_def")},
+	GramDataType{DataType("v_delete_table_def")},
+	GramDataType{DataType("v_alter_table_add_column_def")},
+	GramDataType{DataType("v_alter_table_drop_column_def")},
+	GramDataType{DataType("v_insert_def")},
+	GramDataType{DataType("v_update_def")},
+	GramDataType{DataType("v_create_view_def")},
+	GramDataType{DataType("v_drop_view_def")},
+	GramDataType{DataType("v_create_index_def")},
+	GramDataType{DataType("v_drop_index_def")}
 };
+const GramType Grammatical::v_create_def{
+	GramDataType{
+	DataType("create",keyword),
+	DataType("table",keyword),
+	DataType("id",id),
+	DataType("(",l_block),
+	DataType("v_create_data_def"),
+	DataType("v_constraint_def"),
+	DataType(")",r_block)}
+};
+const GramType Grammatical::v_create_data_def{
+	GramDataType{DataType("float",keyword)} ,
+	GramDataType{DataType("int",keyword)},
+	GramDataType{DataType("char",keyword),
+				DataType("(",l_block),
+				DataType("integer",integer),
+				DataType(")",r_block)}
+}
