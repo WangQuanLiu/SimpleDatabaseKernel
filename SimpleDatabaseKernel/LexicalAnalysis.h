@@ -30,6 +30,7 @@
 #define MUL_SYMBOL "mul_symbol"
 #define DIV_SYMBOL "div_symbol"
 #define LOGCIAL_SYMBOL "logcial_symbol"
+#define COMPARE_SYMBOL "compare_symbol"
 #define CHARACTER "character"
 #define CHARACTERMATCH "characterMatch"
 #define L_BRACKET "l_bracket"
@@ -48,6 +49,7 @@ enum end_statusType {
 	mul_symbol,//³Ë·¨·ûºÅ
 	div_symbol,//³ý·¨·ûºÅ
 	assignment_symbol,//¸³Öµ·ûºÅ
+	compare_symbol,//±È½ÏÀà
 	character,//×Ö·û´®
 	characterMatch,//×Ö·û´®Æ¥Åä
 	l_bracket,//×óÀ¨ºÅ 

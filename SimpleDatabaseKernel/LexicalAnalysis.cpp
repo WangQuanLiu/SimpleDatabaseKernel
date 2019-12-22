@@ -519,6 +519,10 @@ ConverTable LexicalAnalysis::conver;
 inline void LexicalAnalysis::init_end_status_map_category()
 {
 	int i;
+	end_status_map_category[92] = LOGCIAL_SYMBOL;//逻辑类
+	end_status_map_category[125] = LOGCIAL_SYMBOL;
+	end_status_map_category[145] = LOGCIAL_SYMBOL;
+
 	end_status_map_category[191] = NUM;//NUM类
 	end_status_map_category[197] = REAL;//real类
 	end_status_map_category[202] = ID;//ID类
@@ -531,14 +535,14 @@ inline void LexicalAnalysis::init_end_status_map_category()
 	end_status_map_category[176] = DIV_SYMBOL;//除法
 
 
-	end_status_map_category[178] = LOGCIAL_SYMBOL;//逻辑类
-	end_status_map_category[179] = LOGCIAL_SYMBOL;
-	end_status_map_category[181] = LOGCIAL_SYMBOL;
-	end_status_map_category[182] = LOGCIAL_SYMBOL;
-	end_status_map_category[257] = LOGCIAL_SYMBOL;
-	end_status_map_category[125] = LOGCIAL_SYMBOL;
-	end_status_map_category[145] = LOGCIAL_SYMBOL;
-	end_status_map_category[92] = LOGCIAL_SYMBOL;
+	end_status_map_category[178] = COMPARE_SYMBOL;//比较类
+	end_status_map_category[179] = COMPARE_SYMBOL;
+	end_status_map_category[181] = COMPARE_SYMBOL;
+	end_status_map_category[182] = COMPARE_SYMBOL;
+	end_status_map_category[257] = COMPARE_SYMBOL;
+//	end_status_map_category[125] = COMPARE_SYMBOL;
+	//end_status_map_category[145] = COMPARE_SYMBOL;
+	//end_status_map_category[92] = COMPARE_SYMBOL;
 
 	end_status_map_category[184] = ASSIGNMENT_SYMBOL;//赋值类
 
@@ -814,6 +818,7 @@ int LexicalAnalysis::string_map_category(string str)
 		if (str == CHARACTER)return character;
 		else if (str == CHARACTERMATCH)return characterMatch;
 		else if (str == COMMA)return comma;
+		else if (str == COMPARE_SYMBOL)return compare_symbol;
 	case 'a':
 		if(str==ASSIGNMENT_SYMBOL)
 		 return assignment_symbol;
