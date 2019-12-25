@@ -39,12 +39,17 @@ struct DataType   {
 class Grammatical {
 	const static GramType v_start; 
 	const static GramType v_s;
+
+	/*
+	v_create_def -> create table table_name (v_create_data_def v_constraint_def)
+	*/
 	const static GramType v_create_def; 
 	const static GramType v_create_data_def; 
 	const static GramType v_constraint_def; 
 	const static GramType v_create_data_type_def; 
-	const static GramType v_create_data_type_suffx_def;
-
+	const static GramType v_create_data_type_suffix_def;
+	const static GramType v_primary_def;
+	const static GramType v_for_che_uni_def;
 };
 class GrammaticalAnalysis {
 public:
