@@ -8,7 +8,7 @@
 #define ALPHA_MAX 40
 //using GrammaticalType= vector<list<string>>;
 //using GrammaticalDataType = list<string>;
-enum GramCategory{ real=1,integer,str,keyword,grammatical,id,strMatch,eof,mul,add,sub,divison,logical,compare,l_block,r_block,comma,empty}; //数据类别
+enum GramCategory{ real=1,integer,str,keyword,grammatical,id,strMatch,eof,addop,mulop,logical,compare,l_bracket,r_bracket,comma,empty}; //数据类别
  //文法数据	
 union Date { public:Date() {} ~Date() {} string strVal; int intVal; float realVal; };
 //template<typename T>
@@ -30,8 +30,20 @@ struct DataType   {
 	GramCategory category;
 
 };
- using DataType = struct DataType;
- using GramDataType = list<DataType>;
+class GramDataType {
+public: GramDataType(initializer_list<DataType>initializer) {
+		initializer_list<DataType>::const_iterator begin, end;
+		begin = initializer.begin();
+		end = initializer.end();
+		posi = 0;
+	}
+	list<DataType>ls;
+	int posi;
+	vector<string>symbol;
+
+};
+ /*using DataType = struct DataType;
+ using GramDataType = list<DataType>;*/
  using GramType = vector<GramDataType>;
 //typedef GrammaticalType{
 //	
@@ -50,6 +62,15 @@ class Grammatical {
 	const static GramType v_create_data_type_suffix_def;
 	const static GramType v_primary_def;
 	const static GramType v_for_che_uni_def;
+	const static GramType v_col_name_rep_def;
+	const static GramType v_foreign_def;
+	const static GramType v_str_rep_def;
+	const static GramType v_check_def;
+	const static GramType v_unique_def;
+	const static GramType v_addop_def;
+	const static GramType v_mulop_def;
+	const static GramType v_compare_def;
+	const static GramType v_logic_def;
 };
 class GrammaticalAnalysis {
 public:
