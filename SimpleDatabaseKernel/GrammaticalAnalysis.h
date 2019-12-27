@@ -71,6 +71,9 @@ class Grammatical {
 	const static GramType v_mulop_def;
 	const static GramType v_compare_def;
 	const static GramType v_logic_def;
+	const static GramType v_gather_fuc_def;
+	const static GramType v_int_real_col_name_def;
+	const static GramType v_int_real_col_name_rep_def;
 };
 class GrammaticalAnalysis {
 public:

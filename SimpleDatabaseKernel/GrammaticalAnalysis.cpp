@@ -317,4 +317,102 @@ const GramType Grammatical::v_mulop_def{
 	DataType("/",mulop)
 	}
 };
+const GramType Grammatical::v_compare_def{
+	/*
+	v_compare_def-> >
+	v_compare_def-> >=
+	v_compare_def-> <
+	v_compare_def-> <=
+	v_compare_def-> <>
+	v_compare_def-> =
+	*/
+	GramDataType{
+	DataType(">",compare)
+	},
+	GramDataType{
+	DataType(">=",compare)
+},
+GramDataType{
+	DataType("<",compare)
+},
+GramDataType{
+	DataType("<=",compare)
+},
+GramDataType{
+	DataType("<>",compare)
+},
+GramDataType{
+	DataType("=",compare)
+}
+};
+const GramType Grammatical::v_logic_def{
+	/*
+	v_logic_def->and
+	v_logic_def->or
+	v_logic_def->not
+	*/
+	GramDataType{
+	DataType("and",logical)
+	},
+	GramDataType{
+	DataType("or",logical)
+},
+GramDataType{
+	DataType("not",logical)
+}
+};
+const GramType Grammatical::v_gather_fuc_def{
+	/*
+	v_gather_fuc_def->sum
+	v_gather_fuc_def->avg
+	v_gather_fuc_def->count
+	v_gather_fuc_def->min
+	v_gather_fuc_def->max
+	*/
+	GramDataType{
+	DataType("sum",keyword)
+	},
+	GramDataType{
+	DataType("avg",keyword)
+},
+GramDataType{
+	DataType("count",keyword)
+},
+GramDataType{
+	DataType("min",keyword)
+},
+GramDataType{
+	DataType("max",keyword)
+}
+};
+const GramType Grammatical::v_int_real_col_name_def{
+	/*
+	v_int_real_col_name_def -> int
+	v_int_real_col_name_def->flaot
+	v_int_real_col_name->col_name
+	*/
+	GramDataType{
+	DataType("int",integer)
+	},
+	GramDataType{
+	DataType("float",real)
+	},
+	GramDataType{
+	DataType("col_name",id)
+	}
+};
+const GramType Grammatical::v_int_real_col_name_rep_def{
+	/*
+	v_int_real_col_name_rep_def ->v_int_real_col_name_def,v_int_rel_col_name_rep_def
+	v_int_real_col_name_rep_def->v_int_real_col_name_def
+	*/
+	GramDataType{
+	DataType("v_int_real_col_name_def"),
+	DataType(",",comma),
+	DataType("v_int_real_col_name_rep_def")
+	},
+	GramDataType{
+	DataType("v_int_real_col_name_def")
+	}
+};
 

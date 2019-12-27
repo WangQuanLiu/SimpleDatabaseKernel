@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2026
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SimpleDatabaseKernel", "SimpleDatabaseKernel\SimpleDatabaseKernel.vcxproj", "{6087ED02-DE06-4FC1-87D9-E00FFD843B6C}"
 EndProject
