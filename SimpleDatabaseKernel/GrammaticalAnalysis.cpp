@@ -149,9 +149,9 @@ const GramType Grammatical::v_primary_def {
 	GramDataType{
 	DataType("primary",keyword),
 	DataType("key",keyword),
-	DataType("l_bracket",keyword),
-	DataType("col_name_rep_def"),
-	DataType("r_bracket",keyword)
+	DataType("(",l_bracket),
+	DataType("v_col_name_rep_def"),
+	DataType(")",r_bracket)
 },
 GramDataType{
 	DataType("empty",GramCategory::empty)
@@ -206,26 +206,26 @@ const GramType Grammatical::v_foreign_def{
 	GramDataType{
 	DataType("foreign",keyword),
 	DataType("key",keyword),
-	DataType("l_bracket",l_bracket),
+	DataType("(",l_bracket),
 	DataType("v_col_name_rep_def"),
-	DataType("r_bracket",r_bracket),
+	DataType(")",r_bracket),
 	DataType("references",keyword),
 	DataType("table_name",id),
-	DataType("l_bracket",l_bracket),
+	DataType("(",l_bracket),
 	DataType("v_col_name_rep_def"),
-	DataType("r_bracket",r_bracket)
+	DataType(")",r_bracket)
 		},
 	GramDataType{
 	DataType("foreign",keyword),
 	DataType("key",keyword),
-	DataType("l_bracket",l_bracket),
+	DataType("(",l_bracket),
 	DataType("v_col_name_rep_def"),
-	DataType("r_bracket",r_bracket),
+	DataType(")",r_bracket),
 	DataType("references",keyword),
 	DataType("table_name",id),
-	DataType("l_bracket",l_bracket),
+	DataType("(",l_bracket),
 	DataType("v_col_name_rep_def"),
-	DataType("r_bracket",r_bracket),
+	DataType(")",r_bracket),
 	DataType(",",comma),
 	DataType("v_foreign_def")
 	}
@@ -253,10 +253,10 @@ const GramType Grammatical::v_check_def{
 	DataType("(",l_bracket),
 	DataType("col_name",id),
 	DataType("in",keyword),
-	DataType("l_bracket",l_bracket),
+	DataType("(",l_bracket),
 	DataType("v_str_rep_def"),
-	DataType("r_bracket",r_bracket),
-	DataType("r_bracket",r_bracket)
+	DataType(")",r_bracket),
+	DataType(")",r_bracket)
 
 	},
 	GramDataType{
@@ -264,10 +264,10 @@ const GramType Grammatical::v_check_def{
 	DataType("(",l_bracket),
 	DataType("col_name",id),
 	DataType("in",keyword),
-	DataType("l_bracket",l_bracket),
+	DataType("(",l_bracket),
 	DataType("v_str_rep_def"),
-	DataType("r_bracket",r_bracket),
-	DataType("r_bracket",r_bracket),
+	DataType(")",r_bracket),
+	DataType(")",r_bracket),
 	DataType(",",comma),
 	DataType("v_check_def")
 	}
@@ -279,16 +279,16 @@ const GramType Grammatical::v_unique_def{
 	*/
 	GramDataType{
 	DataType("unique",keyword),
-	DataType("l_bracket",l_bracket),
+	DataType("(",l_bracket),
 	DataType("v_col_name_rep_def"),
-	DataType("r_bracket",r_bracket)
+	DataType(")",r_bracket)
 	},
 
 	GramDataType{
 	DataType("unique",keyword),
-	DataType("l_bracket",l_bracket),
+	DataType("(",l_bracket),
 	DataType("v_col_name_rep_def"),
-	DataType("r_bracket",r_bracket),
+	DataType(")",r_bracket),
 	DataType(",",comma),
 	DataType("v_unique_def")
 	}
@@ -413,6 +413,60 @@ const GramType Grammatical::v_int_real_col_name_rep_def{
 	},
 	GramDataType{
 	DataType("v_int_real_col_name_def")
+	}
+};
+const  GramType Grammatical::v_where_addop_def{
+	/*
+	v_where_addop_def->addop (v_int_real_col_name_def v_where_mulop_def)
+	v_where_addop_def->addop v_gather_fuc_def ( v_int_real_col_name_def v_where_mulop_def)
+	v_where_addop_def->addop v_gather_fuc_def(  v_where_algorithm_operator_def)
+	v_where_addop_def->addop v_int_real_col_name_def v_where_mulop_def
+	v_where_addop_def->¦Å
+	v_where_addop_def->addop ( v_where_algorithm_operator_def )
+	v_where_addop_def->addop v_int_real_col_name_def v_where_mulop_def
+	*/
+	GramDataType{
+	DataType("v_addop_def"),
+	DataType("(",l_bracket),
+	DataType("v_int_real_col_name_def"),
+	DataType("v_where_mulop_def"),
+	DataType(")",r_bracket)
+	},
+GramDataType{
+	DataType("v_addop_def"),
+	DataType("v_gather_fuc_def"),
+	DataType("(",l_bracket),
+	DataType("v_int_real_col_name_def"),
+	DataType("v_where_mulop_def"),
+	DataType(")",r_bracket)
+	},
+	GramDataType{
+	DataType("v_addop_def"),
+	DataType("v_gather_fuc_def"),
+	DataType("(",l_bracket),
+	DataType("v_where_algorithm_operator_def"),
+	DataType(")",r_bracket)
+	},
+
+	GramDataType{
+	DataType("v_addop_def"),
+	DataType("v_int_real_col_name_def"),
+	DataType("v_where_mulop_def"),
+	},
+	GramDataType{
+	DataType("empty",GramCategory::empty)
+	},
+
+	GramDataType {
+	DataType("v_addop_def"),
+	DataType("(",l_bracket),
+	DataType("v_where_algorithm_operator_def"),
+	DataType(")",r_bracket)
+	},
+	GramDataType{
+	DataType("v_addop_def"),
+	DataType("v_int_real_col_name_def"),
+	DataType("v_where_mulop_def"),
 	}
 };
 

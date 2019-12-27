@@ -74,6 +74,7 @@ class Grammatical {
 	const static GramType v_gather_fuc_def;
 	const static GramType v_int_real_col_name_def;
 	const static GramType v_int_real_col_name_rep_def;
+	const static GramType v_where_addop_def;
 };
 class GrammaticalAnalysis {
 public:
