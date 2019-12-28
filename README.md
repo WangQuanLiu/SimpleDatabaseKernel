@@ -6,4 +6,4 @@ Immplementing a simple database kernel
 
 
 1.This Project is implement a simple database kernel. It can  execution of simplely sql statement,for example create,delete of database ,create,delete,constraint and insert of table.
-2.This Project just is practice of myself,if you want to learn DFA,NFA,simple grammar translate,implement of B+ tree or you want to implement to analogous the project then the project wile be help for you.
+2.This Project just is practice of myself,if you want to learn DFA,NFA,simple grammar translate,implement of B+ tree or you want to implement to analogous the project then the project wile be help to you.
