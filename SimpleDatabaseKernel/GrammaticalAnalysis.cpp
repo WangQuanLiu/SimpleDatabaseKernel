@@ -469,4 +469,149 @@ GramDataType{
 	DataType("v_where_mulop_def"),
 	}
 };
+const GramType Grammatical::v_where_mulop_def{
+	/*
+	v_where_mulop_def-> mulop ( v_int_real_col_name v_where_addop_def)
+	v_where_mulop_def->mulop v_gather_fuc_def ( v_int_real_col_name v_where_addop_def)
+	v_where_mulop_def->mulop v_gather_fuc_def ( v_where_algorithm_operator_def )
+	v_where_mulop_def->mulop v_int_real_col_name_def v_where_addop_def
+	v_where_mulop_def->¦Å
+	v_where_mulop_def->mulop ( v_where_alogrithm_operator_def)
+	v_where_mulip_def->mulop v_int_real_col_name_def v_where_addop_def
+	*/
+	
 
+	GramDataType{
+	DataType("v_mulop_def"),
+	DataType("(",l_bracket),
+	DataType("v_int_real_col_name_def"),
+	DataType("v_where_addop_def"),
+	DataType(")",r_bracket)
+},
+GramDataType{
+	DataType("v_mulop_def"),
+	DataType("v_gather_fuc_def"),
+	DataType("(",l_bracket),
+	DataType("v_int_real_col_name_def"),
+	DataType("v_where_addop_def"),
+	DataType(")",r_bracket)
+},
+GramDataType{
+	DataType("v_mulop_def"),
+	DataType("v_gather_fuc_def"),
+	DataType("(",l_bracket),
+	DataType("v_where_algorithm_operator_def"),
+	DataType(")",r_bracket)
+},
+
+GramDataType{
+	DataType("v_mulop_def"),
+	DataType("v_int_real_col_name_def"),
+	DataType("v_where_addop_def"),
+},
+GramDataType{
+	DataType("empty",GramCategory::empty)
+},
+
+GramDataType{
+	DataType("v_mulop_def"),
+	DataType("(",l_bracket),
+	DataType("v_where_algorithm_operator_def"),
+	DataType(")",r_bracket)
+},
+GramDataType{
+	DataType("v_mulop_def"),
+	DataType("v_int_real_col_name_def"),
+	DataType("v_where_addop_def"),
+}
+
+};
+
+const GramType Grammatical::v_where_algorithm_operator_def{
+
+	/*
+	v_where_algorithm_opeartor_def->v_gather_fuc_def ( v_int_real_col_name_def v_where_addop_def)
+	v_where_algorithm_opeartor_def->( v_int_real_col_name_def v_where_addop_def)
+	v_where_algorithm_operator_def->v_gather_def ( v_where_algorithm_operator_def)
+	v_where_algorithm_operator_def->( v_where_algorithm_operator_def )
+	v_where_algorithm_operator_def->v_int_real_col_name_def v_where_addop_def
+	*/
+	GramDataType{
+	
+	DataType("v_gather_fuc_def"),
+	DataType("(",l_bracket),
+	DataType("v_int_real_col_name_def"),
+	DataType("v_where_addop_def"),
+	DataType(")",r_bracket)
+	},
+	GramDataType{
+	DataType("(",l_bracket),
+	DataType("v_int_real_col_name_def"),
+	DataType("v_where_addop_def"),
+	DataType(")",r_bracket)
+	},
+	GramDataType{
+
+	DataType("v_gather_fuc_def"),
+	DataType("(",l_bracket),
+	DataType("v_where_algorithm_operator_def"),
+	DataType(")",r_bracket)
+	},
+	GramDataType{
+
+	DataType("(",l_bracket),
+	DataType("v_where_algorithm_operator_def"),
+	DataType(")",r_bracket)
+	},
+
+	GramDataType{
+
+	DataType("v_int_real_col_name_def"),
+	DataType("v_where_addop_def"),
+	}
+};
+const  GramType Grammatical::v_where_algorithm_operator_or_string_def{
+	/*
+	v_where_algorithm_operator_or_string_def->v_where_algorithm_opeartor_def
+	v_where_algorithm_operator_or_string_def->string
+	*/
+
+	GramDataType{
+	DataType("v_where_algorithm_operator_def")
+	},
+	GramDataType{
+	DataType("string",str)
+	},
+
+
+};
+const GramType Grammatical::v_where_compare_def{
+	/*
+	v_where_compare_def->v_where_algorithm_operator_or_string_def compare v_where_algorithm_operator_or_string_def
+	*/
+	GramDataType{
+	DataType("v_where_algorithm_operator_or_string_def"),
+	DataType("compare",compare),
+	DataType("v_where_algorithm_operator_or_string_def")
+	}
+};
+const GramType Grammatical::v_where_compare_or_string_match_def{
+	/*
+	v_where_compare_or_string_match_def-> v_where_compare_def
+	v_where_compare_or_string_match_def-> col_name like string_match
+	*/
+	GramDataType{
+	DataType("v_where_compaer_def")
+	},
+	GramDataType{
+	DataType("col_name",id),
+	DataType("like",keyword),
+	DataType("string_match",strMatch)
+	}
+
+};
+const GramType Grammatical::v_logic_and_where_compare_string_match_def{
+	/*
+	v_logic_and_where_compare_compare
+	*/
+};

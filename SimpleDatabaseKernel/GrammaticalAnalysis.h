@@ -8,6 +8,9 @@
 #define ALPHA_MAX 40
 //using GrammaticalType= vector<list<string>>;
 //using GrammaticalDataType = list<string>;
+enum Gram {
+
+};
 enum GramCategory{ real=1,integer,str,keyword,grammatical,id,strMatch,eof,addop,mulop,logical,compare,l_bracket,r_bracket,comma,empty}; //数据类别
  //文法数据	
 union Date { public:Date() {} ~Date() {} string strVal; int intVal; float realVal; };
@@ -75,6 +78,12 @@ class Grammatical {
 	const static GramType v_int_real_col_name_def;
 	const static GramType v_int_real_col_name_rep_def;
 	const static GramType v_where_addop_def;
+	const static GramType v_where_mulop_def;
+	const static GramType v_where_algorithm_operator_def;
+	const static GramType v_where_algorithm_operator_or_string_def;
+	const static GramType v_where_compare_def;
+	const static GramType v_where_compare_or_string_match_def;
+	const static GramType v_logic_and_where_compare_string_match_def;
 };
 class GrammaticalAnalysis {
 public:

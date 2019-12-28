@@ -40,13 +40,13 @@
 #define BLANK "blank"
 #define MAX 1000
 enum end_statusType {
-	logcial_symbol=1,//逻辑符号
-	keyword ,//关键字
-	num,//数字
-	real,//浮点数
-	id,//自定义id
-	add_sub_symbol,//加法运算符号
-	mul_symbol,//乘法符号
+	logcial_symbol=1,//逻辑符号 logical symbol
+	keyword ,//关键字 keyword
+	num,//数字 number
+	real,//浮点数 real
+	id,//自定义id 
+	add_sub_symbol,//加法运算符号 addition and subtraction operators
+	mul_symbol,//乘法符号 multiplication symbol
 	div_symbol,//除法符号
 	assignment_symbol,//赋值符号
 	compare_symbol,//比较类
@@ -58,7 +58,7 @@ enum end_statusType {
 };//对语句进行分类
 using namespace std;
 
-struct ConverTable {//映射表
+struct ConverTable {//映射表 mapping table
 private:
 	vector<vector<int>>status;
 	map<int, int>mapStatus;
@@ -66,16 +66,16 @@ private:
 public:
 	
 	ConverTable() = default;
-//添加映射，即sta行ch在字符表下标中的值为val
+//添加映射，即sta行ch在字符表下标中的值为val   add mapping,
 	void add_map(int sta,char ch,int val);
-inline	int get_values(int sta, char ch);//获取映射的值 
+inline	int get_values(int sta, char ch);//获取映射的值  get the mapping value
 	vector<vector<int>>getStatus();
 #if LEXICAL_TEST==true
 	friend  class LexicalTest;
 #endif
 
 };
- struct StatusSet {
+ struct StatusSet { //save status set class 保存状态集类
 private:
 	vector<int>status;
 public:
