@@ -1,5 +1,5 @@
 # SimpleDatabaseKernel
-Immplement a simple database kernel
+Implement a simple database kernel
 
 1、这个项目大致是实现一个简易的数据库内核，可以实行简单的sql语句的查询，如数据库的创建、删除，表的创建、删除、约束，以及插入语句等。
 2、如果你对DFA，NFA，简易的文法翻译，B +树的实现，以及你也想要实现同类项目，那么这个项目可能会你有所帮助。
