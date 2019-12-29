@@ -373,7 +373,7 @@ const GramType Grammatical::v_gather_fuc_def{
 	DataType(e_sum)
 	},
 	GramDataType{
-	DataType(e_sub)
+	DataType(e_avg)
 },
 GramDataType{
 	DataType(e_count)
@@ -612,6 +612,244 @@ const GramType Grammatical::v_where_compare_or_string_match_def{
 };
 const GramType Grammatical::v_logic_and_where_compare_string_match_def{
 	/*
-	v_logic_and_where_compare_compare
+	v_logic_and_where_compare_string_match_def->logic v_where_compare_or_string_match_def
+	v_logic_and_where_compare_string_match_def->logic v_where_compare_or_string_match_def v_logic_and_where_compare_string_match_def
+	v_logic_and_where_compare_string_match_def->logic ( v_where_compare_or_string_match_def logic_and_where_compare_string_match_def)
+	v_logic_and_where_compare_string_match_def->¦Å
 	*/
+	GramDataType{
+	DataType(e_logical),
+	DataType(e_where_compare_or_string_match_def),
+	},
+	GramDataType{
+	DataType(e_logical),
+	DataType(e_where_compare_or_string_match_def),
+	DataType(e_logic_and_where_compare_string_match_def)
+},
+GramDataType{
+	DataType(e_logical),
+	DataType(e_l_bracket),
+	DataType(e_where_compare_or_string_match_def),
+	DataType(e_logic_and_where_compare_string_match_def),
+	DataType(e_r_bracket)
+	},
+	GramDataType{
+	DataType(e_empty)
+	}
+};
+const GramType Grammatical::v_where_logic_def{
+	/*
+	v_where_logic_def->v_where_compare_or_string_match_def logic_and_where_compare_string_match_def
+	v_where_logic_def->( v_where_compare_or_string_match_def v_logic_and_where_compare_string_match_def)
+
+	*/
+
+	GramDataType{
+	DataType(e_where_compare_or_string_match_def),
+	DataType(e_logic_and_where_compare_string_match_def)
+	},
+	
+	GramDataType{
+	DataType(e_l_bracket),
+	DataType(e_where_compare_or_string_match_def),
+	DataType(e_logic_and_where_compare_string_match_def),
+	DataType(e_r_bracket)
+	},
+
+};
+const GramType Grammatical::v_where_def{
+	/*
+	v_where_def->where v_where_logic_def
+	*/
+	GramDataType{
+	DataType(e_where),
+	DataType(e_where_logic_def)
+	}
+};
+const GramType Grammatical::v_comma_and_col_name_def{
+	/*
+	v_comma_and_col_name_def->, col_name comma_and_name_def
+	v_comma_and_col_name_def->¦Å
+	*/
+	GramDataType{
+	DataType(e_comma),
+	DataType(e_id),
+	DataType(e_comma_and_col_name_def)
+	},
+	GramDataType{
+	DataType(e_empty)
+	}
+};
+const GramType Grammatical::v_order_def{
+	/*
+	v_order_def->order by col_name
+	v_order_def->order by col_name comma_and_col_name_def
+	v_order_def->order by col_name desc
+	v_order_def->order by col_name asc
+	v_order_def->order by col_name comma_and_col_name_def desc
+	v_order_def->order by col_name comma_and_col_name_def asc
+	
+	*/
+
+	GramDataType{
+	DataType(e_order),
+	DataType(e_by),
+	DataType(e_id)
+	},
+	GramDataType{
+	DataType(e_order),
+	DataType(e_by),
+	DataType(e_id),
+	DataType(e_comma_and_col_name_def)
+	},
+	GramDataType{
+	DataType(e_order),
+	DataType(e_by),
+	DataType(e_id),
+	DataType(e_desc)
+	},
+	GramDataType{
+	DataType(e_order),
+	DataType(e_by),
+	DataType(e_id),
+	DataType(e_asc)
+	},
+
+	GramDataType{
+	DataType(e_order),
+	DataType(e_by),
+	DataType(e_id),
+	DataType(e_comma_and_col_name_def),
+	DataType(e_desc)
+	},
+	GramDataType{
+	DataType(e_order),
+	DataType(e_by),
+	DataType(e_id),
+	DataType(e_comma_and_col_name_def),
+	DataType(e_asc)
+	},
+};
+const  GramType Grammatical::v_group_def{
+	/*
+	v_group_def->group by col_name
+	v_group_def->group by col_name v_comma_and_col_name_def
+	
+	*/
+	GramDataType{
+	DataType(e_group),
+	DataType(e_by),
+	DataType(e_id)
+	},
+	GramDataType{
+	DataType(e_group),
+	DataType(e_by),
+	DataType(e_id),
+	DataType(e_comma_and_col_name_def)
+	}
+
+};
+const GramType Grammatical:: v_having_def{
+
+	/*
+	v_having_def-> having v_where_logic_def
+	
+	*/
+	GramDataType{
+	DataType(e_having),
+	DataType(e_where_logic_def)
+}
+};
+const GramType Grammatical::v_where_algorithm_operator_rep_def{
+	/*
+	v_where_algorithm_operator_rep_def->, v_where_algorithm_operator_def v_where_algorithm_operator_rep_def
+	v_where_algorithm_operator_rep_def->¦Å
+	*/
+	GramDataType{
+	DataType(e_comma),
+	DataType(e_where_algorithm_operator_def),
+	DataType(e_where_algorithm_operator_rep_def)
+	},
+	GramDataType{
+	DataType(e_empty)
+	}
+};
+const GramType Grammatical::v_select_operator_def{
+	/*
+	v_select_operator_def-> v_where_algorithm_operator_def v_where_algorithm_operator_rep_def
+	*/
+	GramDataType{
+	DataType(e_where_algorithm_operator_def),
+	DataType(e_where_algorithm_operator_rep_def)
+	}
+};
+const GramType Grammatical::v_connect_mode_def{
+	/*
+	v_connect_mode_def->right
+	v_connect_mode_def->left
+	v_connect_mode_def->full
+	v_connect_mode_def->v_connect_mode_def join table_name on v_connect_logic_def
+	*/
+	GramDataType{
+	DataType(e_right)
+	},
+	GramDataType{
+	DataType(e_left)
+},
+GramDataType{
+	DataType(e_full)
+},
+GramDataType{
+	DataType(e_connect_mode_def),
+	DataType(e_join),
+	DataType(e_id),
+	DataType(e_on),
+	DataType(e_connect_logic_def)
+},
+};
+const GramType Grammatical::v_connect_addop_def{
+	/*
+	v_connect_addop_def->addop v_int_real_col_name v_connect_mulop_def
+	v_connect_addop_def->v_connect_mulop_def
+	v_connect_addop_def->addop ( v_int_real_col_name v_connect_mulop_def )
+	v_conenct_addop_def->¦Å
+	*/
+	GramDataType{
+	DataType(e_addop),
+	DataType(e_int_real_col_name_def),
+	DataType(e_connect_mulop_def),
+	},
+	GramDataType{
+	DataType(e_connect_mulop_def)
+	},
+	GramDataType{
+	DataType(e_addop),
+	DataType(e_l_bracket),
+	DataType(e_int_real_col_name_def),
+	DataType(e_connect_mulop_def),
+	DataType(e_r_bracket)
+	},
+	GramDataType{
+	DataType(e_empty)
+	}
+};
+const GramType Grammatical::v_connect_mulop_def{
+	/*
+	v_connect_mulop_def->v_connect_addop
+	v_connect_mulop_def->mulop ( v_int_real_col_name_def )
+	v_connect_mulop_def -> ¦Å
+	*/
+
+	GramDataType{
+	DataType(e_connect_addop_def)
+	},
+	GramDataType{
+	DataType(e_mulop),
+	DataType(e_l_bracket),
+	DataType(e_int_real_col_name_def),
+	DataType(e_r_bracket),
+	},
+	GramDataType{
+	DataType(e_empty)
+	}
 };

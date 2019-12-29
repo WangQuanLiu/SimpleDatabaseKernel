@@ -12,17 +12,31 @@ enum Gram {
 
 };
 enum GramCategory{
+	//grammatical
 	e_start, e_s,
 	e_create_def, e_create_data_def, e_constraint_def, e_create_data_type_def, e_create_data_type_suffix_def,
 	e_primary_def, e_for_che_uni_def, e_col_name_rep_def, e_foreign_def, e_str_rep_def,
 	e_check_def, e_unique_def, e_addop_def, e_mulop_def, e_compare_def,
 	e_logic_def, e_gather_fuc_def, e_int_real_col_name_def, e_int_real_col_name_rep_def, e_where_addop_def,
-	e_where_mulop_def, e_where_algorithm_operator_def, e_where_algorithm_operator_or_string_def, e_where_compare_def, e_where_compare_or_string_match_def,e_less_than,e_less_than_or_equal,
-	e_equal,e_unequal,e_and,e_or,e_sum,e_arg,e_count,e_min,e_max,
-	e_logic_and_where_compare_string_match_def,
+	e_where_mulop_def, e_where_algorithm_operator_def, e_where_algorithm_operator_or_string_def, e_where_compare_def, e_where_compare_or_string_match_def,
+	e_logic_and_where_compare_string_match_def,e_where_logic_def,e_where_def,e_comma_and_col_name_def,
+	e_order_def,e_group_def,e_having_def,e_where_algorithm_operator_rep_def,e_select_operator_def,
+	e_connect_mode_def,e_connect_def,e_connect_addop_def,e_connect_mulop_def,
+	e_connect_logic_def,
+	
+	e_less_than,e_less_than_or_equal,e_equal,e_unequal, e_greater_than, e_greater_than_or_equal, //compare
 
-	e_create,e_table,e_char,e_not,e_null,e_primary,e_key,e_foreign,e_references,e_check,e_in,e_unique,e_greater_than,e_greater_than_or_equal,e_like,
-	e_real,e_integer,e_str,keyword,grammatical,e_id,e_strMatch,e_eof,e_addop,e_subop,e_mulop,e_divop,e_logical,e_compare,e_l_bracket,e_r_bracket,e_comma,e_empty
+	e_and,e_or,e_sum,e_avg,e_count,e_min,e_max, //constriant
+
+	//keyword
+	e_create,e_table,e_char,e_not,e_null,e_primary,e_key,e_foreign,e_references,e_check,e_in,e_unique, e_like,e_where,
+	e_order,e_by,e_desc,e_asc,e_group,e_having,e_right,e_left,e_full,e_join,e_on,
+	
+
+	e_real,e_integer,e_str,keyword,grammatical,e_id,e_strMatch,e_eof,
+	e_addop,e_subop,e_mulop,e_divop,e_logical,e_compare,//operator
+	e_l_bracket,e_r_bracket,//bracket
+	e_comma,e_empty
 
 
 }; //数据类别
@@ -107,6 +121,18 @@ class Grammatical {
 	const static GramType v_where_compare_def;//23
 	const static GramType v_where_compare_or_string_match_def; //24
 	const static GramType v_logic_and_where_compare_string_match_def; //25
+	const static GramType v_where_logic_def;//26
+	const static GramType v_where_def;//27
+	const static GramType v_comma_and_col_name_def;//28
+	const static GramType v_order_def;//30
+	const static GramType v_group_def;//31
+	const static GramType v_having_def;//32
+	const static GramType v_where_algorithm_operator_rep_def;//33
+	const static GramType v_select_operator_def;//34
+	const static GramType v_connect_mode_def;//35
+	const static GramType v_connect_def;//36
+	const static GramType v_connect_addop_def;//37
+	const static GramType v_connect_mulop_def;//38
 };
 class GrammaticalAnalysis {
 public:
