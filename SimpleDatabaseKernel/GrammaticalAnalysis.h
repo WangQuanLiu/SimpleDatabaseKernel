@@ -11,13 +11,26 @@
 enum Gram {
 
 };
-enum GramCategory{ real=1,integer,str,keyword,grammatical,id,strMatch,eof,addop,mulop,logical,compare,l_bracket,r_bracket,comma,empty}; //数据类别
+enum GramCategory{
+	e_start, e_s,
+	e_create_def, e_create_data_def, e_constraint_def, e_create_data_type_def, e_create_data_type_suffix_def,
+	e_primary_def, e_for_che_uni_def, e_col_name_rep_def, e_foreign_def, e_str_rep_def,
+	e_check_def, e_unique_def, e_addop_def, e_mulop_def, e_compare_def,
+	e_logic_def, e_gather_fuc_def, e_int_real_col_name_def, e_int_real_col_name_rep_def, e_where_addop_def,
+	e_where_mulop_def, e_where_algorithm_operator_def, e_where_algorithm_operator_or_string_def, e_where_compare_def, e_where_compare_or_string_match_def,e_less_than,e_less_than_or_equal,
+	e_equal,e_unequal,e_and,e_or,e_sum,e_arg,e_count,e_min,e_max,
+	e_logic_and_where_compare_string_match_def,
+
+	e_create,e_table,e_char,e_not,e_null,e_primary,e_key,e_foreign,e_references,e_check,e_in,e_unique,e_greater_than,e_greater_than_or_equal,e_like,
+	e_real,e_integer,e_str,keyword,grammatical,e_id,e_strMatch,e_eof,e_addop,e_subop,e_mulop,e_divop,e_logical,e_compare,e_l_bracket,e_r_bracket,e_comma,e_empty
+
+
+}; //数据类别
  //文法数据	
 union Date { public:Date() {} ~Date() {} string strVal; int intVal; float realVal; };
 //template<typename T>
 struct DataType   {
- public: DataType(string str, GramCategory category=grammatical) {
-	 this->str = str;
+ public: DataType( GramCategory category) {
 	 set_category(category);
 	 }
 		/* DataType(int integer, GramCategory cateory) {
@@ -58,32 +71,42 @@ class Grammatical {
 	/*
 	v_create_def -> create table table_name (v_create_data_def v_constraint_def)
 	*/
-	const static GramType v_create_def; 
-	const static GramType v_create_data_def; 
-	const static GramType v_constraint_def; 
-	const static GramType v_create_data_type_def; 
-	const static GramType v_create_data_type_suffix_def;
-	const static GramType v_primary_def;
-	const static GramType v_for_che_uni_def;
-	const static GramType v_col_name_rep_def;
-	const static GramType v_foreign_def;
-	const static GramType v_str_rep_def;
-	const static GramType v_check_def;
-	const static GramType v_unique_def;
-	const static GramType v_addop_def;
-	const static GramType v_mulop_def;
-	const static GramType v_compare_def;
-	const static GramType v_logic_def;
-	const static GramType v_gather_fuc_def;
-	const static GramType v_int_real_col_name_def;
-	const static GramType v_int_real_col_name_rep_def;
-	const static GramType v_where_addop_def;
-	const static GramType v_where_mulop_def;
-	const static GramType v_where_algorithm_operator_def;
-	const static GramType v_where_algorithm_operator_or_string_def;
-	const static GramType v_where_compare_def;
-	const static GramType v_where_compare_or_string_match_def;
-	const static GramType v_logic_and_where_compare_string_match_def;
+
+	/*
+	v_create_def,		v_create_data_def,	v_constraint_def,		v_create_data_type_def,			v_create_data_type_suffix_def,
+	v_primary_def,		v_for_che_uni_def,	v_col_name_rep_def,		v_foreign_def,					v_str_rep_def,
+	v_check_def,		v_unique_def,		v_addop_def,			v_mulop_def,					v_compare_def,
+	v_logic_def,		v_gather_fuc_def,	v_int_real_col_name_def, v_int_real_col_name_rep_def,	v_where_addop_def,
+	v_where_mulop_def,	v_where_algorithm_operator_def ,v_where_algorithm_operator_or_string_def,	v_where_compare_def, v_where_compare_or_string_match_def,
+	v_logic_and_where_compare_string_match_def
+
+	*/
+	const static GramType v_create_def;  //0
+	const static GramType v_create_data_def; //1 
+	const static GramType v_constraint_def;  //2
+	const static GramType v_create_data_type_def;  //3
+	const static GramType v_create_data_type_suffix_def; //4
+	const static GramType v_primary_def; //5
+	const static GramType v_for_che_uni_def; //6
+	const static GramType v_col_name_rep_def; //7
+	const static GramType v_foreign_def; //8
+	const static GramType v_str_rep_def; //9
+	const static GramType v_check_def; //10
+	const static GramType v_unique_def; //11
+	const static GramType v_addop_def; //12
+	const static GramType v_mulop_def; //13
+	const static GramType v_compare_def;//14
+	const static GramType v_logic_def;//15
+	const static GramType v_gather_fuc_def;//16
+	const static GramType v_int_real_col_name_def;//17
+	const static GramType v_int_real_col_name_rep_def;//18
+	const static GramType v_where_addop_def;//19
+	const static GramType v_where_mulop_def;//20
+	const static GramType v_where_algorithm_operator_def;//21
+	const static GramType v_where_algorithm_operator_or_string_def;//22
+	const static GramType v_where_compare_def;//23
+	const static GramType v_where_compare_or_string_match_def; //24
+	const static GramType v_logic_and_where_compare_string_match_def; //25
 };
 class GrammaticalAnalysis {
 public:
