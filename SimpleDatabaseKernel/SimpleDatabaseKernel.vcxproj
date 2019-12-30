@@ -122,7 +122,6 @@
     <ClInclude Include="file.h" />
     <ClInclude Include="GrammaticalAnalysis.h" />
     <ClInclude Include="LexicalAnalysis.h" />
-    <ClInclude Include="test.h" />
     <ClInclude Include="testswitch.h" />
   </ItemGroup>
   <ItemGroup>
@@ -130,7 +129,6 @@
     <ClCompile Include="GrammaticalAnalysis.cpp" />
     <ClCompile Include="LexicalAnalysis.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

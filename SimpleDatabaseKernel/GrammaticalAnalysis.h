@@ -39,7 +39,9 @@ enum GramCategory{
 	e_order,e_by,e_desc,e_asc,e_group,e_having,e_right,e_left,e_full,e_join,e_on,e_distance,e_from,
 	e_database,e_use,e_delete,e_alter,e_add,e_drop,e_column,e_insert,e_into,e_values,e_update,e_set,
 	e_view,e_as,e_index,
+
 	e_real,e_integer,e_str,keyword,grammatical,e_id,e_strMatch,e_eof,
+
 	e_addop,e_subop,e_mulop,e_divop,e_logical,e_compare,//operator
 	e_l_bracket,e_r_bracket,//bracket
 	e_comma,e_empty
@@ -62,7 +64,7 @@ struct DataType   {
 			 set_category(category);
 		 }*/
 		 void set_category(GramCategory category) { this->category = category; }
-	string str;
+//	string str;
 	GramCategory category;
 
 };
@@ -71,8 +73,12 @@ public: GramDataType(initializer_list<DataType>initializer) {
 		initializer_list<DataType>::const_iterator begin, end;
 		begin = initializer.begin();
 		end = initializer.end();
+		for (; begin != end; begin++) {
+			ls.push_back(*begin);
+		}
 		posi = 0;
 	}
+		void set_posi(int posi) { this->posi = posi; }
 	list<DataType>ls;
 	int posi;
 	vector<string>symbol;
