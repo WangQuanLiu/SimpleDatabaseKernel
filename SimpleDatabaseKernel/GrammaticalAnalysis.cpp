@@ -853,3 +853,104 @@ const GramType Grammatical::v_connect_mulop_def{
 	DataType(e_empty)
 	}
 };
+const GramType Grammatical::v_connect_algorithm_operator_def{
+	/*
+	v_connect_algorithm_operator_def->( v_int_real_col_name_def v_connect_addop_def )
+	v_connect_algorithm_operator_def->v_int_real_col_name_def v_connect_addop_def
+	*/
+	GramDataType{
+	DataType(e_l_bracket),
+	DataType(e_int_real_col_name_def),
+	DataType(e_connect_addop_def),
+	DataType(e_r_bracket)
+	},
+	GramDataType{
+	DataType(e_int_real_col_name_def),
+	DataType(e_connect_addop_def)
+}
+};
+const GramType Grammatical::v_connect_algorithm_operator_or_string_def{
+	/*
+	v_connect_algorithm_operator_or_string_def->v_connect_algorithm_operator_def
+	v_connect_algorithm_operator_or_string_def->string
+	
+	*/
+	GramDataType{
+	DataType(e_connect_algorithm_operator_def)
+	},
+	GramDataType{
+	DataType(e_str)
+	},
+	
+};
+const GramType Grammatical::v_connect_compare_def{
+	/*
+	v_connect_compare_def->v_connect_algorithm_operator_or_string compare v_connect_algorithm_operator_or_string 
+	*/
+	GramDataType{
+	DataType(e_connect_algorithm_operator_or_string_def),
+	DataType(e_compare),
+	DataType(e_connect_algorithm_operator_or_string_def)
+	}
+};
+const GramType Grammatical::v_connect_compare_or_str_match_def{
+	/*
+	v_connect_compare_or_str_match_def->v_connect_compare_def
+	v_connect_compare_or_str_match_def->col_name like string_match
+	*/
+	GramDataType{
+	DataType(e_connect_compare_def)
+	},
+	GramDataType{
+	DataType(e_id),
+	DataType(e_like),
+	DataType(e_strMatch)
+}
+};
+const GramType Grammatical::v_logic_connect_compare_or_str_match_def{
+	/*
+	v_logic_connect_compare_or_str_match_def->logic v_connect_compare_or_str_match_def v_logic_connect_compare_or_str_match_def
+	v_logic_connect_compare_or_str_match_def->¦Å
+	*/
+	GramDataType{
+	DataType(e_logical),
+	DataType(e_connect_compare_or_str_match_def),
+	DataType(e_logic_connect_compare_or_str_match_def),
+	},
+	GramDataType{
+	DataType(e_empty)
+	}
+};
+const GramType Grammatical::v_connect_logic_def{
+	/*
+	v_connect_logic_def->v_connect_compare_or_str_match_def v_logic_connect_compare_or_str_match_def
+	v_connect_logic_def->(v_connect_compare_or_str_match_def v_logic_connect_compare_or_str_match_def)
+	*/
+	GramDataType{
+	DataType(e_connect_compare_or_str_match_def),
+	DataType(e_logic_connect_compare_or_str_match_def)
+	},
+	GramDataType{
+	DataType(e_l_bracket),
+	DataType(e_connect_compare_or_str_match_def),
+	DataType(e_logic_connect_compare_or_str_match_def),
+	DataType(e_r_bracket)
+	}
+};
+const GramType Grammatical::v_constriant_having_def{
+	/*
+	v_constriant_having_def->v_having_def
+	v_constriant_having_def->v_having_def v_order_def
+	v_constriant_having_def->¦Å
+	*/
+	GramDataType{
+	DataType(e_having_def)
+	},
+	GramDataType{
+	DataType(e_having_def),
+	DataType(e_order_def)
+	},
+	GramDataType{
+	DataType(e_empty)
+	}
+};

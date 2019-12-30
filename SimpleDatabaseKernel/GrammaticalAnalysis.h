@@ -22,6 +22,8 @@ enum GramCategory{
 	e_logic_and_where_compare_string_match_def,e_where_logic_def,e_where_def,e_comma_and_col_name_def,
 	e_order_def,e_group_def,e_having_def,e_where_algorithm_operator_rep_def,e_select_operator_def,
 	e_connect_mode_def,e_connect_def,e_connect_addop_def,e_connect_mulop_def,
+	e_connect_algorithm_operator_def,e_connect_algorithm_operator_or_string_def,e_connect_compare_def,
+	e_connect_compare_or_str_match_def,e_logic_connect_compare_or_str_match_def,
 	e_connect_logic_def,
 	
 	e_less_than,e_less_than_or_equal,e_equal,e_unequal, e_greater_than, e_greater_than_or_equal, //compare
@@ -133,6 +135,14 @@ class Grammatical {
 	const static GramType v_connect_def;//36
 	const static GramType v_connect_addop_def;//37
 	const static GramType v_connect_mulop_def;//38
+	const static GramType v_connect_algorithm_operator_def;//39
+	const static GramType v_connect_algorithm_operator_or_string_def;//40
+	const static GramType v_connect_compare_def;//41
+	const static GramType v_connect_compare_or_str_match_def;//42
+	const static GramType v_logic_connect_compare_or_str_match_def;//43
+	const static GramType v_connect_logic_def;//44
+	const static GramType v_constriant_having_def;//45
+
 };
 class GrammaticalAnalysis {
 public:
