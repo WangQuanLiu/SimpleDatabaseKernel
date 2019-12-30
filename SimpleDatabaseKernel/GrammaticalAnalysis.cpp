@@ -29,19 +29,19 @@ const GramType Grammatical::v_s{
 	v_s->v_drop_index_def
 	*/
 	GramDataType{DataType(e_create_def)},
-	//GramDataType{DataType(e_select_def)},
-	//GramDataType{DataType("v_create_database_def")},
-	//GramDataType{DataType("v_use_database_def")},
-	//GramDataType{DataType("v_delete_element_def")},
-	//GramDataType{DataType("v_delete_table_def")},
-	//GramDataType{DataType("v_alter_table_add_column_def")},
-	//GramDataType{DataType("v_alter_table_drop_column_def")},
-	//GramDataType{DataType("v_insert_def")},
-	//GramDataType{DataType("v_update_def")},
-	//GramDataType{DataType("v_create_view_def")},
-	//GramDataType{DataType("v_drop_view_def")},
-	//GramDataType{DataType("v_create_index_def")},
-	//GramDataType{DataType("v_drop_index_def")}
+	GramDataType{DataType(e_select_def)},
+	GramDataType{DataType( e_create_database_def)},
+	GramDataType{DataType( e_use_database_def)},
+	GramDataType{DataType( e_delete_element_def)},
+	GramDataType{DataType(e_delete_table_def)},
+	GramDataType{DataType(e_alter_table_add_col_name_def)},
+	GramDataType{DataType( e_alter_table_drop_col_name_def)},
+	GramDataType{DataType( e_insert_def)},
+	GramDataType{DataType(e_update_def)},
+	GramDataType{DataType(e_create_view_def)},
+	GramDataType{DataType( e_drop_view_def)},
+	GramDataType{DataType(e_create_index_def)},
+	GramDataType{DataType( e_drop_index_def)}
 };
 const GramType Grammatical::v_create_def{
 	//v_create_def-> crate table table_name ( v_create_data_def v_constraint_def)
@@ -1144,5 +1144,106 @@ const GramType Grammatical::v_update_addop_def{
 	},
 	GramDataType{
 	DataType(e_update_mulop_def)
+	}
+};
+
+const  GramType Grammatical::v_update_mulop_def{
+	/*
+	v_update_mulop_def-> mulop ( v_int_real_col_name v_update_addop)
+	v_update_mulop_def-> mulop v_int_real_col_name v_update_addop
+	v_update_mulop_def-> v_update_addop_def
+	v_update_mulop_def->¦Å
+	*/
+	GramDataType{
+	DataType(e_mulop),
+	DataType(e_l_bracket),
+	DataType(e_int_real_col_name_def),
+	DataType(e_update_addop_def),
+	DataType(e_r_bracket),
+	},
+
+	GramDataType{
+	DataType(e_mulop),
+	DataType(e_int_real_col_name_def),
+	DataType(e_update_addop_def),
+		},
+	GramDataType{
+	DataType(e_update_addop_def)
+	},
+	GramDataType{
+	DataType(e_empty)
+	}
+};
+const GramType Grammatical::v_update_def{
+	/*
+	v_update_def->update table_name set col_name = v_int_real_col_name_def v_update_addop_def
+	v_update_def->update table_name set col_name = v_int_real_col_name_def v_update_addop_def v_where_def
+	*/
+	GramDataType{
+	DataType(e_update),
+	DataType(e_id),
+	DataType(e_set),
+	DataType(e_id),
+	DataType(e_equal),
+	DataType(e_int_real_col_name_def),
+	DataType(e_update_addop_def)
+	},
+
+	GramDataType{
+	DataType(e_update),
+	DataType(e_id),
+	DataType(e_set),
+	DataType(e_id),
+	DataType(e_equal),
+	DataType(e_int_real_col_name_def),
+	DataType(e_update_addop_def),
+	DataType(e_where_def)
+	}
+};
+const GramType Grammatical::v_create_view_def{
+	/*
+	v_create_view_def->create view view_name as v_select_def
+	*/
+	GramDataType{
+	DataType(e_create),
+	DataType(e_view),
+	DataType(e_id),
+	DataType(e_as),
+	DataType(e_select_def)
+	}
+};
+const GramType Grammatical::v_drop_view_def{
+	/*
+	v_drop_view_def->drop view view_name
+	*/
+	GramDataType{
+	DataType(e_drop),
+	DataType(e_view),
+	DataType(e_id),
+	}
+};
+const GramType Grammatical::v_create_index_def{
+	/*
+	v_create_index_def-> create index index_name on table_name ( col_name)
+	*/
+	GramDataType{
+	DataType(e_create),
+	DataType(e_index),
+	DataType(e_id),
+	DataType(e_on),
+	DataType(e_id),
+	DataType(e_l_bracket),
+	DataType(e_id),
+	DataType(e_r_bracket)
+	}
+};
+const GramType Grammatical::v_drop_index_def{
+	/*
+	v_drop_index_def-> drop index view_name
+	*/
+	GramDataType{
+	DataType(e_drop),
+	DataType(e_index),
+	DataType(e_id)
 	}
 };

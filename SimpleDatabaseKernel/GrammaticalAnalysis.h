@@ -27,7 +27,8 @@ enum GramCategory{
 	e_connect_logic_def,e_constraint_having_def,e_constriant_group_def,e_select_connect_def,
 	e_constriant_connect_def,e_table_name_def,e_select_def,e_create_database_def,e_use_database_def,
 	e_delete_element_def,e_delete_table_def,e_alter_table_add_col_name_def,e_alter_table_drop_col_name_def,
-	e_insert_def,v_update_addop_def,
+	e_insert_def,e_update_addop_def,e_update_mulop_def,e_update_def,e_create_view_def,
+	e_drop_view_def,e_create_index_def,e_drop_index_def,
 
 	e_less_than,e_less_than_or_equal,e_equal,e_unequal, e_greater_than, e_greater_than_or_equal, //compare
 
@@ -36,8 +37,8 @@ enum GramCategory{
 	//keyword
 	e_create,e_table,e_char,e_not,e_null,e_primary,e_key,e_foreign,e_references,e_check,e_in,e_unique, e_like,e_where,
 	e_order,e_by,e_desc,e_asc,e_group,e_having,e_right,e_left,e_full,e_join,e_on,e_distance,e_from,
-	e_database,e_use,e_delete,e_alter,e_add,e_drop,e_column,e_insert,e_into,e_values
-
+	e_database,e_use,e_delete,e_alter,e_add,e_drop,e_column,e_insert,e_into,e_values,e_update,e_set,
+	e_view,e_as,e_index,
 	e_real,e_integer,e_str,keyword,grammatical,e_id,e_strMatch,e_eof,
 	e_addop,e_subop,e_mulop,e_divop,e_logical,e_compare,//operator
 	e_l_bracket,e_r_bracket,//bracket
@@ -158,6 +159,12 @@ class Grammatical {
 	const static GramType v_alter_table_drop_col_name_def;//55
 	const static GramType v_insert_def;//56
 	const static GramType v_update_addop_def;//57
+	const static GramType v_update_mulop_def;//58
+	const static GramType v_update_def;//59
+	const static GramType v_create_view_def;//60
+	const static GramType v_drop_view_def;//61
+	const static GramType v_create_index_def;//62
+	const static GramType v_drop_index_def;//63
 };
 class GrammaticalAnalysis {
 public:
