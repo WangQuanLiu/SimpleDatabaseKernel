@@ -24,16 +24,19 @@ enum GramCategory{
 	e_connect_mode_def,e_connect_def,e_connect_addop_def,e_connect_mulop_def,
 	e_connect_algorithm_operator_def,e_connect_algorithm_operator_or_string_def,e_connect_compare_def,
 	e_connect_compare_or_str_match_def,e_logic_connect_compare_or_str_match_def,
-	e_connect_logic_def,
-	
+	e_connect_logic_def,e_constraint_having_def,e_constriant_group_def,e_select_connect_def,
+	e_constriant_connect_def,e_table_name_def,e_select_def,e_create_database_def,e_use_database_def,
+	e_delete_element_def,e_delete_table_def,e_alter_table_add_col_name_def,e_alter_table_drop_col_name_def,
+	e_insert_def,v_update_addop_def,
+
 	e_less_than,e_less_than_or_equal,e_equal,e_unequal, e_greater_than, e_greater_than_or_equal, //compare
 
 	e_and,e_or,e_sum,e_avg,e_count,e_min,e_max, //constriant
 
 	//keyword
 	e_create,e_table,e_char,e_not,e_null,e_primary,e_key,e_foreign,e_references,e_check,e_in,e_unique, e_like,e_where,
-	e_order,e_by,e_desc,e_asc,e_group,e_having,e_right,e_left,e_full,e_join,e_on,
-	
+	e_order,e_by,e_desc,e_asc,e_group,e_having,e_right,e_left,e_full,e_join,e_on,e_distance,e_from,
+	e_database,e_use,e_delete,e_alter,e_add,e_drop,e_column,e_insert,e_into,e_values
 
 	e_real,e_integer,e_str,keyword,grammatical,e_id,e_strMatch,e_eof,
 	e_addop,e_subop,e_mulop,e_divop,e_logical,e_compare,//operator
@@ -142,7 +145,19 @@ class Grammatical {
 	const static GramType v_logic_connect_compare_or_str_match_def;//43
 	const static GramType v_connect_logic_def;//44
 	const static GramType v_constriant_having_def;//45
-
+	const static GramType v_constriant_group_def;//46
+	const static GramType v_select_connect_def;//47
+	const static GramType v_constriant_connect_def;//48
+	const static GramType v_table_name_def;//49
+	const static GramType v_select_def;//50
+	const static GramType v_create_database_def;//51
+	const static GramType v_use_database_def;//52
+	const static GramType v_delete_element_def;//53
+	const static GramType v_delete_talbe_def;//54
+	const static GramType v_alter_table_col_name_def;//54
+	const static GramType v_alter_table_drop_col_name_def;//55
+	const static GramType v_insert_def;//56
+	const static GramType v_update_addop_def;//57
 };
 class GrammaticalAnalysis {
 public:

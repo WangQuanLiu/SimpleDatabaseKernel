@@ -954,3 +954,195 @@ const GramType Grammatical::v_constriant_having_def{
 	DataType(e_empty)
 	}
 };
+const GramType Grammatical::v_constriant_group_def{
+	/*
+	v_constriant_group_def->v_group_def
+	v_constriant_group_def->v_group_def v_constriant_having_def
+	v_constriant_group_def->v_constriant_having_def
+	
+	*/
+	GramDataType{
+	DataType(e_group_def)
+	},
+	GramDataType{
+	DataType(e_group_def),
+	DataType(e_constraint_having_def)
+	},
+	GramDataType{
+	DataType(e_constraint_having_def)}
+};
+const GramType Grammatical::v_select_connect_def{
+	/*
+	v_select_connect_def->*
+	v_select_connect_def->v_select_operator_def
+	*/
+	GramDataType{
+	DataType(e_mulop)
+	},
+	GramDataType{
+	DataType(e_select_operator_def)
+	}
+};
+const GramType Grammatical::v_constriant_connect_def{
+	/*
+	v_constriant_connect_def->v_connect_def
+	v_constriant_connect_def->v_connect_def v_constriant_where_def
+	*/
+	GramDataType{
+	DataType(e_connect_def)
+	},
+	GramDataType{
+	DataType(e_connect_def),
+	DataType(e_where_def)
+	}
+};
+const GramType Grammatical::v_table_name_def{
+	/*
+	v_table_name_def-> table_name,v_table_name_def
+	v_table_name_def->table_name
+	*/
+	GramDataType{
+	DataType(e_id),
+	DataType(e_table_name_def)
+	},
+	GramDataType{
+	DataType(e_id)
+	}
+};
+const GramType Grammatical::v_select_def{
+	/*
+	v_select_def-> distance v_select_connect_def from v_table_name_def v_constriant_connect_def
+	v_select_def->v_select_connect_def from v_table_name_def v_constriant_connect_def
+	v_select_def->v_select_connect_def from v_table_name_def v_where_def
+	*/
+	GramDataType{
+	DataType(e_distance),
+	DataType(e_select_connect_def),
+	DataType(e_from),
+	DataType(e_table_name_def),
+	DataType(e_constriant_connect_def)
+	},
+	GramDataType{
+	DataType(e_select_connect_def),
+	DataType(e_from),
+	DataType(e_table_name_def),
+	DataType(e_constriant_connect_def)
+	},
+
+	GramDataType{
+	DataType(e_select_connect_def),
+	DataType(e_from),
+	DataType(e_table_name_def),
+	DataType(e_where_def)
+	},
+
+	GramDataType{
+	DataType(e_distance),
+	DataType(e_select_connect_def),
+	DataType(e_from),
+	DataType(e_table_name_def),
+	DataType(e_where_def)
+		}
+};
+const GramType Grammatical::v_create_database_def{
+	/*
+	v_create_database_def-> create database database_name
+	v_create_database_def->use database_name
+	*/
+	GramDataType{
+	DataType(e_create),
+	DataType(e_database),
+	DataType(e_id),
+	},
+	GramDataType{
+	DataType(e_use),
+	DataType(e_id),
+	}
+
+};
+const GramType Grammatical::v_delete_element_def{
+	/*
+	v_delete_element_def->delete from table_name
+	v_delete_table_def-> delete table table_name
+	*/
+	GramDataType{
+	DataType(e_delete),
+	DataType(e_from),
+	DataType(e_id),
+	},
+	GramDataType{
+	DataType(e_delete),
+	DataType(e_table),
+	DataType(e_id),
+	},
+};
+const GramType Grammatical::v_alter_table_col_name_def{
+	/*
+	v_alter_table_col_name_def -> alter table table_name add column col_name v_int_real_col_name
+	v_alter_table_drop_col_name_def->alter table table_name drop col_name
+	*/
+	GramDataType{
+	DataType(e_alter),
+	DataType(e_table),
+	DataType(e_id),
+	DataType(e_add),
+	DataType(e_column),
+	DataType(e_id),
+	DataType(e_int_real_col_name_def)
+	},
+	GramDataType{
+	DataType(e_alter),
+	DataType(e_table),
+	DataType(e_id),
+	DataType(e_drop),
+	DataType(e_id)
+	}
+};
+const GramType Grammatical::v_insert_def{
+	/*
+	v_insert_def->insert into table_name ( v_col_name_rep_def ) values ( v_int_real_col_name_rep_def)
+	*/
+	GramDataType{
+	DataType(e_insert),
+	DataType(e_into),
+	DataType(e_id),
+
+	DataType(e_l_bracket),
+	DataType(e_col_name_rep_def),
+	DataType(e_r_bracket),
+
+	DataType(e_values),
+
+	DataType(e_l_bracket),
+	DataType(e_int_real_col_name_rep_def),
+	DataType(e_r_bracket)
+	}
+};
+const GramType Grammatical::v_update_addop_def{
+	/*
+	v_update_addop_def-> addop ( v_int_real_col_name_def v_update_mulop_def)
+	v_update_addop_def-> addop v_int_real_col_name_def v_update_mulop_def
+
+	v_update_addop_def->¦Å
+	v_update_addop_def->v_update_mulop_def
+	*/
+	GramDataType{
+	DataType(e_addop),
+	DataType(e_l_bracket),
+	DataType(e_int_real_col_name_def),
+	DataType(e_update_mulop_def),
+	DataType(e_r_bracket),
+	},
+
+	GramDataType{
+	DataType(e_addop),
+	DataType(e_int_real_col_name_def),
+	DataType(e_update_mulop_def),
+	},
+	GramDataType{
+	DataType(e_empty)
+	},
+	GramDataType{
+	DataType(e_update_mulop_def)
+	}
+};
