@@ -801,14 +801,17 @@ const GramType Grammatical::v_connect_mode_def{
 },
 GramDataType{
 	DataType(e_full)
-},
-GramDataType{
+}
+
+};
+const GramType Grammatical::v_connect_def{
+	GramDataType{
 	DataType(e_connect_mode_def),
 	DataType(e_join),
 	DataType(e_id),
 	DataType(e_on),
 	DataType(e_connect_logic_def)
-},
+}
 };
 const GramType Grammatical::v_connect_addop_def{
 	/*
@@ -1062,10 +1065,13 @@ const GramType Grammatical::v_create_database_def{
 	DataType(e_database),
 	DataType(e_id),
 	},
+
+};
+const GramType Grammatical::v_use_database_def{
 	GramDataType{
 	DataType(e_use),
 	DataType(e_id),
-	}
+}
 
 };
 const GramType Grammatical::v_delete_element_def{
@@ -1077,12 +1083,15 @@ const GramType Grammatical::v_delete_element_def{
 	DataType(e_delete),
 	DataType(e_from),
 	DataType(e_id),
-	},
+	}
+	
+};
+const GramType Grammatical::v_delete_table_def{
 	GramDataType{
 	DataType(e_delete),
 	DataType(e_table),
 	DataType(e_id),
-	},
+}
 };
 const GramType Grammatical::v_alter_table_col_name_def{
 	/*
@@ -1097,14 +1106,17 @@ const GramType Grammatical::v_alter_table_col_name_def{
 	DataType(e_column),
 	DataType(e_id),
 	DataType(e_int_real_col_name_def)
-	},
+	}
+	
+};\
+const GramType Grammatical::v_alter_table_drop_col_name_def{
 	GramDataType{
 	DataType(e_alter),
 	DataType(e_table),
 	DataType(e_id),
 	DataType(e_drop),
 	DataType(e_id)
-	}
+}
 };
 const GramType Grammatical::v_insert_def{
 	/*
@@ -1254,4 +1266,117 @@ const GramType Grammatical::v_drop_index_def{
 	DataType(e_index),
 	DataType(e_id)
 	}
+};
+
+GramDataType& GramDataType::operator=(const GramDataType& obj) 
+{
+	this->ls = obj.ls;
+	this->posi = obj.posi;
+	this->symbol = obj.symbol;
+	return *this;
+}
+
+GramDataType GramDataType::operator+(int num)
+{
+	try {
+		if (this->posi+ num > ls.size())
+			throw "error";
+	}
+	catch (string) {
+		cerr << "GramDataType::operator+ array index exceed value of max";
+	}
+	GramDataType temp =*this;
+	temp.posi++;
+	
+	return temp;;
+}
+
+Gram GrammaticalAnalysis::first(GramDataType & obj)
+{
+	if (obj.posi >= obj.ls.size())return e_gram_end;
+
+	return obj.ls[obj.posi].getCategory();
+}
+
+GramCategory GrammaticalAnalysis::is_grammatical(Gram & obj)
+{
+	return obj>=65?non_gram:gram;
+}
+
+GramType GrammaticalAnalysis::gram_map_to_gramtype(Gram & obj)
+{
+	try {
+		if (obj > GRAM_MAX)
+			throw "error";
+	}
+	catch (string) { cerr << "gram_map_to_gramtype index exceed value of max" << endl; }
+	return GramType();
+}
+const GramType GrammaticalAnalysis::gramArray[GRAM_MAX]{
+	Grammatical::v_start,//0
+	Grammatical::v_s,//1
+	Grammatical::v_create_def,//2
+	Grammatical::v_create_data_def,//3
+	Grammatical::v_constraint_def,//4
+	Grammatical::v_create_data_type_def,//5
+	Grammatical::v_create_data_type_suffix_def,//6
+	Grammatical::v_primary_def,//7
+	Grammatical::v_for_che_uni_def,//8
+	Grammatical::v_col_name_rep_def,//9
+	Grammatical::v_foreign_def,//10
+	Grammatical::v_str_rep_def,//11
+	Grammatical::v_check_def,//12
+	Grammatical::v_unique_def,//13
+	Grammatical::v_addop_def,//14
+	Grammatical::v_mulop_def,//15
+	Grammatical::v_compare_def,//16
+	Grammatical::v_logic_def,//17
+	Grammatical::v_gather_fuc_def,//18
+	Grammatical::v_int_real_col_name_def,//19
+	Grammatical::v_int_real_col_name_rep_def,//20
+	Grammatical::v_where_addop_def,//21
+	Grammatical::v_where_mulop_def,//22
+	Grammatical::v_where_algorithm_operator_def,//23
+	Grammatical::v_where_algorithm_operator_or_string_def,//24
+	Grammatical::v_where_compare_def,//25
+	Grammatical::v_where_compare_or_string_match_def,//26
+	Grammatical::v_logic_and_where_compare_string_match_def,//27
+	Grammatical::v_where_logic_def,//28
+	Grammatical::v_where_def,//29
+	Grammatical::v_comma_and_col_name_def,//30
+	Grammatical::v_order_def,//31
+	Grammatical::v_group_def,//32
+	Grammatical::v_having_def,//33
+	Grammatical::v_where_algorithm_operator_rep_def,//34
+	Grammatical::v_select_operator_def,//35
+	Grammatical::v_connect_mode_def,//36
+	Grammatical::v_connect_def,//37
+	Grammatical::v_connect_addop_def,//38
+	Grammatical::v_connect_mulop_def,//39
+	Grammatical::v_connect_algorithm_operator_def,//40
+	Grammatical::v_connect_algorithm_operator_or_string_def,//41
+	Grammatical::v_connect_compare_def,//42
+	Grammatical::v_connect_compare_or_str_match_def,//43
+	Grammatical::v_logic_connect_compare_or_str_match_def,//44
+	Grammatical::v_connect_logic_def,//45
+	Grammatical::v_constriant_having_def,//46
+	Grammatical::v_constraint_group_def,//47
+	Grammatical::v_select_connect_def,//48
+	Grammatical::v_constriant_connect_def,//49
+	Grammatical::v_table_name_def,//50
+	Grammatical::v_select_def,//51
+	Grammatical::v_create_database_def,//52
+	Grammatical::v_use_database_def,//53
+	Grammatical::v_delete_element_def,//54
+	Grammatical::v_delete_table_def,//55
+	Grammatical::v_alter_table_col_name_def,//56
+	Grammatical::v_alter_table_drop_col_name_def,//57
+	Grammatical::v_insert_def,//58
+	Grammatical::v_update_addop_def,//59
+	Grammatical::v_update_mulop_def,//60
+	Grammatical::v_update_def,//61
+	Grammatical::v_create_view_def,//62
+	Grammatical::v_drop_view_def,//63
+	Grammatical::v_create_index_def,//64
+	Grammatical::v_drop_index_def//65
 };

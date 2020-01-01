@@ -6,10 +6,12 @@
 #define _GrammaticalAnalysis_
 #define NFA_MAX 34
 #define ALPHA_MAX 40
+#define GRAM_MAX 66
 //using GrammaticalType= vector<list<string>>;
 //using GrammaticalDataType = list<string>;
-enum  {
-
+enum GramCategory {
+	gram,//文法 grammatical
+	non_gram//非文法 non-grammatical
 };
 enum Gram{
 	//grammatical
@@ -44,7 +46,8 @@ enum Gram{
 
 	e_addop,e_subop,e_mulop,e_divop,/*e_logical,e_compare,*///operator
 	e_l_bracket,e_r_bracket,//bracket
-	e_comma,e_empty
+	e_comma,e_empty,
+	e_gram_end
 
 
 }; //文法类别
@@ -56,6 +59,7 @@ struct DataType   {
  public: DataType( Gram category) {
 	 set_category(category);
 	 }
+		 Gram getCategory() { return category; }
 		/* DataType(int integer, Gram cateory) {
 			 date.intVal = integer;
 			 set_category(category);
@@ -66,7 +70,7 @@ struct DataType   {
 		 }*/
 		 void set_category(Gram category) { this->category = category; }
 //	string str;
-	Gram category;
+private:	Gram category;
 
 };
 class GramDataType {
@@ -79,8 +83,10 @@ public: GramDataType(initializer_list<DataType>initializer) {
 		}
 		posi = 0;
 	}
+		GramDataType& operator=(const GramDataType&);
+		GramDataType operator+(int);
 		void set_posi(int posi) { this->posi = posi; }
-	list<DataType>ls;
+	vector<DataType>ls;
 	int posi;
 	vector<string>symbol;
 
@@ -92,9 +98,9 @@ public: GramDataType(initializer_list<DataType>initializer) {
 //	
 //}GraType;
 class Grammatical {
-	const static GramType v_start; 
-	const static GramType v_s;
-
+public :
+	const static GramType v_start; //0
+	const static GramType v_s;//1
 	/*
 	v_create_def -> create table table_name (v_create_data_def v_constraint_def)
 	*/
@@ -108,70 +114,70 @@ class Grammatical {
 	v_logic_and_where_compare_string_match_def
 
 	*/
-	const static GramType v_create_def;  //0
-	const static GramType v_create_data_def; //1 
-	const static GramType v_constraint_def;  //2
-	const static GramType v_create_data_type_def;  //3
-	const static GramType v_create_data_type_suffix_def; //4
-	const static GramType v_primary_def; //5
-	const static GramType v_for_che_uni_def; //6
-	const static GramType v_col_name_rep_def; //7
-	const static GramType v_foreign_def; //8
-	const static GramType v_str_rep_def; //9
-	const static GramType v_check_def; //10
-	const static GramType v_unique_def; //11
-	const static GramType v_addop_def; //12
-	const static GramType v_mulop_def; //13
-	const static GramType v_compare_def;//14
-	const static GramType v_logic_def;//15
-	const static GramType v_gather_fuc_def;//16
-	const static GramType v_int_real_col_name_def;//17
-	const static GramType v_int_real_col_name_rep_def;//18
-	const static GramType v_where_addop_def;//19
-	const static GramType v_where_mulop_def;//20
-	const static GramType v_where_algorithm_operator_def;//21
-	const static GramType v_where_algorithm_operator_or_string_def;//22
-	const static GramType v_where_compare_def;//23
-	const static GramType v_where_compare_or_string_match_def; //24
-	const static GramType v_logic_and_where_compare_string_match_def; //25
-	const static GramType v_where_logic_def;//26
-	const static GramType v_where_def;//27
-	const static GramType v_comma_and_col_name_def;//28
-	const static GramType v_order_def;//30
-	const static GramType v_group_def;//31
-	const static GramType v_having_def;//32
-	const static GramType v_where_algorithm_operator_rep_def;//33
-	const static GramType v_select_operator_def;//34
-	const static GramType v_connect_mode_def;//35
-	const static GramType v_connect_def;//36
-	const static GramType v_connect_addop_def;//37
-	const static GramType v_connect_mulop_def;//38
-	const static GramType v_connect_algorithm_operator_def;//39
-	const static GramType v_connect_algorithm_operator_or_string_def;//40
-	const static GramType v_connect_compare_def;//41
-	const static GramType v_connect_compare_or_str_match_def;//42
-	const static GramType v_logic_connect_compare_or_str_match_def;//43
-	const static GramType v_connect_logic_def;//44
-	const static GramType v_constriant_having_def;//45
-	const static GramType v_constraint_group_def;//46
-	const static GramType v_select_connect_def;//47
-	const static GramType v_constriant_connect_def;//48
-	const static GramType v_table_name_def;//49
-	const static GramType v_select_def;//50
-	const static GramType v_create_database_def;//51
-	const static GramType v_use_database_def;//52
-	const static GramType v_delete_element_def;//53
-	const static GramType v_delete_talbe_def;//54
-	const static GramType v_alter_table_col_name_def;//54
-	const static GramType v_alter_table_drop_col_name_def;//55
-	const static GramType v_insert_def;//56
-	const static GramType v_update_addop_def;//57
-	const static GramType v_update_mulop_def;//58
-	const static GramType v_update_def;//59
-	const static GramType v_create_view_def;//60
-	const static GramType v_drop_view_def;//61
-	const static GramType v_create_index_def;//62
-	const static GramType v_drop_index_def;//63
+	const static GramType v_create_def;  //2
+	const static GramType v_create_data_def; //3 
+	const static GramType v_constraint_def;  //4
+	const static GramType v_create_data_type_def;  //5
+	const static GramType v_create_data_type_suffix_def; //6
+	const static GramType v_primary_def; //7
+	const static GramType v_for_che_uni_def; //8
+	const static GramType v_col_name_rep_def; //9
+	const static GramType v_foreign_def; //10
+	const static GramType v_str_rep_def; //11
+	const static GramType v_check_def; //12
+	const static GramType v_unique_def; //13
+	const static GramType v_addop_def; //14
+	const static GramType v_mulop_def; //15
+	const static GramType v_compare_def;//16
+	const static GramType v_logic_def;//17
+	const static GramType v_gather_fuc_def;//18
+	const static GramType v_int_real_col_name_def;//19
+	const static GramType v_int_real_col_name_rep_def;//20
+	const static GramType v_where_addop_def;//21
+	const static GramType v_where_mulop_def;//22
+	const static GramType v_where_algorithm_operator_def;//23
+	const static GramType v_where_algorithm_operator_or_string_def;//24
+	const static GramType v_where_compare_def;//25
+	const static GramType v_where_compare_or_string_match_def; //26
+	const static GramType v_logic_and_where_compare_string_match_def; //27
+	const static GramType v_where_logic_def;//28
+	const static GramType v_where_def;//29
+	const static GramType v_comma_and_col_name_def;//30
+	const static GramType v_order_def;//31
+	const static GramType v_group_def;//32
+	const static GramType v_having_def;//33
+	const static GramType v_where_algorithm_operator_rep_def;//34
+	const static GramType v_select_operator_def;//35
+	const static GramType v_connect_mode_def;//36
+	const static GramType v_connect_def;//37
+	const static GramType v_connect_addop_def;//38
+	const static GramType v_connect_mulop_def;//39
+	const static GramType v_connect_algorithm_operator_def;//40
+	const static GramType v_connect_algorithm_operator_or_string_def;//41
+	const static GramType v_connect_compare_def;//42
+	const static GramType v_connect_compare_or_str_match_def;//43
+	const static GramType v_logic_connect_compare_or_str_match_def;//44
+	const static GramType v_connect_logic_def;//45
+	const static GramType v_constriant_having_def;//46
+	const static GramType v_constraint_group_def;//47
+	const static GramType v_select_connect_def;//48
+	const static GramType v_constriant_connect_def;//49
+	const static GramType v_table_name_def;//50
+	const static GramType v_select_def;//51
+	const static GramType v_create_database_def;//52
+	const static GramType v_use_database_def;//53
+	const static GramType v_delete_element_def;//54
+	const static GramType v_delete_table_def;//55
+	const static GramType v_alter_table_col_name_def;//56
+	const static GramType v_alter_table_drop_col_name_def;//57
+	const static GramType v_insert_def;//58
+	const static GramType v_update_addop_def;//59
+	const static GramType v_update_mulop_def;//60
+	const static GramType v_update_def;//61
+	const static GramType v_create_view_def;//62
+	const static GramType v_drop_view_def;//63
+	const static GramType v_create_index_def;//64
+	const static GramType v_drop_index_def;//65
 };
 
 class GrammaticalAnalysis {
@@ -180,6 +186,10 @@ public:
 	/*GrammaticalAnalysis() {
 
 	}*/
-
+private:
+	Gram first(GramDataType&obj);//寻找文法中第一个非文法的字符  find first char of non-grammatical in grammatical
+	GramCategory is_grammatical(Gram&obj);//判断是文法还是非文法 Judge whether it is grammatical or non-grammatical
+	GramType gram_map_to_gramtype(Gram&obj);
+	const  static GramType gramArray[GRAM_MAX];
 };
 
