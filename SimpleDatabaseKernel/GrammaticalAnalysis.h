@@ -40,9 +40,9 @@ enum GramCategory{
 	e_database,e_use,e_delete,e_alter,e_add,e_drop,e_column,e_insert,e_into,e_values,e_update,e_set,
 	e_view,e_as,e_index,
 
-	e_real,e_integer,e_str,keyword,grammatical,e_id,e_strMatch,e_eof,
+	e_real,e_integer,e_str,e_id,e_strMatch,e_eof,
 
-	e_addop,e_subop,e_mulop,e_divop,e_logical,e_compare,//operator
+	e_addop,e_subop,e_mulop,e_divop,/*e_logical,e_compare,*///operator
 	e_l_bracket,e_r_bracket,//bracket
 	e_comma,e_empty
 
@@ -152,7 +152,7 @@ class Grammatical {
 	const static GramType v_logic_connect_compare_or_str_match_def;//43
 	const static GramType v_connect_logic_def;//44
 	const static GramType v_constriant_having_def;//45
-	const static GramType v_constriant_group_def;//46
+	const static GramType v_constraint_group_def;//46
 	const static GramType v_select_connect_def;//47
 	const static GramType v_constriant_connect_def;//48
 	const static GramType v_table_name_def;//49
