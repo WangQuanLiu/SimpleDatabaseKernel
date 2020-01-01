@@ -109,7 +109,7 @@ const  GramType Grammatical::v_create_data_type_suffix_def{
 	v_create_data_type_suffix_def->not null
 	*/
 	GramDataType{
-	DataType(GramCategory::e_empty)
+	DataType(Gram::e_empty)
 	
 	}
 	,GramDataType{
@@ -131,7 +131,7 @@ const GramType Grammatical::v_constraint_def{
 	DataType(e_for_che_uni_def)
 	},
 	GramDataType{
-	DataType(GramCategory::e_empty)
+	DataType(Gram::e_empty)
 	},
 	GramDataType{
 	DataType(e_primary_def)
@@ -154,7 +154,7 @@ const GramType Grammatical::v_primary_def {
 	DataType(e_r_bracket)
 },
 GramDataType{
-	DataType(GramCategory::e_empty)
+	DataType(Gram::e_empty)
 }
 
 };
@@ -457,7 +457,7 @@ GramDataType{
 	DataType(e_where_mulop_def),
 	},
 	GramDataType{
-	DataType(GramCategory::e_empty)
+	DataType(Gram::e_empty)
 	},
 
 	GramDataType {
@@ -513,7 +513,7 @@ GramDataType{
 	DataType(e_where_addop_def),
 },
 GramDataType{
-	DataType(GramCategory::e_empty)
+	DataType(Gram::e_empty)
 },
 
 GramDataType{

@@ -8,10 +8,10 @@
 #define ALPHA_MAX 40
 //using GrammaticalType= vector<list<string>>;
 //using GrammaticalDataType = list<string>;
-enum Gram {
+enum  {
 
 };
-enum GramCategory{
+enum Gram{
 	//grammatical
 	e_start, e_s,
 	e_create_def, e_create_data_def, e_constraint_def, e_create_data_type_def, e_create_data_type_suffix_def,
@@ -47,25 +47,26 @@ enum GramCategory{
 	e_comma,e_empty
 
 
-}; //数据类别
+}; //文法类别
+
  //文法数据	
 union Date { public:Date() {} ~Date() {} string strVal; int intVal; float realVal; };
 //template<typename T>
 struct DataType   {
- public: DataType( GramCategory category) {
+ public: DataType( Gram category) {
 	 set_category(category);
 	 }
-		/* DataType(int integer, GramCategory cateory) {
+		/* DataType(int integer, Gram cateory) {
 			 date.intVal = integer;
 			 set_category(category);
 		 }
-		 DataType(float real, GramCategory cateory) {
+		 DataType(float real, Gram cateory) {
 			 date.realVal;
 			 set_category(category);
 		 }*/
-		 void set_category(GramCategory category) { this->category = category; }
+		 void set_category(Gram category) { this->category = category; }
 //	string str;
-	GramCategory category;
+	Gram category;
 
 };
 class GramDataType {
@@ -172,6 +173,7 @@ class Grammatical {
 	const static GramType v_create_index_def;//62
 	const static GramType v_drop_index_def;//63
 };
+
 class GrammaticalAnalysis {
 public:
 	CFilePtr file;
