@@ -4,14 +4,51 @@
 #include"file.h"
 #endif
 #define _GrammaticalAnalysis_
-#define NFA_MAX 34
-#define ALPHA_MAX 40
+//#define NFA_MAX 34
+//#define ALPHA_MAX 40
 #define GRAM_MAX 66
+#define GRAM_STRING_TABLE_MAX 136
 //using GrammaticalType= vector<list<string>>;
 //using GrammaticalDataType = list<string>;
 enum GramCategory {
 	gram,//文法 grammatical
 	non_gram//非文法 non-grammatical
+};
+const string GramStringTable[GRAM_STRING_TABLE_MAX]{
+	"e_start", "e_s",
+	"e_create_def", "e_create_data_def", "e_constraint_def", "e_create_data_type_def","e_create_data_type_suffix_def",
+	"e_primary_def", "e_for_che_uni_def", "e_col_name_rep_def", "e_foreign_def", "e_str_rep_def",
+	"e_check_def", "e_unique_def", "e_addop_def", "e_mulop_def", "e_compare_def",
+	"e_logic_def", "e_gather_fuc_def", "e_int_real_col_name_def", "e_int_real_col_name_rep_def", "e_where_addop_def",
+	"e_where_mulop_def", "e_where_algorithm_operator_def", "e_where_algorithm_operator_or_string_def", "e_where_compare_def", "e_where_compare_or_string_match_def",
+	"e_logic_and_where_compare_string_match_def","e_where_logic_def","e_where_def","e_comma_and_col_name_def",
+	"e_order_def","e_group_def,e_having_def","e_where_algorithm_operator_rep_def","e_select_operator_def",
+	"e_connect_mode_def","e_connect_def","e_connect_addop_def","e_connect_mulop_def",
+	"e_connect_algorithm_operator_def","e_connect_algorithm_operator_or_string_def","e_connect_compare_def",
+	"e_connect_compare_or_str_match_def","e_logic_connect_compare_or_str_match_def",
+	"e_connect_logic_def","e_constraint_having_def","e_constriant_group_def","e_select_connect_def",
+	"e_constriant_connect_def","e_table_name_def","e_select_def","e_create_database_def","e_use_database_def",
+	"e_delete_element_def","e_delete_table_def","e_alter_table_add_col_name_def","e_alter_table_drop_col_name_def",
+	"e_insert_def","e_update_addop_def","e_update_mulop_def","e_update_def","e_create_view_def",
+	"e_drop_view_def","e_create_index_def","e_drop_index_def",
+
+	"e_less_than","e_less_than_or_equal","e_equal,e_unequal", "e_greater_than", "e_greater_than_or_equal", //compare
+
+	"e_and","e_or","e_sum","e_avg","e_count","e_min","e_max", //constriant
+
+												//keyword
+	"e_create","e_table","e_char","e_not","e_null","e_primary","e_key","e_foreign","e_references","e_check","e_in","e_unique", "e_like","e_where",
+	"e_order","e_by","e_desc","e_asc","e_group","e_having","e_right","e_left","e_full","e_join","e_on","e_distance","e_from",
+	"e_database","e_use","e_delete","e_alter","e_add","e_drop","e_column","e_insert","e_into","e_values","e_update","e_set",
+	"e_view","e_as","e_index",
+
+	"e_real","e_integer","e_str","e_id","e_strMatch","e_eof",
+
+	"e_addop","e_subop","e_mulop","e_divop",/*e_logical,e_compare,*///operator
+	"e_l_bracket","e_r_bracket",//bracket
+	"e_comma","e_empty",
+	"e_gram_end" //grammatical end
+
 };
 enum Gram{
 	//grammatical
@@ -83,6 +120,16 @@ public: GramDataType(initializer_list<DataType>initializer) {
 		}
 		posi = 0;
 	}
+		void set_symbol(vector<string>&vec) {
+			this->symbol = vec;
+		}
+		void set_symbol(initializer_list<string>initializer) {
+			initializer_list<string>::const_iterator begin, end;
+			begin = initializer.begin();
+			end = initializer.end();
+			for (; begin != end; begin++)
+				symbol.push_back(*begin);
+		}
 		GramDataType& operator=(const GramDataType&);
 		GramDataType& operator+=(int);
 		GramDataType operator+(int);
@@ -195,10 +242,17 @@ public:
 		//cout << temp2.ls[1].getCategory() << endl;
 		cout << first(temp2) << endl;
 	}
+	void test() {
+		grammatical_convert_to_dfa();
+	}
 #endif
 private:
+//	void print
 	Gram first(GramDataType&obj);//寻找文法中第一个非文法的字符  find first char of non-grammatical in grammatical
 	GramCategory is_grammatical(const Gram&obj);//判断是文法还是非文法 Judge whether it is grammatical or non-grammatical
+	void grammatical_convert_to_dfa();//文法转换成dfa
+	GramType closure(const GramType&);
+	string gram_map_to_string(const Gram&obj);
 	 GramType gram_map_to_gramtype(const Gram&obj);//gram map to gramtype
 	  static GramType gramArray[GRAM_MAX]; //文法数组 grammatical array
 };

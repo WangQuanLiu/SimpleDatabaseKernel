@@ -1304,7 +1304,7 @@ GramDataType GramDataType::operator+(int num)
 Gram GrammaticalAnalysis::first(GramDataType & obj)
 {
 	if (obj.posi >= obj.ls.size())return e_gram_end;
-	if (!is_grammatical((obj.ls[obj.posi]).getCategory())) { //非文法 non-grammatical
+	if (is_grammatical((obj.ls[obj.posi]).getCategory())) { //非文法 non-grammatical
 		return obj.ls[obj.posi].getCategory();
 	}
 	//grammatical 文法
@@ -1319,6 +1319,27 @@ Gram GrammaticalAnalysis::first(GramDataType & obj)
 {
 	return obj>=GRAM_MAX?non_gram:gram;
 }
+
+ void GrammaticalAnalysis::grammatical_convert_to_dfa()
+ {
+	 GramType startGrama = gramArray[0];
+	 cout << gram_map_to_string(startGrama[0].ls[0].getCategory());
+ }
+
+ GramType GrammaticalAnalysis::closure(const GramType &obj)
+ {
+	 return GramType();
+ }
+
+ string GrammaticalAnalysis::gram_map_to_string(const Gram&obj)
+ {
+	 try {
+		 if (obj >GRAM_STRING_TABLE_MAX)
+			 throw "error";
+	 }
+	 catch (string) { cerr << "gram_map_to_string index exceed value of max" << endl; }
+	 return GramStringTable[obj];
+ }
 
  GramType GrammaticalAnalysis::gram_map_to_gramtype(const Gram & obj)
 {
