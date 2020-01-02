@@ -47,7 +47,7 @@ enum Gram{
 	e_addop,e_subop,e_mulop,e_divop,/*e_logical,e_compare,*///operator
 	e_l_bracket,e_r_bracket,//bracket
 	e_comma,e_empty,
-	e_gram_end
+	e_gram_end //grammatical end
 
 
 }; //文法类别
@@ -84,6 +84,7 @@ public: GramDataType(initializer_list<DataType>initializer) {
 		posi = 0;
 	}
 		GramDataType& operator=(const GramDataType&);
+		GramDataType& operator+=(int);
 		GramDataType operator+(int);
 		void set_posi(int posi) { this->posi = posi; }
 	vector<DataType>ls;
@@ -186,10 +187,16 @@ public:
 	/*GrammaticalAnalysis() {
 
 	}*/
+
+#if TEST&&GRAM_TEST
+	void  test_first() {
+	cout<<	typeid(first(gramArray[0][0])).name();
+	}
+#endif
 private:
 	Gram first(GramDataType&obj);//寻找文法中第一个非文法的字符  find first char of non-grammatical in grammatical
-	GramCategory is_grammatical(Gram&obj);//判断是文法还是非文法 Judge whether it is grammatical or non-grammatical
-	GramType gram_map_to_gramtype(Gram&obj);
-	const  static GramType gramArray[GRAM_MAX];
+	GramCategory is_grammatical(const Gram&obj);//判断是文法还是非文法 Judge whether it is grammatical or non-grammatical
+	 GramType gram_map_to_gramtype(const Gram&obj);//gram map to gramtype
+	  static GramType gramArray[GRAM_MAX]; //文法数组 grammatical array
 };
 

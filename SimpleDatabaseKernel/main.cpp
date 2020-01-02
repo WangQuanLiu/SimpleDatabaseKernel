@@ -9,12 +9,14 @@
 #if TEST==true
 #include"test.h"
 #endif
+#include"GrammaticalAnalysis.h"
 using namespace std;
 
 class Compile { //主类，完成编译与实现任务，把词法分析、语法分析与后面的数据库联系起来
 public :
 	void run();
 	void lexical_run(string Path);
+	void grammatical_run(string Path);
 	Compile(int argc,char*argv[]);
 private:
 	CFilePtr file;
@@ -39,22 +41,26 @@ bool check_input_file(int argc, char*argv[]) {
 void Compile::run()
 {
 	//file = new LexicalAnalysisFile;
-	lexical_run(file->get_file());
-
+	//lexical_run(file->get_file());
+	grammatical_run("");
 
 }
 void Compile::lexical_run(string filePath)
 {
 	LexicalAnalysis lex(filePath);
-
 		lex.run();
 	//	cout << "file.get_token() " << temp << endl;
 	//	cout << "getRellback() " << file.getRellback() << endl;
 
 }
+void Compile::grammatical_run(string Path)
+{
+	GrammaticalAnalysis gra;
+	gra.test_first();
+}
 Compile::Compile(int argc,char*argv[])
 {
-	string str = "C:\\Users\\THINKPAD\\Desktop\\sql.txt";
+	string str = "C:\\Users\\Administrator\\Desktop\\sql.txt";
 	file = new LexicalAnalysisFile(str);
 		//file->set_file_path(argv[2]);
 }

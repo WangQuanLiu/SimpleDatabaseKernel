@@ -614,8 +614,9 @@ std::vector<int> LexicalAnalysis::edge(int s, char c)
 		vector<int>temp = closure(nextStates);//找到这个状态无需输入字符的最大状态
 		status.insert(status.end(), temp.begin(), temp.end());//然后插入
 	}
+#if TEST&&LEXICAL_TEST
 	cout << "\n\n\n" << "ConverTable" << endl;
-
+#endif
 
 
 //	cout << LexicalAnalysis::alphabet[index] << endl;
@@ -897,10 +898,12 @@ void LexicalAnalysis::run()
 				}				
 			}
 		}
+#if TEST&&LEXICAL_TEST
 		cout << "level " << level << endl;
 		if (level == MAX) {
 			cerr << "SeimpleDatabaseKernel-> syntax error:" << "line:" << file->get_cur_line() << " " << str << endl;
 		}
+#endif
 	string category = end_status_map_category[stu];//获取终态类别
 		//string category=string_map_category()
 		filePath.write((category).c_str(), category.length());
@@ -909,14 +912,10 @@ void LexicalAnalysis::run()
 			filePath.put('(');
 			filePath.write(str.c_str(), str.length());
 			filePath.put(')');
-		}
-		
-
-		
+		}		
 		filePath.put(' ');
 		/*	curStatus = 1;*/
 			/*}*/
-
 		//}
 #if (TEST==true&&LEXICAL_TEST==true)
 

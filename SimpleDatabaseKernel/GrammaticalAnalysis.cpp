@@ -1276,6 +1276,13 @@ GramDataType& GramDataType::operator=(const GramDataType& obj)
 	return *this;
 }
 
+GramDataType & GramDataType::operator+=(int num)
+{
+	// TODO: 在此处插入 return 语句
+	*this = *this + num;
+	return*this;
+}
+
 GramDataType GramDataType::operator+(int num)
 {
 	try {
@@ -1286,7 +1293,7 @@ GramDataType GramDataType::operator+(int num)
 		cerr << "GramDataType::operator+ array index exceed value of max";
 	}
 	GramDataType temp =*this;
-	temp.posi++;
+	temp.posi +=  num;;
 	
 	return temp;;
 }
@@ -1294,25 +1301,32 @@ GramDataType GramDataType::operator+(int num)
 Gram GrammaticalAnalysis::first(GramDataType & obj)
 {
 	if (obj.posi >= obj.ls.size())return e_gram_end;
-
+	if (!is_grammatical((obj.ls[obj.posi]).getCategory())) { //非文法 non-grammatical
+		return obj.ls[obj.posi].getCategory();
+	}
+	GramType temp = gram_map_to_gramtype(obj.ls[obj.posi].getCategory());
+	/*while (!is_grammatical(temp.getCategory())) {
+		temp = gram_map_to_gramtype(temp.getCategory());
+	}*/
 	return obj.ls[obj.posi].getCategory();
 }
 
-GramCategory GrammaticalAnalysis::is_grammatical(Gram & obj)
+ GramCategory GrammaticalAnalysis::is_grammatical(const Gram & obj)
 {
-	return obj>=65?non_gram:gram;
+	return obj>=GRAM_MAX?non_gram:gram;
 }
 
-GramType GrammaticalAnalysis::gram_map_to_gramtype(Gram & obj)
+ GramType GrammaticalAnalysis::gram_map_to_gramtype(const Gram & obj)
 {
 	try {
 		if (obj > GRAM_MAX)
 			throw "error";
 	}
 	catch (string) { cerr << "gram_map_to_gramtype index exceed value of max" << endl; }
-	return GramType();
+
+	return gramArray[obj];
 }
-const GramType GrammaticalAnalysis::gramArray[GRAM_MAX]{
+ GramType GrammaticalAnalysis::gramArray[GRAM_MAX]{
 	Grammatical::v_start,//0
 	Grammatical::v_s,//1
 	Grammatical::v_create_def,//2
