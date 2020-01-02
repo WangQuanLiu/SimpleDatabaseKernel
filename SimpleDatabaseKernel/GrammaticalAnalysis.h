@@ -86,7 +86,7 @@ public: GramDataType(initializer_list<DataType>initializer) {
 		GramDataType& operator=(const GramDataType&);
 		GramDataType& operator+=(int);
 		GramDataType operator+(int);
-		void set_posi(int posi) { this->posi = posi; }
+	//	void set_posi(int posi) { this->posi = posi; }
 	vector<DataType>ls;
 	int posi;
 	vector<string>symbol;
@@ -190,7 +190,10 @@ public:
 
 #if TEST&&GRAM_TEST
 	void  test_first() {
-	cout<<	typeid(first(gramArray[0][0])).name();
+		GramType temp = gramArray[0];
+		GramDataType temp2 = temp[0];
+		//cout << temp2.ls[1].getCategory() << endl;
+		cout << first(temp2) << endl;
 	}
 #endif
 private:

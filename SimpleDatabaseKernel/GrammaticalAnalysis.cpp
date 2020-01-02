@@ -3,7 +3,10 @@
 #endif
 const GramType Grammatical::v_start{
 	//start s'->s $
-	GramDataType{DataType(e_s),DataType(e_eof)}
+	GramDataType{
+	DataType(e_s),
+	DataType(e_eof)
+}
 };
 const GramType Grammatical::v_s{
 
@@ -1304,11 +1307,12 @@ Gram GrammaticalAnalysis::first(GramDataType & obj)
 	if (!is_grammatical((obj.ls[obj.posi]).getCategory())) { //非文法 non-grammatical
 		return obj.ls[obj.posi].getCategory();
 	}
+	//grammatical 文法
 	GramType temp = gram_map_to_gramtype(obj.ls[obj.posi].getCategory());
-	/*while (!is_grammatical(temp.getCategory())) {
-		temp = gram_map_to_gramtype(temp.getCategory());
-	}*/
-	return obj.ls[obj.posi].getCategory();
+	while (!is_grammatical(temp[0].ls[0].getCategory())) {
+		temp = gram_map_to_gramtype(temp[0].ls[0].getCategory());
+	}
+	return temp[0].ls[0].getCategory();
 }
 
  GramCategory GrammaticalAnalysis::is_grammatical(const Gram & obj)
