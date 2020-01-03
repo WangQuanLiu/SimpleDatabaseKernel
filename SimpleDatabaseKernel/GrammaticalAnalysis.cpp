@@ -1301,6 +1301,33 @@ GramDataType GramDataType::operator+(int num)
 	return temp;;
 }
 
+vector<GramType> GrammaticalAnalysis::get_derived_grammar( DataType obj)
+{	
+	vector<GramType>temp;
+	int i;
+	bool set[GRAM_STRING_TABLE_MAX]{ false };
+	/*for (int i = 0; i < GRAM_STRING_TABLE_MAX; i++)
+		cout << set[i] << endl;*/
+	if (is_grammatical(obj.getCategory()))return temp;//非文法
+	queue<Gram>q;
+	q.push(obj.getCategory());
+	while (!q.empty()) {
+		Gram gramTemp = q.front();
+		q.pop();
+		//if (!is_grammatical(gramTemp))continue;
+		GramType gramTypeTemp = gramArray[gramTemp];
+		for (i = 0; i < gramTypeTemp.size(); i++) {
+			Gram index = gramTypeTemp[i].ls[0].getCategory();
+			if (!is_grammatical(index)&& !set[index]) {//文法且未被加入
+				q.push(index);
+				temp.push_back(gramArray[index]);
+				set[index] = true;
+			}
+		}
+	}
+	return temp;
+}
+
 Gram GrammaticalAnalysis::first(GramDataType & obj)
 {
 	if (obj.posi >= obj.ls.size())return e_gram_end;
@@ -1315,7 +1342,7 @@ Gram GrammaticalAnalysis::first(GramDataType & obj)
 	return temp[0].ls[0].getCategory();
 }
 
- GramCategory GrammaticalAnalysis::is_grammatical(const Gram & obj)
+ GramCategory GrammaticalAnalysis::is_grammatical(Gram  obj)
 {
 	return obj>=GRAM_MAX?non_gram:gram;
 }
@@ -1328,7 +1355,19 @@ Gram GrammaticalAnalysis::first(GramDataType & obj)
 
  GramType GrammaticalAnalysis::closure(const GramType &obj)
  {
-	 return GramType();
+	 GramType temp = { obj };
+	 int size,i; //保存容器大小
+	 do {
+		 size = temp.size();
+		 for (i = 0; i < temp.size(); i++) {
+
+
+
+		 }
+
+	 } while (size != temp.size());
+	 
+	 return temp;
  }
 
  string GrammaticalAnalysis::gram_map_to_string(const Gram&obj)

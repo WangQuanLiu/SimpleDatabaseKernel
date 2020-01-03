@@ -96,7 +96,7 @@ struct DataType   {
  public: DataType( Gram category) {
 	 set_category(category);
 	 }
-		 Gram getCategory() { return category; }
+		Gram getCategory() { return category; }
 		/* DataType(int integer, Gram cateory) {
 			 date.intVal = integer;
 			 set_category(category);
@@ -119,9 +119,17 @@ public: GramDataType(initializer_list<DataType>initializer) {
 			ls.push_back(*begin);
 		}
 		posi = 0;
-	}
+		}
 		void set_symbol(vector<string>&vec) {
 			this->symbol = vec;
+		}
+		void add_symbol(initializer_list<string>initializer) {
+			initializer_list<string>::const_iterator begin, end;
+			begin = initializer.begin();
+			end = initializer.end();
+			for (; begin != end; begin++)
+				symbol.push_back(*begin);
+
 		}
 		void set_symbol(initializer_list<string>initializer) {
 			initializer_list<string>::const_iterator begin, end;
@@ -137,7 +145,6 @@ public: GramDataType(initializer_list<DataType>initializer) {
 	vector<DataType>ls;
 	int posi;
 	vector<string>symbol;
-
 };
  /*using DataType = struct DataType;
  using GramDataType = list<DataType>;*/
@@ -243,17 +250,19 @@ public:
 		cout << first(temp2) << endl;
 	}
 	void test() {
-		grammatical_convert_to_dfa();
+		//grammatical_convert_to_dfa();
+		get_derived_grammar(e_s);
 	}
 #endif
 private:
 //	void print
+	vector<GramType> get_derived_grammar( DataType obj);//派生文法，即文法推导文法，不
 	Gram first(GramDataType&obj);//寻找文法中第一个非文法的字符  find first char of non-grammatical in grammatical
-	GramCategory is_grammatical(const Gram&obj);//判断是文法还是非文法 Judge whether it is grammatical or non-grammatical
+	GramCategory is_grammatical(Gram obj);//判断是文法还是非文法 Judge whether it is grammatical or non-grammatical
 	void grammatical_convert_to_dfa();//文法转换成dfa
 	GramType closure(const GramType&);
 	string gram_map_to_string(const Gram&obj);
-	 GramType gram_map_to_gramtype(const Gram&obj);//gram map to gramtype
-	  static GramType gramArray[GRAM_MAX]; //文法数组 grammatical array
+	GramType gram_map_to_gramtype(const Gram&obj);//gram map to gramtype
+	static GramType gramArray[GRAM_MAX]; //文法数组 grammatical array
 };
 
