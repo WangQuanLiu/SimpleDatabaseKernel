@@ -16,13 +16,15 @@ enum GramCategory {
 };
 const string GramStringTable[GRAM_STRING_TABLE_MAX]{
 	"e_start", "e_s",
-	"e_create_def", "e_create_data_def", "e_constraint_def", "e_create_data_type_def","e_create_data_type_suffix_def",
+	"e_create_def", "e_create_data_def", "e_constraint_def", "e_create_data_type_def", "e_create_data_type_suffix_def",
 	"e_primary_def", "e_for_che_uni_def", "e_col_name_rep_def", "e_foreign_def", "e_str_rep_def",
 	"e_check_def", "e_unique_def", "e_addop_def", "e_mulop_def", "e_compare_def",
 	"e_logic_def", "e_gather_fuc_def", "e_int_real_col_name_def", "e_int_real_col_name_rep_def", "e_where_addop_def",
 	"e_where_mulop_def", "e_where_algorithm_operator_def", "e_where_algorithm_operator_or_string_def", "e_where_compare_def", "e_where_compare_or_string_match_def",
 	"e_logic_and_where_compare_string_match_def","e_where_logic_def","e_where_def","e_comma_and_col_name_def",
-	"e_order_def","e_group_def,e_having_def","e_where_algorithm_operator_rep_def","e_select_operator_def",
+	"e_order_def","e_group_def","e_having_def","e_where_algorithm_operator_rep_def","e_select_operator_def",
+
+
 	"e_connect_mode_def","e_connect_def","e_connect_addop_def","e_connect_mulop_def",
 	"e_connect_algorithm_operator_def","e_connect_algorithm_operator_or_string_def","e_connect_compare_def",
 	"e_connect_compare_or_str_match_def","e_logic_connect_compare_or_str_match_def",
@@ -32,7 +34,7 @@ const string GramStringTable[GRAM_STRING_TABLE_MAX]{
 	"e_insert_def","e_update_addop_def","e_update_mulop_def","e_update_def","e_create_view_def",
 	"e_drop_view_def","e_create_index_def","e_drop_index_def",
 
-	"e_less_than","e_less_than_or_equal","e_equal,e_unequal", "e_greater_than", "e_greater_than_or_equal", //compare
+	"e_less_than","e_less_than_or_equal","e_equal","e_unequal", "e_greater_than", "e_greater_than_or_equal", //compare
 
 	"e_and","e_or","e_sum","e_avg","e_count","e_min","e_max", //constriant
 
@@ -49,6 +51,7 @@ const string GramStringTable[GRAM_STRING_TABLE_MAX]{
 	"e_comma","e_empty",
 	"e_gram_end" //grammatical end
 
+
 };
 enum Gram{
 	//grammatical
@@ -60,6 +63,8 @@ enum Gram{
 	e_where_mulop_def, e_where_algorithm_operator_def, e_where_algorithm_operator_or_string_def, e_where_compare_def, e_where_compare_or_string_match_def,
 	e_logic_and_where_compare_string_match_def,e_where_logic_def,e_where_def,e_comma_and_col_name_def,
 	e_order_def,e_group_def,e_having_def,e_where_algorithm_operator_rep_def,e_select_operator_def,
+
+
 	e_connect_mode_def,e_connect_def,e_connect_addop_def,e_connect_mulop_def,
 	e_connect_algorithm_operator_def,e_connect_algorithm_operator_or_string_def,e_connect_compare_def,
 	e_connect_compare_or_str_match_def,e_logic_connect_compare_or_str_match_def,
@@ -120,31 +125,33 @@ public: GramDataType(initializer_list<DataType>initializer) {
 		}
 		posi = 0;
 		}
-		void set_symbol(vector<string>&vec) {
+	/*	void set_symbol(vector<Gram>&vec) {
 			this->symbol = vec;
-		}
-		void add_symbol(initializer_list<string>initializer) {
-			initializer_list<string>::const_iterator begin, end;
+		}*/
+		void set_symbol(Gram &obj) { this->symbol = obj; }
+		/*void add_symbol(initializer_list<Gram>initializer) {
+			initializer_list<Gram>::const_iterator begin, end;
 			begin = initializer.begin();
 			end = initializer.end();
 			for (; begin != end; begin++)
 				symbol.push_back(*begin);
 
-		}
-		void set_symbol(initializer_list<string>initializer) {
-			initializer_list<string>::const_iterator begin, end;
+		}*/
+		/*void set_symbol(initializer_list<Gram>initializer) {
+			initializer_list<Gram>::const_iterator begin, end;
 			begin = initializer.begin();
 			end = initializer.end();
 			for (; begin != end; begin++)
 				symbol.push_back(*begin);
-		}
+		}*/
 		GramDataType& operator=(const GramDataType&);
 		GramDataType& operator+=(int);
 		GramDataType operator+(int);
 	//	void set_posi(int posi) { this->posi = posi; }
 	vector<DataType>ls;
 	int posi;
-	vector<string>symbol;
+	//vector<Gram>symbol;
+	Gram symbol;
 };
  /*using DataType = struct DataType;
  using GramDataType = list<DataType>;*/
@@ -250,8 +257,10 @@ public:
 		cout << first(temp2) << endl;
 	}
 	void test() {
+		closure(gramArray[0]);
 		//grammatical_convert_to_dfa();
-		get_derived_grammar(e_s);
+		//get_derived_grammar(e_s);
+		//cout << GramStringTable[135] << endl;
 	}
 #endif
 private:

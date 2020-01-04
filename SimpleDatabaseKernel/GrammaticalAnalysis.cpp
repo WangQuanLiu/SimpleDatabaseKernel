@@ -1316,10 +1316,14 @@ vector<GramType> GrammaticalAnalysis::get_derived_grammar( DataType obj)
 		q.pop();
 		//if (!is_grammatical(gramTemp))continue;
 		GramType gramTypeTemp = gramArray[gramTemp];
+		/*for (i = 0; i < gramTypeTemp.size(); i++)
+			cout << GramStringTable[gramTypeTemp[i].ls[0].getCategory()] << endl;
+		cout << "\n\n\n" << endl;*/
 		for (i = 0; i < gramTypeTemp.size(); i++) {
 			Gram index = gramTypeTemp[i].ls[0].getCategory();
 			if (!is_grammatical(index)&& !set[index]) {//文法且未被加入
 				q.push(index);
+				cout << GramStringTable[index] << endl;
 				temp.push_back(gramArray[index]);
 				set[index] = true;
 			}
@@ -1356,12 +1360,45 @@ Gram GrammaticalAnalysis::first(GramDataType & obj)
  GramType GrammaticalAnalysis::closure(const GramType &obj)
  {
 	 GramType temp = { obj };
-	 int size,i; //保存容器大小
+	 int size,i,j,k,l,p; //保存容器大小
 	 do {
 		 size = temp.size();
 		 for (i = 0; i < temp.size(); i++) {
+			 vector<GramType>vec = get_derived_grammar(temp[i].ls[temp[i].posi]);
+			 if (temp[i].posi >= temp[i].ls.size())continue;
+			 vector<GramDataType> z;
+			 z.push_back(temp[i]+1);		
+			 for (j = 0; j < gramArray[temp[i].symbol].size(); i++) {
+				 z.push_back(gramArray[temp[i].symbol][j]);
+			 }
+			 //for (j = 0; j < temp[i].symbol.size(); j++) { // b and z join vector varible z
+				// for (k = 0; k < gramArray[temp[i].symbol[j]].size(); k++) {
+				//	 z.push_back(gramArray[temp[i].symbol[j]][k]);
+				// }
+			 //}
+			 //z.push_back()
+			// vector<Gram>symbol;
+		//	 z.push_back(temp[i].ls[temp[i].posi + 1].getCategory());
+			 for (j = 0; j < vec.size(); j++) { // (A->a.XB,z)
+				// cout << j << endl;
+				 vector<Gram>symbol;
+				 for (l = 0; l < z.size(); l++) { //B and Z set
+					 symbol.push_back(first(z[l]));	 //symbol.push_back(first(z[i]));
+				 }
+				 for (k = 0; k < vec[i].size(); k++) { //	X->y
+					// cout << vec[i][k].ls[0].getCategory() << endl;
+					 for (p = 0; p < symbol.size(); p++) {
+
+						 //temp.push_back()
+						 GramDataType gramTypeTemp = vec[i][k];
+						 gramTypeTemp.set_symbol(symbol[p]);
+						 temp.push_back(gramTypeTemp);
+					 }
+
+				 }
 
 
+			 }
 
 		 }
 
