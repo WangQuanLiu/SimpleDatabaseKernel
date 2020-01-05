@@ -1,14 +1,14 @@
 #ifndef _GrammaticalAnalysis_
 #include"GrammaticalAnalysis.h"
 #endif
-const GramType Grammatical::v_start{
+ GramType Grammatical::v_start{
 	//start s'->s $
 	GramDataType{
 	DataType(e_s),
-	DataType(e_eof)
-}
+	DataType(e_eof),
+	}
 };
-const GramType Grammatical::v_s{
+ GramType Grammatical::v_s{
 
 	// s->v_create_def | v_select_def | v_create_database_def |v_use_database_def|
 	// v_delete_element_def | v_delete_table_def |v_alter_table_add_column_def|
@@ -46,7 +46,7 @@ const GramType Grammatical::v_s{
 	GramDataType{DataType(e_create_index_def)},
 	GramDataType{DataType( e_drop_index_def)}
 };
-const GramType Grammatical::v_create_def{
+ GramType Grammatical::v_create_def{
 	//v_create_def-> crate table table_name ( v_create_data_def v_constraint_def)
 
 	/*
@@ -61,7 +61,7 @@ const GramType Grammatical::v_create_def{
 	DataType(e_constraint_def),
 	DataType(e_r_bracket)}
 };
-const GramType Grammatical::v_create_data_def{
+ GramType Grammatical::v_create_data_def{
 	//v_create_data_def-> data_name v_create_data_type_def v_create_data_type_suffx_def {, v_create_data}    {}representative repeat
 
 	/*
@@ -81,7 +81,7 @@ const GramType Grammatical::v_create_data_def{
 	DataType( e_create_data_def)}
 
 };
-const GramType Grammatical::v_create_data_type_def{
+ GramType Grammatical::v_create_data_type_def{
 	//v_create_data_type_def->flaot|int|char(number) 
 /*
 	v_create_data_type_def->float
@@ -104,7 +104,7 @@ const GramType Grammatical::v_create_data_type_def{
 	}
 
 };
-const  GramType Grammatical::v_create_data_type_suffix_def{
+  GramType Grammatical::v_create_data_type_suffix_def{
 	// v_create_data_type_suffx_def-> ε |not null     ε representive  empty
 
 	/*
@@ -121,7 +121,7 @@ const  GramType Grammatical::v_create_data_type_suffix_def{
 }
 
 };
-const GramType Grammatical::v_constraint_def{
+ GramType Grammatical::v_constraint_def{
 	//v_constraint_def -> [ v_primary_def ] {v_for_che_uni_def}   [] representive optional
 	/*
 	v_constraint_def -> v_primary_def
@@ -143,7 +143,7 @@ const GramType Grammatical::v_constraint_def{
 	DataType(e_for_che_uni_def)
 	}
 };
-const GramType Grammatical::v_primary_def {
+ GramType Grammatical::v_primary_def {
 	/*
 	
 	v_primary_def ->primary key (col_name_rep_def)
@@ -161,7 +161,7 @@ GramDataType{
 }
 
 };
-const GramType Grammatical::v_for_che_uni_def{
+ GramType Grammatical::v_for_che_uni_def{
 	/*
 	v_for_che_uni_def->v_foreign_def v_for_che_uni_def
 	v_for_che_uni_def->v_check_def v_for_che_uni_def
@@ -187,7 +187,7 @@ const GramType Grammatical::v_for_che_uni_def{
 	DataType(e_empty)
 	}
 };
-const GramType Grammatical::v_col_name_rep_def{
+ GramType Grammatical::v_col_name_rep_def{
 
 	/*
 	v_col_name_rep_def -> col_name
@@ -202,7 +202,7 @@ const GramType Grammatical::v_col_name_rep_def{
 	DataType(e_id)
 	}
 };
-const GramType Grammatical::v_foreign_def{
+ GramType Grammatical::v_foreign_def{
 
 
 	/*
@@ -236,7 +236,7 @@ const GramType Grammatical::v_foreign_def{
 	DataType(e_foreign_def)
 	}
 };
-const GramType Grammatical::v_str_rep_def{
+ GramType Grammatical::v_str_rep_def{
 	/*
 	v_str_rep_def-> string
 	v_str_rep_def->string , str_rep_def
@@ -249,7 +249,7 @@ const GramType Grammatical::v_str_rep_def{
 	DataType(e_str_rep_def)
 	}
 };
-const GramType Grammatical::v_check_def{
+ GramType Grammatical::v_check_def{
 	/*
 	v_check_def->check ( col_name in (v_str_rep_def))
 	v_check_def->check ( col_name in (v_str_rep_def)),v_check_def
@@ -278,7 +278,7 @@ const GramType Grammatical::v_check_def{
 	DataType(e_check_def)
 	}
 };
-const GramType Grammatical::v_unique_def{
+ GramType Grammatical::v_unique_def{
 	/*
 	v_unique_def->unique ( col_name_rep_def)
 	v_unique_def->unique (col_name_erp_def),unique_def
@@ -299,7 +299,7 @@ const GramType Grammatical::v_unique_def{
 	DataType(e_unique_def)
 	}
 };
-const GramType Grammatical::v_addop_def{
+ GramType Grammatical::v_addop_def{
 	/*
 	v_addop_def->+
 	v_addop_def->-
@@ -313,7 +313,7 @@ const GramType Grammatical::v_addop_def{
 	
 };
 
-const GramType Grammatical::v_mulop_def{
+ GramType Grammatical::v_mulop_def{
 	/*
 	v_mulop_def->/
 	v_mulop_def->*
@@ -323,7 +323,7 @@ const GramType Grammatical::v_mulop_def{
 	DataType(e_divop)
 	}
 };
-const GramType Grammatical::v_compare_def{
+ GramType Grammatical::v_compare_def{
 	/*
 	v_compare_def-> >
 	v_compare_def-> >=
@@ -351,7 +351,7 @@ GramDataType{
 	DataType(e_equal)
 }
 };
-const GramType Grammatical::v_logic_def{
+ GramType Grammatical::v_logic_def{
 	/*
 	v_logic_def->and
 	v_logic_def->or
@@ -367,7 +367,7 @@ GramDataType{
 	DataType(e_not)
 }
 };
-const GramType Grammatical::v_gather_fuc_def{
+ GramType Grammatical::v_gather_fuc_def{
 	/*
 	v_gather_fuc_def->sum
 	v_gather_fuc_def->avg
@@ -391,7 +391,7 @@ GramDataType{
 	DataType(e_max)
 }
 };
-const GramType Grammatical::v_int_real_col_name_def{
+ GramType Grammatical::v_int_real_col_name_def{
 	/*
 	v_int_real_col_name_def -> int
 	v_int_real_col_name_def->flaot
@@ -407,7 +407,7 @@ const GramType Grammatical::v_int_real_col_name_def{
 	DataType(e_id)
 	}
 };
-const GramType Grammatical::v_int_real_col_name_rep_def{
+ GramType Grammatical::v_int_real_col_name_rep_def{
 	/*
 	v_int_real_col_name_rep_def ->v_int_real_col_name_def,v_int_rel_col_name_rep_def
 	v_int_real_col_name_rep_def->v_int_real_col_name_def
@@ -421,7 +421,7 @@ const GramType Grammatical::v_int_real_col_name_rep_def{
 	DataType(e_int_real_col_name_def)
 	}
 };
-const  GramType Grammatical::v_where_addop_def{
+  GramType Grammatical::v_where_addop_def{
 	/*
 	v_where_addop_def->addop (v_int_real_col_name_def v_where_mulop_def)
 	v_where_addop_def->addop v_gather_fuc_def ( v_int_real_col_name_def v_where_mulop_def)
@@ -475,7 +475,7 @@ GramDataType{
 	DataType(e_where_mulop_def),
 	}
 };
-const GramType Grammatical::v_where_mulop_def{
+ GramType Grammatical::v_where_mulop_def{
 	/*
 	v_where_mulop_def-> mulop ( v_int_real_col_name v_where_addop_def)
 	v_where_mulop_def->mulop v_gather_fuc_def ( v_int_real_col_name v_where_addop_def)
@@ -533,7 +533,7 @@ GramDataType{
 
 };
 
-const GramType Grammatical::v_where_algorithm_operator_def{
+ GramType Grammatical::v_where_algorithm_operator_def{
 
 	/*
 	v_where_algorithm_opeartor_def->v_gather_fuc_def ( v_int_real_col_name_def v_where_addop_def)
@@ -576,7 +576,7 @@ const GramType Grammatical::v_where_algorithm_operator_def{
 	DataType(e_where_addop_def),
 	}
 };
-const  GramType Grammatical::v_where_algorithm_operator_or_string_def{
+  GramType Grammatical::v_where_algorithm_operator_or_string_def{
 	/*
 	v_where_algorithm_operator_or_string_def->v_where_algorithm_opeartor_def
 	v_where_algorithm_operator_or_string_def->string
@@ -591,7 +591,7 @@ const  GramType Grammatical::v_where_algorithm_operator_or_string_def{
 
 
 };
-const GramType Grammatical::v_where_compare_def{
+ GramType Grammatical::v_where_compare_def{
 	/*
 	v_where_compare_def->v_where_algorithm_operator_or_string_def compare v_where_algorithm_operator_or_string_def
 	*/
@@ -601,7 +601,7 @@ const GramType Grammatical::v_where_compare_def{
 	DataType(e_where_algorithm_operator_or_string_def)
 	}
 };
-const GramType Grammatical::v_where_compare_or_string_match_def{
+ GramType Grammatical::v_where_compare_or_string_match_def{
 	/*
 	v_where_compare_or_string_match_def-> v_where_compare_def
 	v_where_compare_or_string_match_def-> col_name like string_match
@@ -616,7 +616,7 @@ const GramType Grammatical::v_where_compare_or_string_match_def{
 	}
 
 };
-const GramType Grammatical::v_logic_and_where_compare_string_match_def{
+ GramType Grammatical::v_logic_and_where_compare_string_match_def{
 	/*
 	v_logic_and_where_compare_string_match_def->logic v_where_compare_or_string_match_def
 	v_logic_and_where_compare_string_match_def->logic v_where_compare_or_string_match_def v_logic_and_where_compare_string_match_def
@@ -643,7 +643,7 @@ GramDataType{
 	DataType(e_empty)
 	}
 };
-const GramType Grammatical::v_where_logic_def{
+ GramType Grammatical::v_where_logic_def{
 	/*
 	v_where_logic_def->v_where_compare_or_string_match_def logic_and_where_compare_string_match_def
 	v_where_logic_def->( v_where_compare_or_string_match_def v_logic_and_where_compare_string_match_def)
@@ -663,7 +663,7 @@ const GramType Grammatical::v_where_logic_def{
 	},
 
 };
-const GramType Grammatical::v_where_def{
+ GramType Grammatical::v_where_def{
 	/*
 	v_where_def->where v_where_logic_def
 	*/
@@ -672,7 +672,7 @@ const GramType Grammatical::v_where_def{
 	DataType(e_where_logic_def)
 	}
 };
-const GramType Grammatical::v_comma_and_col_name_def{
+ GramType Grammatical::v_comma_and_col_name_def{
 	/*
 	v_comma_and_col_name_def->, col_name comma_and_name_def
 	v_comma_and_col_name_def->ε
@@ -686,7 +686,7 @@ const GramType Grammatical::v_comma_and_col_name_def{
 	DataType(e_empty)
 	}
 };
-const GramType Grammatical::v_order_def{
+ GramType Grammatical::v_order_def{
 	/*
 	v_order_def->order by col_name
 	v_order_def->order by col_name comma_and_col_name_def
@@ -736,7 +736,7 @@ const GramType Grammatical::v_order_def{
 	DataType(e_asc)
 	},
 };
-const  GramType Grammatical::v_group_def{
+  GramType Grammatical::v_group_def{
 	/*
 	v_group_def->group by col_name
 	v_group_def->group by col_name v_comma_and_col_name_def
@@ -755,7 +755,7 @@ const  GramType Grammatical::v_group_def{
 	}
 
 };
-const GramType Grammatical:: v_having_def{
+ GramType Grammatical:: v_having_def{
 
 	/*
 	v_having_def-> having v_where_logic_def
@@ -766,7 +766,7 @@ const GramType Grammatical:: v_having_def{
 	DataType(e_where_logic_def)
 }
 };
-const GramType Grammatical::v_where_algorithm_operator_rep_def{
+ GramType Grammatical::v_where_algorithm_operator_rep_def{
 	/*
 	v_where_algorithm_operator_rep_def->, v_where_algorithm_operator_def v_where_algorithm_operator_rep_def
 	v_where_algorithm_operator_rep_def->ε
@@ -780,7 +780,7 @@ const GramType Grammatical::v_where_algorithm_operator_rep_def{
 	DataType(e_empty)
 	}
 };
-const GramType Grammatical::v_select_operator_def{
+ GramType Grammatical::v_select_operator_def{
 	/*
 	v_select_operator_def-> v_where_algorithm_operator_def v_where_algorithm_operator_rep_def
 	*/
@@ -789,7 +789,7 @@ const GramType Grammatical::v_select_operator_def{
 	DataType(e_where_algorithm_operator_rep_def)
 	}
 };
-const GramType Grammatical::v_connect_mode_def{
+ GramType Grammatical::v_connect_mode_def{
 	/*
 	v_connect_mode_def->right
 	v_connect_mode_def->left
@@ -807,7 +807,7 @@ GramDataType{
 }
 
 };
-const GramType Grammatical::v_connect_def{
+ GramType Grammatical::v_connect_def{
 	GramDataType{
 	DataType(e_connect_mode_def),
 	DataType(e_join),
@@ -816,7 +816,7 @@ const GramType Grammatical::v_connect_def{
 	DataType(e_connect_logic_def)
 }
 };
-const GramType Grammatical::v_connect_addop_def{
+ GramType Grammatical::v_connect_addop_def{
 	/*
 	v_connect_addop_def->addop v_int_real_col_name v_connect_mulop_def
 	v_connect_addop_def->v_connect_mulop_def
@@ -842,7 +842,7 @@ const GramType Grammatical::v_connect_addop_def{
 	DataType(e_empty)
 	}
 };
-const GramType Grammatical::v_connect_mulop_def{
+ GramType Grammatical::v_connect_mulop_def{
 	/*
 	v_connect_mulop_def->mulop v_int_real_col_name_def
 	v_connect_mulop_def->v_connect_addop
@@ -866,7 +866,7 @@ const GramType Grammatical::v_connect_mulop_def{
 	DataType(e_empty)
 	}
 };
-const GramType Grammatical::v_connect_algorithm_operator_def{
+ GramType Grammatical::v_connect_algorithm_operator_def{
 	/*
 	v_connect_algorithm_operator_def->( v_int_real_col_name_def v_connect_addop_def )
 	v_connect_algorithm_operator_def->v_int_real_col_name_def v_connect_addop_def
@@ -882,7 +882,7 @@ const GramType Grammatical::v_connect_algorithm_operator_def{
 	DataType(e_connect_addop_def)
 }
 };
-const GramType Grammatical::v_connect_algorithm_operator_or_string_def{
+ GramType Grammatical::v_connect_algorithm_operator_or_string_def{
 	/*
 	v_connect_algorithm_operator_or_string_def->v_connect_algorithm_operator_def
 	v_connect_algorithm_operator_or_string_def->string
@@ -896,7 +896,7 @@ const GramType Grammatical::v_connect_algorithm_operator_or_string_def{
 	},
 	
 };
-const GramType Grammatical::v_connect_compare_def{
+ GramType Grammatical::v_connect_compare_def{
 	/*
 	v_connect_compare_def->v_connect_algorithm_operator_or_string compare v_connect_algorithm_operator_or_string 
 	*/
@@ -906,7 +906,7 @@ const GramType Grammatical::v_connect_compare_def{
 	DataType(e_connect_algorithm_operator_or_string_def)
 	}
 };
-const GramType Grammatical::v_connect_compare_or_str_match_def{
+ GramType Grammatical::v_connect_compare_or_str_match_def{
 	/*
 	v_connect_compare_or_str_match_def->v_connect_compare_def
 	v_connect_compare_or_str_match_def->col_name like string_match
@@ -920,7 +920,7 @@ const GramType Grammatical::v_connect_compare_or_str_match_def{
 	DataType(e_strMatch)
 }
 };
-const GramType Grammatical::v_logic_connect_compare_or_str_match_def{
+ GramType Grammatical::v_logic_connect_compare_or_str_match_def{
 	/*
 	v_logic_connect_compare_or_str_match_def->logic v_connect_compare_or_str_match_def v_logic_connect_compare_or_str_match_def
 	v_logic_connect_compare_or_str_match_def->ε
@@ -934,7 +934,7 @@ const GramType Grammatical::v_logic_connect_compare_or_str_match_def{
 	DataType(e_empty)
 	}
 };
-const GramType Grammatical::v_connect_logic_def{
+ GramType Grammatical::v_connect_logic_def{
 	/*
 	v_connect_logic_def->v_connect_compare_or_str_match_def v_logic_connect_compare_or_str_match_def
 	v_connect_logic_def->(v_connect_compare_or_str_match_def v_logic_connect_compare_or_str_match_def)
@@ -950,7 +950,7 @@ const GramType Grammatical::v_connect_logic_def{
 	DataType(e_r_bracket)
 	}
 };
-const GramType Grammatical::v_constriant_having_def{
+ GramType Grammatical::v_constriant_having_def{
 	/*
 	v_constriant_having_def->v_having_def
 	v_constriant_having_def->v_having_def v_order_def
@@ -967,7 +967,7 @@ const GramType Grammatical::v_constriant_having_def{
 	DataType(e_empty)
 	}
 };
-const GramType Grammatical::v_constraint_group_def{
+ GramType Grammatical::v_constraint_group_def{
 	/*
 	v_constraint_group_def->v_group_def
 	v_constraint_group_def->v_group_def v_constriant_having_def
@@ -984,7 +984,7 @@ const GramType Grammatical::v_constraint_group_def{
 	GramDataType{
 	DataType(e_constraint_having_def)}
 };
-const GramType Grammatical::v_select_connect_def{
+ GramType Grammatical::v_select_connect_def{
 	/*
 	v_select_connect_def->*
 	v_select_connect_def->v_select_operator_def
@@ -996,7 +996,7 @@ const GramType Grammatical::v_select_connect_def{
 	DataType(e_select_operator_def)
 	}
 };
-const GramType Grammatical::v_constriant_connect_def{
+ GramType Grammatical::v_constriant_connect_def{
 	/*
 	v_constriant_connect_def->v_connect_def
 	v_constriant_connect_def->v_connect_def v_constriant_where_def
@@ -1009,7 +1009,7 @@ const GramType Grammatical::v_constriant_connect_def{
 	DataType(e_where_def)
 	}
 };
-const GramType Grammatical::v_table_name_def{
+ GramType Grammatical::v_table_name_def{
 	/*
 	v_table_name_def-> table_name,v_table_name_def
 	v_table_name_def->table_name
@@ -1023,7 +1023,7 @@ const GramType Grammatical::v_table_name_def{
 	DataType(e_id)
 	}
 };
-const GramType Grammatical::v_select_def{
+ GramType Grammatical::v_select_def{
 	/*
 	v_select_def-> distance v_select_connect_def from v_table_name_def v_constriant_connect_def
 	v_select_def->v_select_connect_def from v_table_name_def v_constriant_connect_def
@@ -1058,7 +1058,7 @@ const GramType Grammatical::v_select_def{
 	DataType(e_where_def)
 		}
 };
-const GramType Grammatical::v_create_database_def{
+ GramType Grammatical::v_create_database_def{
 	/*
 	v_create_database_def-> create database database_name
 	v_create_database_def->use database_name
@@ -1070,14 +1070,14 @@ const GramType Grammatical::v_create_database_def{
 	},
 
 };
-const GramType Grammatical::v_use_database_def{
+ GramType Grammatical::v_use_database_def{
 	GramDataType{
 	DataType(e_use),
 	DataType(e_id),
 }
 
 };
-const GramType Grammatical::v_delete_element_def{
+ GramType Grammatical::v_delete_element_def{
 	/*
 	v_delete_element_def->delete from table_name
 	v_delete_table_def-> delete table table_name
@@ -1089,14 +1089,14 @@ const GramType Grammatical::v_delete_element_def{
 	}
 	
 };
-const GramType Grammatical::v_delete_table_def{
+ GramType Grammatical::v_delete_table_def{
 	GramDataType{
 	DataType(e_delete),
 	DataType(e_table),
 	DataType(e_id),
 }
 };
-const GramType Grammatical::v_alter_table_col_name_def{
+ GramType Grammatical::v_alter_table_col_name_def{
 	/*
 	v_alter_table_col_name_def -> alter table table_name add column col_name v_int_real_col_name
 	v_alter_table_drop_col_name_def->alter table table_name drop col_name
@@ -1111,8 +1111,8 @@ const GramType Grammatical::v_alter_table_col_name_def{
 	DataType(e_int_real_col_name_def)
 	}
 	
-};\
-const GramType Grammatical::v_alter_table_drop_col_name_def{
+};
+ GramType Grammatical::v_alter_table_drop_col_name_def{
 	GramDataType{
 	DataType(e_alter),
 	DataType(e_table),
@@ -1121,7 +1121,7 @@ const GramType Grammatical::v_alter_table_drop_col_name_def{
 	DataType(e_id)
 }
 };
-const GramType Grammatical::v_insert_def{
+ GramType Grammatical::v_insert_def{
 	/*
 	v_insert_def->insert into table_name ( v_col_name_rep_def ) values ( v_int_real_col_name_rep_def)
 	*/
@@ -1141,7 +1141,7 @@ const GramType Grammatical::v_insert_def{
 	DataType(e_r_bracket)
 	}
 };
-const GramType Grammatical::v_update_addop_def{
+ GramType Grammatical::v_update_addop_def{
 	/*
 	v_update_addop_def-> addop ( v_int_real_col_name_def v_update_mulop_def)
 	v_update_addop_def-> addop v_int_real_col_name_def v_update_mulop_def
@@ -1170,7 +1170,7 @@ const GramType Grammatical::v_update_addop_def{
 	}
 };
 
-const  GramType Grammatical::v_update_mulop_def{
+  GramType Grammatical::v_update_mulop_def{
 	/*
 	v_update_mulop_def-> mulop ( v_int_real_col_name v_update_addop)
 	v_update_mulop_def-> mulop v_int_real_col_name v_update_addop
@@ -1197,7 +1197,7 @@ const  GramType Grammatical::v_update_mulop_def{
 	DataType(e_empty)
 	}
 };
-const GramType Grammatical::v_update_def{
+ GramType Grammatical::v_update_def{
 	/*
 	v_update_def->update table_name set col_name = v_int_real_col_name_def v_update_addop_def
 	v_update_def->update table_name set col_name = v_int_real_col_name_def v_update_addop_def v_where_def
@@ -1223,7 +1223,7 @@ const GramType Grammatical::v_update_def{
 	DataType(e_where_def)
 	}
 };
-const GramType Grammatical::v_create_view_def{
+ GramType Grammatical::v_create_view_def{
 	/*
 	v_create_view_def->create view view_name as v_select_def
 	*/
@@ -1235,7 +1235,7 @@ const GramType Grammatical::v_create_view_def{
 	DataType(e_select_def)
 	}
 };
-const GramType Grammatical::v_drop_view_def{
+ GramType Grammatical::v_drop_view_def{
 	/*
 	v_drop_view_def->drop view view_name
 	*/
@@ -1245,7 +1245,7 @@ const GramType Grammatical::v_drop_view_def{
 	DataType(e_id),
 	}
 };
-const GramType Grammatical::v_create_index_def{
+ GramType Grammatical::v_create_index_def{
 	/*
 	v_create_index_def-> create index index_name on table_name ( col_name)
 	*/
@@ -1260,7 +1260,7 @@ const GramType Grammatical::v_create_index_def{
 	DataType(e_r_bracket)
 	}
 };
-const GramType Grammatical::v_drop_index_def{
+ GramType Grammatical::v_drop_index_def{
 	/*
 	v_drop_index_def-> drop index view_name
 	*/
@@ -1301,8 +1301,21 @@ GramDataType GramDataType::operator+(int num)
 	return temp;;
 }
 
+void GrammaticalAnalysis::init()
+{
+	int i;
+	for (i = 0; i < GRAM_MAX; i++) {
+		gramArray[i].gramName = static_cast<Gram>(i);
+		for (int j = 0; j < gramArray[i].vec.size(); j++) {
+			gramArray[i].vec[j].setGramName(static_cast<Gram>(i));
+		}
+	}
+}
+
 vector<GramType> GrammaticalAnalysis::get_derived_grammar( DataType obj)
 {	
+	cout << "get_derived_grammar function" << endl;
+	cout << gram_map_to_string(obj.getCategory()) << endl;
 	vector<GramType>temp;
 	int i;
 	bool set[GRAM_STRING_TABLE_MAX]{ false };
@@ -1319,8 +1332,8 @@ vector<GramType> GrammaticalAnalysis::get_derived_grammar( DataType obj)
 		/*for (i = 0; i < gramTypeTemp.size(); i++)
 			cout << GramStringTable[gramTypeTemp[i].ls[0].getCategory()] << endl;
 		cout << "\n\n\n" << endl;*/
-		for (i = 0; i < gramTypeTemp.size(); i++) {
-			Gram index = gramTypeTemp[i].ls[0].getCategory();
+		for (i = 0; i < gramTypeTemp.vec.size(); i++) {
+			Gram index = gramTypeTemp.vec[i].ls[0].getCategory();
 			if (!is_grammatical(index)&& !set[index]) {//文法且未被加入
 				q.push(index);
 				cout << GramStringTable[index] << endl;
@@ -1340,10 +1353,10 @@ Gram GrammaticalAnalysis::first(GramDataType & obj)
 	}
 	//grammatical 文法
 	GramType temp = gram_map_to_gramtype(obj.ls[obj.posi].getCategory());
-	while (!is_grammatical(temp[0].ls[0].getCategory())) {
-		temp = gram_map_to_gramtype(temp[0].ls[0].getCategory());
+	while (!is_grammatical(temp.vec[0].ls[0].getCategory())) {
+		temp = gram_map_to_gramtype(temp.vec[0].ls[0].getCategory());
 	}
-	return temp[0].ls[0].getCategory();
+	return temp.vec[0].ls[0].getCategory();
 }
 
  GramCategory GrammaticalAnalysis::is_grammatical(Gram  obj)
@@ -1354,22 +1367,27 @@ Gram GrammaticalAnalysis::first(GramDataType & obj)
  void GrammaticalAnalysis::grammatical_convert_to_dfa()
  {
 	 GramType startGrama = gramArray[0];
-	 cout << gram_map_to_string(startGrama[0].ls[0].getCategory());
+	 cout << gram_map_to_string(startGrama.vec[0].ls[0].getCategory());
  }
 
- GramType GrammaticalAnalysis::closure(const GramType &obj)
+ vector<GramDataType> GrammaticalAnalysis::closure(const GramType &obj)
  {
-	 GramType temp = { obj };
+	 vector<GramDataType> temp = { obj.vec };
+	// bool set[GRAM_STRING_TABLE_MAX]{ false };
+	// set[e_s] = true;
+	// set[obj.gramName] = true;
 	 int size,i,j,k,l,p; //保存容器大小
+	//	set[temp[0].]
 	 do {
 		 size = temp.size();
 		 for (i = 0; i < temp.size(); i++) {
 			 vector<GramType>vec = get_derived_grammar(temp[i].ls[temp[i].posi]);
 			 if (temp[i].posi >= temp[i].ls.size())continue;
 			 vector<GramDataType> z;
-			 z.push_back(temp[i]+1);		
-			 for (j = 0; j < gramArray[temp[i].symbol].size(); i++) {
-				 z.push_back(gramArray[temp[i].symbol][j]);
+			 z.push_back(temp[i]+1);	
+	//		 GramType gramTypeTemp = gramArray[temp[i].symbol];
+			 for (j = 0; j < gramArray[temp[i].symbol].vec.size(); i++) {
+				 z.push_back(gramArray[temp[i].symbol].vec[j]);
 			 }
 			 //for (j = 0; j < temp[i].symbol.size(); j++) { // b and z join vector varible z
 				// for (k = 0; k < gramArray[temp[i].symbol[j]].size(); k++) {
@@ -1385,14 +1403,27 @@ Gram GrammaticalAnalysis::first(GramDataType & obj)
 				 for (l = 0; l < z.size(); l++) { //B and Z set
 					 symbol.push_back(first(z[l]));	 //symbol.push_back(first(z[i]));
 				 }
-				 for (k = 0; k < vec[i].size(); k++) { //	X->y
+				 for (k = 0; k < vec[j].vec.size(); k++) { //	X->y
 					// cout << vec[i][k].ls[0].getCategory() << endl;
 					 for (p = 0; p < symbol.size(); p++) {
-
+						 GramDataType gramDataTypeTemp = vec[j].vec[k];
+						 gramDataTypeTemp.set_symbol(symbol[p]);
+						 int u;
+						 for ( u = 0; u < temp.size(); u++) { //find repeat grammatical
+							 if (gramDataTypeTemp == temp[u])break;
+						 }
+						 if (u >= temp.size()) {							
+							 cout << gram_map_to_string(gramDataTypeTemp.gramName) << " " << gram_map_to_string(gramDataTypeTemp.symbol) << endl;
+							 temp.push_back(gramDataTypeTemp);
+						 }
+						// for (int u = 0;u<)
 						 //temp.push_back()
-						 GramDataType gramTypeTemp = vec[i][k];
-						 gramTypeTemp.set_symbol(symbol[p]);
-						 temp.push_back(gramTypeTemp);
+						// if(vec[i].vec[k])
+					 
+					//	vec[i].gramName
+				//		 
+						//if(gramArray[vec[i])
+					//	 
 					 }
 
 				 }
@@ -1401,6 +1432,13 @@ Gram GrammaticalAnalysis::first(GramDataType & obj)
 			 }
 
 		 }
+
+
+		 cout << "----------closure function-----------" << endl;
+		 for (int t = 0; t < temp.size(); t++) {
+			 cout << gram_map_to_string( temp[t].gramName )<<"  "<<gram_map_to_string(temp[t].symbol)<< endl;;
+		 }
+
 
 	 } while (size != temp.size());
 	 
