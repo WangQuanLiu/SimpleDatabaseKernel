@@ -1305,11 +1305,30 @@ void GrammaticalAnalysis::init()
 {
 	int i;
 	for (i = 0; i < GRAM_MAX; i++) {
-		gramArray[i].gramName = static_cast<Gram>(i);
+		//gramArray[i].setGramName = static_cast<Gram>(i);
+		gramArray[i].setGramName(static_cast<Gram>(i));
 		for (int j = 0; j < gramArray[i].vec.size(); j++) {
 			gramArray[i].vec[j].setGramName(static_cast<Gram>(i));
 		}
 	}
+}
+
+vector<GramDataType> GrammaticalAnalysis::Goto(const GramType &obj,const Gram&gram)
+{
+	vector<GramDataType>vec;
+	int i;
+	for (i = 0; i < obj.vec.size(); i++) {
+		GramDataType temp = obj.vec[i];
+		//if (obj.vec[i].posi + 1 >= obj.vec[i].ls.size()||(	(obj.vec[i].ls[obj.vec[i].posi+1].getCategory())!=gram	 ))continue;
+		if (temp.posi + 1 >= temp.ls.size() || (temp.ls[temp.posi + 1].getCategory() != gram)) continue;	
+		temp = temp + 1;
+		vec.push_back(temp);
+	}
+	cout << "----------Goto function-----------" << endl;
+	for (i = 0; i < vec.size(); i++) {
+		cout << gram_map_to_string( vec[i].gramName )<< endl;
+	}
+	return closure(vec);
 }
 
 vector<GramType> GrammaticalAnalysis::get_derived_grammar( DataType obj)
@@ -1370,9 +1389,9 @@ Gram GrammaticalAnalysis::first(GramDataType & obj)
 	 cout << gram_map_to_string(startGrama.vec[0].ls[0].getCategory());
  }
 
- vector<GramDataType> GrammaticalAnalysis::closure(const GramType &obj)
+ vector<GramDataType> GrammaticalAnalysis::closure(const vector<GramDataType> &obj)
  {
-	 vector<GramDataType> temp = { obj.vec };
+	 vector<GramDataType> temp = { obj };
 	// bool set[GRAM_STRING_TABLE_MAX]{ false };
 	// set[e_s] = true;
 	// set[obj.gramName] = true;

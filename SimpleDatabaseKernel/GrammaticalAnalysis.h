@@ -142,6 +142,9 @@ public: GramDataType(initializer_list<DataType>initializer) {
 			return objA.posi == objB.posi&&objA.symbol == objB.symbol;
 		}
 		 void setGramName(Gram gramName) { this->gramName = gramName; }
+		 Gram getGramName() { return gramName; }
+		 Gram getSymbol() { return symbol; }
+		 int getPosi() { return posi; }
 	/*	void set_symbol(vector<Gram>&vec) {
 			this->symbol = vec;
 		}*/
@@ -186,6 +189,7 @@ public: GramDataType(initializer_list<DataType>initializer) {
 			}
 		}
 		void setGramName(Gram gramName) { this->gramName = gramName; }
+		Gram getGramName(){ return gramName; }
  };
 //typedef GrammaticalType{
 //	
@@ -289,10 +293,19 @@ public:
 	}
 	void test() {
 		init();
-		GramType temp = gramArray[0];
-		temp.vec[0].symbol = e_gram_end;
-	
-		closure(temp);
+		//GramType temp = gramArray[0];
+	//	temp.vec[0].symbol = e_eof;
+		vector<GramDataType>vec;
+		GramDataType temp = gramArray[0].vec[0];
+		temp.symbol = e_eof;
+		vec.push_back(temp);
+		closure(vec);
+		GramType gramTypeTemp = gramArray[0];
+		for (int i = 0; i < gramTypeTemp.vec.size(); i++) {
+			gramTypeTemp.vec[i].symbol = e_eof;
+		}
+		Goto(gramTypeTemp, e_eof);
+		/*Goto(gramArray[])*/
 		//grammatical_convert_to_dfa();
 		//get_derived_grammar(e_s);
 		//cout << GramStringTable[135] << endl;
@@ -301,11 +314,12 @@ public:
 private:
 	void init();
 //	void print
+	vector<GramDataType>Goto(const GramType&,const Gram&);
 	vector<GramType> get_derived_grammar( DataType obj);//派生文法，即文法推导文法，不
 	Gram first(GramDataType&obj);//寻找文法中第一个非文法的字符  find first char of non-grammatical in grammatical
 	GramCategory is_grammatical(Gram obj);//判断是文法还是非文法 Judge whether it is grammatical or non-grammatical
 	void grammatical_convert_to_dfa();//文法转换成dfa
-	vector<GramDataType> closure(const GramType&);
+	vector<GramDataType> closure(const vector<GramDataType>&);
 	string gram_map_to_string(const Gram&obj);
 	GramType gram_map_to_gramtype(const Gram&obj);//gram map to gramtype
 	static GramType gramArray[GRAM_MAX]; //文法数组 grammatical array
