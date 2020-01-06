@@ -1319,10 +1319,12 @@ vector<GramDataType> GrammaticalAnalysis::Goto(const GramType &obj,const Gram&gr
 	int i;
 	for (i = 0; i < obj.vec.size(); i++) {
 		GramDataType temp = obj.vec[i];
-		//if (obj.vec[i].posi + 1 >= obj.vec[i].ls.size()||(	(obj.vec[i].ls[obj.vec[i].posi+1].getCategory())!=gram	 ))continue;
-		if (temp.posi + 1 >= temp.ls.size() || (temp.ls[temp.posi + 1].getCategory() != gram)) continue;	
-		temp = temp + 1;
-		vec.push_back(temp);
+		while (temp.posi+1 < temp.ls.size()) {
+			if ((temp.ls[temp.posi+1].getCategory() == gram)) {
+				vec.push_back(temp);
+			}
+			temp = temp + 1;
+		}	
 	}
 	cout << "----------Goto function-----------" << endl;
 	for (i = 0; i < vec.size(); i++) {
