@@ -1384,10 +1384,20 @@ Gram GrammaticalAnalysis::first(GramDataType & obj)
 			 vector<GramType>vec = get_derived_grammar(temp[i].ls[temp[i].posi]);
 			 if (temp[i].posi >= temp[i].ls.size())continue;
 			 vector<GramDataType> z;
-			 z.push_back(temp[i]+1);	
+			 vector<Gram>gramSymbol;
+			 z.push_back(temp[i]+1);
+
+			 if (is_grammatical(temp[i].symbol)) {
+				 gramSymbol.push_back(temp[i].symbol);
+			 }
+			// if(gramArray(temp[i].symbol))
 	//		 GramType gramTypeTemp = gramArray[temp[i].symbol];
-			 for (j = 0; j < gramArray[temp[i].symbol].vec.size(); i++) {
-				 z.push_back(gramArray[temp[i].symbol].vec[j]);
+			 else {
+				 cout << gramArray[temp[i].symbol].vec.size() << endl;
+				 for (j = 0; j < gramArray[temp[i].symbol].vec.size(); j++) {
+					 z.push_back(gramArray[temp[i].symbol].vec[j]);
+
+				 }
 			 }
 			 //for (j = 0; j < temp[i].symbol.size(); j++) { // b and z join vector varible z
 				// for (k = 0; k < gramArray[temp[i].symbol[j]].size(); k++) {
@@ -1399,7 +1409,7 @@ Gram GrammaticalAnalysis::first(GramDataType & obj)
 		//	 z.push_back(temp[i].ls[temp[i].posi + 1].getCategory());
 			 for (j = 0; j < vec.size(); j++) { // (A->a.XB,z)
 				// cout << j << endl;
-				 vector<Gram>symbol;
+				 vector<Gram>symbol=gramSymbol;
 				 for (l = 0; l < z.size(); l++) { //B and Z set
 					 symbol.push_back(first(z[l]));	 //symbol.push_back(first(z[i]));
 				 }
