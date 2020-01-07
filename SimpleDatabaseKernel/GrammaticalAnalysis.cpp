@@ -1319,15 +1319,23 @@ void GrammaticalAnalysis::init()
 	}
 }
 /*
-功能：两个容器的内容相加
+功能：得 两个容器的不重复的元素，重复元素只加入一次
 vec 为加入的对象
 beJoined 为被加入的对象
 返回：被加入的对象
 */
 vector<GramDataType>& GrammaticalAnalysis::vector_join_other_vector(vector<GramDataType>& vec, vector<GramDataType>& beJoined)
 {
-	for (int i = 0; i < vec.size(); i++)
-		beJoined.push_back(vec[i]);
+	int i, j;
+	for ( i = 0; i < vec.size(); i++)
+	{	
+		for ( j = 0; j < beJoined.size(); j++) {
+			if (vec[i] == beJoined[j]) 
+				break;
+			
+		}
+		if (j >= beJoined.size())beJoined.push_back(vec[i]);
+	}
 	// TODO: 在此处插入 return 语句
 	return beJoined;
 }
@@ -1359,7 +1367,8 @@ vector<GramDataType> GrammaticalAnalysis::items(GramType obj )
 		size = vec.size();
 		for (int i = 0; i < vec.size(); i++) {
 			for (int j = 0; j < vec[i].ls.size(); j++) {
-				//vector_join_other_vector()
+			
+
 			}
 		}
 	} while (size != vec.size());
