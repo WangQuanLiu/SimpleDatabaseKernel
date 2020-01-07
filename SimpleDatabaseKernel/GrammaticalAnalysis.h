@@ -289,22 +289,27 @@ public:
 		GramType temp = gramArray[0];
 		GramDataType temp2 = temp.vec[0];
 		//cout << temp2.ls[1].getCategory() << endl;
-		cout << first(temp2) << endl;
+		 //cout << first(temp2) << endl;
 	}
 	void test() {
 		init();
 		//GramType temp = gramArray[0];
 	//	temp.vec[0].symbol = e_eof;
 		vector<GramDataType>vec;
-		GramDataType temp = gramArray[0].vec[0];
+		GramDataType temp = gramArray[2].vec[0];
 		temp.symbol = e_eof;
 		vec.push_back(temp);
-		closure(vec);
-		GramType gramTypeTemp = gramArray[0];
+		//closure(vec);
+		GramType gramTypeTemp = gramArray[2];
 		for (int i = 0; i < gramTypeTemp.vec.size(); i++) {
 			gramTypeTemp.vec[i].symbol = e_eof;
 		}
-		Goto(gramTypeTemp, e_eof);
+		Goto(gramTypeTemp, e_table);
+		 gramTypeTemp = gramArray[0];
+		 for (int i = 0; i < gramTypeTemp.vec.size(); i++) {
+			 gramTypeTemp.vec[i].symbol = e_eof;
+		 }
+		items(gramTypeTemp);
 		/*Goto(gramArray[])*/
 		//grammatical_convert_to_dfa();
 		//get_derived_grammar(e_s);
@@ -314,6 +319,9 @@ public:
 private:
 	void init();
 //	void print
+	
+	vector<GramDataType>&vector_join_other_vector(vector<GramDataType>&join, vector<GramDataType>&beJoined);
+	vector<GramDataType>items(GramType);
 	vector<GramDataType>Goto(const GramType&,const Gram&);
 	vector<GramType> get_derived_grammar( DataType obj);//派生文法，即文法推导文法，不
 	Gram first(GramDataType&obj);//寻找文法中第一个非文法的字符  find first char of non-grammatical in grammatical

@@ -1,6 +1,10 @@
 #ifndef _GrammaticalAnalysis_
 #include"GrammaticalAnalysis.h"
 #endif
+#define CLOSURE_FUNC true
+#define GOTO_FUNC true
+#define ITEMS_FUNC true
+#define GET_DERIVED_GRAMMAR true
  GramType Grammatical::v_start{
 	//start s'->s $
 	GramDataType{
@@ -1312,6 +1316,50 @@ void GrammaticalAnalysis::init()
 		}
 	}
 }
+/*
+功能：两个容器的内容相加
+join 为加入的对象
+beJoined 为被加入的对象
+返回：被加入的对象
+*/
+//vector<GramDataType>& GrammaticalAnalysis::vector_join_other_vector(vector<GramDataType>& join, vector<GramDataType>& beJoined)
+//{
+//
+//
+//	// TODO: 在此处插入 return 语句
+//	return vector<GramDataType>;
+//}
+
+vector<GramDataType> GrammaticalAnalysis::items(GramType obj )
+{
+#if (TEST==true&&GRAM_TEST==true&&ITEMS_FUNC==true)
+	cout << "---------items--------" << endl;
+#endif
+	vector<GramDataType>vec;
+	int i;
+	for (i = 0; i < obj.vec.size(); i++) {
+		vector<GramDataType>temp = closure(obj.vec);
+		for (int j = 0; j < temp.size(); j++)
+			vec.push_back(temp[j]);
+	}
+#if (TEST==true&&GRAM_TEST==true&&ITEMS_FUNC==true)
+	cout << "-----init----" << endl;
+	for (i = 0; i < vec.size(); i++) {
+		cout << gram_map_to_string(vec[i].gramName) << endl;
+	}
+#endif
+	int size;
+	do {
+		size = vec.size();
+		for (int i = 0; i < vec.size(); i++) {
+			for (int j = 0; j < vec[i].ls.size(); j++) {
+				//vector_join_other_vector()
+			}
+		}
+	} while (size != vec.size());
+
+	return vec;
+}
 
 vector<GramDataType> GrammaticalAnalysis::Goto(const GramType &obj,const Gram&gram)
 {
@@ -1321,22 +1369,27 @@ vector<GramDataType> GrammaticalAnalysis::Goto(const GramType &obj,const Gram&gr
 		GramDataType temp = obj.vec[i];
 		while (temp.posi+1 < temp.ls.size()) {
 			if ((temp.ls[temp.posi+1].getCategory() == gram)) {
-				vec.push_back(temp);
+				vec.push_back(temp+1);
+
 			}
 			temp = temp + 1;
 		}	
 	}
+#if(TEST==true&&GRAM_TEST==true&&GOTO_FUNC==true)
 	cout << "----------Goto function-----------" << endl;
 	for (i = 0; i < vec.size(); i++) {
 		cout << gram_map_to_string( vec[i].gramName )<< endl;
 	}
+#endif
 	return closure(vec);
 }
 
 vector<GramType> GrammaticalAnalysis::get_derived_grammar( DataType obj)
-{	
-	cout << "get_derived_grammar function" << endl;
+{
+#if (TEST==true&&GRAM_TEST==true&&GET_DERIVED_GRAMMAR==true)
+	cout << "---------get_derived_grammar function-----------" << endl;
 	cout << gram_map_to_string(obj.getCategory()) << endl;
+#endif
 	vector<GramType>temp;
 	int i;
 	bool set[GRAM_STRING_TABLE_MAX]{ false };
@@ -1368,6 +1421,7 @@ vector<GramType> GrammaticalAnalysis::get_derived_grammar( DataType obj)
 
 Gram GrammaticalAnalysis::first(GramDataType & obj)
 {
+
 	if (obj.posi >= obj.ls.size())return e_gram_end;
 	if (is_grammatical((obj.ls[obj.posi]).getCategory())) { //非文法 non-grammatical
 		return obj.ls[obj.posi].getCategory();
@@ -1464,12 +1518,12 @@ Gram GrammaticalAnalysis::first(GramDataType & obj)
 
 		 }
 
-
+#if(TEST==true&&GRAM_TEST==true&&CLOSURE_FUNC==true)
 		 cout << "----------closure function-----------" << endl;
 		 for (int t = 0; t < temp.size(); t++) {
-			 cout << gram_map_to_string( temp[t].gramName )<<"  "<<gram_map_to_string(temp[t].symbol)<< endl;;
+			 cout << gram_map_to_string( temp[t].gramName )<<"  "<<gram_map_to_string(temp[t].symbol)<<"  "<<temp[t].posi<< endl;;
 		 }
-
+#endif
 
 	 } while (size != temp.size());
 	 
