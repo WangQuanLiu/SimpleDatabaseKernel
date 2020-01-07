@@ -1304,7 +1304,9 @@ GramDataType GramDataType::operator+(int num)
 	
 	return temp;;
 }
-
+/*
+功能：初始化gramArray中的文法号
+*/
 void GrammaticalAnalysis::init()
 {
 	int i;
@@ -1318,18 +1320,22 @@ void GrammaticalAnalysis::init()
 }
 /*
 功能：两个容器的内容相加
-join 为加入的对象
+vec 为加入的对象
 beJoined 为被加入的对象
 返回：被加入的对象
 */
-//vector<GramDataType>& GrammaticalAnalysis::vector_join_other_vector(vector<GramDataType>& join, vector<GramDataType>& beJoined)
-//{
-//
-//
-//	// TODO: 在此处插入 return 语句
-//	return vector<GramDataType>;
-//}
-
+vector<GramDataType>& GrammaticalAnalysis::vector_join_other_vector(vector<GramDataType>& vec, vector<GramDataType>& beJoined)
+{
+	for (int i = 0; i < vec.size(); i++)
+		beJoined.push_back(vec[i]);
+	// TODO: 在此处插入 return 语句
+	return beJoined;
+}
+/*
+输入:GramType obj
+功能：得到obj文法的NFA
+输出：得到的文法的集合
+*/
 vector<GramDataType> GrammaticalAnalysis::items(GramType obj )
 {
 #if (TEST==true&&GRAM_TEST==true&&ITEMS_FUNC==true)
@@ -1360,7 +1366,11 @@ vector<GramDataType> GrammaticalAnalysis::items(GramType obj )
 
 	return vec;
 }
-
+/*
+输入：文法obj， 符号 gram
+功能：得到文法posi中有符号gram的集合
+输出：vector<GramDataType>的文法集合
+*/
 vector<GramDataType> GrammaticalAnalysis::Goto(const GramType &obj,const Gram&gram)
 {
 	vector<GramDataType>vec;
@@ -1383,7 +1393,11 @@ vector<GramDataType> GrammaticalAnalysis::Goto(const GramType &obj,const Gram&gr
 #endif
 	return closure(vec);
 }
-
+/*
+输入：DataType 类型的对象，obj
+功能：得到这个文法派生出来的所有文法，即不经过任何符号，但是经过文法
+输出：文法集合
+*/
 vector<GramType> GrammaticalAnalysis::get_derived_grammar( DataType obj)
 {
 #if (TEST==true&&GRAM_TEST==true&&GET_DERIVED_GRAMMAR==true)
@@ -1418,7 +1432,11 @@ vector<GramType> GrammaticalAnalysis::get_derived_grammar( DataType obj)
 	}
 	return temp;
 }
-
+/*
+输入：GramDataType&obj,单个文法对象
+功能：得到obj文法所派生出来的第一个非文法符号
+输出：输出这个非文法符号
+*/
 Gram GrammaticalAnalysis::first(GramDataType & obj)
 {
 
@@ -1444,7 +1462,11 @@ Gram GrammaticalAnalysis::first(GramDataType & obj)
 	 GramType startGrama = gramArray[0];
 	 cout << gram_map_to_string(startGrama.vec[0].ls[0].getCategory());
  }
-
+ /*
+ 输入：vector<GramDataType>&obj 文法集合
+ 功能：文法A->a.XB,Z 把B,Z文法或者符号加入到所有派生A->a.XB,Z文法
+ 输出：文法集合
+ */
  vector<GramDataType> GrammaticalAnalysis::closure(const vector<GramDataType> &obj)
  {
 	 vector<GramDataType> temp = { obj };

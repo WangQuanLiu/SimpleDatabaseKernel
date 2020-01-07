@@ -515,7 +515,11 @@ const int LexicalAnalysis::end_status[END_STATUS_MAX]{
 };
 vector<StatusSet>LexicalAnalysis::status;
 ConverTable LexicalAnalysis::conver;
-
+/*
+ÊäÈë£ºvoid
+¹¦ÄÜ£º³õÊ¼»¯½áÊø×´Ì¬ËùÓ³ÉäµÄ´Ê·¨Àà±ğ
+Êä³ö£ºvoid
+*/
 inline void LexicalAnalysis::init_end_status_map_category()
 {
 	int i;
@@ -648,7 +652,11 @@ std::vector<int> LexicalAnalysis::closure(int s)//×´Ì¬S£¬ÇóÎŞĞèÈÎºÎ×Ö·û¶øµÃµ½µÄ×
 	status.insert(status.end(), sets.begin(), sets.end());
 	return status;
 }
-
+/*
+ÊäÈë£ºvecÎª×´Ì¬£¬chÎª×Ö·û
+¹¦ÄÜ£º	dfa_edgeº¯ÊıÊÇÊäÈëÒ»×´Ì¬¼¯ºÏ£¬È»ºó·µ»Ø³öÕâ¸ö×´Ì¬¼¯ºÏ³ÔÈë×Ö·ûchºóµÃµ½µÄÒ»×é×´Ì¬¼¯ºÏ	
+Êä³ö£ºÊä³öÕâ¸ö×´Ì¬³ÔÈë×Ö·ûchºóµÄ×´Ì¬¼¯ºÏ
+*/
 std::vector<int> LexicalAnalysis::dfa_edge(vector<int>& vec, char ch)
 {
 	unsigned i, j;
@@ -667,7 +675,11 @@ std::vector<int> LexicalAnalysis::dfa_edge(vector<int>& vec, char ch)
 	result.insert(result.end(), s.begin(), s.end());
 	return result;
 }
-
+/*
+ÊäÈë£ºvoid
+¹¦ÄÜ£ºNFAÓĞÇî×Ô¶¯»ú×ªDFAÓĞÇî×Ô¶¯»ú
+Êä³ö£ºvoid
+*/
 void LexicalAnalysis:: nfa_Convert_to_dfa()
 {
 	StatusSet s;
@@ -802,7 +814,11 @@ LexicalAnalysis::LexicalAnalysis(string filePath)
 		nfa_Convert_to_dfa();//NFA×ªDFA
 		init_end_status_map_category();//³õÊ¼»¯ÖÕÌ¬Ó³ÉäÀà±ğ
 }
-
+/*
+ÊäÈë£ºstrÎª×Ö·û´®
+¹¦ÄÜ£º×Ö·ûÓ³Éä´Ê·¨Àà±ğ
+Êä³ö£ºÓĞ´ËÀà±ğ·µ»ØÀà±ğºÅ£¬Ã»ÓĞ·µ»ØMAX
+*/
 int LexicalAnalysis::string_map_category(string str)
 {
 	//int category = -1;
@@ -839,7 +855,11 @@ int LexicalAnalysis::string_map_category(string str)
 	}
 	return MAX;
 }
-
+/*
+ÊäÈë£ºvoid
+¹¦ÄÜ£ºÊä³öÒ»¸ö¾­¹ı´Ê·¨·ÖÎöºóµÄÎÄ±¾
+Êä³ö£ºvoid
+*/
 void LexicalAnalysis::run()
 {
 	

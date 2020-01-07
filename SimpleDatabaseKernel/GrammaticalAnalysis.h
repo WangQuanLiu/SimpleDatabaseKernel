@@ -14,7 +14,7 @@ enum GramCategory {
 	gram,//文法 grammatical
 	non_gram//非文法 non-grammatical
 };
-const string GramStringTable[GRAM_STRING_TABLE_MAX]{
+const string GramStringTable[GRAM_STRING_TABLE_MAX]{ //文法的字符串
 	"e_start", "e_s",
 	"e_create_def", "e_create_data_def", "e_constraint_def", "e_create_data_type_def", "e_create_data_type_suffix_def",
 	"e_primary_def", "e_for_che_uni_def", "e_col_name_rep_def", "e_foreign_def", "e_str_rep_def",
@@ -53,7 +53,7 @@ const string GramStringTable[GRAM_STRING_TABLE_MAX]{
 
 
 };
-enum Gram{
+enum Gram{ //文法的枚举类
 	//grammatical
 	e_start, e_s,
 	e_create_def, e_create_data_def, e_constraint_def, e_create_data_type_def, e_create_data_type_suffix_def,
@@ -97,7 +97,7 @@ enum Gram{
  //文法数据	
 union Date { public:Date() {} ~Date() {} string strVal; int intVal; float realVal; };
 //template<typename T>
-struct DataType   {
+struct DataType   {	//单个文法类
  public: DataType( Gram category) {
 	 set_category(category);
 	 }
@@ -122,7 +122,7 @@ struct DataType   {
 private:	Gram category;
 
 };
-class GramDataType {
+class GramDataType {//单个文法集合
 public: GramDataType(initializer_list<DataType>initializer) {
 		initializer_list<DataType>::const_iterator begin, end;
 		begin = initializer.begin();
@@ -177,7 +177,7 @@ public: GramDataType(initializer_list<DataType>initializer) {
  /*using DataType = struct DataType;
  using GramDataType = list<DataType>;*/
  //using GramType = vector<GramDataType>;
- struct GramType{
+ struct GramType{//一个文法中可能指向多个文法，这个是指向多个文法集合
 	 vector<GramDataType>vec;
 		Gram gramName;
 		GramType(initializer_list<GramDataType>list) {
@@ -194,7 +194,7 @@ public: GramDataType(initializer_list<DataType>initializer) {
 //typedef GrammaticalType{
 //	
 //}GraType;
-class Grammatical {
+class Grammatical { 
 public :
 	 static GramType v_start; //0
 	 static GramType v_s;//1
