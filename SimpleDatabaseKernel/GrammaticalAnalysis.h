@@ -297,20 +297,21 @@ public:
 		//GramType temp = gramArray[0];
 	//	temp.vec[0].symbol = e_eof;
 		vector<GramDataType>vec;
-		GramDataType temp = gramArray[0].vec[0];
-		temp.symbol = e_eof;
+		GramDataType temp = gramArray[2].vec[0];
+		temp.symbol = e_create;
 		vec.push_back(temp);
-		closure(vec);
-		GramType gramTypeTemp = gramArray[2];
+		//closure(vec);
+		GramType gramTypeTemp = gramArray[0];
 		for (int i = 0; i < gramTypeTemp.vec.size(); i++) {
 			gramTypeTemp.vec[i].symbol = e_eof;
 		}
-		Goto(gramTypeTemp, e_table);
+		Goto(gramTypeTemp, e_eof);
+		/*Goto(gramTypeTemp, e_create);
 		 gramTypeTemp = gramArray[0];
 		 for (int i = 0; i < gramTypeTemp.vec.size(); i++) {
 			 gramTypeTemp.vec[i].symbol = e_eof;
-		 }
-		items(gramTypeTemp);
+		 }*/
+	//items(gramTypeTemp);
 		/*Goto(gramArray[])*/
 		//grammatical_convert_to_dfa();
 		//get_derived_grammar(e_s);
