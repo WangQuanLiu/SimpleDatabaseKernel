@@ -8,6 +8,7 @@
 //#define ALPHA_MAX 40
 #define GRAM_MAX 66
 #define GRAM_STRING_TABLE_MAX 136
+#define GRAM_ENUM_MAX 136
 //using GrammaticalType= vector<list<string>>;
 //using GrammaticalDataType = list<string>;
 enum GramCategory {
@@ -296,10 +297,10 @@ public:
 		//GramType temp = gramArray[0];
 	//	temp.vec[0].symbol = e_eof;
 		vector<GramDataType>vec;
-		GramDataType temp = gramArray[2].vec[0];
+		GramDataType temp = gramArray[0].vec[0];
 		temp.symbol = e_eof;
 		vec.push_back(temp);
-		//closure(vec);
+		closure(vec);
 		GramType gramTypeTemp = gramArray[2];
 		for (int i = 0; i < gramTypeTemp.vec.size(); i++) {
 			gramTypeTemp.vec[i].symbol = e_eof;
@@ -319,17 +320,18 @@ public:
 private:
 	void init();
 //	void print
-	
-	vector<GramDataType>&vector_join_other_vector(vector<GramDataType>&join, vector<GramDataType>&beJoined);
-	vector<GramDataType>items(GramType);
+	vector<int>GotoTable[GRAM_ENUM_MAX][GRAM_ENUM_MAX];
+	inline vector<GramDataType>&vector_join_other_vector(vector<GramDataType>&join, vector<GramDataType>&beJoined);
+	vector<vector<GramDataType>>items(GramType);
+	vector<GramDataType>Goto(const GramDataType&, const Gram&);
 	vector<GramDataType>Goto(const GramType&,const Gram&);
 	vector<GramType> get_derived_grammar( DataType obj);//派生文法，即文法推导文法，不
 	Gram first(GramDataType&obj);//寻找文法中第一个非文法的字符  find first char of non-grammatical in grammatical
 	GramCategory is_grammatical(Gram obj);//判断是文法还是非文法 Judge whether it is grammatical or non-grammatical
 	void grammatical_convert_to_dfa();//文法转换成dfa
 	vector<GramDataType> closure(const vector<GramDataType>&);
-	string gram_map_to_string(const Gram&obj);
-	GramType gram_map_to_gramtype(const Gram&obj);//gram map to gramtype
+	inline string gram_map_to_string(const Gram&obj);
+inline	GramType gram_map_to_gramtype(const Gram&obj);//gram map to gramtype
 	static GramType gramArray[GRAM_MAX]; //文法数组 grammatical array
 };
 

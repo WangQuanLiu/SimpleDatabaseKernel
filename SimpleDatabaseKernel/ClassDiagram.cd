@@ -3,7 +3,7 @@
   <Class Name="Compile" Collapsed="true">
     <Position X="5.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAgAAAAAAAAgAAAAAAAAAAAAAAAAABAAAAAAAAEA=</HashCode>
+      <HashCode>AAAAAgAAAAAAAAgAAAAAAAAAAAQAAAAABAAAAAAAAEA=</HashCode>
       <FileName>main.cpp</FileName>
     </TypeIdentifier>
   </Class>
@@ -31,7 +31,7 @@
   <Class Name="GrammaticalAnalysis" Collapsed="true">
     <Position X="7" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAhAAAACAAAkAEAAAAAAAAEIIBQAAAgAAAZA=</HashCode>
       <FileName>GrammaticalAnalysis.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -59,7 +59,7 @@
   <Enum Name="end_statusType" Collapsed="true">
     <Position X="5.25" Y="4" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAIAGAQAAAAAAAAIAAlCAABAIAQAAAAAAAAQAAAAgA=</HashCode>
+      <HashCode>AAAIAGAQAAAAAAAAIAAlCABBAIAQAAAAAAAAQAAAAgA=</HashCode>
       <FileName>LexicalAnalysis.h</FileName>
     </TypeIdentifier>
   </Enum>

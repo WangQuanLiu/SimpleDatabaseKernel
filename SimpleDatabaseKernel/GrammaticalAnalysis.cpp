@@ -1324,7 +1324,7 @@ vec 为加入的对象
 beJoined 为被加入的对象
 返回：被加入的对象
 */
-vector<GramDataType>& GrammaticalAnalysis::vector_join_other_vector(vector<GramDataType>& vec, vector<GramDataType>& beJoined)
+inline vector<GramDataType>& GrammaticalAnalysis::vector_join_other_vector(vector<GramDataType>& vec, vector<GramDataType>& beJoined)
 {
 	int i, j;
 	for ( i = 0; i < vec.size(); i++)
@@ -1344,36 +1344,66 @@ vector<GramDataType>& GrammaticalAnalysis::vector_join_other_vector(vector<GramD
 功能：得到obj文法的NFA
 输出：得到的文法的集合
 */
-vector<GramDataType> GrammaticalAnalysis::items(GramType obj )
+vector< vector<GramDataType>> GrammaticalAnalysis::items(GramType obj )
 {
 #if (TEST==true&&GRAM_TEST==true&&ITEMS_FUNC==true)
 	cout << "---------items--------" << endl;
 #endif
-	vector<GramDataType>vec;
-	int i;
+	vector<vector<GramDataType>>vec;
+	int i,j,k;
 	for (i = 0; i < obj.vec.size(); i++) {
 		vector<GramDataType>temp = closure(obj.vec);
-		for (int j = 0; j < temp.size(); j++)
-			vec.push_back(temp[j]);
+	//	for (int j = 0; j < temp.size(); j++)
+			vec.push_back(temp);
 	}
+	vec.push_back(obj.vec);
+
 #if (TEST==true&&GRAM_TEST==true&&ITEMS_FUNC==true)
 	cout << "-----init----" << endl;
 	for (i = 0; i < vec.size(); i++) {
-		cout << gram_map_to_string(vec[i].gramName) << endl;
+		for (j = 0; j < vec[i].size();j++)
+		cout << gram_map_to_string(vec[i][j].gramName)<<"  "<<vec[i][j].posi << endl;
 	}
 #endif
 	int size;
 	do {
 		size = vec.size();
-		for (int i = 0; i < vec.size(); i++) {
-			for (int j = 0; j < vec[i].ls.size(); j++) {
-			
-
+		for (i = 0; i < vec.size(); i++) {
+			for (j = 0; j < vec[i].size(); j++) {
+				for (k = 0; k < GRAM_ENUM_MAX; k++) {
+					vector<GramDataType>temp=Goto(vec[i][j],static_cast<Gram>(k));
+					
+				}
 			}
 		}
 	} while (size != vec.size());
 
 	return vec;
+}/*
+输入：文法obj， 符号 gram
+功能：得到文法posi中有符号gram的集合
+输出：vector<GramDataType>的文法集合
+*/
+vector<GramDataType> GrammaticalAnalysis::Goto(const GramDataType &obj, const Gram &)
+{
+	int i;
+	vector<GramDataType>vec;
+	GramDataType temp = obj;
+	while (temp.posi + 1 < temp.ls.size()) {
+		if ((temp.ls[temp.posi + 1].getCategory() == gram)) {
+			vec.push_back(temp + 1);
+
+		}
+		temp = temp + 1;
+	}
+
+#if(TEST==true&&GRAM_TEST==true&&GOTO_FUNC==true)
+	cout << "----------Goto function-----------" << endl;
+	for (i = 0; i < vec.size(); i++) {
+		cout << gram_map_to_string(vec[i].gramName) << endl;
+	}
+#endif
+	return closure(vec);
 }
 /*
 输入：文法obj， 符号 gram
@@ -1561,7 +1591,7 @@ Gram GrammaticalAnalysis::first(GramDataType & obj)
 	 return temp;
  }
 
- string GrammaticalAnalysis::gram_map_to_string(const Gram&obj)
+  inline string GrammaticalAnalysis::gram_map_to_string(const Gram&obj)
  {
 	 try {
 		 if (obj >GRAM_STRING_TABLE_MAX)
@@ -1571,7 +1601,7 @@ Gram GrammaticalAnalysis::first(GramDataType & obj)
 	 return GramStringTable[obj];
  }
 
- GramType GrammaticalAnalysis::gram_map_to_gramtype(const Gram & obj)
+inline GramType GrammaticalAnalysis::gram_map_to_gramtype(const Gram & obj)
 {
 	try {
 		if (obj > GRAM_MAX)
