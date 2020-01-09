@@ -306,12 +306,12 @@ public:
 			gramTypeTemp.vec[i].symbol = e_eof;
 		}
 		Goto(gramTypeTemp, e_eof);
-		/*Goto(gramTypeTemp, e_create);
+		//Goto(gramTypeTemp, e_create);
 		 gramTypeTemp = gramArray[0];
 		 for (int i = 0; i < gramTypeTemp.vec.size(); i++) {
 			 gramTypeTemp.vec[i].symbol = e_eof;
-		 }*/
-	//items(gramTypeTemp);
+		 }
+	items(gramTypeTemp);
 		/*Goto(gramArray[])*/
 		//grammatical_convert_to_dfa();
 		//get_derived_grammar(e_s);
