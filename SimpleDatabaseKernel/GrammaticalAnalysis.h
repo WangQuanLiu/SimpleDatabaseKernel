@@ -297,15 +297,15 @@ public:
 		//GramType temp = gramArray[0];
 	//	temp.vec[0].symbol = e_eof;
 		vector<GramDataType>vec;
-		GramDataType temp = gramArray[2].vec[0];
-		temp.symbol = e_create;
+		GramDataType temp = gramArray[0].vec[0];
+		temp.symbol = e_eof;
 		vec.push_back(temp);
 		//closure(vec);
 		GramType gramTypeTemp = gramArray[0];
 		for (int i = 0; i < gramTypeTemp.vec.size(); i++) {
 			gramTypeTemp.vec[i].symbol = e_eof;
 		}
-		Goto(gramTypeTemp, e_eof);
+	//	Goto(gramTypeTemp, e_eof);
 		//Goto(gramTypeTemp, e_create);
 		 gramTypeTemp = gramArray[0];
 		 for (int i = 0; i < gramTypeTemp.vec.size(); i++) {

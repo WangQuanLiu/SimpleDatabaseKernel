@@ -1,10 +1,10 @@
 #ifndef _GrammaticalAnalysis_
 #include"GrammaticalAnalysis.h"
 #endif
-#define CLOSURE_FUNC true
-#define GOTO_FUNC true
+#define CLOSURE_FUNC false
+#define GOTO_FUNC false
 #define ITEMS_FUNC true
-#define GET_DERIVED_GRAMMAR true
+#define GET_DERIVED_GRAMMAR false
  GramType Grammatical::v_start{
 	//start s'->s $
 	GramDataType{
@@ -1362,7 +1362,7 @@ vector< vector<GramDataType>> GrammaticalAnalysis::items(GramType obj )
 	cout << "-----init----" << endl;
 	for (i = 0; i < vec.size(); i++) {
 		for (j = 0; j < vec[i].size();j++)
-		cout << gram_map_to_string(vec[i][j].gramName)<<"  "<<vec[i][j].posi << endl;
+		cout << gram_map_to_string(vec[i][j].gramName)<<"  "<<vec[i][j].getSymbol()<<"  "<<vec[i][j].posi << endl;
 	}
 #endif
 	int size;
@@ -1373,17 +1373,18 @@ vector< vector<GramDataType>> GrammaticalAnalysis::items(GramType obj )
 				for (k = 0; k < GRAM_ENUM_MAX; k++) {
 					/*if(is_grammatical())*/
 					//if(k==)
-					cout << "Goto(" << gram_map_to_string(vec[i][j].getGramName()) << ", " << gram_map_to_string(static_cast<Gram>(k)) << ")";
-					vector<GramDataType>temp=Goto(vec[i][j],static_cast<Gram>(k));
-#if(TEST&&GRAM_TEST&&ITEMS_FUNC)
-					if (temp.size() <= 0)continue;
-					
-					for (int r = 0; r < temp.size(); r++) {
-						cout << gram_map_to_string(temp[r].getGramName()) << " ";
-					}
-					cout << endl;
-#endif
 
+					vector<GramDataType>temp=Goto(vec[i][j],static_cast<Gram>(k));
+//#if(TEST&&GRAM_TEST&&ITEMS_FUNC)
+//					if (temp.size() <= 0)continue;
+//					cout << "Goto(" << gram_map_to_string(vec[i][j].getGramName()) << ", " << gram_map_to_string(static_cast<Gram>(k)) << ")" <<"	"<< vec[i][j].posi<< endl;
+//					cout << "-------------temp vec----------------"<<temp.size() << endl;
+//					for (int r = 0; r < temp.size(); r++) {
+//						cout << gram_map_to_string(temp[r].getGramName()) << " ";
+//					}
+//					cout << "\n" << "end" << endl;
+//#endif
+					vec.push_back(temp);
 				}
 			}
 		}
@@ -1400,13 +1401,14 @@ vector<GramDataType> GrammaticalAnalysis::Goto(const GramDataType &obj, const Gr
 	int i;
 	vector<GramDataType>vec;
 	GramDataType temp = obj;
-	while (temp.posi  < temp.ls.size()) {
-		if ((temp.ls[temp.posi ].getCategory() == gram)) {
+	/*while (temp.posi  < temp.ls.size()) {*/
+
+		if ((temp.posi<temp.ls.size())&&(temp.ls[temp.posi ].getCategory() == gram)) {
 
 			vec.push_back(temp+1 );
 
-		}
-		temp = temp + 1;
+		/*}
+		temp = temp + 1;*/
 	}
 
 #if(TEST==true&&GRAM_TEST==true&&GOTO_FUNC==true)
@@ -1428,14 +1430,14 @@ vector<GramDataType> GrammaticalAnalysis::Goto(const GramType &obj,const Gram&gr
 	int i;
 	for (i = 0; i < obj.vec.size(); i++) {
 		GramDataType temp = obj.vec[i];
-		while (temp.posi < temp.ls.size()) {
-			if ((temp.ls[temp.posi].getCategory() == gram)) {
+		/*while (temp.posi < temp.ls.size()) {*/
+			if ((temp.posi<temp.ls.size())&&(temp.ls[temp.posi].getCategory() == gram)) {
 
 				vec.push_back(temp+1);
 
 			}
-			temp = temp + 1;
-		}	
+		/*	temp = temp + 1;
+		}	*/
 	}
 #if(TEST&&GRAM_TEST&&GOTO_FUNC)
 	cout << "----------Goto function-----------" << endl;
@@ -1476,7 +1478,7 @@ vector<GramType> GrammaticalAnalysis::get_derived_grammar( DataType obj)
 			Gram index = gramTypeTemp.vec[i].ls[0].getCategory();
 			if (!is_grammatical(index)&& !set[index]) {//文法且未被加入
 				q.push(index);
-				cout << GramStringTable[index] << endl;
+			//	cout << GramStringTable[index] << endl;
 				temp.push_back(gramArray[index]);
 				set[index] = true;
 			}
@@ -1543,7 +1545,9 @@ Gram GrammaticalAnalysis::first(GramDataType & obj)
 			// if(gramArray(temp[i].symbol))
 	//		 GramType gramTypeTemp = gramArray[temp[i].symbol];
 			 else {
+#if(TEST&&GRAM_TEST&&CLOSURE)
 				 cout << gramArray[temp[i].symbol].vec.size() << endl;
+#endif
 				 for (j = 0; j < gramArray[temp[i].symbol].vec.size(); j++) {
 					 z.push_back(gramArray[temp[i].symbol].vec[j]);
 
@@ -1572,12 +1576,14 @@ Gram GrammaticalAnalysis::first(GramDataType & obj)
 						 for ( u = 0; u < temp.size(); u++) { //find repeat grammatical
 							 if (gramDataTypeTemp == temp[u])break;
 						 }
-						 if (u >= temp.size()) {							
+						 if (u >= temp.size()) {
+#if (TEST&&GRAM_TEST&&CLOSURE_FUNC)
 							 cout <<"grammatical:"<< gram_map_to_string(gramDataTypeTemp.gramName) << " symbol:" << gram_map_to_string(gramDataTypeTemp.symbol)<<"  posi:"<<gramDataTypeTemp.posi<<"--->" << endl;
 							 for (int r = 0; r < gramDataTypeTemp.ls.size(); r++) {
 								 cout <<gram_map_to_string( gramDataTypeTemp.ls[r].getCategory()) << "  ";
 							 }
 							 cout << endl;
+#endif
 							 temp.push_back(gramDataTypeTemp);
 						 }
 						// for (int u = 0;u<)
