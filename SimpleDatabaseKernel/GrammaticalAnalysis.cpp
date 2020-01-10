@@ -1318,6 +1318,31 @@ void GrammaticalAnalysis::init()
 		}
 	}
 }
+void GrammaticalAnalysis::print(int GotoTable[GRAM_MAX][GRAM_ENUM_MAX])
+{
+	cout << "-------------print(int GotoTable[GRAM_MAX][GRAM_ENUM_MAX])---------------" << endl;
+	int i, j,k,l;
+	for (i = 0; i < GRAM_MAX; i++)
+	{
+		cout << "gram---->" << gram_map_to_string(static_cast<Gram>(i)) << endl;
+		for (j = 0; j < GRAM_ENUM_MAX; j++) {
+			if (GotoTable[i][j] == EMPTY)continue;
+			cout << "gram->" << gram_map_to_string(status[GotoTable[i][j]][0].getGramName()) << "	symbol->" << gram_map_to_string(status[GotoTable[i][j]][0].symbol) << "	posi->" << status[GotoTable[i][j]][0].posi << endl;
+			for (k = 0; k < status[GotoTable[i][j]].size(); k++) {
+				GramDataType temp= status[GotoTable[i][j]][k];
+				//cout << "		posi:" << temp.posi << endl;
+				cout << "->" <<gram_map_to_string( temp.getSymbol()) <<" "<<temp.posi<< endl;
+				for (l = 0; l < temp.ls.size(); l++) {
+					cout << gram_map_to_string(temp.ls[l].getCategory()) << " ";
+				}
+				cout<<"\n\n" << endl;
+				
+			}
+		}
+	}
+
+
+}
 /*
 功能：得 两个容器的不重复的元素，重复元素只加入一次
 vec 为加入的对象
@@ -1387,8 +1412,12 @@ vector< vector<GramDataType>> GrammaticalAnalysis::items(GramType obj )
 					for ( t = 0; t < vec.size(); t++) {
 						if (vec[t] == temp)break;
 					}
-					if(t>=vec.size())
-					vec.push_back(temp);
+					if (t >= vec.size()) {
+						GotoTable[static_cast<int>(vec[i][j].getGramName())][static_cast<Gram>(k)] = vec.size();
+						vec.push_back(temp);
+						//int temp = 
+						
+					}
 					//if (vec[0] == vec[1]);
 				}
 			}

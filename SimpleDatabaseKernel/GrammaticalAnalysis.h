@@ -1,4 +1,5 @@
 #include<iostream>
+#include<cstdlib>
 #ifndef _TESTSWITCH_
 #include"testswitch.h"
 #include"file.h"
@@ -9,6 +10,7 @@
 #define GRAM_MAX 66
 #define GRAM_STRING_TABLE_MAX 136
 #define GRAM_ENUM_MAX 136
+#define EMPTY -1
 //using GrammaticalType= vector<list<string>>;
 //using GrammaticalDataType = list<string>;
 enum GramCategory {
@@ -155,17 +157,17 @@ public: GramDataType(initializer_list<DataType>initializer) {
 				objASymbol[i] = objBSymbol[i] = 0;
 
 			for (int i = 0; i <objA.ls.size(); i++) {
-				//if (objA.ls[i] != objB.ls[i])return false;
+				if (objA.ls[i] != objB.ls[i])return false;
 				//Gram  gramA = const_cast<Gram>(objA.ls[i].getCategory()),GramB= objB.ls[i].getCategory();
-				objASymbol[static_cast< int>(objA.ls[i].getCategory())] ++;
-				objBSymbol[static_cast< int>(objB.ls[i].getCategory())] ++;
+				//objASymbol[static_cast< int>(objA.ls[i].getCategory())] ++;
+				//objBSymbol[static_cast< int>(objB.ls[i].getCategory())] ++;
 			//const Gram tempa =static_cast<int*> (objA.ls[i].getCategory());
 				//(objA.getLs()[i]).getCategory();
 				//vector<DataType>list = objA.getLs();
 			}
-			for (int i = 0; i < GRAM_ENUM_MAX; i++) {
+			/*for (int i = 0; i < GRAM_ENUM_MAX; i++) {
 				if (objASymbol[i] != objBSymbol[i])return false;
-			}
+			}*/
 			return objA.posi == objB.posi&&objA.symbol == objB.symbol;
 		}
 		 friend bool operator!=(GramDataType objA, GramDataType objB) {
@@ -311,6 +313,12 @@ public :
 class GrammaticalAnalysis {
 public:
 	CFilePtr file;
+	GrammaticalAnalysis() {
+		for (int i = 0; i < GRAM_MAX; i++)
+			for (int j = 0; j < GRAM_ENUM_MAX; j++) {
+				GotoTable[i][j] = EMPTY;
+			}
+	}
 	/*GrammaticalAnalysis() {
 
 	}*/
@@ -341,7 +349,8 @@ public:
 		 for (int i = 0; i < gramTypeTemp.vec.size(); i++) {
 			 gramTypeTemp.vec[i].symbol = e_eof;
 		 }
-	items(gramTypeTemp);
+	status=items(gramTypeTemp);
+	print(GotoTable);
 		/*Goto(gramArray[])*/
 		//grammatical_convert_to_dfa();
 		//get_derived_grammar(e_s);
@@ -351,7 +360,11 @@ public:
 private:
 	void init();
 //	void print
-	vector<int>GotoTable[GRAM_ENUM_MAX][GRAM_ENUM_MAX];
+	int GotoTable[GRAM_MAX][GRAM_ENUM_MAX];
+#if(TEST&&GRAM_TEST)
+	void print(int GotoTable[GRAM_MAX][GRAM_ENUM_MAX]);
+#endif
+	vector<vector<GramDataType>>status;
 	inline vector<GramDataType>&vector_join_other_vector(vector<GramDataType>&join, vector<GramDataType>&beJoined);
 	vector<vector<GramDataType>>items(GramType);
 	vector<GramDataType>Goto(const GramDataType&, const Gram&);
