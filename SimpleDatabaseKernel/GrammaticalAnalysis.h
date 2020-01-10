@@ -134,14 +134,43 @@ public: GramDataType(initializer_list<DataType>initializer) {
 		posi = 0;
 		
 		}
-		 friend bool operator==(const GramDataType&objA,const GramDataType objB) {
+		friend bool operator!=(const vector<GramDataType>objA, const vector<GramDataType>objB) {
+			return !(objA == objB);
+		}
+		friend bool operator==(const vector<GramDataType>objA, const vector<GramDataType>objB) {
+			int i, j;
+			if (objA.size() != objB.size())return false;
+			for (i = 0; i < objA.size(); i++) {
+				for (j = 0; j < objB.size(); j++) {
+					if (objA[i] != objB[j])return false;
+				}
+			}
+			return true;
+		}
+		 friend bool operator==( GramDataType objA, GramDataType objB) {
 			bool flag = true;
 			if (objA.ls.size() != objB.ls.size())return false;
+			int objASymbol[GRAM_ENUM_MAX], objBSymbol[GRAM_ENUM_MAX];
+			for (int i = 0; i < GRAM_ENUM_MAX; i++)
+				objASymbol[i] = objBSymbol[i] = 0;
+
 			for (int i = 0; i <objA.ls.size(); i++) {
-				if (objA.ls[i] != objB.ls[i])return false;
-			}			
+				//if (objA.ls[i] != objB.ls[i])return false;
+				//Gram  gramA = const_cast<Gram>(objA.ls[i].getCategory()),GramB= objB.ls[i].getCategory();
+				objASymbol[static_cast< int>(objA.ls[i].getCategory())] ++;
+				objBSymbol[static_cast< int>(objB.ls[i].getCategory())] ++;
+			//const Gram tempa =static_cast<int*> (objA.ls[i].getCategory());
+				//(objA.getLs()[i]).getCategory();
+				//vector<DataType>list = objA.getLs();
+			}
+			for (int i = 0; i < GRAM_ENUM_MAX; i++) {
+				if (objASymbol[i] != objBSymbol[i])return false;
+			}
 			return objA.posi == objB.posi&&objA.symbol == objB.symbol;
 		}
+		 friend bool operator!=(GramDataType objA, GramDataType objB) {
+			 return !(objA == objB);
+		 }
 		 void setGramName(Gram gramName) { this->gramName = gramName; }
 		 Gram getGramName() { return gramName; }
 		 Gram getSymbol() { return symbol; }
@@ -168,6 +197,7 @@ public: GramDataType(initializer_list<DataType>initializer) {
 		GramDataType& operator=(const GramDataType&);
 		GramDataType& operator+=(int);
 		GramDataType operator+(int);
+		vector<DataType>getLs() { this->ls; }
 	//	void set_posi(int posi) { this->posi = posi; }
 	vector<DataType>ls;
 	int posi;

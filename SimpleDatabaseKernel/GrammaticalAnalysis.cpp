@@ -1350,7 +1350,7 @@ vector< vector<GramDataType>> GrammaticalAnalysis::items(GramType obj )
 	cout << "---------items--------" << endl;
 #endif
 	vector<vector<GramDataType>>vec;
-	int i,j,k;
+	int i,j,k,t;
 	for (i = 0; i < obj.vec.size(); i++) {
 		vector<GramDataType>temp = closure(obj.vec);
 	//	for (int j = 0; j < temp.size(); j++)
@@ -1366,7 +1366,7 @@ vector< vector<GramDataType>> GrammaticalAnalysis::items(GramType obj )
 	}
 #endif
 	int size;
-	do {
+	//do {
 		size = vec.size();
 		for (i = 0; i < vec.size(); i++) {
 			for (j = 0; j < vec[i].size(); j++) {
@@ -1375,20 +1375,25 @@ vector< vector<GramDataType>> GrammaticalAnalysis::items(GramType obj )
 					//if(k==)
 
 					vector<GramDataType>temp=Goto(vec[i][j],static_cast<Gram>(k));
-//#if(TEST&&GRAM_TEST&&ITEMS_FUNC)
-//					if (temp.size() <= 0)continue;
-//					cout << "Goto(" << gram_map_to_string(vec[i][j].getGramName()) << ", " << gram_map_to_string(static_cast<Gram>(k)) << ")" <<"	"<< vec[i][j].posi<< endl;
-//					cout << "-------------temp vec----------------"<<temp.size() << endl;
-//					for (int r = 0; r < temp.size(); r++) {
-//						cout << gram_map_to_string(temp[r].getGramName()) << " ";
-//					}
-//					cout << "\n" << "end" << endl;
-//#endif
+#if(TEST&&GRAM_TEST&&ITEMS_FUNC)
+					if (temp.size() <= 0)continue;
+					cout << "Goto(" << gram_map_to_string(vec[i][j].getGramName()) << ", " << gram_map_to_string(static_cast<Gram>(k)) << ")" <<"	"<< vec[i][j].posi<< endl;
+					cout << "-------------temp vec----------------"<<temp.size() << endl;
+					for (int r = 0; r < temp.size(); r++) {
+						cout << gram_map_to_string(temp[r].getGramName()) << " ";
+					}
+					cout << "\n" << "end" << endl;
+#endif
+					for ( t = 0; t < vec.size(); t++) {
+						if (vec[t] == temp)break;
+					}
+					if(t>=vec.size())
 					vec.push_back(temp);
+					//if (vec[0] == vec[1]);
 				}
 			}
 		}
-	} while (size != vec.size());
+	//} while (size != vec.size());
 
 	return vec;
 }/*
