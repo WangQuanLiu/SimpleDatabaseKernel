@@ -11,6 +11,7 @@
 #define GRAM_STRING_TABLE_MAX 136
 #define GRAM_ENUM_MAX 136
 #define EMPTY -1
+#define GOTO_TABLE_MAX 1000
 //using GrammaticalType= vector<list<string>>;
 //using GrammaticalDataType = list<string>;
 enum GramCategory {
@@ -126,7 +127,10 @@ private:	Gram category;
 
 };
 class GramDataType {//单个文法集合
-public: GramDataType(initializer_list<DataType>initializer) {
+
+public: 
+	GramDataType() = default;
+	GramDataType(initializer_list<DataType>initializer) {
 		initializer_list<DataType>::const_iterator begin, end;
 		begin = initializer.begin();
 		end = initializer.end();
@@ -314,10 +318,8 @@ class GrammaticalAnalysis {
 public:
 	CFilePtr file;
 	GrammaticalAnalysis() {
-		for (int i = 0; i < GRAM_MAX; i++)
-			for (int j = 0; j < GRAM_ENUM_MAX; j++) {
-				GotoTable[i][j] = EMPTY;
-			}
+		init();
+		
 	}
 	/*GrammaticalAnalysis() {
 
@@ -331,7 +333,7 @@ public:
 		 //cout << first(temp2) << endl;
 	}
 	void test() {
-		init();
+		//init();
 		//GramType temp = gramArray[0];
 	//	temp.vec[0].symbol = e_eof;
 		vector<GramDataType>vec;
@@ -339,18 +341,19 @@ public:
 		temp.symbol = e_eof;
 		vec.push_back(temp);
 		//closure(vec);
-		GramType gramTypeTemp = gramArray[0];
+		GramType gramTypeTemp = gramArray[4];
 		for (int i = 0; i < gramTypeTemp.vec.size(); i++) {
-			gramTypeTemp.vec[i].symbol = e_eof;
+			gramTypeTemp.vec[i].symbol = e_primary_def;
 		}
-	//	Goto(gramTypeTemp, e_eof);
-		//Goto(gramTypeTemp, e_create);
-		 gramTypeTemp = gramArray[0];
+	vector<GramDataType>temporary=	Goto(gramTypeTemp, e_primary_def);
+		//Goto(gramTypeTemp, e_primary_def);
+		 gramTypeTemp = gramArray[21];
 		 for (int i = 0; i < gramTypeTemp.vec.size(); i++) {
 			 gramTypeTemp.vec[i].symbol = e_eof;
 		 }
 	status=items(gramTypeTemp);
 	print(GotoTable);
+	//	 vector<GramDataType>tempA = status[GotoTable[e_constraint_def][e_primary]];
 		/*Goto(gramArray[])*/
 		//grammatical_convert_to_dfa();
 		//get_derived_grammar(e_s);
@@ -360,15 +363,16 @@ public:
 private:
 	void init();
 //	void print
-	int GotoTable[GRAM_MAX][GRAM_ENUM_MAX];
+	int GotoTable[GOTO_TABLE_MAX][GRAM_ENUM_MAX];
 #if(TEST&&GRAM_TEST)
-	void print(int GotoTable[GRAM_MAX][GRAM_ENUM_MAX]);
+	void print(int GotoTable[GOTO_TABLE_MAX][GRAM_ENUM_MAX]);
 #endif
 	vector<vector<GramDataType>>status;
 	inline vector<GramDataType>&vector_join_other_vector(vector<GramDataType>&join, vector<GramDataType>&beJoined);
 	vector<vector<GramDataType>>items(GramType);
 	vector<GramDataType>Goto(const GramDataType&, const Gram&);
 	vector<GramDataType>Goto(const GramType&,const Gram&);
+	vector<GramDataType>Goto(const vector<GramDataType> &, const Gram &);
 	vector<GramType> get_derived_grammar( DataType obj);//派生文法，即文法推导文法，不
 	Gram first(GramDataType&obj);//寻找文法中第一个非文法的字符  find first char of non-grammatical in grammatical
 	GramCategory is_grammatical(Gram obj);//判断是文法还是非文法 Judge whether it is grammatical or non-grammatical
