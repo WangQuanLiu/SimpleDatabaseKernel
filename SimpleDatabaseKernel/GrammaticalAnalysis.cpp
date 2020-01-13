@@ -1504,39 +1504,42 @@ vector< vector<GramDataType>> GrammaticalAnalysis::items(GramType obj )
 //
 //
 	/*int i,k;*/
-	for (i = 0; i < vec.size(); i++) {
-		for (k = 0; k < GRAM_ENUM_MAX; k++) {
-			vector<GramDataType>temp = Goto(vec[i], static_cast<Gram>(k));
-			if (temp.size() <= 0)continue;
-//#if(TEST&&GRAM_TEST&&ITEMS_FUNC)
-//
-//			cout << "Goto(" << i << ", " << gram_map_to_string(static_cast<Gram>(k)) << ")" << "	"/* << vec[i][j].posi */<< endl;
-//			cout << "-------------temp vec----------------" << temp.size() << endl;
-//			for (int r = 0; r < temp.size(); r++) {
-//				cout << gram_map_to_string(temp[r].getGramName()) << " ";
-//			}
-//			cout << "\n" << "end" << endl;
-//#endif
-			for (t = 0; t < vec.size(); t++) {
-				if (vec[t] == temp) {
-					GotoTable[i][static_cast<Gram>(k)] = t;
-					break;
+	do {
+		size = vec.size();
+		for (i = 0; i < vec.size(); i++) {
+			for (k = 0; k < GRAM_ENUM_MAX; k++) {
+				vector<GramDataType>temp = Goto(vec[i], static_cast<Gram>(k));
+				if (temp.size() <= 0)continue;
+				//#if(TEST&&GRAM_TEST&&ITEMS_FUNC)
+				//
+				//			cout << "Goto(" << i << ", " << gram_map_to_string(static_cast<Gram>(k)) << ")" << "	"/* << vec[i][j].posi */<< endl;
+				//			cout << "-------------temp vec----------------" << temp.size() << endl;
+				//			for (int r = 0; r < temp.size(); r++) {
+				//				cout << gram_map_to_string(temp[r].getGramName()) << " ";
+				//			}
+				//			cout << "\n" << "end" << endl;
+				//#endif
+				for (t = 0; t < vec.size(); t++) {
+					if (vec[t] == temp) {
+						GotoTable[i][static_cast<Gram>(k)] = t;
+						break;
 
+					}
+				}
+
+				if (t >= vec.size()) {
+					cout << "status:" << i << "->" << gram_map_to_string(static_cast<Gram>(k)) << endl;
+					GotoTable[i][static_cast<Gram>(k)] = vec.size();
+					vec.push_back(temp);
 				}
 			}
 
-			if (t >= vec.size()) {
-				cout <<"status:"<<i<<"->"<< gram_map_to_string(static_cast<Gram>(k)) << endl;
-				GotoTable[i][static_cast<Gram>(k)] = vec.size();
-				vec.push_back(temp);
-			}
+
+			//if (i >= 200)break;
+
+
 		}
-
-
-		//if (i >= 200)break;
-
-
-	}
+	} while (size != vec.size());//add by  2020/1/13 21:33
 	return vec;
 }
 vector<GramDataType> GrammaticalAnalysis::Goto(const vector<GramDataType> &obj, const Gram &gram) {
