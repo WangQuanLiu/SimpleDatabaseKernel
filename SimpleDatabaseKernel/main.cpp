@@ -78,9 +78,9 @@ void Compile::lexical_run(string filePath)
 }
 void Compile::grammatical_run(string Path)
 {
-	GrammaticalAnalysis gra;
-	gra.test_first();
-	gra.test();
+	GrammaticalAnalysis gram(Path);
+	/*gra.test_first();
+	gra.test();*/
 }
 Compile::Compile(int argc,char*argv[])
 {

@@ -1,5 +1,6 @@
 #include<iostream>
 #include<cstdlib>
+#include<vector>
 #ifndef _TESTSWITCH_
 #include"testswitch.h"
 #include"file.h"
@@ -105,13 +106,10 @@ struct DataType   {	//单个文法类
  public: DataType( Gram category) {
 	 set_category(category);
 	 }
-		Gram getCategory() { return category; }
-		 bool operator==(DataType category) {
-			return this->category == category.category;
-		}
-	 friend bool operator!=(const DataType& category1,const DataType& category2) {
-			return category1.category != category2.category;
-		}
+		 Gram getCategory();
+		 bool operator==(DataType category);
+		 friend bool operator!=(const DataType& category1, const DataType& category2);
+		
 		/* DataType(int integer, Gram cateory) {
 			 date.intVal = integer;
 			 set_category(category);
@@ -121,7 +119,7 @@ struct DataType   {	//单个文法类
 			 date.realVal;
 			 set_category(category);
 		 }*/
-		 void set_category(Gram category) { this->category = category; }
+		 void set_category(Gram category);
 //	string str;
 private:	Gram category;
 
@@ -130,61 +128,19 @@ class GramDataType {//单个文法集合
 
 public: 
 	GramDataType() = default;
-	GramDataType(initializer_list<DataType>initializer) {
-		initializer_list<DataType>::const_iterator begin, end;
-		begin = initializer.begin();
-		end = initializer.end();
-		for (; begin != end; begin++) {
-			ls.push_back(*begin);
-		}
-		posi = 0;
-		
-		}
-		friend bool operator!=(const vector<GramDataType>objA, const vector<GramDataType>objB) {
-			return !(objA == objB);
-		}
-		friend bool operator==(const vector<GramDataType>objA, const vector<GramDataType>objB) {
-			int i, j;
-			if (objA.size() != objB.size())return false;
-			for (i = 0; i < objA.size(); i++) {
-				for (j = 0; j < objB.size(); j++) {
-					if (objA[i] != objB[j])return false;
-				}
-			}
-			return true;
-		}
-		 friend bool operator==( GramDataType objA, GramDataType objB) {
-			bool flag = true;
-			if (objA.ls.size() != objB.ls.size())return false;
-			int objASymbol[GRAM_ENUM_MAX], objBSymbol[GRAM_ENUM_MAX];
-			for (int i = 0; i < GRAM_ENUM_MAX; i++)
-				objASymbol[i] = objBSymbol[i] = 0;
-
-			for (int i = 0; i <objA.ls.size(); i++) {
-				if (objA.ls[i] != objB.ls[i])return false;
-				//Gram  gramA = const_cast<Gram>(objA.ls[i].getCategory()),GramB= objB.ls[i].getCategory();
-				//objASymbol[static_cast< int>(objA.ls[i].getCategory())] ++;
-				//objBSymbol[static_cast< int>(objB.ls[i].getCategory())] ++;
-			//const Gram tempa =static_cast<int*> (objA.ls[i].getCategory());
-				//(objA.getLs()[i]).getCategory();
-				//vector<DataType>list = objA.getLs();
-			}
-			/*for (int i = 0; i < GRAM_ENUM_MAX; i++) {
-				if (objASymbol[i] != objBSymbol[i])return false;
-			}*/
-			return objA.posi == objB.posi&&objA.symbol == objB.symbol;
-		}
-		 friend bool operator!=(GramDataType objA, GramDataType objB) {
-			 return !(objA == objB);
-		 }
-		 void setGramName(Gram gramName) { this->gramName = gramName; }
-		 Gram getGramName() { return gramName; }
-		 Gram getSymbol() { return symbol; }
-		 int getPosi() { return posi; }
+	GramDataType(initializer_list<DataType>initializer);
+	friend bool operator!=(const vector<GramDataType>objA, const vector<GramDataType>objB);
+	friend bool operator==(const vector<GramDataType>objA, const vector<GramDataType>objB);
+	friend bool operator==(GramDataType objA, GramDataType objB);
+	friend bool operator!=(GramDataType objA, GramDataType objB);
+	void setGramName(Gram gramName);
+	Gram getGramName();
+	Gram getSymbol();
+	int getPosi();
 	/*	void set_symbol(vector<Gram>&vec) {
 			this->symbol = vec;
 		}*/
-		void set_symbol(Gram &obj) { this->symbol = obj; }
+	void set_symbol(Gram &obj);
 		/*void add_symbol(initializer_list<Gram>initializer) {
 			initializer_list<Gram>::const_iterator begin, end;
 			begin = initializer.begin();
@@ -203,7 +159,7 @@ public:
 		GramDataType& operator=(const GramDataType&);
 		GramDataType& operator+=(int);
 		GramDataType operator+(int);
-		vector<DataType>getLs() { this->ls; }
+		vector<DataType>getLs();
 	//	void set_posi(int posi) { this->posi = posi; }
 	vector<DataType>ls;
 	int posi;
@@ -217,16 +173,9 @@ public:
  struct GramType{//一个文法中可能指向多个文法，这个是指向多个文法集合
 	 vector<GramDataType>vec;
 		Gram gramName;
-		GramType(initializer_list<GramDataType>list) {
-			initializer_list<GramDataType>::iterator begin, end;
-			begin = list.begin();
-			end = list.end();
-			for (; begin != end; begin++) {
-				vec.push_back(*begin);
-			}
-		}
-		void setGramName(Gram gramName) { this->gramName = gramName; }
-		Gram getGramName(){ return gramName; }
+		GramType(initializer_list<GramDataType>list);
+		void setGramName(Gram gramName);
+		Gram getGramName();
  };
 //typedef GrammaticalType{
 //	
@@ -317,10 +266,8 @@ public :
 class GrammaticalAnalysis {
 public:
 	CFilePtr file;
-	GrammaticalAnalysis() {
-		init();
-		
-	}
+	GrammaticalAnalysis(string filePath);
+	void run();
 	/*GrammaticalAnalysis() {
 
 	}*/
@@ -333,26 +280,26 @@ public:
 		 //cout << first(temp2) << endl;
 	}
 	void test() {
-		//init();
+		init();
 		//GramType temp = gramArray[0];
 	//	temp.vec[0].symbol = e_eof;
-		vector<GramDataType>vec;
-		GramDataType temp = gramArray[0].vec[0];
-		temp.symbol = e_eof;
-		vec.push_back(temp);
-		//closure(vec);
-		GramType gramTypeTemp = gramArray[4];
-		for (int i = 0; i < gramTypeTemp.vec.size(); i++) {
-			gramTypeTemp.vec[i].symbol = e_primary_def;
-		}
-	vector<GramDataType>temporary=	Goto(gramTypeTemp, e_primary_def);
-		//Goto(gramTypeTemp, e_primary_def);
-		 gramTypeTemp = gramArray[21];
-		 for (int i = 0; i < gramTypeTemp.vec.size(); i++) {
-			 gramTypeTemp.vec[i].symbol = e_eof;
-		 }
-	status=items(gramTypeTemp);
-	print(GotoTable);
+	//	vector<GramDataType>vec;
+	//	GramDataType temp = gramArray[0].vec[0];
+	//	temp.symbol = e_eof;
+	//	vec.push_back(temp);
+	//	//closure(vec);
+	//	GramType gramTypeTemp = gramArray[4];
+	//	for (int i = 0; i < gramTypeTemp.vec.size(); i++) {
+	//		gramTypeTemp.vec[i].symbol = e_primary_def;
+	//	}
+	//vector<GramDataType>temporary=	Goto(gramTypeTemp, e_primary_def);
+	//	//Goto(gramTypeTemp, e_primary_def);
+	//	 gramTypeTemp = gramArray[21];
+	//	 for (int i = 0; i < gramTypeTemp.vec.size(); i++) {
+	//		 gramTypeTemp.vec[i].symbol = e_eof;
+	//	 }
+	//status=items(gramTypeTemp);
+	//print(GotoTable);
 	//	 vector<GramDataType>tempA = status[GotoTable[e_constraint_def][e_primary]];
 		/*Goto(gramArray[])*/
 		//grammatical_convert_to_dfa();

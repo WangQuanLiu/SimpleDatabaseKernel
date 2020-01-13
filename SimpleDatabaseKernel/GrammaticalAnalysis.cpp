@@ -1,7 +1,7 @@
 #ifndef _GrammaticalAnalysis_
 #include"GrammaticalAnalysis.h"
 #endif
-#define CLOSURE_FUNC true
+#define CLOSURE_FUNC false
 #define GOTO_FUNC false
 #define ITEMS_FUNC true
 #define GET_DERIVED_GRAMMAR false
@@ -1275,7 +1275,46 @@ GramDataType{
 	}
 };
 
-GramDataType& GramDataType::operator=(const GramDataType& obj) 
+ GramDataType::GramDataType(initializer_list<DataType> initializer)
+ {
+	
+		 initializer_list<DataType>::const_iterator begin, end;
+		 begin = initializer.begin();
+		 end = initializer.end();
+		 for (; begin != end; begin++) {
+			 ls.push_back(*begin);
+		 }
+		 posi = 0;
+
+
+ }
+
+ void GramDataType::setGramName(Gram gramName)
+ {
+	 this->gramName = gramName; 
+ }
+
+ Gram GramDataType::getGramName()
+ {
+return gramName; 
+ }
+
+ Gram GramDataType::getSymbol()
+ {
+	  return symbol; 
+ }
+
+ int GramDataType::getPosi()
+ {
+	 return posi; 
+ }
+
+ void GramDataType::set_symbol(Gram & obj)
+ {
+	  this->symbol = obj; 
+ }
+
+ GramDataType& GramDataType::operator=(const GramDataType& obj)
 {
 	this->ls = obj.ls;
 	this->posi = obj.posi;
@@ -1304,15 +1343,27 @@ GramDataType GramDataType::operator+(int num)
 	
 	return temp;;
 }
+vector<DataType> GramDataType::getLs()
+{
+	return  this->ls; 
+}
+GrammaticalAnalysis::GrammaticalAnalysis(string filePath)
+{		init();
+		file = new GrammaticalAnalysisFile(filePath);
+		file->set_file_path(filePath);
+}
+void GrammaticalAnalysis::run()
+{
+}
 /*
 功能：初始化gramArray中的文法号
 */
 void GrammaticalAnalysis::init()
 {
 	int i,j;
-	//GotoTable = new int*[GOTO_TABLE_MAX];
-	//for (i = 0; i < GOTO_TABLE_MAX; i++)
-	//	GotoTable[i] = new int[GOTO_TABLE_MAX];
+	/*GotoTable = new int*[GOTO_TABLE_MAX];
+	for (i = 0; i < GOTO_TABLE_MAX; i++)
+		GotoTable[i] = new int[GOTO_TABLE_MAX];*/
 	for (i = 0; i < GOTO_TABLE_MAX; i++)
 		for (int j = 0; j < GRAM_ENUM_MAX; j++) {
 			GotoTable[i][j] = EMPTY;
@@ -1331,7 +1382,7 @@ void GrammaticalAnalysis::init()
 		gramTypeTemp.vec[i].symbol = e_eof;
 	}
 
-//	status = items(gramTypeTemp);
+	status = items(gramTypeTemp);
 	//print(GotoTable);
 }
 void GrammaticalAnalysis::print(int GotoTable[GOTO_TABLE_MAX][GRAM_ENUM_MAX])
@@ -1822,3 +1873,100 @@ inline GramType GrammaticalAnalysis::gram_map_to_gramtype(const Gram & obj)
 	Grammatical::v_create_index_def,//64
 	Grammatical::v_drop_index_def//65
 };
+
+ Gram DataType::getCategory()
+ {
+	 return category;
+	
+ }
+
+ bool DataType::operator==(DataType category)
+ {
+	
+		 return this->category == category.category;
+
+ }
+
+ void DataType::set_category(Gram category)
+ {
+	 this->category = category; 
+ }
+
+ bool operator!=(const DataType & category1, const DataType & category2)
+ {
+
+		 return category1.category != category2.category;
+ }
+
+ bool operator!=(const vector<GramDataType> objA, const vector<GramDataType> objB)
+ {
+	
+		 return !(objA == objB);
+	
+ }
+
+ bool operator==(const vector<GramDataType> objA, const vector<GramDataType> objB)
+ {
+
+		 int i, j;
+		 if (objA.size() != objB.size())return false;
+		 for (i = 0; i < objA.size(); i++) {
+			 if (objA[i] != objB[i])return false;
+		 }
+		 return true;
+	
+ }
+
+ bool operator==(GramDataType objA, GramDataType objB)
+ {
+	
+		 bool flag = true;
+		 if (objA.ls.size() != objB.ls.size())return false;
+		 int objASymbol[GRAM_ENUM_MAX], objBSymbol[GRAM_ENUM_MAX];
+		 for (int i = 0; i < GRAM_ENUM_MAX; i++)
+			 objASymbol[i] = objBSymbol[i] = 0;
+
+		 for (int i = 0; i <objA.ls.size(); i++) {
+			 if (objA.ls[i] != objB.ls[i])return false;
+			 //Gram  gramA = const_cast<Gram>(objA.ls[i].getCategory()),GramB= objB.ls[i].getCategory();
+			 //objASymbol[static_cast< int>(objA.ls[i].getCategory())] ++;
+			 //objBSymbol[static_cast< int>(objB.ls[i].getCategory())] ++;
+			 //const Gram tempa =static_cast<int*> (objA.ls[i].getCategory());
+			 //(objA.getLs()[i]).getCategory();
+			 //vector<DataType>list = objA.getLs();
+		 }
+		 /*for (int i = 0; i < GRAM_ENUM_MAX; i++) {
+		 if (objASymbol[i] != objBSymbol[i])return false;
+		 }*/
+		 return objA.posi == objB.posi&&objA.symbol == objB.symbol;
+	
+ }
+
+ bool operator!=(GramDataType objA, GramDataType objB)
+ {
+	
+		 return !(objA == objB);
+
+ }
+
+ GramType::GramType(initializer_list<GramDataType> list)
+ {
+
+		 initializer_list<GramDataType>::iterator begin, end;
+		 begin = list.begin();
+		 end = list.end();
+		 for (; begin != end; begin++) {
+			 vec.push_back(*begin);
+		 }
+	 
+ }
+
+ void GramType::setGramName(Gram gramName)
+ {
+	this->gramName = gramName; 
+ }
+
+ Gram GramType::getGramName()
+ {
+	  return gramName; 
+ }

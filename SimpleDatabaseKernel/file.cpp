@@ -218,6 +218,11 @@ bool LexicalAnalysisFile::set_file_path(string fileName)
 	return File::set_file_path(fileName) && read_file();
 }
 
+string GrammaticalAnalysisFile::get_token()
+{
+	return string();
+}
+
 bool GrammaticalAnalysisFile::read_file()
 {
 	fstream file(filename, ios::in);

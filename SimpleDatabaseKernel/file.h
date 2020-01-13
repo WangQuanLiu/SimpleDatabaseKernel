@@ -13,6 +13,7 @@
 #include<direct.h>
 #ifndef _TESTSWITCH_
 #include"testswitch.h"
+//#include"GrammaticalAnalysis.h"
 #endif
 #define CHARACTER_MAX 257
 #define READ_MAX 10
@@ -69,6 +70,8 @@ public:
 	}*/
 };
 class GrammaticalAnalysisFile :public File {
+public :
+		string get_token();
 protected :
 	bool read_file();
 public :
