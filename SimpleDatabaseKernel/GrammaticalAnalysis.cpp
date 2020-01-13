@@ -1,7 +1,7 @@
 #ifndef _GrammaticalAnalysis_
 #include"GrammaticalAnalysis.h"
 #endif
-#define CLOSURE_FUNC false
+#define CLOSURE_FUNC true
 #define GOTO_FUNC false
 #define ITEMS_FUNC true
 #define GET_DERIVED_GRAMMAR false
@@ -473,11 +473,11 @@ GramDataType{
 	DataType(e_where_algorithm_operator_def),
 	DataType(e_r_bracket)
 	},
-	GramDataType{
+	/*GramDataType{
 	DataType(e_addop_def),
 	DataType(e_int_real_col_name_def),
 	DataType(e_where_mulop_def),
-	}
+	}*/
 };
  GramType Grammatical::v_where_mulop_def{
 	/*
@@ -529,11 +529,11 @@ GramDataType{
 	DataType(e_where_algorithm_operator_def),
 	DataType(e_r_bracket)
 },
-GramDataType{
-	DataType(e_mulop_def),
-	DataType(e_int_real_col_name_def),
-	DataType(e_where_addop_def),
-}
+//GramDataType{
+//	DataType(e_mulop_def),
+//	DataType(e_int_real_col_name_def),
+//	DataType(e_where_addop_def),
+//}
 
 };
 
@@ -1346,7 +1346,7 @@ void GrammaticalAnalysis::print(int GotoTable[GOTO_TABLE_MAX][GRAM_ENUM_MAX])
 				
 
 		for (k = 0; k < temp.size(); k++) {
-			cout <<"gram->"<< gram_map_to_string(temp[k].getGramName()) << "  symbol  " <<gram_map_to_string( temp[k].symbol) << "  posi " << temp[k].posi << endl;
+			cout <<"gram->"<< gram_map_to_string(temp[k].getGramName()) << "  symbol  "/* <<gram_map_to_string( temp[k].symbol)*/ <<"	"<<gram_map_to_string(static_cast<Gram>(k))<< "  posi " << temp[k].posi << endl;
 					
 					/*cout << gram_map_to_string(temp[k].) << "	";*/
 			//cout<<gram_map_to_string(temp[k].symbol)
@@ -1396,11 +1396,11 @@ vector< vector<GramDataType>> GrammaticalAnalysis::items(GramType obj )
 #endif
 	vector<vector<GramDataType>>vec;
 	int i,j,k,t;
-	for (i = 0; i < obj.vec.size(); i++) {
+	/*for (i = 0; i < obj.vec.size(); i++) {*/
 		vector<GramDataType>temp = closure(obj.vec);
 	//	for (int j = 0; j < temp.size(); j++)
 			vec.push_back(temp);
-	}
+	//}
 	//vec.push_back(obj.vec);
 
 #if (TEST&&GRAM_TEST&&ITEMS_FUNC)
@@ -1475,7 +1475,7 @@ vector< vector<GramDataType>> GrammaticalAnalysis::items(GramType obj )
 			}
 
 			if (t >= vec.size()) {
-
+				cout <<"status:"<<i<<"->"<< gram_map_to_string(static_cast<Gram>(k)) << endl;
 				GotoTable[i][static_cast<Gram>(k)] = vec.size();
 				vec.push_back(temp);
 			}
