@@ -70,13 +70,15 @@ namespace file {
 
 		}*/
 	};
-	typedef struct GRAMTOKENTYPE {
-	public: GRAMTOKENTYPE() = default;
-			void setGram(string&gram);
-			void setString(string&string);
+	typedef struct GramTokenType {
+	public: GramTokenType() = default;
+			GramTokenType(const GramTokenType&obj);
+			void setGram(const string&gram);
+			void setString(const string&string);
 			std::string getGram();
 			std::string getString();
-			GRAMTOKENTYPE(string&gram, string&str);
+		explicit	GramTokenType(const string&gram, const string&str);
+		explicit	GramTokenType(const char*, const char*);
 	private:
 		string gram, string;
 	}GramToken;
@@ -89,6 +91,9 @@ namespace file {
 	public:
 		GrammaticalAnalysisFile(string filePath) :File(filePath) {}
 		bool set_file_path(string fileName);
+	private:
+		deque<deque<GramToken>>token;
+	
 	};
 
 }

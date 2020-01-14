@@ -1539,7 +1539,7 @@ vector< vector<GramDataType>> GrammaticalAnalysis::items(GramType obj )
 
 
 		}
-	} while (size != vec.size());//add by  2020/1/13 21:33
+	} while (size != vec.size());//add at  2020/1/13 21:33
 	return vec;
 }
 vector<GramDataType> GrammaticalAnalysis::Goto(const vector<GramDataType> &obj, const Gram &gram) {

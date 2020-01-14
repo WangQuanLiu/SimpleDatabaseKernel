@@ -227,7 +227,9 @@ bool GrammaticalAnalysisFile::read_file()
 {
 	fstream file(filename, ios::in);
 	string str, temp;
-	list<string>ls;//保存临时列表
+
+	int i,lastLeftBracket=0,lastRightBracket=0,lastIndex=0;
+	deque<GramToken>ls;//保存临时列表
 	if (!file) {
 		cerr << "文件打开失败！" << endl;
 		flag = false;
@@ -239,6 +241,35 @@ bool GrammaticalAnalysisFile::read_file()
 		while (!file.eof()) { //保存到saveList
 			file.getline(tempCharacter, FILE_LINE_MAX_NUMBER);
 			saveList.push_back(tempCharacter);
+		}
+		file.close();
+		while (!saveList.empty()) {
+			ls.clear();
+			str.clear();
+			lastIndex=lastLeftBracket = lastRightBracket = 0;
+			str = saveList.front();
+			saveList.pop_front();
+			if (str != "") {
+				for (i = 0; i < str.size(); i++) {
+					if (str[i] == '(') lastLeftBracket = i;
+					else if (str[i] == ')') {
+						//lastRightBracket = i;
+						temp = str.substr(lastIndex, lastLeftBracket - lastIndex);
+						GramToken gramTokenTemp;
+						gramTokenTemp.setGram(temp);
+						temp = str.substr(lastLeftBracket+1, i - lastLeftBracket);
+						gramTokenTemp.setString(temp);
+						ls.push_back(gramTokenTemp);
+					}
+					else if (str[i] == ' ')lastIndex = i+1;
+				}
+			}
+			else {
+				ls.push_back(GramToken(ENTER,ENTER));
+				token.push_back(ls);
+			}
+
+			token.push_back(ls);
 		}
 		
 	}
@@ -254,28 +285,53 @@ bool GrammaticalAnalysisFile::set_file_path(string fileName)
 	return File::set_file_path(fileName) && read_file();
 }
 
-void file::GRAMTOKENTYPE::setGram(std::string & gram)
+file::GramTokenType::GramTokenType(const GramTokenType & obj)
+{
+	this->gram = obj.gram;
+	this->string = obj.string;
+}
+
+void file::GramTokenType::setGram(const std::string & gram)
 {
 	this->gram = gram;
 }
 
-void file::GRAMTOKENTYPE::setString(std::string & string)
+void file::GramTokenType::setString(const std::string & string)
 {
 	this->string = string;
 }
 
-std::string file::GRAMTOKENTYPE::getGram()
+std::string file::GramTokenType::getGram()
 {
 	return gram;
 }
 
-std::string file::GRAMTOKENTYPE::getString()
+std::string file::GramTokenType::getString()
 {
 	return string;
 }
 
-file::GRAMTOKENTYPE::GRAMTOKENTYPE(std::string & gram, std::string & string)
+ file::GramTokenType::GramTokenType(const std::string & gram, const std::string & string)
 {
 	setGram(gram);
 	setString(string);
+}
+
+file::GramTokenType::GramTokenType(const char *chA, const char *chB)
+{
+	std::string tempA, tempB;
+	while ((*chA != '\0') || (*chB != '\0')) {
+		if (*chA != '\0') {
+			tempA += *chA;
+			chA++;
+		}
+		if (*chB != '\0') {
+			tempB += *chB;
+			chB++;
+		}
+
+	}
+	setGram(gram);
+	setString(string);
+	GramTokenType(tempA, tempB);
 }
