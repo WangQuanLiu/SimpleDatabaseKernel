@@ -1,6 +1,6 @@
 
 #include"file.h"
-
+using namespace file;
 string File::get_program_dir()
 {
 	char exeFullPath[MAX_PATH]; // Full path 
@@ -247,7 +247,35 @@ bool GrammaticalAnalysisFile::read_file()
 	return false;
 }
 
+
+
 bool GrammaticalAnalysisFile::set_file_path(string fileName)
 {
 	return File::set_file_path(fileName) && read_file();
+}
+
+void file::GRAMTOKENTYPE::setGram(std::string & gram)
+{
+	this->gram = gram;
+}
+
+void file::GRAMTOKENTYPE::setString(std::string & string)
+{
+	this->string = string;
+}
+
+std::string file::GRAMTOKENTYPE::getGram()
+{
+	return gram;
+}
+
+std::string file::GRAMTOKENTYPE::getString()
+{
+	return string;
+}
+
+file::GRAMTOKENTYPE::GRAMTOKENTYPE(std::string & gram, std::string & string)
+{
+	setGram(gram);
+	setString(string);
 }

@@ -15,6 +15,7 @@
 #define GOTO_TABLE_MAX 1000
 //using GrammaticalType= vector<list<string>>;
 //using GrammaticalDataType = list<string>;
+using namespace file;
 enum GramCategory {
 	gram,//文法 grammatical
 	non_gram//非文法 non-grammatical
