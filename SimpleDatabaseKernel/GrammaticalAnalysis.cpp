@@ -1348,9 +1348,10 @@ vector<DataType> GramDataType::getLs()
 	return  this->ls; 
 }
 GrammaticalAnalysis::GrammaticalAnalysis(string filePath)
-{		init();
+{		
 		file = new GrammaticalAnalysisFile(filePath);
 		file->set_file_path(filePath);
+		init();
 }
 void GrammaticalAnalysis::run()
 {
@@ -1385,12 +1386,13 @@ void GrammaticalAnalysis::init()
 	}
 
 	status = items(gramTypeTemp);
+	check_grammatical();
 	//file = new GrammaticalAnalysisFile();
 	//print(GotoTable);
 }
 bool GrammaticalAnalysis::check_grammatical()
 {
-
+	string temp = file->get_token();
 
 
 
@@ -1984,4 +1986,60 @@ inline GramType GrammaticalAnalysis::gram_map_to_gramtype(const Gram & obj)
  Gram GramType::getGramName()
  {
 	  return gramName; 
+ }
+GramTokenType::GramTokenType(const GramTokenType & obj)
+ {
+	 this->gram = obj.gram;
+	 this->string = obj.string;
+ }
+
+ void GramTokenType::setGram(const std::string & gram)
+ {
+	 this->gram = gram;
+ }
+
+ void GramTokenType::setString(const std::string & string)
+ {
+	 this->string = string;
+ }
+
+ std::string GramTokenType::getGram()
+ {
+	 return gram;
+ }
+
+ std::string GramTokenType::getString()
+ {
+	 return string;
+ }
+
+ GramTokenType::GramTokenType(const std::string & gram, const std::string & string)
+ {
+	 setGram(gram);
+	 setString(string);
+ }
+
+ GramTokenType::GramTokenType(const char *chA, const char *chB)
+ {
+	 std::string tempA, tempB;
+	 while ((*chA != '\0') || (*chB != '\0')) {
+		 if (*chA != '\0') {
+			 tempA += *chA;
+			 chA++;
+		 }
+		 if (*chB != '\0') {
+			 tempB += *chB;
+			 chB++;
+		 }
+
+	 }
+	 setGram(gram);
+	 setString(string);
+	 GramTokenType(tempA, tempB);
+ }
+
+
+ bool operator==(const GramTokenType & objA, const GramTokenType & objB)
+ {
+	 return (objA.string == objB.string) && (objA.gram == objB.gram);
  }

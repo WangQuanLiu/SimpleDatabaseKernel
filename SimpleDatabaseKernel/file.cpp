@@ -45,6 +45,21 @@ inline bool File::set_file_path(char * filename)
 	return set_file_path(temp);
 }
 
+void file::File::roll_back()
+{
+	if (lineFeed) {
+		list<string>temp;
+		temp.push_back(rellback);
+		token.push_front(temp);
+		curLine--;
+		return;
+	}
+	else {
+		list<list<string>>::iterator iter = token.begin();
+		iter->push_front(rellback);
+	}
+}
+
 //string File::executeRellback()
 //{
 //	token.push_front(rellback);
@@ -56,20 +71,52 @@ inline bool File::set_file_path(char * filename)
 //	return rellback;
 //}
 
-string LexicalAnalysisFile::get_token()
+//string LexicalAnalysisFile::get_token()
+//{
+//	string str;
+//	if (token.empty()||!flag)return ENTER;//队列为空，返回EOF
+//	if ((token.front()).size() <= 0) {
+//		token.pop_front();
+//		curLine++;
+//		return "";
+//	}
+//	else if ((token.front()).size() <= 1 && (token.front().front() == "")) {
+//		token.pop_front();
+//		curLine++;
+//		return "";
+//	}
+//	list<list<string>>::iterator begin;
+//	begin = token.begin();
+//	list<string>::iterator iter;
+//	iter = (*begin).begin();
+//
+//	str = *iter;
+//	/*if ((token.front()).size() <= 1) {
+//		token.pop_front();
+//		curLine++;
+//		return str;
+//	}*/
+//	begin->pop_front();
+//	return str;
+//}
+
+string file::File::get_token()
 {
 	string str;
-	if (token.empty()||!flag)return ENTER;//队列为空，返回EOF
-	if ((token.front()).size() <= 0) {
+	if (token.empty() || !flag)return ENTER;//队列为空，返回EOF
+	rellback = "";
+	if (((token.front()).size() <= 0)||
+		((token.front()).size() <= 1 && (token.front().front() == ""))) {
+		token.pop_front();
+		curLine++;
+		lineFeed = true;
+		return "";
+	}
+	/*else if ((token.front()).size() <= 1 && (token.front().front() == "")) {
 		token.pop_front();
 		curLine++;
 		return "";
-	}
-	else if ((token.front()).size() <= 1 && (token.front().front() == "")) {
-		token.pop_front();
-		curLine++;
-		return "";
-	}
+	}*/
 	list<list<string>>::iterator begin;
 	begin = token.begin();
 	list<string>::iterator iter;
@@ -77,11 +124,13 @@ string LexicalAnalysisFile::get_token()
 
 	str = *iter;
 	/*if ((token.front()).size() <= 1) {
-		token.pop_front();
-		curLine++;
-		return str;
+	token.pop_front();
+	curLine++;
+	return str;
 	}*/
 	begin->pop_front();
+	rellback = str;
+	lineFeed = false;
 	return str;
 }
 
@@ -221,11 +270,21 @@ bool LexicalAnalysisFile::set_file_path(string fileName)
 {
 	return File::set_file_path(fileName) && read_file();
 }
+/*
+输入：void
+功能：在token容器中获取一个单元大小的值,并在token删除，并返回
+输出：GramToken
+*/
+//string GrammaticalAnalysisFile::get_token()
+//{
+//	return "";
+//}
+/*
+输入:void
+功能：回滚一个单元到token容器中
+输出：void
 
-string GrammaticalAnalysisFile::get_token()
-{
-	return string();
-}
+*/
 /*
 输入：void
 功能：读取文件中的内容到token容器中，文件读取成功返回true，失败返回false
@@ -237,7 +296,7 @@ bool GrammaticalAnalysisFile::read_file()
 	string str, temp;
 
 	int i,lastLeftBracket=0,lastRightBracket=0,lastIndex=0;
-	deque<GramToken>ls;//保存临时列表
+	list<string>ls;//保存临时列表
 	if (!file) {
 		cerr << "文件打开失败！" << endl;
 		flag = false;
@@ -258,22 +317,33 @@ bool GrammaticalAnalysisFile::read_file()
 			str = saveList.front();
 			saveList.pop_front();
 			if (str != "") {
+				 
 				for (i = 0; i < str.size(); i++) {
-					if (str[i] == '(') lastLeftBracket = i;
+					if (str[i] == ' ') {
+						if (i - lastIndex != 0) {
+							ls.push_back(temp);	
+							lastIndex = i;
+						}
+						//ls.push_back(" ");
+						temp = "";
+					}
+					temp = temp + str[i];
+					/*if (str[i] == '(') lastLeftBracket = i;
 					else if (str[i] == ')') {
-						//lastRightBracket = i;
+						lastRightBracket = i;
 						temp = str.substr(lastIndex, lastLeftBracket - lastIndex);
-						GramToken gramTokenTemp;
-						gramTokenTemp.setGram(temp);
+						string gramTokenTemp;
+						gramTokenTemp=temp;
 						temp = str.substr(lastLeftBracket+1, i - lastLeftBracket);
 						gramTokenTemp.setString(temp);
 						ls.push_back(gramTokenTemp);
 					}
-					else if (str[i] == ' ')lastIndex = i+1;
+					else if (str[i] == ' ')lastIndex = i+1;*/
+
 				}
 			}
 			else {
-				ls.push_back(GramToken(ENTER,ENTER));
+				ls.push_back(string(""));
 				token.push_back(ls);
 			}
 
@@ -293,53 +363,4 @@ bool GrammaticalAnalysisFile::set_file_path(string fileName)
 	return File::set_file_path(fileName) && read_file();
 }
 
-file::GramTokenType::GramTokenType(const GramTokenType & obj)
-{
-	this->gram = obj.gram;
-	this->string = obj.string;
-}
 
-void file::GramTokenType::setGram(const std::string & gram)
-{
-	this->gram = gram;
-}
-
-void file::GramTokenType::setString(const std::string & string)
-{
-	this->string = string;
-}
-
-std::string file::GramTokenType::getGram()
-{
-	return gram;
-}
-
-std::string file::GramTokenType::getString()
-{
-	return string;
-}
-
- file::GramTokenType::GramTokenType(const std::string & gram, const std::string & string)
-{
-	setGram(gram);
-	setString(string);
-}
-
-file::GramTokenType::GramTokenType(const char *chA, const char *chB)
-{
-	std::string tempA, tempB;
-	while ((*chA != '\0') || (*chB != '\0')) {
-		if (*chA != '\0') {
-			tempA += *chA;
-			chA++;
-		}
-		if (*chB != '\0') {
-			tempB += *chB;
-			chB++;
-		}
-
-	}
-	setGram(gram);
-	setString(string);
-	GramTokenType(tempA, tempB);
-}

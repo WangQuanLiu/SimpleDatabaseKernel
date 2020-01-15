@@ -264,7 +264,20 @@ public :
 	 static GramType v_create_index_def;//64
 	 static GramType v_drop_index_def;//65
 };
-
+typedef struct GramTokenType {//读取词法分析产生的文件中单元结构
+public: GramTokenType() = default;
+		GramTokenType(const GramTokenType&obj);
+		void setGram(const string&gram);
+		void setString(const string&string);
+		std::string getGram();
+		std::string getString();
+		explicit	GramTokenType(const string&gram, const string&str);
+		explicit	GramTokenType(const char*, const char*);
+		friend bool operator==(const GramTokenType&objA, const GramTokenType&objB);
+private:
+	string gram, //语法类别
+		string;//字符串
+}GramToken;
 class GrammaticalAnalysis {
 public:
 	///CFilePtr file;

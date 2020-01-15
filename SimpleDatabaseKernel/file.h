@@ -37,12 +37,14 @@ namespace file {
 		File() { flag = false; curLine = 1; };
 		inline virtual	bool set_file_path(string filename);//设置文件 名
 		inline virtual	bool set_file_path(char*filename);
+		void roll_back();//回滚
 		//	string executeRellback();//回滚函数,只能回滚一次
 		//	string getRellback();//获取回滚值 
 			//获取符号
-		virtual	string get_token() = 0;//获取符号
+	virtual string get_token();//获取符号
 		string get_file();//获取文件名
 		bool get_flag() { return flag; }
+		bool lineFeed;//换行符
 #if FILE_TEST==true
 		friend class FileTest;
 #endif
@@ -63,37 +65,28 @@ namespace file {
 		bool read_file();
 
 	public:
-		string get_token();
+		//string get_token();
 		LexicalAnalysisFile(string filePath) :File(filePath) {  }
 		bool set_file_path(string fileName);
 		/*LexicalAnalysisFile(char*ch) {
 
 		}*/
 	};
-	typedef struct GramTokenType {//读取词法分析产生的文件中单元结构
-	public: GramTokenType() = default;
-			GramTokenType(const GramTokenType&obj);
-			void setGram(const string&gram);
-			void setString(const string&string);
-			std::string getGram();
-			std::string getString();
-		explicit	GramTokenType(const string&gram, const string&str);
-		explicit	GramTokenType(const char*, const char*);
-	private:
-		string gram, //语法类别
-			string;//字符串
-	}GramToken;
+	
 
 	class GrammaticalAnalysisFile :public File {
 	public:
-		string get_token();
+		//string get_token();
+		
 	protected:
 		bool read_file();
+		
 	public:
-		GrammaticalAnalysisFile(string filePath) :File(filePath) {}
+		GrammaticalAnalysisFile(string filePath) :File(filePath) { set_file_path(filePath); }
 		bool set_file_path(string fileName);
 	private:
-		deque<deque<GramToken>>token;
+		//deque<deque<string>>token;
+		//string rollBack;
 	
 	};
 
