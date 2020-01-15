@@ -16,6 +16,7 @@
 //using GrammaticalType= vector<list<string>>;
 //using GrammaticalDataType = list<string>;
 using namespace file;
+using CFilePtr = file::File *;
 enum GramCategory {
 	gram,//文法 grammatical
 	non_gram//非文法 non-grammatical
@@ -266,7 +267,7 @@ public :
 
 class GrammaticalAnalysis {
 public:
-	CFilePtr file;
+	///CFilePtr file;
 	GrammaticalAnalysis(string filePath);
 	void run();
 	/*GrammaticalAnalysis() {
@@ -309,7 +310,9 @@ public:
 	}
 #endif
 private:
+	file::CFilePtr file;
 	void init();
+	bool check_grammatical();
 //	void print
 	int GotoTable[GOTO_TABLE_MAX][GRAM_ENUM_MAX];
 #if(TEST&&GRAM_TEST)

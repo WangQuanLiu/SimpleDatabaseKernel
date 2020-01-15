@@ -138,7 +138,11 @@ string File::split_file_name(char * fullPath)
 		filePath = fullPath[i];
 	return split_file_name(filePath);
 }
-
+/*
+输入：void
+功能：读取文件中的内容到token容器中，文件读取成功返回true，失败返回false
+输出:bool
+*/
 bool LexicalAnalysisFile::read_file()
 {
 	//FilePtr file = freopen(filename.c_str(), "r", stdin);
@@ -222,7 +226,11 @@ string GrammaticalAnalysisFile::get_token()
 {
 	return string();
 }
-
+/*
+输入：void
+功能：读取文件中的内容到token容器中，文件读取成功返回true，失败返回false
+输出:bool
+*/
 bool GrammaticalAnalysisFile::read_file()
 {
 	fstream file(filename, ios::in);
@@ -269,13 +277,13 @@ bool GrammaticalAnalysisFile::read_file()
 				token.push_back(ls);
 			}
 
-			token.push_back(ls);
+			token.push_back(ls);//插入一行数据到token中
 		}
 		
 	}
 
 
-	return false;
+	return true;
 }
 
 

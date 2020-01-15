@@ -70,7 +70,7 @@ namespace file {
 
 		}*/
 	};
-	typedef struct GramTokenType {
+	typedef struct GramTokenType {//读取词法分析产生的文件中单元结构
 	public: GramTokenType() = default;
 			GramTokenType(const GramTokenType&obj);
 			void setGram(const string&gram);
@@ -80,7 +80,8 @@ namespace file {
 		explicit	GramTokenType(const string&gram, const string&str);
 		explicit	GramTokenType(const char*, const char*);
 	private:
-		string gram, string;
+		string gram, //语法类别
+			string;//字符串
 	}GramToken;
 
 	class GrammaticalAnalysisFile :public File {

@@ -1354,6 +1354,8 @@ GrammaticalAnalysis::GrammaticalAnalysis(string filePath)
 }
 void GrammaticalAnalysis::run()
 {
+
+
 }
 /*
 功能：初始化gramArray中的文法号
@@ -1383,7 +1385,17 @@ void GrammaticalAnalysis::init()
 	}
 
 	status = items(gramTypeTemp);
+	//file = new GrammaticalAnalysisFile();
 	//print(GotoTable);
+}
+bool GrammaticalAnalysis::check_grammatical()
+{
+
+
+
+
+
+	return false;
 }
 void GrammaticalAnalysis::print(int GotoTable[GOTO_TABLE_MAX][GRAM_ENUM_MAX])
 {
