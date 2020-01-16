@@ -240,9 +240,21 @@ bool LexicalAnalysisFile::read_file()
 							ls.push_back(temp);
 
 						}
-						temp = str[i];	//保存运算符
-						ls.push_back(temp);
-						lastIndex = i + 1;
+						if ((i + 1<str.length())&&
+							(str[i] == '<' || (str[i] == '>'&&str[i+1]!='>'))&&
+							(str[i+1]=='>'||str[i+1]=='=')) {
+							temp.clear();
+							temp.push_back(str[i]); 
+							temp.push_back(str[i+1]);
+							ls.push_back(temp);
+							lastIndex = i + 2;
+							i++;
+						}
+						else {
+							temp = str[i];	//保存运算符
+							ls.push_back(temp);
+							lastIndex = i + 1;
+						}
 					}
 					else if (str[i] == ' ') {
 						temp = str.substr(lastIndex, i - lastIndex);

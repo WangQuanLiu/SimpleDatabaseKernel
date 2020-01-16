@@ -49,8 +49,8 @@ enum end_statusType {
 	add_sub_symbol,//¼Ó·¨ÔËËã·ûºÅ addition and subtraction operators
 	mul_symbol,//³Ë·¨·ûºÅ multiplication symbol
 	div_symbol,//³ı·¨·ûºÅ
-	assignment_symbol,//¸³Öµ·ûºÅ
 	compare_symbol,//±È½ÏÀà
+	assignment_symbol,//¸³Öµ·ûºÅ
 	character,//×Ö·û´®
 	characterMatch,//×Ö·û´®Æ¥Åä
 	l_bracket,//×óÀ¨ºÅ 

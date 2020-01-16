@@ -1392,9 +1392,8 @@ void GrammaticalAnalysis::init()
 }
 bool GrammaticalAnalysis::check_grammatical()
 {
-	string temp = file->get_token();
-	//file->roll_back();
-
+	GramTokenType temp = string_convert_to_GramToken(file->get_token());
+	cout<<GotoTable[0][static_cast<int>( temp.getGram())];
 
 
 	return false;
@@ -1457,19 +1456,8 @@ inline vector<GramDataType>& GrammaticalAnalysis::vector_join_other_vector(vecto
  GramTokenType GrammaticalAnalysis::string_convert_to_GramToken(const string & str)
 {
 	GramTokenType temp;
-	int i, lastLeftBracket=0, lastRightBracket=0, lastIndex=0;
-	for (i = 0; i < str.size(); i++) {
-		if (str[i] == '(') {
-			
-		}
-
-
-
-
-		
-	}
-
-	return GramTokenType();
+	temp.set_value(str);
+	return temp;
 }
 /*
 输入:GramType obj
@@ -1578,6 +1566,11 @@ vector< vector<GramDataType>> GrammaticalAnalysis::items(GramType obj )
 	} while (size != vec.size());//add at  2020/1/13 21:33
 	return vec;
 }
+/*
+输入：文法obj， 符号 gram
+功能：得到文法posi中有符号gram的集合
+输出：vector<GramDataType>的文法集合
+*/
 vector<GramDataType> GrammaticalAnalysis::Goto(const vector<GramDataType> &obj, const Gram &gram) {
 	int i;
 	vector<GramDataType>vec;
@@ -2015,9 +2008,14 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	 this->string = obj.string;
  }
 
- void GramTokenType::setGram(const std::string & gram)
+ void GramTokenType::setGram(const Gram & gram)
  {
 	 this->gram = gram;
+ }
+
+ void GramTokenType::setGram(const std::string & str)
+ {
+	 setGram(string_convert_to_gram(str));
  }
 
  void GramTokenType::setString(const std::string & string)
@@ -2025,7 +2023,28 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	 this->string = string;
  }
 
- std::string GramTokenType::getGram()
+ void GramTokenType::set_value(const std::string &str)
+ {
+	 std::string gram, string;
+	 int i, lastLeftBracket = 0, lastRightBracket = 0, lastIndex = 0;
+	 for (i = 0; i < str.size(); i++) {
+		 if (str[i] == '(') {
+			gram=str.substr(lastIndex, i - lastIndex);
+			 lastIndex = i + 1;
+		 }
+		 else if (str[i] == ')') {
+			 string=str.substr(lastIndex, i - lastIndex);
+			 break;
+		 }
+	 }
+
+
+
+
+
+ }
+
+ Gram GramTokenType::getGram()
  {
 	 return gram;
  }
@@ -2035,7 +2054,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	 return string;
  }
 
- GramTokenType::GramTokenType(const std::string & gram, const std::string & string)
+ GramTokenType::GramTokenType(const Gram & gram, const std::string & string)
  {
 	 setGram(gram);
 	 setString(string);
@@ -2055,11 +2074,19 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		 }
 
 	 }
-	 setGram(gram);
-	 setString(string);
-	 GramTokenType(tempA, tempB);
+	 //setGram(gram);
+	 //setString(string);
+	 GramTokenType(string_convert_to_gram( tempA), tempB);
  }
 
+ inline Gram GramTokenType::string_convert_to_gram(const std::string &str)
+ {
+	 int i;
+	 Gram temp=e_eof;
+	
+
+	 return temp;
+ }
 
  bool operator==(const GramTokenType & objA, const GramTokenType & objB)
  {

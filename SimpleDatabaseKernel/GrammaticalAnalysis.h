@@ -267,16 +267,20 @@ public :
 typedef struct GramTokenType {//读取词法分析产生的文件中单元结构
 public: GramTokenType() = default;
 		GramTokenType(const GramTokenType&obj);
-		void setGram(const string&gram);
+		void setGram(const Gram&gram);
+		void setGram(const string&);
 		void setString(const string&string);
-		std::string getGram();
+		void set_value(const string&);
+		Gram getGram();
 		std::string getString();
-		explicit	GramTokenType(const string&gram, const string&str);
+		explicit	GramTokenType(const Gram&gram, const string&str);
 		explicit	GramTokenType(const char*, const char*);
 		friend bool operator==(const GramTokenType&objA, const GramTokenType&objB);
+		inline Gram string_convert_to_gram(const string&);
+		
 private:
-	string gram, //语法类别
-		string;//字符串
+	Gram gram; //语法类别
+	string	string;//字符串
 }GramToken;
 class GrammaticalAnalysis {
 public:
