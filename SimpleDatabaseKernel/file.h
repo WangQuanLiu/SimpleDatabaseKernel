@@ -44,7 +44,7 @@ namespace file {
 	virtual string get_token();//获取符号
 		string get_file();//获取文件名
 		bool get_flag() { return flag; }
-		bool lineFeed;//换行符
+		
 #if FILE_TEST==true
 		friend class FileTest;
 #endif
@@ -57,6 +57,7 @@ namespace file {
 		string rellback;//回滚值
 		list<list<string>>token;//存储符号
 		std::string filename;//文件名
+		bool lineFeed;//换行符
 	};
 	using CFilePtr = File *;
 	class LexicalAnalysisFile :public File { //语法分析文件类型

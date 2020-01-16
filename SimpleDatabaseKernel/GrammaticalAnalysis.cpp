@@ -1350,7 +1350,7 @@ vector<DataType> GramDataType::getLs()
 GrammaticalAnalysis::GrammaticalAnalysis(string filePath)
 {		
 		file = new GrammaticalAnalysisFile(filePath);
-		file->set_file_path(filePath);
+	//	file->set_file_path(filePath);
 		init();
 }
 void GrammaticalAnalysis::run()
@@ -1393,7 +1393,7 @@ void GrammaticalAnalysis::init()
 bool GrammaticalAnalysis::check_grammatical()
 {
 	string temp = file->get_token();
-
+	//file->roll_back();
 
 
 
@@ -1448,6 +1448,28 @@ inline vector<GramDataType>& GrammaticalAnalysis::vector_join_other_vector(vecto
 	}
 	// TODO: 在此处插入 return 语句
 	return beJoined;
+}
+/*
+输入：需要转换成的gramTokenType类型的字符串
+功能：把str转换成
+输出：转换后的GramTokenType
+*/
+ GramTokenType GrammaticalAnalysis::string_convert_to_GramToken(const string & str)
+{
+	GramTokenType temp;
+	int i, lastLeftBracket=0, lastRightBracket=0, lastIndex=0;
+	for (i = 0; i < str.size(); i++) {
+		if (str[i] == '(') {
+			
+		}
+
+
+
+
+		
+	}
+
+	return GramTokenType();
 }
 /*
 输入:GramType obj

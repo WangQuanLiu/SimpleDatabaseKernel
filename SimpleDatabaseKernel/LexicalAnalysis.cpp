@@ -968,7 +968,12 @@ void LexicalAnalysis::run()
 		}
 	}*/
 }
+/*
+输入：sta为状态,ch为字符，val为值
+功能：映射状态到ch字符的值为val
+输出：void
 
+*/
 void ConverTable::add_map(int sta,char ch,int val)
 {
 	static vector<int>vec(ALPH_MAX, 0);//为一行的初始值 ，为50个0

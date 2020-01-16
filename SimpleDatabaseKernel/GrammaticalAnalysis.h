@@ -333,6 +333,7 @@ private:
 #endif
 	vector<vector<GramDataType>>status;
 	inline vector<GramDataType>&vector_join_other_vector(vector<GramDataType>&join, vector<GramDataType>&beJoined);
+	 GramTokenType string_convert_to_GramToken(const string& str);
 	vector<vector<GramDataType>>items(GramType);
 	vector<GramDataType>Goto(const GramDataType&, const Gram&);
 	vector<GramDataType>Goto(const GramType&,const Gram&);

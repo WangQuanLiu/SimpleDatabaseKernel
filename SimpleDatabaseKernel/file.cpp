@@ -44,7 +44,12 @@ inline bool File::set_file_path(char * filename)
 		temp += ch;
 	return set_file_path(temp);
 }
+/*
+输入:void
+功能：回滚一个单元到token容器中
+输出：void
 
+*/
 void file::File::roll_back()
 {
 	if (lineFeed) {
@@ -99,7 +104,11 @@ void file::File::roll_back()
 //	begin->pop_front();
 //	return str;
 //}
-
+/*
+输入：void
+功能：在token容器中获取一个单元大小的值,并在token删除，并返回
+输出：string
+*/
 string file::File::get_token()
 {
 	string str;
@@ -270,21 +279,12 @@ bool LexicalAnalysisFile::set_file_path(string fileName)
 {
 	return File::set_file_path(fileName) && read_file();
 }
-/*
-输入：void
-功能：在token容器中获取一个单元大小的值,并在token删除，并返回
-输出：GramToken
-*/
+
 //string GrammaticalAnalysisFile::get_token()
 //{
 //	return "";
 //}
-/*
-输入:void
-功能：回滚一个单元到token容器中
-输出：void
 
-*/
 /*
 输入：void
 功能：读取文件中的内容到token容器中，文件读取成功返回true，失败返回false
