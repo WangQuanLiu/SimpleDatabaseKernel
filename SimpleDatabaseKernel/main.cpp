@@ -65,7 +65,7 @@ void Compile::run()
 {
 	/*file = new LexicalAnalysisFile;*/
 	lexical_run(file->get_file());
-//	grammatical_run("C:\\Users\\THINKPAD\\Desktop\\sql.lex");
+grammatical_run("C:\\Users\\THINKPAD\\Desktop\\sql.lex");
 
 }
 void Compile::lexical_run(string filePath)
@@ -84,7 +84,7 @@ void Compile::grammatical_run(string Path)
 }
 Compile::Compile(int argc,char*argv[])
 {
-	string str = "C:\\Users\\Administrator\\Desktop\\sql.txt";
+	string str = "C:\\Users\\THINKPAD\\Desktop\\sql.txt";
 	file = new LexicalAnalysisFile(str);
 		//file->set_file_path(argv[2]);
 }
@@ -98,7 +98,7 @@ int main(int argc,char *argv[]) {
 	argv = (char**)malloc(sizeof(char *[3]));
 	
 	
-	argv[2] = "C:\\Users\\Administrator\\Desktop\\sql.txt";
+	argv[2] = "C:\\Users\\THINKPAD\\Desktop\\sql.txt";
 	cout << argv[2] << endl;
 	Compile compile(argc, argv);
 	compile.run();

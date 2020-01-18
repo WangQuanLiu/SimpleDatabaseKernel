@@ -21,7 +21,9 @@
 #endif
 #define FILE_LINE_MAX_NUMBER 1024
 using namespace std;
+extern enum Gram;
 namespace file {
+	
 	using FilePtr = FILE *;
 	class File //父文件类型
 	{
@@ -86,6 +88,8 @@ namespace file {
 		GrammaticalAnalysisFile(string filePath) :File(filePath) { set_file_path(filePath); }
 		bool set_file_path(string fileName);
 	private:
+	inline	Gram string_map_to_gram(const string&);
+	inline   int string_hash(const string&);
 		//deque<deque<string>>token;
 		//string rollBack;
 	

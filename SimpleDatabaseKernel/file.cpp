@@ -1,6 +1,7 @@
 
 #include"file.h"
 using namespace file;
+
 string File::get_program_dir()
 {
 	char exeFullPath[MAX_PATH]; // Full path 
@@ -333,6 +334,7 @@ bool GrammaticalAnalysisFile::read_file()
 				for (i = 0; i < str.size(); i++) {
 					if (str[i] == ' ') {
 						if (i - lastIndex != 0) {
+							string_map_to_gram(temp);
 							ls.push_back(temp);	
 							lastIndex = i;
 						}
@@ -373,6 +375,98 @@ bool GrammaticalAnalysisFile::read_file()
 bool GrammaticalAnalysisFile::set_file_path(string fileName)
 {
 	return File::set_file_path(fileName) && read_file();
+}
+/*
+输入：一整块字符串包括(文法与关键字字符串)
+功能：通过整场字符串得到文法
+输出：输出得到后的文法
+*/
+inline	Gram file::GrammaticalAnalysisFile::string_map_to_gram(const string &str)
+{
+	string gram, strTemp,temp="";
+	int i,lastIndex=0;
+	for (i = 0; i < str.size(); i++) {
+		if (str[i] == '(') {
+			gram = str.substr(lastIndex, i - lastIndex);
+			lastIndex = i + 1;
+			temp.clear();
+		}
+		else if (str[i] == ')') {
+			strTemp = str.substr(lastIndex, i - lastIndex);
+			break;
+		}
+		else {
+			temp = temp + str[i];
+		}
+	}
+	/*
+	初期设计欠考虑，未设计好词法分析与语法分析的接口	
+	*/
+
+	 int keyword=string_hash("keyword"),num=string_hash("num"),real=string_hash("real"),
+		 id=string_hash("id"),add_sub_symbol=string_hash("add_sub_symbol"),mul_symbol=string_hash("mul_symbol");
+	// switch (string_hash(gram))
+	// {
+	////	 case  string_hash("num"):
+	// case t:
+	//	 case  string_hash("real"):
+	//	 case  string_hash("id"):
+	//	 case  string_hash("add_sub_symbol"):
+	//	 case  string_hash("mul_symbol"):
+	//	 case  string_hash("div_symbol"):
+	//	 case  string_hash("logcial_symbol"):
+	//	 case  string_hash("compare_symbol"):
+	//	 case  string_hash("character"):
+	//	 case string_hash("characterMatch"):
+	//	 case  string_hash("l_bracket"):
+	//	 case string_hash("r_bracket"):
+	//	 case string_hash("comma"):
+	//	 case string_hash("assignment_symbol"):
+	//	 case string_hash("blank"):
+	// default:
+	//	 break;
+	// }
+	//switch (keyword)
+	//{
+	////case string_hash("keyword"):
+	//	case keyword:
+	//	string tempA = gram;
+
+	//case  string_hash("num"):
+	//case  string_hash("real"):
+	//case  string_hash("id"):
+	//case  string_hash("add_sub_symbol"):
+	//case  string_hash("mul_symbol"):
+	//case  string_hash("div_symbol"):
+	//case  string_hash("logcial_symbol"):
+	//case  string_hash("compare_symbol"):
+	//case  string_hash("character"):
+	//case string_hash("characterMatch"):
+	//case  string_hash("l_bracket"):
+	//case string_hash("r_bracket"):
+	//case string_hash("comma"):
+	//case string_hash("assignment_symbol"):
+	//case string_hash("blank"):
+	//default:
+	//	break;
+	//}
+
+
+	return Gram();
+}
+
+/*
+输入：要被离散的字符串
+功能：把字符串离散成数字
+输出：离散之后产生的数字
+*/
+inline  int file::GrammaticalAnalysisFile::string_hash(const string &str)
+{
+	int sum = 0;
+	int i;
+	for (i = 0; i < str.size(); i++)
+		sum = sum * 2 + str[i];
+	return sum;
 }
 
 
