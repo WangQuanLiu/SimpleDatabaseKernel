@@ -1276,8 +1276,7 @@ GramDataType{
 };
 
  GramDataType::GramDataType(initializer_list<DataType> initializer)
- {
-	
+ {	
 		 initializer_list<DataType>::const_iterator begin, end;
 		 begin = initializer.begin();
 		 end = initializer.end();
@@ -1285,8 +1284,6 @@ GramDataType{
 			 ls.push_back(*begin);
 		 }
 		 posi = 0;
-
-
  }
 
  void GramDataType::setGramName(Gram gramName)
@@ -2013,10 +2010,10 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	 this->gram = gram;
  }
 
- void GramTokenType::setGram(const std::string & str)
- {
-	 setGram(string_convert_to_gram(str));
- }
+ //void GramTokenType::setGram(const std::string & str)
+ //{
+	//// setGram(string_convert_to_gram_symbol(str));
+ //}
 
  void GramTokenType::setString(const std::string & string)
  {
@@ -2039,9 +2036,6 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	 }
 
 
-
-
-
  }
 
  Gram GramTokenType::getGram()
@@ -2060,32 +2054,60 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	 setString(string);
  }
 
- GramTokenType::GramTokenType(const char *chA, const char *chB)
- {
-	 std::string tempA, tempB;
-	 while ((*chA != '\0') || (*chB != '\0')) {
-		 if (*chA != '\0') {
-			 tempA += *chA;
-			 chA++;
-		 }
-		 if (*chB != '\0') {
-			 tempB += *chB;
-			 chB++;
-		 }
+ //GramTokenType::GramTokenType(const char *chA, const char *chB)
+ //{
+	// std::string tempA, tempB;
+	// while ((*chA != '\0') || (*chB != '\0')) {
+	//	 if (*chA != '\0') {
+	//		 tempA += *chA;
+	//		 chA++;
+	//	 }
+	//	 if (*chB != '\0') {
+	//		 tempB += *chB;
+	//		 chB++;
+	//	 }
 
-	 }
-	 //setGram(gram);
-	 //setString(string);
-	 GramTokenType(string_convert_to_gram( tempA), tempB);
- }
+	// }
+	// //setGram(gram);
+	// //setString(string);
+	// GramTokenType(string_convert_to_gram_symbol( tempA,tempB), tempB);
+ //}
 
- inline Gram GramTokenType::string_convert_to_gram(const std::string &str)
+// inline Gram GramTokenType::string_convert_to_gram_symbol(const std::string &gram,const std::string&str)
+// {
+//	 int i;
+//	 const int keyword= 
+//	 /*
+//#define KEYWORD "keyword"
+//#define NUM "num"
+//#define REAL "real"
+//#define ID "id"
+//#define ADD_SUB_SYMBOL "add_sub_symbol"
+//#define MUL_SYMBOL "mul_symbol"
+//#define DIV_SYMBOL "div_symbol"
+//#define LOGCIAL_SYMBOL "logcial_symbol"
+//#define COMPARE_SYMBOL "compare_symbol"
+//#define CHARACTER "character"
+//#define CHARACTERMATCH "characterMatch"
+//#define L_BRACKET "l_bracket"
+//#define R_BRACKET "r_bracket"
+//#define COMMA "comma"
+//#define ASSIGNMENT_SYMBOL "assignment_symbol"
+//#define BLANK "blank"
+//	 */
+//	
+//
+//	 return ;
+// }
+
+ inline int GramTokenType::string_hash(const std::string &str)
  {
+	 int sum = 0;
 	 int i;
-	 Gram temp=e_eof;
-	
-
-	 return temp;
+	 for (i = 0; i < str.size(); i++) {
+		 sum += str[i];
+	 }
+	 return sum;
  }
 
  bool operator==(const GramTokenType & objA, const GramTokenType & objB)
