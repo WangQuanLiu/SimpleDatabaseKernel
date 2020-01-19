@@ -1,7 +1,6 @@
 
 #include"file.h"
 using namespace file;
-
 string File::get_program_dir()
 {
 	char exeFullPath[MAX_PATH]; // Full path 
@@ -402,59 +401,57 @@ inline	Gram file::GrammaticalAnalysisFile::string_map_to_gram(const string &str)
 	/*
 	初期设计欠考虑，未设计好词法分析与语法分析的接口	
 	*/
-
-	 int keyword=string_hash("keyword"),num=string_hash("num"),real=string_hash("real"),
-		 id=string_hash("id"),add_sub_symbol=string_hash("add_sub_symbol"),mul_symbol=string_hash("mul_symbol");
-	// switch (string_hash(gram))
-	// {
-	////	 case  string_hash("num"):
-	// case t:
-	//	 case  string_hash("real"):
-	//	 case  string_hash("id"):
-	//	 case  string_hash("add_sub_symbol"):
-	//	 case  string_hash("mul_symbol"):
-	//	 case  string_hash("div_symbol"):
-	//	 case  string_hash("logcial_symbol"):
-	//	 case  string_hash("compare_symbol"):
-	//	 case  string_hash("character"):
-	//	 case string_hash("characterMatch"):
-	//	 case  string_hash("l_bracket"):
-	//	 case string_hash("r_bracket"):
-	//	 case string_hash("comma"):
-	//	 case string_hash("assignment_symbol"):
-	//	 case string_hash("blank"):
-	// default:
-	//	 break;
-	// }
-	//switch (keyword)
-	//{
-	////case string_hash("keyword"):
-	//	case keyword:
-	//	string tempA = gram;
-
-	//case  string_hash("num"):
-	//case  string_hash("real"):
-	//case  string_hash("id"):
-	//case  string_hash("add_sub_symbol"):
-	//case  string_hash("mul_symbol"):
-	//case  string_hash("div_symbol"):
-	//case  string_hash("logcial_symbol"):
-	//case  string_hash("compare_symbol"):
-	//case  string_hash("character"):
-	//case string_hash("characterMatch"):
-	//case  string_hash("l_bracket"):
-	//case string_hash("r_bracket"):
-	//case string_hash("comma"):
-	//case string_hash("assignment_symbol"):
-	//case string_hash("blank"):
-	//default:
-	//	break;
-	//}
-
+	symbol symbolTemp;
+	try {
+		
+		for (i = 0; i < SYMBOL_SIZE; i++)
+			if (gram == symbolStringTable[i]) { symbolTemp = static_cast<symbol>(i); break; }
+		if (i >= SYMBOL_SIZE)
+			throw "error";
+	}
+	catch(string&str){
+		cerr << " GrammaticalAnalysisFile class string_map_to_gram function  occur symbol error ";
+		return Gram();
+	}
+	switch (symbolTemp)
+	{
+	case keyword:
+		/*for (i = 0; i < )*/
+			break;
+	case num:
+	case real:
+	case id:
+	case add_sub_symbol:
+	case mul_symbol:
+	case div_symbol:
+	case logical_symbol:
+	case compare_symbol:
+	case character:
+	case characterMatch:
+	case l_bracket:
+	case r_bracket:
+	case comma:
+	case assignment_symbol:
+	case blank:
+	default:
+		break;
+	}
 
 	return Gram();
 }
+const string file::GrammaticalAnalysisFile::keywordTable[KEYWORD_TABLE]{
+	"and","or","sum","avg","count","min","max", //constriant															  //keyword
+	"create","table","char","not","null","primary","key","foreign","references","check","in","unique", "like","where",
+	"order","by","desc","asc","group","having","right","left","full","join","on","distance","from",
+	"database","use","delete","alter","add","drop","column","insert","into","values","update","set",
+	"view","as","index",
 
+};
+const string file::GrammaticalAnalysisFile::symbolStringTable[SYMBOL_SIZE]{
+	"keyword" , "num", "real", "id", "add_sub_symbol", "mul_symbol",
+	"div_symbol", "logical_symbol", "compare_symbol", "character", "characterMatch",
+	"l_bracket", "r_bracket", "comma", "assignment_symbol", "blank"
+};
 /*
 输入：要被离散的字符串
 功能：把字符串离散成数字
@@ -465,7 +462,7 @@ inline  int file::GrammaticalAnalysisFile::string_hash(const string &str)
 	int sum = 0;
 	int i;
 	for (i = 0; i < str.size(); i++)
-		sum = sum * 2 + str[i];
+		sum = sum * 5 + str[i];
 	return sum;
 }
 

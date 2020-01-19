@@ -9,7 +9,9 @@
 //#define NFA_MAX 34
 //#define ALPHA_MAX 40
 #define GRAM_MAX 66
+#ifndef GRAM_STRING_TABLE_MAX
 #define GRAM_STRING_TABLE_MAX 136
+#endif
 #define GRAM_ENUM_MAX 136
 #define EMPTY -1
 #define GOTO_TABLE_MAX 1000
@@ -21,6 +23,7 @@ enum GramCategory {
 	gram,//文法 grammatical
 	non_gram//非文法 non-grammatical
 };
+
 const string GramStringTable[GRAM_STRING_TABLE_MAX]{ //文法的字符串
 	"e_start", "e_s",
 	"e_create_def", "e_create_data_def", "e_constraint_def", "e_create_data_type_def", "e_create_data_type_suffix_def",
