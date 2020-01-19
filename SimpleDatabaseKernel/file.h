@@ -20,8 +20,8 @@
 #define ENTER ""
 #endif
 #define FILE_LINE_MAX_NUMBER 1024
-#define SYMBOL_SIZE 16
-#define KEYWORD_TABLE 60
+#define SYMBOL_SIZE 15
+#define KEYWORD_TABLE 49
 using namespace std;
 extern enum Gram;
 namespace file {
@@ -91,7 +91,7 @@ namespace file {
 		GrammaticalAnalysisFile(string filePath) :File(filePath) { set_file_path(filePath); }
 		bool set_file_path(string fileName);
 	private:
-	inline	Gram string_map_to_gram(const string&);
+		string string_map_to_gram(const string&);
 	inline   int string_hash(const string&);
 	enum symbol{ keyword , num, real, id, add_sub_symbol, mul_symbol,
 		div_symbol, logical_symbol, compare_symbol, character, characterMatch,

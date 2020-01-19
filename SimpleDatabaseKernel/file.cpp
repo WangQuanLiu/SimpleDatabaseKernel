@@ -1,6 +1,7 @@
 
 #include"file.h"
 using namespace file;
+#define GRAM_CREATE_POSI 79
 string File::get_program_dir()
 {
 	char exeFullPath[MAX_PATH]; // Full path 
@@ -380,13 +381,13 @@ bool GrammaticalAnalysisFile::set_file_path(string fileName)
 功能：通过整场字符串得到文法
 输出：输出得到后的文法
 */
-inline	Gram file::GrammaticalAnalysisFile::string_map_to_gram(const string &str)
+	string file::GrammaticalAnalysisFile::string_map_to_gram(const string &str)
 {
-	string gram, strTemp,temp="";
+	string gramTemp, strTemp,temp="";
 	int i,lastIndex=0;
 	for (i = 0; i < str.size(); i++) {
 		if (str[i] == '(') {
-			gram = str.substr(lastIndex, i - lastIndex);
+			gramTemp = str.substr(lastIndex, i - lastIndex);
 			lastIndex = i + 1;
 			temp.clear();
 		}
@@ -402,44 +403,88 @@ inline	Gram file::GrammaticalAnalysisFile::string_map_to_gram(const string &str)
 	初期设计欠考虑，未设计好词法分析与语法分析的接口	
 	*/
 	symbol symbolTemp;
+	string gram;
 	try {
 		
 		for (i = 0; i < SYMBOL_SIZE; i++)
-			if (gram == symbolStringTable[i]) { symbolTemp = static_cast<symbol>(i); break; }
+			if (gramTemp == symbolStringTable[i]) { symbolTemp = static_cast<symbol>(i); break; }
 		if (i >= SYMBOL_SIZE)
 			throw "error";
 	}
 	catch(string&str){
 		cerr << " GrammaticalAnalysisFile class string_map_to_gram function  occur symbol error ";
-		return Gram();
+		return "";
 	}
 	switch (symbolTemp)
 	{
 	case keyword:
-		/*for (i = 0; i < )*/
+		try {
+			for (i = 0; i < KEYWORD_TABLE; i++) {
+				if (keywordTable[i] == strTemp)
+					break;
+			}
+			if (i >= KEYWORD_TABLE)throw "error";
+		}
+		catch (string&str) {
+			cerr << "GrammaticalAnalysisFile class string_map_to_gram function switch error" << endl;
+		}
+		gram = keywordTable[i];
 			break;
 	case num:
+		gram = "e_integer";break;
 	case real:
+		gram = "e_real";break;
 	case id:
+		gram = "e_id";break;
 	case add_sub_symbol:
+		if (strTemp == "-")
+			gram = "e_subop";
+		else
+			gram = "e_addop";
+		break;
 	case mul_symbol:
+		gram = "e_mulop";break;
 	case div_symbol:
+		gram = "e_divop";break;
 	case logical_symbol:
+		if (strTemp == "and")
+			gram = "e_and";
+		else if (strTemp == "or")
+			gram = "e_or";
+		else
+			gram = "e_not";
+		break;
 	case compare_symbol:
+		if (strTemp == ">")
+			gram = "e_greater_than";
+		else if (strTemp == ">=")
+			gram = "e_greater_than_or_equal";
+		else if (strTemp == "<")
+			gram = "e_less_than";
+		else if (strTemp == "<=")
+			gram = "e_less_than_or_equal";
+		else
+			gram = "e_unequal";
+			break;
 	case character:
+		gram = "e_str"; break;
 	case characterMatch:
+		gram = "e_strMatch"; break;
 	case l_bracket:
+		gram = "e_l_bracket"; break;
 	case r_bracket:
+		gram = "e_r_bracket"; break;
 	case comma:
+		gram = "e_comma"; break;
 	case assignment_symbol:
-	case blank:
+		gram = "e_equal"; break;
 	default:
 		break;
 	}
 
-	return Gram();
+	return gram+"("+strTemp+")";
 }
-const string file::GrammaticalAnalysisFile::keywordTable[KEYWORD_TABLE]{
+const string file::GrammaticalAnalysisFile::keywordTable[]{
 	"and","or","sum","avg","count","min","max", //constriant															  //keyword
 	"create","table","char","not","null","primary","key","foreign","references","check","in","unique", "like","where",
 	"order","by","desc","asc","group","having","right","left","full","join","on","distance","from",
@@ -450,7 +495,7 @@ const string file::GrammaticalAnalysisFile::keywordTable[KEYWORD_TABLE]{
 const string file::GrammaticalAnalysisFile::symbolStringTable[SYMBOL_SIZE]{
 	"keyword" , "num", "real", "id", "add_sub_symbol", "mul_symbol",
 	"div_symbol", "logical_symbol", "compare_symbol", "character", "characterMatch",
-	"l_bracket", "r_bracket", "comma", "assignment_symbol", "blank"
+	"l_bracket", "r_bracket", "comma", "assignment_symbol",
 };
 /*
 输入：要被离散的字符串
