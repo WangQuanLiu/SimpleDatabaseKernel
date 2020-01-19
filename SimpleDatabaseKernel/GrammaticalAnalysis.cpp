@@ -795,6 +795,7 @@ GramDataType{
 };
  GramType Grammatical::v_connect_mode_def{
 	/*
+	v_connect_mode_def->natual
 	v_connect_mode_def->right
 	v_connect_mode_def->left
 	v_connect_mode_def->full
@@ -803,6 +804,9 @@ GramDataType{
 	GramDataType{
 	DataType(e_right)
 	},
+	 GramDataType{
+	 DataType(e_natural)
+ },
 	GramDataType{
 	DataType(e_left)
 },
@@ -1034,6 +1038,7 @@ GramDataType{
 	v_select_def->v_select_connect_def from v_table_name_def v_where_def
 	*/
 	GramDataType{
+	 DataType(e_select),
 	DataType(e_distance),
 	DataType(e_select_connect_def),
 	DataType(e_from),
@@ -1041,6 +1046,7 @@ GramDataType{
 	DataType(e_constriant_connect_def)
 	},
 	GramDataType{
+	 DataType(e_select),
 	DataType(e_select_connect_def),
 	DataType(e_from),
 	DataType(e_table_name_def),
@@ -1048,6 +1054,7 @@ GramDataType{
 	},
 
 	GramDataType{
+	 DataType(e_select),
 	DataType(e_select_connect_def),
 	DataType(e_from),
 	DataType(e_table_name_def),
@@ -1055,6 +1062,7 @@ GramDataType{
 	},
 
 	GramDataType{
+	 DataType(e_select),
 	DataType(e_distance),
 	DataType(e_select_connect_def),
 	DataType(e_from),

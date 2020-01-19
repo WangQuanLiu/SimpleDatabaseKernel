@@ -334,12 +334,13 @@ bool GrammaticalAnalysisFile::read_file()
 				for (i = 0; i < str.size(); i++) {
 					if (str[i] == ' ') {
 						if (i - lastIndex != 0) {
-							string_map_to_gram(temp);
+							temp=string_map_to_gram(temp);
 							ls.push_back(temp);	
 							lastIndex = i;
 						}
 						//ls.push_back(" ");
 						temp = "";
+						continue;
 					}
 					temp = temp + str[i];
 					/*if (str[i] == '(') lastLeftBracket = i;
@@ -382,7 +383,19 @@ bool GrammaticalAnalysisFile::set_file_path(string fileName)
 输出：输出得到后的文法
 */
 	string file::GrammaticalAnalysisFile::string_map_to_gram(const string &str)
-{
+	{
+		/*
+		case l_bracket:
+		gram = "e_l_bracket"; break;
+	case r_bracket:
+		gram = "e_r_bracket"; break;
+	case comma:
+		gram = "e_comma"; break;*/
+		if (str == "l_bracket" || str == "r_bracket" || str == "comma" || str == "assignment_symbol")
+			if (str == "assignment_symbol")
+				return "e_equal";
+			else
+			return "e_" + str;
 	string gramTemp, strTemp,temp="";
 	int i,lastIndex=0;
 	for (i = 0; i < str.size(); i++) {
@@ -407,7 +420,8 @@ bool GrammaticalAnalysisFile::set_file_path(string fileName)
 	try {
 		
 		for (i = 0; i < SYMBOL_SIZE; i++)
-			if (gramTemp == symbolStringTable[i]) { symbolTemp = static_cast<symbol>(i); break; }
+			if (gramTemp == symbolStringTable[i]) { 
+				symbolTemp = static_cast<symbol>(i); break; }
 		if (i >= SYMBOL_SIZE)
 			throw "error";
 	}
@@ -428,7 +442,7 @@ bool GrammaticalAnalysisFile::set_file_path(string fileName)
 		catch (string&str) {
 			cerr << "GrammaticalAnalysisFile class string_map_to_gram function switch error" << endl;
 		}
-		gram = keywordTable[i];
+		gram ="e_"+ keywordTable[i];
 			break;
 	case num:
 		gram = "e_integer";break;
@@ -470,14 +484,9 @@ bool GrammaticalAnalysisFile::set_file_path(string fileName)
 		gram = "e_str"; break;
 	case characterMatch:
 		gram = "e_strMatch"; break;
-	case l_bracket:
-		gram = "e_l_bracket"; break;
-	case r_bracket:
-		gram = "e_r_bracket"; break;
-	case comma:
-		gram = "e_comma"; break;
-	case assignment_symbol:
-		gram = "e_equal"; break;
+	
+	//case assignment_symbol:
+	//	gram = "e_equal"; break;
 	default:
 		break;
 	}
@@ -489,7 +498,7 @@ const string file::GrammaticalAnalysisFile::keywordTable[]{
 	"create","table","char","not","null","primary","key","foreign","references","check","in","unique", "like","where",
 	"order","by","desc","asc","group","having","right","left","full","join","on","distance","from",
 	"database","use","delete","alter","add","drop","column","insert","into","values","update","set",
-	"view","as","index",
+	"view","as","index","int","float","select","natural"
 
 };
 const string file::GrammaticalAnalysisFile::symbolStringTable[SYMBOL_SIZE]{

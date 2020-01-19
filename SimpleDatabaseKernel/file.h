@@ -21,7 +21,7 @@
 #endif
 #define FILE_LINE_MAX_NUMBER 1024
 #define SYMBOL_SIZE 15
-#define KEYWORD_TABLE 49
+#define KEYWORD_TABLE 53
 using namespace std;
 extern enum Gram;
 namespace file {

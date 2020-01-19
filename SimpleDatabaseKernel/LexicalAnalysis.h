@@ -29,7 +29,7 @@
 #define ADD_SUB_SYMBOL "add_sub_symbol"
 #define MUL_SYMBOL "mul_symbol"
 #define DIV_SYMBOL "div_symbol"
-#define LOGCIAL_SYMBOL "logcial_symbol"
+#define LOGCIAL_SYMBOL "logical_symbol"
 #define COMPARE_SYMBOL "compare_symbol"
 #define CHARACTER "character"
 #define CHARACTERMATCH "characterMatch"
