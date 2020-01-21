@@ -1513,7 +1513,7 @@ vector< vector<GramDataType>> GrammaticalAnalysis::items(GramType obj )
 	cout << "-----init----" << endl;
 	for (i = 0; i < vec.size(); i++) {
 		for (j = 0; j < vec[i].size();j++)
-		cout << gram_map_to_string(vec[i][j].gramName)<<"  "<<vec[i][j].getSymbol()<<"  "<<vec[i][j].posi << endl;
+		cout << gram_map_to_string(vec[i][j].gramName)<<"  "<<vec[i][j].getSymbol()<<"  "<<vec[i][j].posi << endl;//BUG position add 2020/1/21
 	}
 #endif
 	int size;
