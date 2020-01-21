@@ -37,6 +37,7 @@ namespace file {
 		static string split_file_name(char*fullPath);
 		static string get_program_dir();//获取当前程序的路径
 		File(string filename);
+		/*功能：获取符号的大小*/
 		unsigned long long get_token_size();//获取符号大小
 		File() { flag = false; curLine = 1; };
 		inline virtual	bool set_file_path(string filename);//设置文件 名

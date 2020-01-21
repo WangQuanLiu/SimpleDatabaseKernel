@@ -17,7 +17,10 @@ string File::get_program_dir()
 File::File(string filename):File(){
 	set_file_path(filename);
 }
+/*
 
+功能：获取符号的大小
+*/
 unsigned long long File::get_token_size()
 {
 	return token.size();
@@ -491,7 +494,7 @@ bool GrammaticalAnalysisFile::set_file_path(string fileName)
 		break;
 	}
 
-	return gram+"("+strTemp+")";
+	return gram+" "+strTemp;
 }
 const string file::GrammaticalAnalysisFile::keywordTable[]{
 	"and","or","sum","avg","count","min","max", //constriant															  //keyword

@@ -1294,6 +1294,11 @@ GramDataType{
 		 posi = 0;
  }
 
+ GramDataType::GramDataType(DataType&obj)
+ {
+	 ls.push_back(obj);
+ }
+
  void GramDataType::setGramName(Gram gramName)
  {
 	 this->gramName = gramName; 
@@ -1314,7 +1319,7 @@ return gramName;
 	 return posi; 
  }
 
- void GramDataType::set_symbol(Gram & obj)
+ void GramDataType::set_symbol(const Gram & obj)
  {
 	  this->symbol = obj; 
  }
@@ -1391,15 +1396,36 @@ void GrammaticalAnalysis::init()
 	}
 
 	status = items(gramTypeTemp);
+	//GramType gramTemp = gramArray[48];
+	//get_derived_grammar(gramTemp.vec[0].ls[0]);
 	check_grammatical();
 	//file = new GrammaticalAnalysisFile();
 	//print(GotoTable);
 }
 bool GrammaticalAnalysis::check_grammatical()
 {
-	GramTokenType temp = string_convert_to_GramToken(file->get_token());
-	cout<<GotoTable[0][static_cast<int>( temp.getGram())];
-
+	int lastIndex = 0, i = 0, stuIndex = 0;;
+	GramTokenType temp;
+	vector<GramDataType>gramTemp;
+	std::string strTemp;
+	while (file->get_token_size()) {
+		strTemp = file->get_token();
+		if (strTemp == "")continue;
+		temp = string_convert_to_GramToken(strTemp);
+		stuIndex = GotoTable[lastIndex][temp.getGram()];
+		gramTemp = status[stuIndex];
+		lastIndex = GotoTable[lastIndex][temp.getGram()];
+		for (i = 0; i < gramTemp.size(); i++) {
+			if (gramTemp[i].posi == gramTemp[i].ls.size() && gramTemp[i].symbol == e_eof) {
+				lastIndex = 0;
+				break;
+			}
+		}
+	}
+		/*int index = GotoTable[0][temp.getGram()];
+		temp = string_convert_to_GramToken(file->get_token());
+		int index2 = GotoTable[index][temp.getGram()];
+		tempA =status[index 	];*/
 
 	return false;
 }
@@ -1557,8 +1583,9 @@ vector< vector<GramDataType>> GrammaticalAnalysis::items(GramType obj )
 				}
 
 				if (t >= vec.size()) {
-					cout << "status:" << i << "->" << gram_map_to_string(static_cast<Gram>(k)) << endl;
+					cout << "status:" << i << "->" << gram_map_to_string(static_cast<Gram>(k))<<"  ";
 					GotoTable[i][static_cast<Gram>(k)] = vec.size();
+					cout << vec.size() << endl;
 					vec.push_back(temp);
 				}
 			}
@@ -1596,7 +1623,8 @@ vector<GramDataType> GrammaticalAnalysis::Goto(const vector<GramDataType> &obj, 
 		cout << gram_map_to_string(vec[i].gramName) << endl;
 	}
 #endif
-	return closure(vec);
+	vec = closure(vec);
+	return vec;
 }
 /*
 输入：文法obj， 符号 gram
@@ -1683,12 +1711,24 @@ vector<GramType> GrammaticalAnalysis::get_derived_grammar( DataType obj)
 		cout << "\n\n\n" << endl;*/
 		for (i = 0; i < gramTypeTemp.vec.size(); i++) {
 			Gram index = gramTypeTemp.vec[i].ls[0].getCategory();
-			if (!is_grammatical(index)&& !set[index]) {//文法且未被加入
-				q.push(index);
-			//	cout << GramStringTable[index] << endl;
-				temp.push_back(gramArray[index]);
+			if ( !set[index]) {
+				if (!is_grammatical(index)) {//文法且未被加入
+					q.push(index);
+					//	cout << GramStringTable[index] << endl;
+					temp.push_back(gramArray[index]);
+					//set[index] = true;
+				
+				}
+				else {
+					GramType gramTypeTemp2 = GramType(GramDataType(DataType(index)));
+					gramTypeTemp2.setGramName(gramTypeTemp.getGramName());
+					gramTypeTemp2.vec[0].posi = 0;
+					gramTypeTemp2.vec[0].set_symbol(gramTypeTemp.vec[0].getSymbol());
+					temp.push_back(gramTypeTemp2);
+				}
 				set[index] = true;
 			}
+		
 		}
 	}
 	return temp;
@@ -1728,7 +1768,7 @@ Gram GrammaticalAnalysis::first(GramDataType & obj)
  功能：文法A->a.XB,Z 把B,Z文法或者符号加入到所有派生A->a.XB,Z文法
  输出：文法集合
  */
- vector<GramDataType> GrammaticalAnalysis::closure(const vector<GramDataType> &obj)
+ vector<GramDataType> GrammaticalAnalysis::closure(const vector<GramDataType> obj)
  {
 	 vector<GramDataType> temp = { obj };
 	// bool set[GRAM_STRING_TABLE_MAX]{ false };
@@ -1998,6 +2038,12 @@ inline GramType GrammaticalAnalysis::gram_map_to_gramtype(const Gram & obj)
 	 
  }
 
+ GramType::GramType(GramDataType &obj)
+ {
+	 vec.push_back(obj);
+
+ }
+
  void GramType::setGramName(Gram gramName)
  {
 	this->gramName = gramName; 
@@ -2027,10 +2073,14 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
  {
 	 this->string = string;
  }
-
+ /*
+ 输入：string中需要包括一个gram与str整合在一起的字符串
+ 功能：分解出gram与str并赋值
+ 输出：无
+ */
  void GramTokenType::set_value(const std::string &str)
  {
-	 std::string gram, string;
+	/* std::string gram, string;
 	 int i, lastLeftBracket = 0, lastRightBracket = 0, lastIndex = 0;
 	 for (i = 0; i < str.size(); i++) {
 		 if (str[i] == '(') {
@@ -2041,9 +2091,38 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 			 string=str.substr(lastIndex, i - lastIndex);
 			 break;
 		 }
+	 }*/
+	 if (str == "e_l_bracket" || str == "e_r_bracket" || str == "e_comma" || str == "e_assignment_symbol") {
+		 int i;
+		 for (i = 0; i < GRAM_STRING_TABLE_MAX; i++)
+			 if (GramStringTable[i] == str)break;
+		 if (i >= GRAM_STRING_TABLE_MAX) {
+			 cerr << "GramTokenType index error " << endl;
+		 }
+		 gram = static_cast<Gram>(i);
+		 return;
 	 }
+	 else {
+		 std::string gramTemp = "", strTemp;
+		 int i, j, lastIndex = 0;
+		 for (i = 0; i < str.length(); i++) {
+			 if (str[i] == ' ') {
+				// gramTemp = str.substr(i-lastIndex);
+				 lastIndex = i + 1;
+				 for (j = 0; j < GRAM_STRING_TABLE_MAX; j++)
+					 if (GramStringTable[j] == gramTemp)break;
+				 if (i >= GRAM_STRING_TABLE_MAX) {
+					 cerr << "GramTokenType index error " << endl;
+				 }
+				 gram = static_cast<Gram>(j);
+				 gramTemp.clear();
+				 continue;
+			 }
+			 gramTemp = gramTemp+ str[i];
+		 }
+		 string = str.substr(lastIndex,i-lastIndex);
 
-
+	 }
  }
 
  Gram GramTokenType::getGram()
@@ -2060,6 +2139,21 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
  {
 	 setGram(gram);
 	 setString(string);
+ }
+
+ GramTokenType::GramTokenType(const std::string & str)
+ {
+	 /*
+	 if (str == "l_bracket" || str == "r_bracket" || str == "comma" || str == "assignment_symbol")
+			if (str == "assignment_symbol")
+				return "e_equal";
+			else
+			return "e_" + str;
+	 */
+	
+	 set_value(str);
+
+
  }
 
  //GramTokenType::GramTokenType(const char *chA, const char *chB)

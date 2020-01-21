@@ -134,6 +134,7 @@ class GramDataType {//单个文法集合
 public: 
 	GramDataType() = default;
 	GramDataType(initializer_list<DataType>initializer);
+	GramDataType(DataType&);
 	friend bool operator!=(const vector<GramDataType>objA, const vector<GramDataType>objB);
 	friend bool operator==(const vector<GramDataType>objA, const vector<GramDataType>objB);
 	friend bool operator==(GramDataType objA, GramDataType objB);
@@ -145,7 +146,7 @@ public:
 	/*	void set_symbol(vector<Gram>&vec) {
 			this->symbol = vec;
 		}*/
-	void set_symbol(Gram &obj);
+	void set_symbol(const Gram &obj);
 		/*void add_symbol(initializer_list<Gram>initializer) {
 			initializer_list<Gram>::const_iterator begin, end;
 			begin = initializer.begin();
@@ -179,6 +180,7 @@ public:
 	 vector<GramDataType>vec;
 		Gram gramName;
 		GramType(initializer_list<GramDataType>list);
+		GramType(GramDataType&);
 		void setGramName(Gram gramName);
 		Gram getGramName();
  };
@@ -277,7 +279,7 @@ public: GramTokenType() = default;
 		Gram getGram();
 		std::string getString();
 		explicit	GramTokenType(const Gram&gram, const string&str);
-		explicit	GramTokenType(const char*, const char*);
+			GramTokenType(const string&str);
 		friend bool operator==(const GramTokenType&objA, const GramTokenType&objB);
 		//inline Gram string_convert_to_gram_symbol(const string&,const string&);
 		inline int string_hash(const string&);
@@ -349,7 +351,7 @@ private:
 	Gram first(GramDataType&obj);//寻找文法中第一个非文法的字符  find first char of non-grammatical in grammatical
 	GramCategory is_grammatical(Gram obj);//判断是文法还是非文法 Judge whether it is grammatical or non-grammatical
 	void grammatical_convert_to_dfa();//文法转换成dfa
-	vector<GramDataType> closure(const vector<GramDataType>&);
+	vector<GramDataType> closure(const vector<GramDataType>);
 	inline string gram_map_to_string(const Gram&obj);
 inline	GramType gram_map_to_gramtype(const Gram&obj);//gram map to gramtype
 	static GramType gramArray[GRAM_MAX]; //文法数组 grammatical array
