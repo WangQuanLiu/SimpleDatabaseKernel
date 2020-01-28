@@ -114,6 +114,7 @@ public:
 	void push(const type&);//入栈
 	void pop();//出栈
 	vector<type>top(int, int);//查看元素
+	vector<type>top(int);
 	type top();
 	void  pop(int);
 private:
@@ -387,6 +388,6 @@ inline	GramType gram_map_to_gramtype(const Gram&obj);//gram map to gramtype
 	friend vector<Gram> operator+(const vector<Gram>, const vector<Gram>);
 	inline Gram string_map_to_gram(const string&);
 	void init_reduction();//临时函数
-	ActionStatus action(const int&, const Gram&,  stack<int>&,  stack<Gram>&);
+	ActionStatus action( const Gram&,  stack<int>&,  stack<Gram>&);
 };
 

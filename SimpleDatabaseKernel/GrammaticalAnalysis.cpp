@@ -71,7 +71,7 @@
 	DataType( e_create_data_def),
 	DataType(e_constraint_def),
 	DataType(e_r_bracket),
- DataType(e_gram_end)//add tiem 2020/1/26 10:30
+// DataType(e_gram_end)//add tiem 2020/1/26 10:30
  }
 };
  GramType Grammatical::v_create_data_def{
@@ -215,8 +215,11 @@ GramDataType{
 	DataType(e_comma),
 	DataType(e_col_name_rep_def)
 	},
+	// GramDataType{
+	// DataType(e_empty)
+ //},
 	GramDataType{
-	DataType(e_id)
+	DataType(e_id),
 	}
 };
  GramType Grammatical::v_foreign_def{
@@ -414,29 +417,53 @@ GramDataType{
 	v_int_real_col_name_def->flaot
 	v_int_real_col_name->col_name
 	*/
-	GramDataType{
+	/*GramDataType{
 	DataType(e_integer)
 	},
 	GramDataType{
 	DataType(e_real)
-	},
-	GramDataType{
-	DataType(e_id)
-	}
+	},*/
+	//GramDataType{
+	//DataType(e_id)
+	//}
 };
  GramType Grammatical::v_int_real_col_name_rep_def{
 	/*
 	v_int_real_col_name_rep_def ->v_int_real_col_name_def,v_int_rel_col_name_rep_def
 	v_int_real_col_name_rep_def->v_int_real_col_name_def
 	*/
-	GramDataType{
+	/*GramDataType{
 	DataType(e_int_real_col_name_def),
 	DataType(e_comma),
 	DataType(e_int_real_col_name_rep_def)
 	},
 	GramDataType{
 	DataType(e_int_real_col_name_def)
-	}
+	},*/
+	 GramDataType{
+	 DataType(e_integer),
+	 DataType(e_comma),
+	 DataType(e_int_real_col_name_rep_def)
+	},
+	 GramDataType{
+	 DataType(e_real),
+	 DataType(e_comma),
+	 DataType(e_int_real_col_name_rep_def)
+ },
+	 GramDataType{
+	 DataType(e_id),
+	 DataType(e_comma),
+	 DataType(e_int_real_col_name_rep_def)
+	},
+	 GramDataType{
+	 DataType(e_id),
+	 },
+	 GramDataType{
+	 DataType(e_real),
+ },
+	 GramDataType{
+	 DataType(e_integer),
+ }
 };
   GramType Grammatical::v_where_addop_def{
 	/*
@@ -451,18 +478,54 @@ GramDataType{
 	GramDataType{
 	DataType(e_addop_def),
 	DataType(e_l_bracket),
-	DataType(e_int_real_col_name_def),
+	DataType(e_id),
 	DataType(e_where_mulop_def),
 	DataType(e_r_bracket)
 	},
+	  GramDataType{
+	  DataType(e_addop_def),
+	  DataType(e_l_bracket),
+	  DataType(e_real),
+	  DataType(e_where_mulop_def),
+	  DataType(e_r_bracket)
+  },
+	  GramDataType{
+	  DataType(e_addop_def),
+	  DataType(e_l_bracket),
+	  DataType(e_integer),
+	  DataType(e_where_mulop_def),
+	  DataType(e_r_bracket)
+  },
+
+
+
 GramDataType{
 	DataType(e_addop_def),
 	DataType(e_gather_fuc_def),
 	DataType(e_l_bracket),
-	DataType(e_int_real_col_name_def),
+	DataType(e_id),
 	DataType(e_where_mulop_def),
 	DataType(e_r_bracket)
 	},
+	  GramDataType{
+	  DataType(e_addop_def),
+	  DataType(e_gather_fuc_def),
+	  DataType(e_l_bracket),
+	  DataType(e_real),
+	  DataType(e_where_mulop_def),
+	  DataType(e_r_bracket)
+  },
+	  GramDataType{
+	  DataType(e_addop_def),
+	  DataType(e_gather_fuc_def),
+	  DataType(e_l_bracket),
+	  DataType(e_integer),
+	  DataType(e_where_mulop_def),
+	  DataType(e_r_bracket)
+  },
+
+
+
 	GramDataType{
 	DataType(e_addop_def),
 	DataType(e_gather_fuc_def),
@@ -473,12 +536,26 @@ GramDataType{
 
 	GramDataType{
 	DataType(e_addop_def),
-	DataType(e_int_real_col_name_def),
+	DataType(e_id),
 	DataType(e_where_mulop_def),
 	},
+	  GramDataType{
+	  DataType(e_addop_def),
+	  DataType(e_real),
+	  DataType(e_where_mulop_def),
+  },
+	  GramDataType{
+	  DataType(e_addop_def),
+	  DataType(e_integer),
+	  DataType(e_where_mulop_def),
+  },
+
+
 	GramDataType{
 	DataType(Gram::e_empty)
 	},
+
+
 
 	GramDataType {
 	DataType(e_addop_def),
@@ -507,18 +584,55 @@ GramDataType{
 	GramDataType{
 	DataType(e_mulop_def),
 	DataType(e_l_bracket),
-	DataType(e_int_real_col_name_def),
+	DataType(e_id),
 	DataType(e_where_addop_def),
 	DataType(e_r_bracket)
 },
 GramDataType{
+	 DataType(e_mulop_def),
+	 DataType(e_l_bracket),
+	 DataType(e_real),
+	 DataType(e_where_addop_def),
+	 DataType(e_r_bracket)
+ },
+	 GramDataType{
+	 DataType(e_mulop_def),
+	 DataType(e_l_bracket),
+	 DataType(e_integer),
+	 DataType(e_where_addop_def),
+	 DataType(e_r_bracket)
+ },
+
+
+
+
+GramDataType{
 	DataType(e_mulop_def),
 	DataType(e_gather_fuc_def),
 	DataType(e_l_bracket),
-	DataType(e_int_real_col_name_def),
+	DataType(e_id),
 	DataType(e_where_addop_def),
 	DataType(e_r_bracket)
 },
+GramDataType{
+	 DataType(e_mulop_def),
+	 DataType(e_gather_fuc_def),
+	 DataType(e_l_bracket),
+	 DataType(e_real),
+	 DataType(e_where_addop_def),
+	 DataType(e_r_bracket)
+ },
+	 GramDataType{
+	 DataType(e_mulop_def),
+	 DataType(e_gather_fuc_def),
+	 DataType(e_l_bracket),
+	 DataType(e_integer),
+	 DataType(e_where_addop_def),
+	 DataType(e_r_bracket)
+ },
+
+
+
 GramDataType{
 	DataType(e_mulop_def),
 	DataType(e_gather_fuc_def),
@@ -527,11 +641,28 @@ GramDataType{
 	DataType(e_r_bracket)
 },
 
+
+
 GramDataType{
 	DataType(e_mulop_def),
-	DataType(e_int_real_col_name_def),
+	DataType(e_integer),
 	DataType(e_where_addop_def),
 },
+GramDataType{
+	 DataType(e_mulop_def),
+	 DataType(e_real),
+	 DataType(e_where_addop_def),
+ },
+	 GramDataType{
+	 DataType(e_mulop_def),
+	 DataType(e_id),
+	 DataType(e_where_addop_def),
+ },
+
+
+
+
+
 GramDataType{
 	DataType(Gram::e_empty)
 },
@@ -563,16 +694,57 @@ GramDataType{
 	
 	DataType(e_gather_fuc_def),
 	DataType(e_l_bracket),
-	DataType(e_int_real_col_name_def),
+	DataType(e_id),
 	DataType(e_where_addop_def),
 	DataType(e_r_bracket)
 	},
+	 GramDataType{
+
+	 DataType(e_gather_fuc_def),
+	 DataType(e_l_bracket),
+	 DataType(e_real),
+	 DataType(e_where_addop_def),
+	 DataType(e_r_bracket)
+ },
+	 GramDataType{
+
+	 DataType(e_gather_fuc_def),
+	 DataType(e_l_bracket),
+	 DataType(e_integer),
+	 DataType(e_where_addop_def),
+	 DataType(e_r_bracket)
+ },
+
+
+
+
+
+
 	GramDataType{
 	DataType(e_l_bracket),
-	DataType(e_int_real_col_name_def),
+	DataType(e_real),
 	DataType(e_where_addop_def),
 	DataType(e_r_bracket)
 	},
+
+	 GramDataType{
+	 DataType(e_l_bracket),
+	 DataType(e_id),
+	 DataType(e_where_addop_def),
+	 DataType(e_r_bracket)
+ },
+	 GramDataType{
+	 DataType(e_l_bracket),
+	 DataType(e_integer),
+	 DataType(e_where_addop_def),
+	 DataType(e_r_bracket)
+ },
+
+
+
+
+
+
 	GramDataType{
 
 	DataType(e_gather_fuc_def),
@@ -587,11 +759,23 @@ GramDataType{
 	DataType(e_r_bracket)
 	},
 
+
+
 	GramDataType{
 
-	DataType(e_int_real_col_name_def),
+	DataType(e_id),
 	DataType(e_where_addop_def),
-	}
+	},
+	 GramDataType{
+
+	 DataType(e_real),
+	 DataType(e_where_addop_def),
+ },
+	 GramDataType{
+
+	 DataType(e_integer),
+	 DataType(e_where_addop_def),
+ }
 };
   GramType Grammatical::v_where_algorithm_operator_or_string_def{
 	/*
@@ -858,19 +1042,51 @@ GramDataType{
 	*/
 	GramDataType{
 	DataType(e_addop),
-	DataType(e_int_real_col_name_def),
+	DataType(e_id),
 	DataType(e_connect_mulop_def),
 	},
+	 GramDataType{
+	 DataType(e_addop),
+	 DataType(e_real),
+	 DataType(e_connect_mulop_def),
+ },
+	 GramDataType{
+	 DataType(e_addop),
+	 DataType(e_integer),
+	 DataType(e_connect_mulop_def),
+ },
+
+
+
+
 	GramDataType{
 	DataType(e_connect_mulop_def)
 	},
 	GramDataType{
 	DataType(e_addop),
 	DataType(e_l_bracket),
-	DataType(e_int_real_col_name_def),
+	DataType(e_integer),
 	DataType(e_connect_mulop_def),
 	DataType(e_r_bracket)
 	},
+	 GramDataType{
+	 DataType(e_addop),
+	 DataType(e_l_bracket),
+	 DataType(e_id),
+	 DataType(e_connect_mulop_def),
+	 DataType(e_r_bracket)
+ },
+	 GramDataType{
+	 DataType(e_addop),
+	 DataType(e_l_bracket),
+	 DataType(e_real),
+	 DataType(e_connect_mulop_def),
+	 DataType(e_r_bracket)
+ },
+
+
+
+
 	GramDataType{
 	DataType(e_empty)
 	}
@@ -884,17 +1100,45 @@ GramDataType{
 	*/
 	GramDataType{
 	DataType(e_mulop),
-	DataType(e_int_real_col_name_def)
+	DataType(e_id)
 	},
+	 GramDataType{
+	 DataType(e_mulop),
+	 DataType(e_real)
+ },
+	 GramDataType{
+	 DataType(e_mulop),
+	 DataType(e_integer)
+ },
+
+
+
+
 	GramDataType{
 	DataType(e_connect_addop_def)
 	},
 	GramDataType{
 	DataType(e_mulop),
 	DataType(e_l_bracket),
-	DataType(e_int_real_col_name_def),
+	DataType(e_id),
 	DataType(e_r_bracket),
 	},
+	 GramDataType{
+	 DataType(e_mulop),
+	 DataType(e_l_bracket),
+	 DataType(e_integer),
+	 DataType(e_r_bracket),
+ },
+	 GramDataType{
+	 DataType(e_mulop),
+	 DataType(e_l_bracket),
+	 DataType(e_real),
+	 DataType(e_r_bracket),
+ },
+
+
+
+
 	GramDataType{
 	DataType(e_empty)
 	}
@@ -906,14 +1150,37 @@ GramDataType{
 	*/
 	GramDataType{
 	DataType(e_l_bracket),
-	DataType(e_int_real_col_name_def),
+	DataType(e_real),
 	DataType(e_connect_addop_def),
 	DataType(e_r_bracket)
 	},
+	 GramDataType{
+	 DataType(e_l_bracket),
+	 DataType(e_id),
+	 DataType(e_connect_addop_def),
+	 DataType(e_r_bracket)
+ },
+	 GramDataType{
+	 DataType(e_l_bracket),
+	 DataType(e_integer),
+	 DataType(e_connect_addop_def),
+	 DataType(e_r_bracket)
+ },
+
+
+
 	GramDataType{
-	DataType(e_int_real_col_name_def),
+	DataType(e_id),
 	DataType(e_connect_addop_def)
-}
+	},
+	 GramDataType{
+	 DataType(e_real),
+	 DataType(e_connect_addop_def)
+	},
+	 GramDataType{
+	 DataType(e_integer),
+	 DataType(e_connect_addop_def)
+	}
 };
  GramType Grammatical::v_connect_algorithm_operator_or_string_def{
 	/*
@@ -1053,9 +1320,12 @@ GramDataType{
 	DataType(e_comma),
 	DataType(e_table_name_def)
 	},
-	GramDataType{
+	 GramDataType{
+	 DataType(e_empty)
+	 }
+	/*GramDataType{
 	DataType(e_id)
-	}
+	}*/
 };
  GramType Grammatical::v_select_def{
 	/*
@@ -1069,26 +1339,68 @@ GramDataType{
 	DataType(e_select_connect_def),
 	DataType(e_from),
 	DataType(e_table_name_def),
+	 DataType(e_id),//modification at 2020/1/28 21:37
 	DataType(e_constriant_connect_def),
-	 DataType(e_gram_end)//add tiem 2020/1/26 10:30
+	// DataType(e_gram_end)//add tiem 2020/1/26 10:30
 	},
-	GramDataType{
+	 GramDataType{
 	 DataType(e_select),
-	DataType(e_select_connect_def),
-	DataType(e_from),
-	DataType(e_table_name_def),
-	DataType(e_constriant_connect_def),
-	 DataType(e_gram_end)//add tiem 2020/1/26 10:30
-	},
+	 DataType(e_distance),
+	 DataType(e_select_connect_def),
+	 DataType(e_from),
+	// DataType(e_table_name_def),
+	DataType(e_id),		//modification at 2020/1/28 21:37
+	 DataType(e_constriant_connect_def),
+	 // DataType(e_gram_end)//add tiem 2020/1/26 10:30
+ },
+
+
+
 
 	GramDataType{
 	 DataType(e_select),
 	DataType(e_select_connect_def),
 	DataType(e_from),
 	DataType(e_table_name_def),
-	DataType(e_where_def),
- DataType(e_gram_end)//add tiem 2020/1/26 10:30
+	 DataType(e_id),//modification at 2020/1/28 21:40		////GramDataType{
+	DataType(e_constriant_connect_def),
+//	 DataType(e_gram_end)//add tiem 2020/1/26 10:30
+	//},
+	//DataType(e_constriant_connect_def),
+//	 DataType(e_gram_end)//add tiem 2020/1/26 10:30
 	},
+
+	 GramDataType{
+	 DataType(e_select),
+	 DataType(e_select_connect_def),
+	 DataType(e_from),
+	 DataType(e_id),//modification at 2020/1/28 21:40
+	 DataType(e_constriant_connect_def),
+	 //	 DataType(e_gram_end)//add tiem 2020/1/26 10:30
+ },
+
+
+
+
+
+	GramDataType{
+	 DataType(e_select),
+	DataType(e_select_connect_def),
+	DataType(e_from),
+	DataType(e_table_name_def),
+	 DataType(e_id),//modification at 2020/1/28 21:40
+	DataType(e_where_def),
+ //DataType(e_gram_end)//add tiem 2020/1/26 10:30
+	},
+
+	 GramDataType{
+	 DataType(e_select),
+	 DataType(e_select_connect_def),
+	 DataType(e_from),
+	 DataType(e_id),//modification at 2020/1/28 21:40
+	 DataType(e_where_def),
+	 //DataType(e_gram_end)//add tiem 2020/1/26 10:30
+ },
 
 	GramDataType{
 	 DataType(e_select),
@@ -1096,9 +1408,19 @@ GramDataType{
 	DataType(e_select_connect_def),
 	DataType(e_from),
 	DataType(e_table_name_def),
+	 DataType(e_id),//modification at 2020/1/28 21:40
 	DataType(e_where_def),
-	 DataType(e_gram_end)//add tiem 2020/1/26 10:30
-		}
+	// DataType(e_gram_end)//add tiem 2020/1/26 10:30
+		},
+	 GramDataType{
+	 DataType(e_select),
+	 DataType(e_distance),
+	 DataType(e_select_connect_def),
+	 DataType(e_from),
+	 DataType(e_id),//modification at 2020/1/28 21:40
+	 DataType(e_where_def),
+	 // DataType(e_gram_end)//add tiem 2020/1/26 10:30
+ }
 };
  GramType Grammatical::v_create_database_def{
 	/*
@@ -1109,7 +1431,7 @@ GramDataType{
 	DataType(e_create),
 	DataType(e_database),
 	DataType(e_id),
-	 DataType(e_gram_end)//add tiem 2020/1/26 10:30
+	// DataType(e_gram_end)//add tiem 2020/1/26 10:30
 	},
 
 };
@@ -1120,7 +1442,7 @@ GramDataType{
 	GramDataType{
 	DataType(e_use),
 	DataType(e_id),
-	 DataType(e_gram_end)//add tiem 2020/1/26 10:30
+	// DataType(e_gram_end)//add tiem 2020/1/26 10:30
 }
 
 };
@@ -1133,7 +1455,7 @@ GramDataType{
 	DataType(e_delete),
 	DataType(e_from),
 	DataType(e_id),
-	 DataType(e_gram_end)//add tiem 2020/1/26 10:30
+//	 DataType(e_gram_end)//add tiem 2020/1/26 10:30
 	}
 	
 };
@@ -1145,7 +1467,7 @@ GramDataType{
 	DataType(e_delete),
 	DataType(e_table),
 	DataType(e_id),
-	 DataType(e_gram_end)//add tiem 2020/1/26 10:30
+	// DataType(e_gram_end)//add tiem 2020/1/26 10:30
 }
 };
  GramType Grammatical::v_alter_table_add_col_name_def{
@@ -1160,10 +1482,29 @@ GramDataType{
 	DataType(e_add),
 	DataType(e_column),
 	DataType(e_id),
-	DataType(e_int_real_col_name_def),
-	 DataType(e_gram_end)//add tiem 2020/1/26 10:30
-	}
-	
+	DataType(e_real),
+	// DataType(e_gram_end)//add tiem 2020/1/26 10:30
+	},
+	 GramDataType{
+	 DataType(e_alter),
+	 DataType(e_table),
+	 DataType(e_id),
+	 DataType(e_add),
+	 DataType(e_column),
+	 DataType(e_id),
+	 DataType(e_integer),
+	 // DataType(e_gram_end)//add tiem 2020/1/26 10:30
+ },
+	 GramDataType{
+	 DataType(e_alter),
+	 DataType(e_table),
+	 DataType(e_id),
+	 DataType(e_add),
+	 DataType(e_column),
+	 DataType(e_id),
+	 DataType(e_str),//modification at 20201/28
+	 // DataType(e_gram_end)//add tiem 2020/1/26 10:30
+ }
 };
  GramType Grammatical::v_alter_table_drop_col_name_def{
 	 /*
@@ -1175,7 +1516,7 @@ GramDataType{
 	DataType(e_id),
 	DataType(e_drop),
 	DataType(e_id),
-	 DataType(e_gram_end)//add tiem 2020/1/26 10:30
+	// DataType(e_gram_end)//add tiem 2020/1/26 10:30
 }
 };
  GramType Grammatical::v_insert_def{
@@ -1195,9 +1536,31 @@ GramDataType{
 
 	DataType(e_l_bracket),
 	DataType(e_int_real_col_name_rep_def),
+	 DataType(e_id),
 	DataType(e_r_bracket),
-	DataType(e_gram_end)//add tiem 2020/1/26 10:30
-	}
+//	DataType(e_gram_end)//add tiem 2020/1/26 10:30
+	},
+
+	 GramDataType{
+	 DataType(e_insert),
+	 DataType(e_into),
+	 DataType(e_id),
+
+	 DataType(e_l_bracket),
+	 DataType(e_col_name_rep_def),
+	 DataType(e_r_bracket),
+
+	 DataType(e_values),
+
+	 DataType(e_l_bracket),
+	// DataType(e_int_real_col_name_rep_def),
+	 DataType(e_id),
+	 DataType(e_r_bracket),
+	 //	DataType(e_gram_end)//add tiem 2020/1/26 10:30
+ }
+
+
+
 };
  GramType Grammatical::v_update_addop_def{
 	/*
@@ -1210,17 +1573,47 @@ GramDataType{
 	GramDataType{
 	DataType(e_addop),
 	DataType(e_l_bracket),
-	DataType(e_int_real_col_name_def),
+	DataType(e_id),
 	DataType(e_update_mulop_def),
 	DataType(e_r_bracket),
 
 	},
 
+	 GramDataType{
+	 DataType(e_addop),
+	 DataType(e_l_bracket),
+	 DataType(e_real),
+	 DataType(e_update_mulop_def),
+	 DataType(e_r_bracket),
+
+ },
+	 GramDataType{
+	 DataType(e_addop),
+	 DataType(e_l_bracket),
+	 DataType(e_integer),
+	 DataType(e_update_mulop_def),
+	 DataType(e_r_bracket),
+
+ },
+
+
+
+
 	GramDataType{
 	DataType(e_addop),
-	DataType(e_int_real_col_name_def),
+	DataType(e_real),
 	DataType(e_update_mulop_def),
 	},
+	 GramDataType{
+	 DataType(e_addop),
+	 DataType(e_integer),
+	 DataType(e_update_mulop_def),
+ },
+	 GramDataType{
+	 DataType(e_addop),
+	 DataType(e_id),
+	 DataType(e_update_mulop_def),
+ },
 	GramDataType{
 	DataType(e_empty)
 	},
@@ -1239,16 +1632,49 @@ GramDataType{
 	GramDataType{
 	DataType(e_mulop),
 	DataType(e_l_bracket),
-	DataType(e_int_real_col_name_def),
+	DataType(e_id),
 	DataType(e_update_addop_def),
 	DataType(e_r_bracket),
 	},
+	  GramDataType{
+	  DataType(e_mulop),
+	  DataType(e_l_bracket),
+	  DataType(e_real),
+	  DataType(e_update_addop_def),
+	  DataType(e_r_bracket),
+  },
+	  GramDataType{
+	  DataType(e_mulop),
+	  DataType(e_l_bracket),
+	  DataType(e_integer),
+	  DataType(e_update_addop_def),
+	  DataType(e_r_bracket),
+  },
+
+
+
+
+
 
 	GramDataType{
 	DataType(e_mulop),
-	DataType(e_int_real_col_name_def),
+	DataType(e_id),
 	DataType(e_update_addop_def),
 		},
+	  GramDataType{
+	  DataType(e_mulop),
+	  DataType(e_real),
+	  DataType(e_update_addop_def),
+  },
+	  GramDataType{
+	  DataType(e_mulop),
+	  DataType(e_integer),
+	  DataType(e_update_addop_def),
+  },
+
+
+
+
 	GramDataType{
 	DataType(e_update_addop_def)
 	},
@@ -1267,10 +1693,33 @@ GramDataType{
 	DataType(e_set),
 	DataType(e_id),
 	DataType(e_equal),
-	DataType(e_int_real_col_name_def),
+	DataType(e_str),//modification at 2020/1/28 21:32
 	DataType(e_update_addop_def),
-	 DataType(e_gram_end)//add tiem 2020/1/26 10:30
+	// DataType(e_gram_end)//add tiem 2020/1/26 10:30
 	},
+	 GramDataType{
+	 DataType(e_update),
+	 DataType(e_id),
+	 DataType(e_set),
+	 DataType(e_id),
+	 DataType(e_equal),
+	 DataType(e_real),
+	 DataType(e_update_addop_def),
+	 // DataType(e_gram_end)//add tiem 2020/1/26 10:30
+ },
+	 GramDataType{
+	 DataType(e_update),
+	 DataType(e_id),
+	 DataType(e_set),
+	 DataType(e_id),
+	 DataType(e_equal),
+	 DataType(e_integer),
+	 DataType(e_update_addop_def),
+	 // DataType(e_gram_end)//add tiem 2020/1/26 10:30
+ },
+
+
+
 
 	GramDataType{
 	DataType(e_update),
@@ -1278,11 +1727,33 @@ GramDataType{
 	DataType(e_set),
 	DataType(e_id),
 	DataType(e_equal),
-	DataType(e_int_real_col_name_def),
+	DataType(e_integer),
 	DataType(e_update_addop_def),
 	DataType(e_where_def),
-	 DataType(e_gram_end)//add tiem 2020/1/26 10:30
-	}
+//	 DataType(e_gram_end)//add tiem 2020/1/26 10:30
+	},
+	 GramDataType{
+	 DataType(e_update),
+	 DataType(e_id),
+	 DataType(e_set),
+	 DataType(e_id),
+	 DataType(e_equal),
+	 DataType(e_real),
+	 DataType(e_update_addop_def),
+	 DataType(e_where_def),
+	 //	 DataType(e_gram_end)//add tiem 2020/1/26 10:30
+ },
+	 GramDataType{
+	 DataType(e_update),
+	 DataType(e_id),
+	 DataType(e_set),
+	 DataType(e_id),
+	 DataType(e_equal),
+	 DataType(e_str),//modification at 2020/1/28 21:32
+	 DataType(e_update_addop_def),
+	 DataType(e_where_def),
+	 //	 DataType(e_gram_end)//add tiem 2020/1/26 10:30
+ }
 };
  GramType Grammatical::v_create_view_def{
 	/*
@@ -1294,7 +1765,7 @@ GramDataType{
 	DataType(e_id),
 	DataType(e_as),
 	DataType(e_select_def),
-DataType(e_gram_end)//add tiem 2020/1/26 10:30
+//DataType(e_gram_end)//add tiem 2020/1/26 10:30
 	}
 };
  GramType Grammatical::v_drop_view_def{
@@ -1305,7 +1776,7 @@ DataType(e_gram_end)//add tiem 2020/1/26 10:30
 	DataType(e_drop),
 	DataType(e_view),
 	DataType(e_id),
- DataType(e_gram_end)//add tiem 2020/1/26 10:30
+ //DataType(e_gram_end)//add tiem 2020/1/26 10:30
 	}
 };
  GramType Grammatical::v_create_index_def{
@@ -1321,7 +1792,7 @@ DataType(e_gram_end)//add tiem 2020/1/26 10:30
 	DataType(e_l_bracket),
 	DataType(e_id),
 	DataType(e_r_bracket),
-	 DataType(e_gram_end)//add tiem 2020/1/26 10:30
+//	 DataType(e_gram_end)//add tiem 2020/1/26 10:30
 	}
 };
  GramType Grammatical::v_drop_index_def{
@@ -1332,7 +1803,7 @@ DataType(e_gram_end)//add tiem 2020/1/26 10:30
 	DataType(e_drop),
 	DataType(e_index),
 	DataType(e_id),
-	 DataType(e_gram_end)//add tiem 2020/1/26 10:30
+//	 DataType(e_gram_end)//add tiem 2020/1/26 10:30
 	}
 };
 
@@ -1422,6 +1893,7 @@ void GrammaticalAnalysis::run()
 	//init();
 	fstream statusFile("C:\\Users\\THINKPAD\\Desktop\\status.txt", ios::in);
 	fstream gotoTableFile ("C:\\Users\\THINKPAD\\Desktop\\table.txt", ios::in);
+	fstream reduFile("C:\\Users\\THINKPAD\\Desktop\\redu.txt", ios::in);
 	if (!statusFile || !gotoTableFile) {
 		GramType gramTypeTemp = gramArray[0];
 		for (int i = 0; i < gramTypeTemp.vec.size(); i++) {
@@ -1434,7 +1906,7 @@ void GrammaticalAnalysis::run()
 		read_status(status,GotoTable);
 	}
 	//init_reduction();
-	//check_grammatical();
+	check_grammatical();
 }
 /*
 功能：初始化gramArray中的文法号
@@ -1522,10 +1994,15 @@ bool GrammaticalAnalysis::check_grammatical()
 	stack<int>statusStack;
 	stack<Gram>gramStack;
 	vector<GramDataType>curStatus = status[0];
+	statusStack.push(0);
+	gramStack.push(e_s);
 	int i, j;
+	GramTokenType temp;
 	while (file->get_token_size()>0) {
 		string str = file->get_token();
-
+		if (str == "")continue;
+		temp = string_convert_to_GramToken(str);
+		action(temp.getGram(), statusStack, gramStack);
 	}
 
 	return false;
@@ -1605,12 +2082,8 @@ vector< vector<GramDataType>> GrammaticalAnalysis::items(GramType obj )
 	vector<vector<GramDataType>>vec;
 	int i,j,k,t;
 	char ch[BUFF_SIZE];
-	/*for (i = 0; i < obj.vec.size(); i++) {*/
 		vector<GramDataType>temp = closure(obj.vec);
-	//	for (int j = 0; j < temp.size(); j++)
 			vec.push_back(temp);
-	//}
-	//vec.push_back(obj.vec);
 
 #if (TEST&&GRAM_TEST&&ITEMS_FUNC)
 	cout << "-----init----" << endl;
@@ -1667,51 +2140,30 @@ vector< vector<GramDataType>> GrammaticalAnalysis::items(GramType obj )
 		for (i = 0; i < vec.size(); i++) {
 			for (k = 0; k < GRAM_ENUM_MAX; k++) {
 				vector<GramDataType>temp = Goto(vec[i], static_cast<Gram>(k));
-
 				if (temp.size() <= 0)continue;
-				//#if(TEST&&GRAM_TEST&&ITEMS_FUNC)
-				//
-				//			cout << "Goto(" << i << ", " << gram_map_to_string(static_cast<Gram>(k)) << ")" << "	"/* << vec[i][j].posi */<< endl;
-				//			cout << "-------------temp vec----------------" << temp.size() << endl;
-				//			for (int r = 0; r < temp.size(); r++) {
-				//				cout << gram_map_to_string(temp[r].getGramName()) << " ";
-				//			}
-				//			cout << "\n" << "end" << endl;
-				//#endif
 				char ch[BUFF_SIZE];
 				string str = is_grammatical(static_cast<Gram>(k)) ? "s" : "g";
 				for (t = 0; t < vec.size(); t++) {
-					if (vec[t] == temp) {
-						
+					if (vec[t] == temp) {	//有相同的文法				
 						str = str + _itoa(static_cast<int>(t), ch, 10);
 						GotoTable[i][k] = str;
-
 						break;
-
 					}
 				}
-
-				if (t >= vec.size()) {
+				if (t >= vec.size()) {//无相同的文法
 					cout << "status:" << i << "->" << gram_map_to_string(static_cast<Gram>(k))<<"  ";
 					str = str + _itoa(static_cast<int>(vec.size()), ch, 10);
-				GotoTable[i][k] = str;
-					
+				GotoTable[i][k] = str;					
 					cout << vec.size() << endl;
  					vec.push_back(temp);
-					for (t = 0; t < temp.size(); t++) {
-						if (temp[t].getPosi() == temp[t].ls.size()) {
-							redu.push_back(Redu(vec.size(), temp[t].getSymbol(), temp[t]));
-						}
 					}
-
-
+				for (t = 0; t < temp.size(); t++) {//添加归约
+					if (temp[t].getPosi() == temp[t].ls.size()) {
+						redu.push_back(Redu(vec.size(), temp[t].getSymbol(), temp[t]));
 					}
+				}
 				str.clear();
 			}
-
-
-			//if (i >= 200)break;
-		
 
 		}
 	} while (size != vec.size());//add at  2020/1/13 21:33
@@ -2283,18 +2735,59 @@ void GrammaticalAnalysis::init_reduction()
 	fclose(file);
 
 }
-ActionStatus GrammaticalAnalysis::action(const int &number, const Gram &symbol,  stack<int>&statusStack,  stack<Gram>&gramStack)
+ActionStatus GrammaticalAnalysis::action( const Gram &symbol,  stack<int>&statusStack,  stack<Gram>&gramStack)
 {
-	int i, j;
-	vector<GramDataType>curStatus = status[number];
-	if (GotoTable[number][symbol] != EMPTY) {	//移进
-		string str = GotoTable[number][symbol];
-		str = str.substr(1, str.size() - 1);
-		statusStack.push(atoi(str.c_str()));
-		gramStack.push(symbol);
-	}
+	
+	int i, j,k;
+	bool flag = true;
+	ActionStatus act=error;
+	while (flag) {
+		flag = false;
+		
+		/*while (flag) {*/	//归约
+			
+			for (i = gramStack.size(); i >=1 ; i--) {
+				GramDataType temp;
+				vector<Gram>vec = gramStack.top(i);
+				for (j = 0; j < redu.size(); j++) {
+					if (vec.size() != redu[j].gram.ls.size())continue;
+					for (k = 0; k < vec.size(); k++) {
+						if (vec[k] != redu[j].gram.ls[k])break;
+					}
+					if (k >= vec.size() && redu[j].symbol == symbol) {
+						flag = true;
+						int curStatus;
+						gramStack.pop(i);//出栈i+1个元素
+						gramStack;
+						statusStack.pop(i);//出栈i+1个元素
+						
+						statusStack.push(redu[j].statusNumber);
+							gramStack.push(redu[j].gram.getGramName());
+					
+							act = reduction;
+							break;
+					}
 
-	return ActionStatus();
+				}
+			}
+		//}
+
+			if (GotoTable[statusStack.top()][symbol] != EMPTY) {	//移进
+				string str = GotoTable[statusStack.top()][symbol];
+				str = str.substr(1, str.size() - 1);
+				statusStack.push(atoi(str.c_str()));
+				gramStack.push(symbol);
+				act = shift;
+				flag = true;
+			}
+	}
+	
+	if (statusStack.size() == 2&& gramStack.top()==e_s) {
+		statusStack.pop();
+		gramStack.pop();
+		act = acc;
+	}
+	return act;
 }
  GramType GrammaticalAnalysis::gramArray[GRAM_MAX]{
 	Grammatical::v_start,//0
@@ -2756,18 +3249,24 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  }
 	  fclose(file);
 	  // redu[i].statusNumber, redu[i].symbol, redu[i].gram.getGramName(), redu[i].gram.getSymbol(), redu[i].gram.getPosi());
-	 char  reduSymbol[BUFF_SIZE], getGramName[BUFF_SIZE], gramGetSymbol[BUFF_SIZE];
-	  Redu temp;
+	 
+	
 	  int statusNumber, posi;
-	  memset(reduSymbol, 0, BUFF_SIZE); memset(getGramName, 0, BUFF_SIZE); memset(gramGetSymbol, 0, BUFF_SIZE);
+	 
+	
+	 // memset(reduSymbol, 0, BUFF_SIZE); memset(getGramName, 0, BUFF_SIZE); memset(gramGetSymbol, 0, BUFF_SIZE);
 	  file = fopen("C:\\Users\\THINKPAD\\Desktop\\redu.txt", "r");
 	  if (file == NULL)return false;
 	  while (!feof(file)) {
-		 
+		  Redu temp;
+		  Gram gram;
+		  char  reduSymbol[BUFF_SIZE], getGramName[BUFF_SIZE], gramGetSymbol[BUFF_SIZE];
+		  Gram gramReduSymbol, gramGetGramName, gramGetSymbolTemp;
+		  /*原因同上*/
 		  fscanf(file, "%d %s %s %s %d", &statusNumber, &reduSymbol, &getGramName, &gramGetSymbol, &posi);
 		  fscanf(file, "%s", ch);
 		  temp.statusNumber = statusNumber;
-		  Gram gramReduSymbol = string_map_to_gram(reduSymbol),
+		  /*Gram */gramReduSymbol = string_map_to_gram(reduSymbol),
 			  gramGetGramName=string_map_to_gram(getGramName),
 			  gramGetSymbolTemp=string_map_to_gram( gramGetSymbol);		  
 		  if (gramReduSymbol == e_error || gramGetGramName == e_error || gramGetSymbolTemp == e_error)continue;
@@ -2776,7 +3275,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  temp.gram.setGramName(gramGetGramName);
 		  temp.gram.set_symbol(gramGetSymbolTemp);
 		  temp.gram.posi = posi;
-		  Gram gram;
+		
 		  while (fscanf(file, "%s", ch)&&strcmp( ch, "end")) {
 			 temp.gram.ls.push_back( string_map_to_gram(ch));
 			  
@@ -2838,6 +3337,17 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  vector<type>temp;
 	  int min = vec.size() > s + e ? s + e : vec.size();
 	  for (int i = s; i < min; i++) {
+		  temp.push_back(vec[i]);
+	  }
+	  return temp;
+  }
+  template<typename type>
+  vector<type> stack<type>::top(int num)
+  {
+	  int i;
+	  int min = num > vec.size() ? vec.size() : num;
+	  vector<type>temp;
+	  for (i = vec.size() - num; i < vec.size(); i++) {
 		  temp.push_back(vec[i]);
 	  }
 	  return temp;
