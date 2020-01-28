@@ -1,6 +1,9 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include<iostream>
 #include<cstdlib>
 #include<vector>
+#include<map>
+//#include<stack>
 #ifndef _TESTSWITCH_
 #include"testswitch.h"
 #include"file.h"
@@ -11,10 +14,10 @@
 #define GRAM_MAX 66
 #define GRAM_ENUM_MAX 138
 #define GRAM_STRING_TABLE_MAX GRAM_ENUM_MAX
-
-
-#define EMPTY -1
-#define GOTO_TABLE_MAX 1000
+#define BUFF_SIZE 1000
+#define CHAR_SIZE 100
+#define EMPTY "-1"
+#define GOTO_TABLE_MAX 3000
 //using GrammaticalType= vector<list<string>>;
 //using GrammaticalDataType = list<string>;
 using namespace file;
@@ -100,10 +103,22 @@ enum Gram{ //文法的枚举类
 	e_l_bracket,e_r_bracket,//bracket
 	e_comma,e_empty,
 	e_gram_end //grammatical end
-
-
+	,e_error
+	
 }; //文法类别
-
+template<typename type>
+struct stack { //自定义栈
+public:
+	size_t size();//栈大小
+	bool empty();//是否为空
+	void push(const type&);//入栈
+	void pop();//出栈
+	vector<type>top(int, int);//查看元素
+	type top();
+	void  pop(int);
+private:
+	vector<type>vec;
+};
  //文法数据	
 union Date { public:Date() {} ~Date() {} string strVal; int intVal; float realVal; };
 //template<typename T>
@@ -180,10 +195,23 @@ public:
 	 vector<GramDataType>vec;
 		Gram gramName;
 		GramType(initializer_list<GramDataType>list);
+		GramType() = default;
 		GramType(GramDataType&);
 		void setGramName(Gram gramName);
 		Gram getGramName();
+		friend bool operator==(const GramType&obj1, const GramType&obj2);
  };
+ /*归约结构*/
+ struct Reduction {
+	 Reduction() = default;
+	 int statusNumber;//状态号
+	 Gram symbol;//符号
+	 GramDataType gram;//文法
+ public:
+	 Reduction(const int&, const Gram&, const GramDataType&);
+ };
+ enum ActionStatus{acc,reduction,shift,error};//action标志
+ using Redu = Reduction;
 //typedef GrammaticalType{
 //	
 //}GraType;
@@ -258,7 +286,7 @@ public :
 	 static GramType v_use_database_def;//53
 	 static GramType v_delete_element_def;//54
 	 static GramType v_delete_table_def;//55
-	 static GramType v_alter_table_col_name_def;//56
+	 static GramType v_alter_table_add_col_name_def;//56
 	 static GramType v_alter_table_drop_col_name_def;//57
 	 static GramType v_insert_def;//58
 	 static GramType v_update_addop_def;//59
@@ -297,12 +325,7 @@ public:
 	}*/
 
 #if TEST&&GRAM_TEST
-	void  test_first() {
-		GramType temp = gramArray[0];
-		GramDataType temp2 = temp.vec[0];
-		//cout << temp2.ls[1].getCategory() << endl;
-		 //cout << first(temp2) << endl;
-	}
+	
 	void test() {
 		init();
 		//GramType temp = gramArray[0];
@@ -335,11 +358,14 @@ private:
 	file::CFilePtr file;
 	void init();
 	bool check_grammatical();
-//	void print
-	int GotoTable[GOTO_TABLE_MAX][GRAM_ENUM_MAX];
+	string **GotoTable/*[GOTO_TABLE_MAX][GRAM_ENUM_MAX]*/;
 #if(TEST&&GRAM_TEST)
 	void print(int GotoTable[GOTO_TABLE_MAX][GRAM_ENUM_MAX]);
 #endif
+	vector<Redu>redu;//记录可归约的文法
+	bool save_status(vector<vector<GramDataType>>&, string **);
+	bool read_status(vector<vector<GramDataType>>&, string **);
+	vector<Gram>first_set[GRAM_ENUM_MAX]{};
 	vector<vector<GramDataType>>status;
 	inline vector<GramDataType>&vector_join_other_vector(vector<GramDataType>&join, vector<GramDataType>&beJoined);
 	 GramTokenType string_convert_to_GramToken(const string& str);
@@ -347,13 +373,20 @@ private:
 	vector<GramDataType>Goto(const GramDataType&, const Gram&);
 	vector<GramDataType>Goto(const GramType&,const Gram&);
 	vector<GramDataType>Goto(const vector<GramDataType> &, const Gram &);
-	vector<GramType> get_derived_grammar( DataType obj);//派生文法，即文法推导文法，不
-	Gram first(GramDataType&obj);//寻找文法中第一个非文法的字符  find first char of non-grammatical in grammatical
+	vector<GramType> get_derived_grammar(  DataType& );//派生文法，即文法推导文法，不
+	vector<Gram> first(const Gram obj);//寻找文法中第一个非文法的字符  find first char of non-grammatical in grammatical
+	vector<Gram> first(const Gram obj,bool [GRAM_ENUM_MAX]);//寻找文法中第一个非文法的字符  find first char of non-grammatical in grammatical
 	GramCategory is_grammatical(Gram obj);//判断是文法还是非文法 Judge whether it is grammatical or non-grammatical
 	void grammatical_convert_to_dfa();//文法转换成dfa
 	vector<GramDataType> closure(const vector<GramDataType>);
+	inline Gram string_convert_to_gram(const string&);
 	inline string gram_map_to_string(const Gram&obj);
+//	inline void init_reduction();
 inline	GramType gram_map_to_gramtype(const Gram&obj);//gram map to gramtype
 	static GramType gramArray[GRAM_MAX]; //文法数组 grammatical array
+	friend vector<Gram> operator+(const vector<Gram>, const vector<Gram>);
+	inline Gram string_map_to_gram(const string&);
+	void init_reduction();//临时函数
+	ActionStatus action(const int&, const Gram&,  stack<int>&,  stack<Gram>&);
 };
 

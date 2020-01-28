@@ -81,6 +81,7 @@ void Compile::lexical_run(string filePath)
 void Compile::grammatical_run(string Path)
 {
 	GrammaticalAnalysis gram(Path);
+	gram.run();
 	/*gra.test_first();
 	gra.test();*/
 }

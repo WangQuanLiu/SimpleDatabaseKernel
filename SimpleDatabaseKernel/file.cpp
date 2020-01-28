@@ -380,6 +380,9 @@ bool GrammaticalAnalysisFile::set_file_path(string fileName)
 {
 	return File::set_file_path(fileName) && read_file();
 }
+
+
+
 /*
 输入：一整块字符串包括(文法与关键字字符串)
 功能：通过整场字符串得到文法

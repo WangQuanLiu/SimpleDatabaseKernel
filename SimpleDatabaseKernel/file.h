@@ -11,9 +11,9 @@
 #include<string>
 #include<Windows.h>
 #include<direct.h>
+//#include"GrammaticalAnalysis.h"
 #ifndef _TESTSWITCH_
 #include"testswitch.h"
-//#include"GrammaticalAnalysis.h"
 #endif
 #define CHARACTER_MAX 257
 #define READ_MAX 10
@@ -24,6 +24,7 @@
 #define KEYWORD_TABLE 53
 using namespace std;
 extern enum Gram;
+
 namespace file {
 	
 	using FilePtr = FILE *;
@@ -92,6 +93,7 @@ namespace file {
 		GrammaticalAnalysisFile(string filePath) :File(filePath) { set_file_path(filePath); }
 		bool set_file_path(string fileName);
 	private:
+		
 		string string_map_to_gram(const string&);
 	inline   int string_hash(const string&);
 	enum symbol{ keyword , num, real, id, add_sub_symbol, mul_symbol,
