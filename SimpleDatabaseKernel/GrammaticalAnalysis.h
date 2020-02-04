@@ -9,17 +9,13 @@
 #include"file.h"
 #endif
 #define _GrammaticalAnalysis_
-//#define NFA_MAX 34
-//#define ALPHA_MAX 40
 #define GRAM_MAX 66
 #define GRAM_ENUM_MAX 138
 #define GRAM_STRING_TABLE_MAX GRAM_ENUM_MAX
 #define BUFF_SIZE 1000
 #define CHAR_SIZE 100
 #define EMPTY "-1"
-#define GOTO_TABLE_MAX 3000
-//using GrammaticalType= vector<list<string>>;
-//using GrammaticalDataType = list<string>;
+#define GOTO_TABLE_MAX 10000
 using namespace file;
 using CFilePtr = file::File *;
 enum GramCategory {
@@ -130,18 +126,7 @@ struct DataType   {	//单个文法类
 		 Gram getCategory();
 		 bool operator==(DataType category);
 		 friend bool operator!=(const DataType& category1, const DataType& category2);
-		
-		/* DataType(int integer, Gram cateory) {
-			 date.intVal = integer;
-			 set_category(category);
-		 }
-		
-		 DataType(float real, Gram cateory) {
-			 date.realVal;
-			 set_category(category);
-		 }*/
 		 void set_category(Gram category);
-//	string str;
 private:	Gram category;
 
 };
@@ -159,39 +144,17 @@ public:
 	Gram getGramName();
 	Gram getSymbol();
 	int getPosi();
-	/*	void set_symbol(vector<Gram>&vec) {
-			this->symbol = vec;
-		}*/
 	void set_symbol(const Gram &obj);
-		/*void add_symbol(initializer_list<Gram>initializer) {
-			initializer_list<Gram>::const_iterator begin, end;
-			begin = initializer.begin();
-			end = initializer.end();
-			for (; begin != end; begin++)
-				symbol.push_back(*begin);
-
-		}*/
-		/*void set_symbol(initializer_list<Gram>initializer) {
-			initializer_list<Gram>::const_iterator begin, end;
-			begin = initializer.begin();
-			end = initializer.end();
-			for (; begin != end; begin++)
-				symbol.push_back(*begin);
-		}*/
 		GramDataType& operator=(const GramDataType&);
 		GramDataType& operator+=(int);
 		GramDataType operator+(int);
 		vector<DataType>getLs();
-	//	void set_posi(int posi) { this->posi = posi; }
 	vector<DataType>ls;
 	int posi;
-	//vector<Gram>symbol;
 	Gram symbol;
 	Gram gramName;
 };
- /*using DataType = struct DataType;
- using GramDataType = list<DataType>;*/
- //using GramType = vector<GramDataType>;
+
  struct GramType{//一个文法中可能指向多个文法，这个是指向多个文法集合
 	 vector<GramDataType>vec;
 		Gram gramName;
@@ -213,9 +176,6 @@ public:
  };
  enum ActionStatus{acc,reduction,shift,error};//action标志
  using Redu = Reduction;
-//typedef GrammaticalType{
-//	
-//}GraType;
 class Grammatical { 
 public :
 	 static GramType v_start; //0
@@ -302,7 +262,6 @@ typedef struct GramTokenType {//读取词法分析产生的文件中单元结构
 public: GramTokenType() = default;
 		GramTokenType(const GramTokenType&obj);
 		void setGram(const Gram&gram);
-	//	void setGram(const string&);
 		void setString(const string&string);
 		void set_value(const string&);
 		Gram getGram();
@@ -310,7 +269,6 @@ public: GramTokenType() = default;
 		explicit	GramTokenType(const Gram&gram, const string&str);
 			GramTokenType(const string&str);
 		friend bool operator==(const GramTokenType&objA, const GramTokenType&objB);
-		//inline Gram string_convert_to_gram_symbol(const string&,const string&);
 		inline int string_hash(const string&);
 private:
 	Gram gram; //语法类别
@@ -318,55 +276,27 @@ private:
 }GramToken;
 class GrammaticalAnalysis {
 public:
-	///CFilePtr file;
 	GrammaticalAnalysis(string filePath);
 	void run();
-	/*GrammaticalAnalysis() {
-
-	}*/
 
 #if TEST&&GRAM_TEST
 	
 	void test() {
 		init();
-		//GramType temp = gramArray[0];
-	//	temp.vec[0].symbol = e_eof;
-	//	vector<GramDataType>vec;
-	//	GramDataType temp = gramArray[0].vec[0];
-	//	temp.symbol = e_eof;
-	//	vec.push_back(temp);
-	//	//closure(vec);
-	//	GramType gramTypeTemp = gramArray[4];
-	//	for (int i = 0; i < gramTypeTemp.vec.size(); i++) {
-	//		gramTypeTemp.vec[i].symbol = e_primary_def;
-	//	}
-	//vector<GramDataType>temporary=	Goto(gramTypeTemp, e_primary_def);
-	//	//Goto(gramTypeTemp, e_primary_def);
-	//	 gramTypeTemp = gramArray[21];
-	//	 for (int i = 0; i < gramTypeTemp.vec.size(); i++) {
-	//		 gramTypeTemp.vec[i].symbol = e_eof;
-	//	 }
-	//status=items(gramTypeTemp);
-	//print(GotoTable);
-	//	 vector<GramDataType>tempA = status[GotoTable[e_constraint_def][e_primary]];
-		/*Goto(gramArray[])*/
-		//grammatical_convert_to_dfa();
-		//get_derived_grammar(e_s);
-		//cout << GramStringTable[135] << endl;
 	}
 #endif
 private:
 	file::CFilePtr file;
 	void init();
 	bool check_grammatical();
-	string **GotoTable/*[GOTO_TABLE_MAX][GRAM_ENUM_MAX]*/;
+	string **GotoTable;
 #if(TEST&&GRAM_TEST)
 	void print(int GotoTable[GOTO_TABLE_MAX][GRAM_ENUM_MAX]);
 #endif
 	vector<Redu>redu;//记录可归约的文法
 	bool save_status(vector<vector<GramDataType>>&, string **);
 	bool read_status(vector<vector<GramDataType>>&, string **);
-	vector<Gram>first_set[GRAM_ENUM_MAX]{};
+	//vector<Gram>first_set[GRAM_ENUM_MAX]{};
 	vector<vector<GramDataType>>status;
 	inline vector<GramDataType>&vector_join_other_vector(vector<GramDataType>&join, vector<GramDataType>&beJoined);
 	 GramTokenType string_convert_to_GramToken(const string& str);

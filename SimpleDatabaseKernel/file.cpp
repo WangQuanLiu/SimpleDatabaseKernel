@@ -504,7 +504,7 @@ const string file::GrammaticalAnalysisFile::keywordTable[]{
 	"create","table","char","not","null","primary","key","foreign","references","check","in","unique", "like","where",
 	"order","by","desc","asc","group","having","right","left","full","join","on","distance","from",
 	"database","use","delete","alter","add","drop","column","insert","into","values","update","set",
-	"view","as","index","int","float","select","natural"
+	"view","as","index","int","float","select","natural",
 
 };
 const string file::GrammaticalAnalysisFile::symbolStringTable[SYMBOL_SIZE]{
