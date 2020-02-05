@@ -9,8 +9,8 @@
 #include"file.h"
 #endif
 #define _GrammaticalAnalysis_
-#define GRAM_MAX 66
-#define GRAM_ENUM_MAX 138
+#define GRAM_MAX 67
+#define GRAM_ENUM_MAX 139
 #define GRAM_STRING_TABLE_MAX GRAM_ENUM_MAX
 #define BUFF_SIZE 1000
 #define CHAR_SIZE 100
@@ -41,7 +41,7 @@ const string GramStringTable[GRAM_STRING_TABLE_MAX]{ //文法的字符串
 	"e_constriant_connect_def","e_table_name_def","e_select_def","e_create_database_def","e_use_database_def",
 	"e_delete_element_def","e_delete_table_def","e_alter_table_add_col_name_def","e_alter_table_drop_col_name_def",
 	"e_insert_def","e_update_addop_def","e_update_mulop_def","e_update_def","e_create_view_def",
-	"e_drop_view_def","e_create_index_def","e_drop_index_def",
+	"e_drop_view_def","e_create_index_def","e_drop_index_def","e_drop_database_def",
 
 	"e_less_than","e_less_than_or_equal","e_equal","e_unequal", "e_greater_than", "e_greater_than_or_equal", //compare
 
@@ -81,7 +81,7 @@ enum Gram{ //文法的枚举类
 	e_constriant_connect_def,e_table_name_def,e_select_def,e_create_database_def,e_use_database_def,
 	e_delete_element_def,e_delete_table_def,e_alter_table_add_col_name_def,e_alter_table_drop_col_name_def,
 	e_insert_def,e_update_addop_def,e_update_mulop_def,e_update_def,e_create_view_def,
-	e_drop_view_def,e_create_index_def,e_drop_index_def,
+	e_drop_view_def,e_create_index_def,e_drop_index_def,e_drop_database_def,
 
 	e_less_than,e_less_than_or_equal,e_equal,e_unequal, e_greater_than, e_greater_than_or_equal, //compare
 
@@ -257,6 +257,7 @@ public :
 	 static GramType v_drop_view_def;//63
 	 static GramType v_create_index_def;//64
 	 static GramType v_drop_index_def;//65
+	 static GramType v_drop_database_def;//66
 };
 typedef struct GramTokenType {//读取词法分析产生的文件中单元结构
 public: GramTokenType() = default;
@@ -296,7 +297,7 @@ private:
 	vector<Redu>redu;//记录可归约的文法
 	bool save_status(vector<vector<GramDataType>>&, string **);
 	bool read_status(vector<vector<GramDataType>>&, string **);
-	//vector<Gram>first_set[GRAM_ENUM_MAX]{};
+	vector<Gram>first_set[GRAM_ENUM_MAX]{};
 	vector<vector<GramDataType>>status;
 	inline vector<GramDataType>&vector_join_other_vector(vector<GramDataType>&join, vector<GramDataType>&beJoined);
 	 GramTokenType string_convert_to_GramToken(const string& str);
