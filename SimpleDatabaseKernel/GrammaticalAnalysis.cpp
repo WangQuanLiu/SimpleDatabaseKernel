@@ -1527,7 +1527,14 @@ GramDataType{
 	DataType(e_from),
 	DataType(e_id),
 //	 DataType(e_gram_end)//add tiem 2020/1/26 10:30
-	}
+	},
+	 GramDataType{
+	 DataType(e_delete),
+	 DataType(e_from),
+	 DataType(e_id),
+	 DataType(e_where_def)
+	 //	 DataType(e_gram_end)//add tiem 2020/1/26 10:30
+ }
 	
 };
  GramType Grammatical::v_delete_table_def{
@@ -1897,7 +1904,13 @@ GramDataType{
 //	 DataType(e_gram_end)//add tiem 2020/1/26 10:30
 	}
 };
-
+ GramType Grammatical::v_drop_database_def{
+	 GramDataType{
+	 DataType(e_drop),
+	// DataType(e_database),
+	 DataType(e_id)
+	}
+ };
  GramDataType::GramDataType(initializer_list<DataType> initializer)
  {	
 		 initializer_list<DataType>::const_iterator begin, end;
@@ -2150,9 +2163,24 @@ do {
 			for (k = 0; k < GRAM_ENUM_MAX; k++) {
 				vector<GramDataType>temp = Goto(vec[i], static_cast<Gram>(k));
 				if (temp.size() <= 0)continue;
+				/*else {
+					int l, j;
+					cout << "status " << i << "-->" << gram_map_to_string(static_cast<Gram>(k))<<endl;
+					for (l = 0; l < temp.size(); l++) {
+
+						for (j = 0; j < temp[l].ls.size(); j++) {
+							cout <<gram_map_to_string( temp[l].ls[j].getCategory()) << " ";
+						}
+						cout << "   posi:" << temp[l].posi << endl;
+
+					}
+
+				}*/
 				char ch[BUFF_SIZE];
 				string str = is_grammatical(static_cast<Gram>(k)) ? "s" : "g";
 				for (t = 0; t < vec.size(); t++) {
+					//if (vec[t].size() != temp.size())break;
+
 					if (vec[t] == temp) {	//有相同的文法				
 						str = str + _itoa(static_cast<int>(t), ch, 10);
 						GotoTable[i][k] = str;
@@ -2165,7 +2193,7 @@ do {
 					GotoTable[i][k] = str;					
 					cout << vec.size() << endl;
  					vec.push_back(temp);
-					}
+				}
 				for (t = 0; t < temp.size(); t++) {//添加归约
 					if (temp[t].getPosi() == temp[t].ls.size()) {
 						redu.push_back(Redu(vec.size(), temp[t].getSymbol(), temp[t]));
@@ -2341,12 +2369,12 @@ vector<GramType> GrammaticalAnalysis::get_derived_grammar(DataType &obj)
 }
 vector<Gram> GrammaticalAnalysis::first(const Gram gram, bool visit[GRAM_ENUM_MAX]) {
 
-	//if (first_set[gram].size() >0)return first_set[gram];
+	if (first_set[gram].size() >0)return first_set[gram];
 	vector<Gram>gloFirstSet{};
 	vector<Gram>tempFirstSet{};
 	vector<DataType>list;
 	if (is_grammatical(gram) || visit[gram]||gram==e_empty) {
-		//first_set[gram] = vector<Gram>{ gram };
+		first_set[gram] = vector<Gram>{ gram };
 		return vector<Gram>{ gram };
 	}
 	int i, size = 0, k, j;
@@ -2358,13 +2386,13 @@ vector<Gram> GrammaticalAnalysis::first(const Gram gram, bool visit[GRAM_ENUM_MA
 		
 		k = 0; flag = true;
 		while (flag == true && k < list.size()) {
-		/*	if (first_set[list[k].getCategory()].size() > 0) {
+			if (first_set[list[k].getCategory()].size() > 0) {
 				tempFirstSet = first_set[list[k].getCategory()];
 			}
-			else {*/
+			else {
 				tempFirstSet = first(list[k].getCategory(),visit);
-			//	first_set[list[k].getCategory()] = tempFirstSet;
-		//	}
+				first_set[list[k].getCategory()] = tempFirstSet;
+			}
 			empty = false;
 			vector<Gram>::iterator begin(tempFirstSet.begin()), end;
 			end = tempFirstSet.end();
@@ -2387,7 +2415,7 @@ vector<Gram> GrammaticalAnalysis::first(const Gram gram, bool visit[GRAM_ENUM_MA
 
 
 	}
-//	first_set[gram] = gloFirstSet;
+	first_set[gram] = gloFirstSet;
 	return gloFirstSet;
 
 
@@ -2444,10 +2472,9 @@ do {
 				if (temp[i].posi + 1 < temp[i].ls.size()) {
 					z = temp[i].ls[temp[i].posi + 1].getCategory();
 					gramSymbol = first(z);
-				}//else gramSymbol = gramSymbol + first(e_gram_end);
+				}else gramSymbol = gramSymbol + first(temp[i].getSymbol());
 				//if(temp[i].posi==0) //2020-1-27
-				else
-				gramSymbol = gramSymbol + first(temp[i].getSymbol());
+				//gramSymbol = gramSymbol + first(temp[i].getSymbol());
 				for (k = 0; k < vec.vec.size(); k++) {
 					for (p = 0; p < gramSymbol.size(); p++) {
 
@@ -2636,73 +2663,74 @@ ActionStatus GrammaticalAnalysis::action( const Gram &symbol,  stack<int>&status
 	}
 	return act;
 }
- GramType GrammaticalAnalysis::gramArray[GRAM_MAX]{
-	Grammatical::v_start,//0
-	Grammatical::v_s,//1
-	Grammatical::v_create_def,//2
-	Grammatical::v_create_data_def,//3
-	Grammatical::v_constraint_def,//4
-	Grammatical::v_create_data_type_def,//5
-	Grammatical::v_create_data_type_suffix_def,//6
-	Grammatical::v_primary_def,//7
-	Grammatical::v_for_che_uni_def,//8
-	Grammatical::v_col_name_rep_def,//9
-	Grammatical::v_foreign_def,//10
-	Grammatical::v_str_rep_def,//11
-	Grammatical::v_check_def,//12
-	Grammatical::v_unique_def,//13
-	Grammatical::v_addop_def,//14
-	Grammatical::v_mulop_def,//15
-	Grammatical::v_compare_def,//16
-	Grammatical::v_logic_def,//17
-	Grammatical::v_gather_fuc_def,//18
-	Grammatical::v_int_real_col_name_def,//19
-	Grammatical::v_int_real_col_name_rep_def,//20
-	Grammatical::v_where_addop_def,//21
-	Grammatical::v_where_mulop_def,//22
-	Grammatical::v_where_algorithm_operator_def,//23
-	Grammatical::v_where_algorithm_operator_or_string_def,//24
-	Grammatical::v_where_compare_def,//25
-	Grammatical::v_where_compare_or_string_match_def,//26
-	Grammatical::v_logic_and_where_compare_string_match_def,//27
-	Grammatical::v_where_logic_def,//28
-	Grammatical::v_where_def,//29
-	Grammatical::v_comma_and_col_name_def,//30
-	Grammatical::v_order_def,//31
-	Grammatical::v_group_def,//32
-	Grammatical::v_having_def,//33
-	Grammatical::v_where_algorithm_operator_rep_def,//34
-	Grammatical::v_select_operator_def,//35
-	Grammatical::v_connect_mode_def,//36
-	Grammatical::v_connect_def,//37
-	Grammatical::v_connect_addop_def,//38
-	Grammatical::v_connect_mulop_def,//39
-	Grammatical::v_connect_algorithm_operator_def,//40
-	Grammatical::v_connect_algorithm_operator_or_string_def,//41
-	Grammatical::v_connect_compare_def,//42
-	Grammatical::v_connect_compare_or_str_match_def,//43
-	Grammatical::v_logic_connect_compare_or_str_match_def,//44
-	Grammatical::v_connect_logic_def,//45
-	Grammatical::v_constriant_having_def,//46
-	Grammatical::v_constraint_group_def,//47
-	Grammatical::v_select_connect_def,//48
-	Grammatical::v_constriant_connect_def,//49
-	Grammatical::v_table_name_def,//50
-	Grammatical::v_select_def,//51
-	Grammatical::v_create_database_def,//52
-	Grammatical::v_use_database_def,//53
-	Grammatical::v_delete_element_def,//54
-	Grammatical::v_delete_table_def,//55
-	Grammatical::v_alter_table_add_col_name_def,//56
-	Grammatical::v_alter_table_drop_col_name_def,//57
-	Grammatical::v_insert_def,//58
-	Grammatical::v_update_addop_def,//59
-	Grammatical::v_update_mulop_def,//60
-	Grammatical::v_update_def,//61
-	Grammatical::v_create_view_def,//62
-	Grammatical::v_drop_view_def,//63
-	Grammatical::v_create_index_def,//64
-	Grammatical::v_drop_index_def//65
+GramType GrammaticalAnalysis::gramArray[GRAM_MAX]{
+   Grammatical::v_start,//0
+   Grammatical::v_s,//1
+   Grammatical::v_create_def,//2
+   Grammatical::v_create_data_def,//3
+   Grammatical::v_constraint_def,//4
+   Grammatical::v_create_data_type_def,//5
+   Grammatical::v_create_data_type_suffix_def,//6
+   Grammatical::v_primary_def,//7
+   Grammatical::v_for_che_uni_def,//8
+   Grammatical::v_col_name_rep_def,//9
+   Grammatical::v_foreign_def,//10
+   Grammatical::v_str_rep_def,//11
+   Grammatical::v_check_def,//12
+   Grammatical::v_unique_def,//13
+   Grammatical::v_addop_def,//14
+   Grammatical::v_mulop_def,//15
+   Grammatical::v_compare_def,//16
+   Grammatical::v_logic_def,//17
+   Grammatical::v_gather_fuc_def,//18
+   Grammatical::v_int_real_col_name_def,//19
+   Grammatical::v_int_real_col_name_rep_def,//20
+   Grammatical::v_where_addop_def,//21
+   Grammatical::v_where_mulop_def,//22
+   Grammatical::v_where_algorithm_operator_def,//23
+   Grammatical::v_where_algorithm_operator_or_string_def,//24
+   Grammatical::v_where_compare_def,//25
+   Grammatical::v_where_compare_or_string_match_def,//26
+   Grammatical::v_logic_and_where_compare_string_match_def,//27
+   Grammatical::v_where_logic_def,//28
+   Grammatical::v_where_def,//29
+   Grammatical::v_comma_and_col_name_def,//30
+   Grammatical::v_order_def,//31
+   Grammatical::v_group_def,//32
+   Grammatical::v_having_def,//33
+   Grammatical::v_where_algorithm_operator_rep_def,//34
+   Grammatical::v_select_operator_def,//35
+   Grammatical::v_connect_mode_def,//36
+   Grammatical::v_connect_def,//37
+   Grammatical::v_connect_addop_def,//38
+   Grammatical::v_connect_mulop_def,//39
+   Grammatical::v_connect_algorithm_operator_def,//40
+   Grammatical::v_connect_algorithm_operator_or_string_def,//41
+   Grammatical::v_connect_compare_def,//42
+   Grammatical::v_connect_compare_or_str_match_def,//43
+   Grammatical::v_logic_connect_compare_or_str_match_def,//44
+   Grammatical::v_connect_logic_def,//45
+   Grammatical::v_constriant_having_def,//46
+   Grammatical::v_constraint_group_def,//47
+   Grammatical::v_select_connect_def,//48
+   Grammatical::v_constriant_connect_def,//49
+   Grammatical::v_table_name_def,//50
+   Grammatical::v_select_def,//51
+   Grammatical::v_create_database_def,//52
+   Grammatical::v_use_database_def,//53
+   Grammatical::v_delete_element_def,//54
+   Grammatical::v_delete_table_def,//55
+   Grammatical::v_alter_table_add_col_name_def,//56
+   Grammatical::v_alter_table_drop_col_name_def,//57
+   Grammatical::v_insert_def,//58
+   Grammatical::v_update_addop_def,//59
+   Grammatical::v_update_mulop_def,//60
+   Grammatical::v_update_def,//61
+   Grammatical::v_create_view_def,//62
+   Grammatical::v_drop_view_def,//63
+   Grammatical::v_create_index_def,//64
+   Grammatical::v_drop_index_def,//65
+   Grammatical::v_drop_database_def
 };
 
  Gram DataType::getCategory()
