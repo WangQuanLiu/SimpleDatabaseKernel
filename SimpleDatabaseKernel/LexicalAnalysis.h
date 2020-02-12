@@ -47,7 +47,7 @@ enum end_statusType {
 	real,//浮点数 real
 	id,//自定义id 
 	add_sub_symbol,//加法运算符号 addition and subtraction operators
-	mul_symbol,//乘法符号 multiplication symbol
+	mul_symbol,//乘法符号 multiplication symbol 
 	div_symbol,//除法符号
 	compare_symbol,//比较类
 	assignment_symbol,//赋值符号
