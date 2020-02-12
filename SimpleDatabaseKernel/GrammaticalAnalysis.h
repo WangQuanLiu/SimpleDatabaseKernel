@@ -306,6 +306,8 @@ private:
 	vector<GramDataType>Goto(const GramType&,const Gram&);
 	vector<GramDataType>Goto(const vector<GramDataType> &, const Gram &);
 	vector<GramType> get_derived_grammar(  DataType& );//派生文法，即文法推导文法，不
+	vector<Gram>  generate_firstSet(const Gram gram, bool visit[GRAM_ENUM_MAX]);
+	void generate_firstSet();
 	vector<Gram> first(const Gram obj);//寻找文法中第一个非文法的字符  find first char of non-grammatical in grammatical
 	vector<Gram> first(const Gram obj,bool [GRAM_ENUM_MAX]);//寻找文法中第一个非文法的字符  find first char of non-grammatical in grammatical
 	GramCategory is_grammatical(Gram obj);//判断是文法还是非文法 Judge whether it is grammatical or non-grammatical

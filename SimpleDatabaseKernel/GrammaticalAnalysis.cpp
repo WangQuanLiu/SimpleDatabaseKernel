@@ -2042,7 +2042,7 @@ void GrammaticalAnalysis::init()
 		}
 	}
 
-
+	generate_firstSet();
 	
 //read_status(status,GotoTable);
 	//status = items(gramTypeTemp);
@@ -2224,7 +2224,8 @@ vector<GramDataType> GrammaticalAnalysis::Goto(const vector<GramDataType> &obj, 
 
 			}
 			else {
-				vector<Gram>gramTemp = first(temp.ls[temp.posi].getCategory());
+				//vector<Gram>gramTemp = first(temp.ls[temp.posi].getCategory());
+				vector<Gram>gramTemp = first_set[temp.ls[temp.posi].getCategory()];
 				int j;
 				for (j = 0; j < gramTemp.size(); j++) {
 					if (gram == gramTemp[j])
@@ -2367,13 +2368,70 @@ vector<GramType> GrammaticalAnalysis::get_derived_grammar(DataType &obj)
 	}
 	return temp;
 }
+vector<Gram>  GrammaticalAnalysis::generate_firstSet(const Gram gram, bool visit[GRAM_ENUM_MAX])
+{
+	if (first_set[gram].size() >0)return first_set[gram];
+	vector<Gram>gloFirstSet{};
+	vector<Gram>tempFirstSet{};
+	vector<DataType>list;
+	if (is_grammatical(gram) || visit[gram]) {
+		first_set[gram] = vector<Gram>{ gram };
+		return vector<Gram>{ gram };
+	}
+	int i, size = 0, k, j;
+	bool flag = true, empty;
+	GramType gramTypeTemp = gramArray[gram];
+	visit[gram] = true;
+	for (i = 0; i < gramTypeTemp.vec.size(); i++) {
+		list = gramTypeTemp.vec[i].ls;
+
+		k = 0; flag = true;
+		while (flag == true && k < list.size()) {
+			if (first_set[list[k].getCategory()].size() > 0) {
+				tempFirstSet = first_set[list[k].getCategory()];
+			}
+			else {
+				tempFirstSet = generate_firstSet(list[k].getCategory(), visit);
+				first_set[list[k].getCategory()] = tempFirstSet;
+			}
+			empty = false;
+			vector<Gram>::iterator begin(tempFirstSet.begin()), end;
+			end = tempFirstSet.end();
+			while (begin != end) {
+				if (*begin == e_empty) {
+					empty = true;
+					tempFirstSet.erase(begin);
+					break;
+				}
+				begin++;
+			}
+
+			gloFirstSet = gloFirstSet + tempFirstSet;
+			if (empty)flag = false;
+			k++;
+		}
+		if (flag)gloFirstSet.push_back(e_empty);
+	}
+	first_set[gram] = gloFirstSet;
+	return gloFirstSet;
+}
+void GrammaticalAnalysis::generate_firstSet()
+{
+	int i;
+	bool visit[GRAM_ENUM_MAX]{ false };
+	for (i = 0; i < GRAM_MAX; i++) {
+		generate_firstSet(static_cast<Gram>(i),visit);
+		memset(visit, 0, GRAM_ENUM_MAX);
+	}
+
+}
 vector<Gram> GrammaticalAnalysis::first(const Gram gram, bool visit[GRAM_ENUM_MAX]) {
 
 	if (first_set[gram].size() >0)return first_set[gram];
 	vector<Gram>gloFirstSet{};
 	vector<Gram>tempFirstSet{};
 	vector<DataType>list;
-	if (is_grammatical(gram) || visit[gram]||gram==e_empty) {
+	if (is_grammatical(gram) || visit[gram]) {
 		first_set[gram] = vector<Gram>{ gram };
 		return vector<Gram>{ gram };
 	}
@@ -2410,10 +2468,6 @@ vector<Gram> GrammaticalAnalysis::first(const Gram gram, bool visit[GRAM_ENUM_MA
 			k++;
 		}
 		if (flag)gloFirstSet.push_back(e_empty);
-		
-
-
-
 	}
 	first_set[gram] = gloFirstSet;
 	return gloFirstSet;
