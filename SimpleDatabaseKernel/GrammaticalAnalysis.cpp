@@ -83,17 +83,49 @@
 	*/
 	GramDataType{
 	DataType(e_id),
-	DataType(e_create_data_type_def),
+	DataType(e_integer),
 	DataType(e_create_data_type_suffix_def),
 	
+ },
+	 GramDataType{
+	 DataType(e_id),
+	 DataType(e_real),
+	 DataType(e_create_data_type_suffix_def),
+ },
+	 GramDataType{
+	 DataType(e_id),
+	 DataType(e_char),
+	 DataType(e_l_bracket),
+	 DataType(e_integer),
+	 DataType(e_r_bracket),
+	 DataType(e_create_data_type_suffix_def)
  },
 
 	GramDataType{  //repeat
 	DataType(e_id),
-	DataType(e_create_data_type_def),
+	DataType(e_integer),
 	DataType(e_create_data_type_suffix_def),
 	DataType(e_comma), 
-	DataType( e_create_data_def)}
+	DataType( e_create_data_def)},
+
+	 GramDataType{
+	 DataType(e_id),
+	 DataType(e_real),
+	 DataType(e_create_data_type_suffix_def),
+	 DataType(e_comma),
+	 DataType(e_create_data_def)
+	},
+
+	 GramDataType{
+	 DataType(e_id),
+	 DataType(e_char),
+	 DataType(e_l_bracket),
+	 DataType(e_integer),
+	 DataType(e_r_bracket),
+	DataType(e_create_data_type_suffix_def),
+	 DataType(e_comma),
+	 DataType(e_create_data_def)
+	 }
 
 };
  GramType Grammatical::v_create_data_type_def{
@@ -1452,8 +1484,6 @@ GramDataType{
 
 
 
-
-
 	GramDataType{
 	 DataType(e_select),
 	DataType(e_select_connect_def),
@@ -2157,7 +2187,7 @@ vector< vector<GramDataType>> GrammaticalAnalysis::items(GramType obj )
 	}
 #endif
 	int size;
-do {
+//do {
 		size = vec.size();
 		for (i = 0; i < vec.size(); i++) {
 			for (k = 0; k < GRAM_ENUM_MAX; k++) {
@@ -2203,7 +2233,7 @@ do {
 			}
 
 		}
-	} while (size != vec.size());//add at  2020/1/13 21:33
+//} while (size != vec.size());//add at  2020/1/13 21:33
 	return vec;
 }
 /*
@@ -2217,14 +2247,14 @@ vector<GramDataType> GrammaticalAnalysis::Goto(const vector<GramDataType> &obj, 
 	for (i = 0; i < obj.size(); i++) {
 		GramDataType temp = obj[i];
 		/*while (temp.posi < temp.ls.size()) {*/
-		if ((temp.posi < temp.ls.size())/*&&temp.ls[temp.posi].getCategory()!=e_gram_end*/) {
+		if ((temp.posi < temp.ls.size())) {
 			if ((temp.ls[temp.posi].getCategory() == gram)) {
 
 				vec.push_back(temp + 1);
 
 			}
 			else {
-				//vector<Gram>gramTemp = first(temp.ls[temp.posi].getCategory());
+			//	vector<Gram>gramTemp = first(temp.ls[temp.posi].getCategory()); //delete at 2020/2/12 20.45
 				vector<Gram>gramTemp = first_set[temp.ls[temp.posi].getCategory()];
 				int j;
 				for (j = 0; j < gramTemp.size(); j++) {
@@ -2368,59 +2398,59 @@ vector<GramType> GrammaticalAnalysis::get_derived_grammar(DataType &obj)
 	}
 	return temp;
 }
-vector<Gram>  GrammaticalAnalysis::generate_firstSet(const Gram gram, bool visit[GRAM_ENUM_MAX])
-{
-	if (first_set[gram].size() >0)return first_set[gram];
-	vector<Gram>gloFirstSet{};
-	vector<Gram>tempFirstSet{};
-	vector<DataType>list;
-	if (is_grammatical(gram) || visit[gram]) {
-		first_set[gram] = vector<Gram>{ gram };
-		return vector<Gram>{ gram };
-	}
-	int i, size = 0, k, j;
-	bool flag = true, empty;
-	GramType gramTypeTemp = gramArray[gram];
-	visit[gram] = true;
-	for (i = 0; i < gramTypeTemp.vec.size(); i++) {
-		list = gramTypeTemp.vec[i].ls;
-
-		k = 0; flag = true;
-		while (flag == true && k < list.size()) {
-			if (first_set[list[k].getCategory()].size() > 0) {
-				tempFirstSet = first_set[list[k].getCategory()];
-			}
-			else {
-				tempFirstSet = generate_firstSet(list[k].getCategory(), visit);
-				first_set[list[k].getCategory()] = tempFirstSet;
-			}
-			empty = false;
-			vector<Gram>::iterator begin(tempFirstSet.begin()), end;
-			end = tempFirstSet.end();
-			while (begin != end) {
-				if (*begin == e_empty) {
-					empty = true;
-					tempFirstSet.erase(begin);
-					break;
-				}
-				begin++;
-			}
-
-			gloFirstSet = gloFirstSet + tempFirstSet;
-			if (empty)flag = false;
-			k++;
-		}
-		if (flag)gloFirstSet.push_back(e_empty);
-	}
-	first_set[gram] = gloFirstSet;
-	return gloFirstSet;
-}
+//vector<Gram>  GrammaticalAnalysis::generate_firstSet(const Gram gram, bool visit[GRAM_ENUM_MAX])
+//{
+//	if (first_set[gram].size() >0)return first_set[gram];
+//	vector<Gram>gloFirstSet{};
+//	vector<Gram>tempFirstSet{};
+//	vector<DataType>list;
+//	if (is_grammatical(gram) || visit[gram]) {
+//		first_set[gram] = vector<Gram>{ gram };
+//		return vector<Gram>{ gram };
+//	}
+//	int i, size = 0, k, j;
+//	bool flag = true, empty;
+//	GramType gramTypeTemp = gramArray[gram];
+//	visit[gram] = true;
+//	for (i = 0; i < gramTypeTemp.vec.size(); i++) {
+//		list = gramTypeTemp.vec[i].ls;
+//
+//		k = 0; flag = true;
+//		while (flag == true && k < list.size()) {
+//			if (first_set[list[k].getCategory()].size() > 0) {
+//				tempFirstSet = first_set[list[k].getCategory()];
+//			}
+//			else {
+//				tempFirstSet = generate_firstSet(list[k].getCategory(), visit);
+//				first_set[list[k].getCategory()] = tempFirstSet;
+//			}
+//			empty = true;
+//			vector<Gram>::iterator begin(tempFirstSet.begin()), end;
+//			end = tempFirstSet.end();
+//			while (begin != end) {
+//				if (*begin == e_empty) {
+//					empty = false;
+//					tempFirstSet.erase(begin);
+//					break;
+//				}
+//				begin++;
+//			}
+//
+//			gloFirstSet = gloFirstSet + tempFirstSet;
+//			if (empty)flag = false;
+//			k++;
+//		}
+//		if (flag)gloFirstSet.push_back(e_empty);
+//	}
+//	first_set[gram] = gloFirstSet;
+//	return gloFirstSet;
+//}
 void GrammaticalAnalysis::generate_firstSet()
 {
 	int i;
 	bool visit[GRAM_ENUM_MAX]{ false };
-	for (i = 0; i < GRAM_MAX; i++) {
-		generate_firstSet(static_cast<Gram>(i),visit);
+	for (i = 0; i < GRAM_ENUM_MAX; i++) {
+		first(static_cast<Gram>(i),visit);
 		memset(visit, 0, GRAM_ENUM_MAX);
 	}
 
@@ -2451,12 +2481,12 @@ vector<Gram> GrammaticalAnalysis::first(const Gram gram, bool visit[GRAM_ENUM_MA
 				tempFirstSet = first(list[k].getCategory(),visit);
 				first_set[list[k].getCategory()] = tempFirstSet;
 			}
-			empty = false;
+			empty = true;
 			vector<Gram>::iterator begin(tempFirstSet.begin()), end;
 			end = tempFirstSet.end();
 			while (begin != end) {
 				if (*begin == e_empty) {
-					empty = true;
+					empty = false;
 					tempFirstSet.erase(begin);
 					break;
 				}
@@ -2507,12 +2537,12 @@ vector<Gram> GrammaticalAnalysis::first(const Gram  gram)
 	// set[obj.gramName] = true;
 	 int size,i,j,k,l,p,u; //保存容器大小
 	//	set[temp[0].]
-do {
+//do {
 		 size = temp.size();
 		 for (i = 0; i < temp.size(); i++) {
 			 if (temp[i].posi >= temp[i].ls.size())continue;//2020/1/8 21:23 add
 			// vector<GramType>vec;/*= get_derived_grammar(temp[i].ls[temp[i].posi]);*/
-			 GramType vec;
+			 GramType vec;//= get_derived_grammar(temp[i].ls[temp[i].posi]);
 			 if (!is_grammatical(temp[i].ls[temp[i].posi].getCategory())) {//文法
 				 vec = gramArray[temp[i].ls[temp[i].posi].getCategory()];
 
@@ -2525,8 +2555,13 @@ do {
 				//z=temp[i].symbol;
 				if (temp[i].posi + 1 < temp[i].ls.size()) {
 					z = temp[i].ls[temp[i].posi + 1].getCategory();
-					gramSymbol = first(z);
-				}else gramSymbol = gramSymbol + first(temp[i].getSymbol());
+					//gramSymbol = first(z); //delete at 2020/2/12 20.43
+					gramSymbol = first_set[z];
+				}
+				else {
+					//gramSymbol = gramSymbol + first(temp[i].getSymbol()); //delete at 2020/2/12/20.44
+					gramSymbol = gramSymbol + first_set[temp[i].getSymbol()];
+				}
 				//if(temp[i].posi==0) //2020-1-27
 				//gramSymbol = gramSymbol + first(temp[i].getSymbol());
 				for (k = 0; k < vec.vec.size(); k++) {
@@ -2567,7 +2602,7 @@ do {
 		 }
 #endif
 
-	 } while (size != temp.size());
+//	 } while (size != temp.size());
 	 
 	 return temp;
  }
@@ -2669,6 +2704,7 @@ ActionStatus GrammaticalAnalysis::action( const Gram &symbol,  stack<int>&status
 	int i, j,k;
 	bool flag = true;
 	ActionStatus act=error;
+	bool shifted = false;
 	while (flag) {
 		flag = false;
 		
@@ -2699,13 +2735,16 @@ ActionStatus GrammaticalAnalysis::action( const Gram &symbol,  stack<int>&status
 				}
 			}
 		//}
-			if (GotoTable[statusStack.top()][symbol] != EMPTY) {	//移进
+			if (GotoTable[statusStack.top()][symbol] != EMPTY&&!shifted) {	//移进
 				string str = GotoTable[statusStack.top()][symbol];
 				str = str.substr(1, str.size() - 1);
 				statusStack.push(atoi(str.c_str()));
 				gramStack.push(symbol);
 				act = shift;
-				flag = true;
+				shifted = true;/*不要问为什么要加这个变量并且上面置，问就是不知道，调试时发现select语句压入两个id,可能是文法设计有问题，或者是其它问题^_^*/
+				/*if (symbol != e_id) {*/
+					flag = true;
+				//}
 			}
 			
 	}
