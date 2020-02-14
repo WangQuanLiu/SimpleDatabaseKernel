@@ -818,11 +818,35 @@ GramDataType{
 	 DataType(e_r_bracket)
  },
 
+	///*无e_where_addop_def begin------------------*/
+	// GramDataType{
 
+	// DataType(e_gather_fuc_def),
+	// DataType(e_l_bracket),
+	// DataType(e_id),
+	//// DataType(e_where_addop_def),
+	// DataType(e_r_bracket)
+ //},
+	// GramDataType{
 
+	// DataType(e_gather_fuc_def),
+	// DataType(e_l_bracket),
+	// DataType(e_real),
+	//// DataType(e_where_addop_def),
+	// DataType(e_r_bracket)
+ //},
+	// GramDataType{
 
+	// DataType(e_gather_fuc_def),
+	// DataType(e_l_bracket),
+	// DataType(e_integer),
+	//// DataType(e_where_addop_def),
+	// DataType(e_r_bracket)
+ //},
 
+	 /*无e_where_addop_def end------------------*/
 
+	
 	GramDataType{
 	DataType(e_l_bracket),
 	DataType(e_real),
@@ -843,8 +867,28 @@ GramDataType{
 	 DataType(e_r_bracket)
  },
 
+	 /*无e_where_addop_def begin------------------*/
+	// GramDataType{
+	// DataType(e_l_bracket),
+	// DataType(e_real),
+	//// DataType(e_where_addop_def),
+	// DataType(e_r_bracket)
+ //},
 
+	// GramDataType{
+	// DataType(e_l_bracket),
+	// DataType(e_id),
+	//// DataType(e_where_addop_def),
+	// DataType(e_r_bracket)
+ //},
+	// GramDataType{
+	// DataType(e_l_bracket),
+	// DataType(e_integer),
+	//// DataType(e_where_addop_def),
+	// DataType(e_r_bracket)
+ //},
 
+	 /*无e_where_addop_def end------------------*/
 
 
 
@@ -903,7 +947,7 @@ GramDataType{
 	DataType(e_where_algorithm_operator_or_string_def),
 	DataType(e_compare_def),
 	DataType(e_where_algorithm_operator_or_string_def)
-	}
+	},
 };
  GramType Grammatical::v_where_compare_or_string_match_def{
 	/*
@@ -1422,10 +1466,10 @@ GramDataType{
 	DataType(e_id),
 	DataType(e_comma),
 	DataType(e_table_name_def)
-	},
+	}/*,
 	 GramDataType{
 	 DataType(e_empty)
-	 }
+	 }*/
 	/*GramDataType{
 	DataType(e_id)
 	}*/
@@ -1481,8 +1525,6 @@ GramDataType{
 	 DataType(e_constriant_connect_def),
 	 //	 DataType(e_gram_end)//add tiem 2020/1/26 10:30
  },
-
-
 
 	GramDataType{
 	 DataType(e_select),
@@ -2311,6 +2353,7 @@ vector< vector<GramDataType>> GrammaticalAnalysis::items(GramType obj )
  					vec.push_back(temp);
 				}
 				for (t = 0; t < temp.size(); t++) {//添加归约
+				//	if (temp[t].ls.size == 1 && (temp[t].ls[0] == e_id || temp[t].ls[0] == e_real || temp[t].ls[0] == e_str || temp[t].ls[0] == e_integer))continue;
 					if (temp[t].getPosi() == temp[t].ls.size()) {
 						redu.push_back(Redu(vec.size(), temp[t].getSymbol(), temp[t]));
 					}
@@ -2335,8 +2378,8 @@ vector<GramDataType> GrammaticalAnalysis::Goto(const vector<GramDataType> &obj, 
 		/*while (temp.posi < temp.ls.size()) {*/
 		if ((temp.posi < temp.ls.size())) {
 			if ((temp.ls[temp.posi].getCategory() == gram)) {
-				if (gram == e_empty)//add at 2020/2/14 15:19
-					vec.push_back(temp);
+				//if (gram == e_empty)//add at 2020/2/14 15:19
+				//	vec.push_back(temp);
 				vec.push_back(temp + 1);
 
 			}
@@ -2829,9 +2872,20 @@ ActionStatus GrammaticalAnalysis::action( const Gram &symbol,  stack<int>&status
 				gramStack.push(symbol);
 				act = shift;
 				shifted = true;/*不要问为什么要加这个变量并且上面置，问就是不知道，调试时发现select语句压入两个id,可能是文法设计有问题，或者是其它问题^_^*/
-				/*if (symbol != e_id) {*/
 					flag = true;
-				//}
+
+					vector<GramDataType>&vecTemp = this->status[statusStack.top()];
+					int i;
+					for (i = 0; i < vecTemp.size(); i++) {
+						if (vecTemp[i].ls.size() == 1&&vecTemp[i].ls[0]==e_empty&&string_convert_to_GramToken(file->get_token()).getGram()==vecTemp[i].symbol) {
+							break;
+						}
+					}
+					if (i < vecTemp.size()) {
+						gramStack.push(vecTemp[i].getGramName());
+						statusStack.push(0);//垃圾值，顺便加入什么值，由上面的进行归约
+						file->roll_back();//回滚值
+					}
 			}
 			
 	}
