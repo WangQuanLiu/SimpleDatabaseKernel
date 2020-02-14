@@ -558,7 +558,7 @@ GramDataType{
 	 DataType(e_comma),
 	 DataType(e_int_real_col_name_rep_def)
 	},
-	 GramDataType{
+	/* GramDataType{
 	 DataType(e_str),
 	 },
 	 GramDataType{
@@ -566,7 +566,7 @@ GramDataType{
  },
 	 GramDataType{
 	 DataType(e_integer),
- }
+ }*/
 };
   GramType Grammatical::v_where_addop_def{
 	/*
@@ -1645,10 +1645,57 @@ GramDataType{
 
 	DataType(e_l_bracket),
 	DataType(e_int_real_col_name_rep_def),
-	// DataType(e_id),
+	DataType(e_integer),
 	DataType(e_r_bracket),
 //	DataType(e_gram_end)//add tiem 2020/1/26 10:30
 	},
+
+	 GramDataType{
+	 DataType(e_insert),
+	 DataType(e_into),
+	 DataType(e_id),
+
+	 DataType(e_l_bracket),
+	 DataType(e_col_name_rep_def),
+	 DataType(e_id),
+	 DataType(e_r_bracket),
+
+	 DataType(e_values),
+
+	 DataType(e_l_bracket),
+	 DataType(e_int_real_col_name_rep_def),
+	 DataType(e_real),
+	 DataType(e_r_bracket),
+	 //	DataType(e_gram_end)//add tiem 2020/1/26 10:30
+ },
+
+	 GramDataType{
+	 DataType(e_insert),
+	 DataType(e_into),
+	 DataType(e_id),
+
+	 DataType(e_l_bracket),
+	 DataType(e_col_name_rep_def),
+	 DataType(e_id),
+	 DataType(e_r_bracket),
+
+	 DataType(e_values),
+
+	 DataType(e_l_bracket),
+	 DataType(e_int_real_col_name_rep_def),
+	 DataType(e_str),
+	 DataType(e_r_bracket),
+	 //	DataType(e_gram_end)//add tiem 2020/1/26 10:30
+ },
+
+
+
+
+
+
+
+
+
 
 	 GramDataType{
 	 DataType(e_insert),
@@ -1663,11 +1710,49 @@ GramDataType{
 	 DataType(e_values),
 
 	 DataType(e_l_bracket),
-	 DataType(e_int_real_col_name_rep_def),
-	 // DataType(e_id),
+	// DataType(e_int_real_col_name_rep_def),
+	  DataType(e_integer),
 	 DataType(e_r_bracket),
 	 //	DataType(e_gram_end)//add tiem 2020/1/26 10:30
  },
+
+	 GramDataType{
+	 DataType(e_insert),
+	 DataType(e_into),
+	 DataType(e_id),
+
+	 DataType(e_l_bracket),
+	 // DataType(e_col_name_rep_def),
+	 DataType(e_id),
+	 DataType(e_r_bracket),
+
+	 DataType(e_values),
+
+	 DataType(e_l_bracket),
+	 // DataType(e_int_real_col_name_rep_def),
+	 DataType(e_str),
+	 DataType(e_r_bracket),
+	 //	DataType(e_gram_end)//add tiem 2020/1/26 10:30
+ },
+
+		GramDataType{
+		DataType(e_insert),
+		DataType(e_into),
+		DataType(e_id),
+
+		DataType(e_l_bracket),
+		// DataType(e_col_name_rep_def),
+		DataType(e_id),
+		DataType(e_r_bracket),
+
+		DataType(e_values),
+
+		DataType(e_l_bracket),
+		// DataType(e_int_real_col_name_rep_def),
+		DataType(e_real),
+		DataType(e_r_bracket),
+		//	DataType(e_gram_end)//add tiem 2020/1/26 10:30
+	},
 
 	// GramDataType{
 	// DataType(e_insert),
@@ -2191,6 +2276,7 @@ vector< vector<GramDataType>> GrammaticalAnalysis::items(GramType obj )
 		size = vec.size();
 		for (i = 0; i < vec.size(); i++) {
 			for (k = 0; k < GRAM_ENUM_MAX; k++) {
+				
 				vector<GramDataType>temp = Goto(vec[i], static_cast<Gram>(k));
 				if (temp.size() <= 0)continue;
 				/*else {
@@ -2249,7 +2335,8 @@ vector<GramDataType> GrammaticalAnalysis::Goto(const vector<GramDataType> &obj, 
 		/*while (temp.posi < temp.ls.size()) {*/
 		if ((temp.posi < temp.ls.size())) {
 			if ((temp.ls[temp.posi].getCategory() == gram)) {
-
+				if (gram == e_empty)//add at 2020/2/14 15:19
+					vec.push_back(temp);
 				vec.push_back(temp + 1);
 
 			}
