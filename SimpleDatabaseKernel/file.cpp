@@ -68,46 +68,6 @@ void file::File::roll_back()
 		iter->push_front(rellback);
 	}
 }
-
-//string File::executeRellback()
-//{
-//	token.push_front(rellback);
-//	return rellback;
-//}
-//
-//string File::getRellback()
-//{
-//	return rellback;
-//}
-
-//string LexicalAnalysisFile::get_token()
-//{
-//	string str;
-//	if (token.empty()||!flag)return ENTER;//队列为空，返回EOF
-//	if ((token.front()).size() <= 0) {
-//		token.pop_front();
-//		curLine++;
-//		return "";
-//	}
-//	else if ((token.front()).size() <= 1 && (token.front().front() == "")) {
-//		token.pop_front();
-//		curLine++;
-//		return "";
-//	}
-//	list<list<string>>::iterator begin;
-//	begin = token.begin();
-//	list<string>::iterator iter;
-//	iter = (*begin).begin();
-//
-//	str = *iter;
-//	/*if ((token.front()).size() <= 1) {
-//		token.pop_front();
-//		curLine++;
-//		return str;
-//	}*/
-//	begin->pop_front();
-//	return str;
-//}
 /*
 输入：void
 功能：在token容器中获取一个单元大小的值,并在token删除，并返回
@@ -296,10 +256,7 @@ bool LexicalAnalysisFile::set_file_path(string fileName)
 	return File::set_file_path(fileName) && read_file();
 }
 
-//string GrammaticalAnalysisFile::get_token()
-//{
-//	return "";
-//}
+
 
 /*
 输入：void
@@ -346,17 +303,6 @@ bool GrammaticalAnalysisFile::read_file()
 						continue;
 					}
 					temp = temp + str[i];
-					/*if (str[i] == '(') lastLeftBracket = i;
-					else if (str[i] == ')') {
-						lastRightBracket = i;
-						temp = str.substr(lastIndex, lastLeftBracket - lastIndex);
-						string gramTokenTemp;
-						gramTokenTemp=temp;
-						temp = str.substr(lastLeftBracket+1, i - lastLeftBracket);
-						gramTokenTemp.setString(temp);
-						ls.push_back(gramTokenTemp);
-					}
-					else if (str[i] == ' ')lastIndex = i+1;*/
 
 				}
 			}
@@ -390,13 +336,7 @@ bool GrammaticalAnalysisFile::set_file_path(string fileName)
 */
 	string file::GrammaticalAnalysisFile::string_map_to_gram(const string &str)
 	{
-		/*
-		case l_bracket:
-		gram = "e_l_bracket"; break;
-	case r_bracket:
-		gram = "e_r_bracket"; break;
-	case comma:
-		gram = "e_comma"; break;*/
+		
 		if (str == "l_bracket" || str == "r_bracket" || str == "comma" || str == "assignment_symbol")
 			if (str == "assignment_symbol")
 				return "e_equal";
@@ -431,7 +371,7 @@ bool GrammaticalAnalysisFile::set_file_path(string fileName)
 		if (i >= SYMBOL_SIZE)
 			throw "error";
 	}
-	catch(string&str){
+	catch(string&){
 		cerr << " GrammaticalAnalysisFile class string_map_to_gram function  occur symbol error ";
 		return "";
 	}
@@ -445,7 +385,7 @@ bool GrammaticalAnalysisFile::set_file_path(string fileName)
 			}
 			if (i >= KEYWORD_TABLE)throw "error";
 		}
-		catch (string&str) {
+		catch (string&) {
 			cerr << "GrammaticalAnalysisFile class string_map_to_gram function switch error" << endl;
 		}
 		gram ="e_"+ keywordTable[i];

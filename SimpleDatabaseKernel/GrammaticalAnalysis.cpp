@@ -1,9 +1,3 @@
-/*
-2020/1/23 上午 重构first函数
-2020/1/23 下午 重构get_derived_grammar函数
-
-
-*/
 
 #ifndef _GrammaticalAnalysis_
 #include"GrammaticalAnalysis.h"
@@ -1731,14 +1725,6 @@ GramDataType{
  },
 
 
-
-
-
-
-
-
-
-
 	 GramDataType{
 	 DataType(e_insert),
 	 DataType(e_into),
@@ -1852,8 +1838,6 @@ GramDataType{
  },
 
 
-
-
 	GramDataType{
 	DataType(e_addop),
 	DataType(e_real),
@@ -1905,11 +1889,6 @@ GramDataType{
 	  DataType(e_update_addop_def),
 	  DataType(e_r_bracket),
   },
-
-
-
-
-
 
 	GramDataType{
 	DataType(e_mulop),
@@ -1972,9 +1951,6 @@ GramDataType{
 	 DataType(e_update_addop_def),
 	 // DataType(e_gram_end)//add tiem 2020/1/26 10:30
  },
-
-
-
 
 	GramDataType{
 	DataType(e_update),
@@ -2183,14 +2159,6 @@ void GrammaticalAnalysis::init()
 			GotoTable[i][j] = EMPTY;
 		}
 	}
-	/*GotoTable = new int*[GOTO_TABLE_MAX];
-	for (i = 0; i < GOTO_TABLE_MAX; i++)
-		GotoTable[i] = new int[GOTO_TABLE_MAX];*/
-	//for (i = 0; i < GOTO_TABLE_MAX; i++)
-	//	for (int j = 0; j < GRAM_ENUM_MAX; j++) {
-	//		//GotoTable[i][j] = EMPTY;
-	//		char ch[CHAR_SIZE] = EMPTY;
-	//	}
 	for (i = 0; i < GRAM_MAX; i++) {
 		//gramArray[i].setGramName = static_cast<Gram>(i);
 		gramArray[i].setGramName(static_cast<Gram>(i));
@@ -2201,13 +2169,7 @@ void GrammaticalAnalysis::init()
 
 	generate_firstSet();
 	
-//read_status(status,GotoTable);
-	//status = items(gramTypeTemp);
-	//save_status(status,GotoTable);
-	//vector<Gram>temp=first(e_where_def);
-	//check_grammatical();
-	//file = new GrammaticalAnalysisFile();
-	//print(GotoTable);
+
 }
 bool GrammaticalAnalysis::check_grammatical()
 {
@@ -2217,7 +2179,6 @@ bool GrammaticalAnalysis::check_grammatical()
 	vector<GramDataType>curStatus = status[0];
 	statusStack.push(0);
 	gramStack.push(e_s);
-	int i, j;
 	GramTokenType temp;
 	while (file->get_token_size()>0) {
 		string str = file->get_token();
@@ -2231,7 +2192,7 @@ bool GrammaticalAnalysis::check_grammatical()
 void GrammaticalAnalysis::print(int GotoTable[GOTO_TABLE_MAX][GRAM_ENUM_MAX])
 {
 	cout << "-------------print(int GotoTable[GRAM_MAX][GRAM_ENUM_MAX])---------------" << endl;
-	int i, j,k,l;
+	int i,k,l;
 	for (i = 0; i < GOTO_TABLE_MAX; i++) {
 		vector<GramDataType>temp = status[i];
 	/*	for (j = 0; j < GRAM_ENUM_MAX; j++) {*/
@@ -2302,7 +2263,7 @@ vector< vector<GramDataType>> GrammaticalAnalysis::items(GramType obj )
 #endif
 	vector<vector<GramDataType>>vec;
 	int i,j,k,t;
-	char ch[BUFF_SIZE];
+	//char ch[BUFF_SIZE];
 		vector<GramDataType>temp = closure(obj.vec);
 			vec.push_back(temp);
 
@@ -2321,19 +2282,6 @@ vector< vector<GramDataType>> GrammaticalAnalysis::items(GramType obj )
 				
 				vector<GramDataType>temp = Goto(vec[i], static_cast<Gram>(k));
 				if (temp.size() <= 0)continue;
-				/*else {
-					int l, j;
-					cout << "status " << i << "-->" << gram_map_to_string(static_cast<Gram>(k))<<endl;
-					for (l = 0; l < temp.size(); l++) {
-
-						for (j = 0; j < temp[l].ls.size(); j++) {
-							cout <<gram_map_to_string( temp[l].ls[j].getCategory()) << " ";
-						}
-						cout << "   posi:" << temp[l].posi << endl;
-
-					}
-
-				}*/
 				char ch[BUFF_SIZE];
 				string str = is_grammatical(static_cast<Gram>(k)) ? "s" : "g";
 				for (t = 0; t < vec.size(); t++) {
@@ -2412,7 +2360,6 @@ vector<GramDataType> GrammaticalAnalysis::Goto(const vector<GramDataType> &obj, 
 */
 vector<GramDataType> GrammaticalAnalysis::Goto(const GramDataType &obj, const Gram &gram)
 {
-	int i;
 	vector<GramDataType>vec;
 	GramDataType temp = obj;
 	/*while (temp.posi  < temp.ls.size()) {*/
@@ -2528,53 +2475,6 @@ vector<GramType> GrammaticalAnalysis::get_derived_grammar(DataType &obj)
 	}
 	return temp;
 }
-//vector<Gram>  GrammaticalAnalysis::generate_firstSet(const Gram gram, bool visit[GRAM_ENUM_MAX])
-//{
-//	if (first_set[gram].size() >0)return first_set[gram];
-//	vector<Gram>gloFirstSet{};
-//	vector<Gram>tempFirstSet{};
-//	vector<DataType>list;
-//	if (is_grammatical(gram) || visit[gram]) {
-//		first_set[gram] = vector<Gram>{ gram };
-//		return vector<Gram>{ gram };
-//	}
-//	int i, size = 0, k, j;
-//	bool flag = true, empty;
-//	GramType gramTypeTemp = gramArray[gram];
-//	visit[gram] = true;
-//	for (i = 0; i < gramTypeTemp.vec.size(); i++) {
-//		list = gramTypeTemp.vec[i].ls;
-//
-//		k = 0; flag = true;
-//		while (flag == true && k < list.size()) {
-//			if (first_set[list[k].getCategory()].size() > 0) {
-//				tempFirstSet = first_set[list[k].getCategory()];
-//			}
-//			else {
-//				tempFirstSet = generate_firstSet(list[k].getCategory(), visit);
-//				first_set[list[k].getCategory()] = tempFirstSet;
-//			}
-//			empty = true;
-//			vector<Gram>::iterator begin(tempFirstSet.begin()), end;
-//			end = tempFirstSet.end();
-//			while (begin != end) {
-//				if (*begin == e_empty) {
-//					empty = false;
-//					tempFirstSet.erase(begin);
-//					break;
-//				}
-//				begin++;
-//			}
-//
-//			gloFirstSet = gloFirstSet + tempFirstSet;
-//			if (empty)flag = false;
-//			k++;
-//		}
-//		if (flag)gloFirstSet.push_back(e_empty);
-//	}
-//	first_set[gram] = gloFirstSet;
-//	return gloFirstSet;
-//}
 void GrammaticalAnalysis::generate_firstSet()
 {
 	int i;
@@ -2595,7 +2495,7 @@ vector<Gram> GrammaticalAnalysis::first(const Gram gram, bool visit[GRAM_ENUM_MA
 		first_set[gram] = vector<Gram>{ gram };
 		return vector<Gram>{ gram };
 	}
-	int i, size = 0, k, j;
+	int i, size = 0, k;
 	bool flag = true, empty;
 	GramType gramTypeTemp = gramArray[gram];
 	visit[gram] = true;
@@ -2662,27 +2562,17 @@ vector<Gram> GrammaticalAnalysis::first(const Gram  gram)
  vector<GramDataType> GrammaticalAnalysis::closure(const vector<GramDataType> obj)
  {
 	 vector<GramDataType> temp = { obj };
-	// bool set[GRAM_STRING_TABLE_MAX]{ false };
-	// set[e_s] = true;
-	// set[obj.gramName] = true;
-	 int size,i,j,k,l,p,u; //保存容器大小
-	//	set[temp[0].]
+	 int size,i,k,p,u; //保存容器大小
 //do {
 		 size = temp.size();
 		 for (i = 0; i < temp.size(); i++) {
 			 if (temp[i].posi >= temp[i].ls.size())continue;//2020/1/8 21:23 add
-			// vector<GramType>vec;/*= get_derived_grammar(temp[i].ls[temp[i].posi]);*/
-			 GramType vec;//= get_derived_grammar(temp[i].ls[temp[i].posi]);
+			 GramType vec;
 			 if (!is_grammatical(temp[i].ls[temp[i].posi].getCategory())) {//文法
 				 vec = gramArray[temp[i].ls[temp[i].posi].getCategory()];
 
 				 Gram z;
 				 vector<Gram>gramSymbol;
-				 //非文法
-				/* if (is_grammatical(temp[i].symbol)&&temp[i].posi==0) {
-				 gramSymbol.push_back(temp[i].symbol);
-				  }*/
-				//z=temp[i].symbol;
 				if (temp[i].posi + 1 < temp[i].ls.size()) {
 					z = temp[i].ls[temp[i].posi + 1].getCategory();
 					//gramSymbol = first(z); //delete at 2020/2/12 20.43
@@ -2762,24 +2652,6 @@ vector<Gram> GrammaticalAnalysis::first(const Gram  gram)
 	 catch (string) { cerr << "gram_map_to_string index exceed value of max" << endl; }
 	 return GramStringTable[obj];
  }
-  /*
-功能：初始化归约集合
-  */
-  //inline void GrammaticalAnalysis::init_reduction()
-  //{
-	 // int i, j;
-	 // for (i = 0; i < status.size(); i++) {
-		//  for (j = 0; j < status[i].size(); j++) {
-		//	  if (status[i][j].getPosi() == status[i][j].ls.size()) {
-		//		  redu.push_back(Redu(i, status[i][j].getSymbol(), status[i][j]));
-		//	  }
-		//  }
-	 // }
-
-
-  //}
-
-
 
 inline GramType GrammaticalAnalysis::gram_map_to_gramtype(const Gram & obj)
 {
@@ -2830,16 +2702,12 @@ void GrammaticalAnalysis::init_reduction()
 }
 ActionStatus GrammaticalAnalysis::action( const Gram &symbol,  stack<int>&statusStack,  stack<Gram>&gramStack)
 {
-	
 	int i, j,k;
 	bool flag = true;
 	ActionStatus act=error;
 	bool shifted = false;
 	while (flag) {
 		flag = false;
-		
-		/*while (flag) {*/	//归约
-			
 			for (i = gramStack.size(); i >=1 ; i--) {
 				GramDataType temp;
 				vector<Gram>vec = gramStack.top(i);
@@ -2853,35 +2721,36 @@ ActionStatus GrammaticalAnalysis::action( const Gram &symbol,  stack<int>&status
 						int curStatus;
 						gramStack.pop(i);//出栈i+1个元素
 						gramStack;
-						statusStack.pop(i);//出栈i+1个元素
-						
+						statusStack.pop(i);//出栈i+1个元素		
 						statusStack.push(redu[j].statusNumber);
-							gramStack.push(redu[j].gram.getGramName());
-					
+						gramStack.push(redu[j].gram.getGramName());
 							act = reduction;
 							break;
 					}
 
 				}
 			}
-		//}
 			if (GotoTable[statusStack.top()][symbol] != EMPTY&&!shifted) {	//移进
 				string str = GotoTable[statusStack.top()][symbol];
 				str = str.substr(1, str.size() - 1);
 				statusStack.push(atoi(str.c_str()));
 				gramStack.push(symbol);
 				act = shift;
-				shifted = true;/*不要问为什么要加这个变量并且上面置，问就是不知道，调试时发现select语句压入两个id,可能是文法设计有问题，或者是其它问题^_^*/
-					flag = true;
-
+				shifted = true;
+				flag = true;
 					vector<GramDataType>&vecTemp = this->status[statusStack.top()];
 					int i;
-					for (i = 0; i < vecTemp.size(); i++) {
-						if (vecTemp[i].ls.size() == 1&&vecTemp[i].ls[0]==e_empty&&string_convert_to_GramToken(file->get_token()).getGram()==vecTemp[i].symbol) {
-							break;
+					for (i = 0; i < vecTemp.size(); i++) {			
+						if (vecTemp[i].ls.size() == 1&&vecTemp[i].ls[0]==e_empty) {
+							Gram gram = string_convert_to_GramToken(file->get_token()).getGram();
+							if (gram == vecTemp[i].symbol) {
+								cout << gram_map_to_string(gram) << "  " << gram_map_to_string(vecTemp[i].symbol) << endl;
+								break;
+							}
+							file->roll_back();
 						}
 					}
-					if (i < vecTemp.size()) {
+					if (i >= vecTemp.size()) {
 						gramStack.push(vecTemp[i].getGramName());
 						statusStack.push(0);//垃圾值，顺便加入什么值，由上面的进行归约
 						file->roll_back();//回滚值
@@ -3001,7 +2870,7 @@ GramType GrammaticalAnalysis::gramArray[GRAM_MAX]{
  bool operator==(const vector<GramDataType> objA, const vector<GramDataType> objB)
  {
 
-		 int i, j;
+		 int i;
 		 if (objA.size() != objB.size())return false;
 		 for (i = 0; i < objA.size(); i++) {
 			 if (objA[i] != objB[i])return false;
@@ -3104,7 +2973,6 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		 int i, j, lastIndex = 0;
 		 for (i = 0; i < str.length(); i++) {
 			 if (str[i] == ' ') {
-				// gramTemp = str.substr(i-lastIndex);
 				 lastIndex = i + 1;
 				 for (j = 0; j < GRAM_STRING_TABLE_MAX; j++)
 					 if (GramStringTable[j] == gramTemp)break;
@@ -3177,7 +3045,6 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
   bool GrammaticalAnalysis::save_status(vector<vector<GramDataType>>&status, string** GotoTable)
   {
 	  int i, j,k;
-	  int val;
 	  //fstream file= fstream ("status.txt", ios::out);
 	  FILE*file = fopen("C:\\Users\\THINKPAD\\Desktop\\status.txt", "w");
 	  if (file==NULL)return false;
@@ -3222,17 +3089,12 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
   bool GrammaticalAnalysis::read_status(vector<vector<GramDataType>>&status, string **GotoTable)
   {
 	  int i, j, k;
-	 
 	  vector<GramDataType> vec;
 	  char ch[CHAR_SIZE];
 	  memset(ch, 0, CHAR_SIZE);
-	 
-	
-	  //fstream file= fstream ("status.txt", ios::out);
 	  FILE*file = fopen("C:\\Users\\THINKPAD\\Desktop\\status.txt", "r");
 	  if (file == NULL)return false;
 	  while (!feof(file)) {
-		 
 		  fscanf(file, "%s", ch);
 		  while (strcmp(ch, "status-end:")) {
 			  fscanf(file, "%s", ch);
@@ -3253,8 +3115,6 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 			  }
 			  if(temp.ls.size()>0)
 			  vec.push_back(temp);//读取
-			
-		  
 		  }
 		  if(vec.size()>0)
 		  status.push_back(vec);
@@ -3264,21 +3124,13 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  file = fopen("C:\\Users\\THINKPAD\\Desktop\\table.txt", "r");
 	  if (file == NULL)return false;
 	  for (i = 0; i < GOTO_TABLE_MAX; i++) {
-		 
 		  for (j = 0; j < GRAM_ENUM_MAX; j++) {
 			  fscanf(file, "%s", ch);
-			  GotoTable[i][j] = ch;//读取
-				 
+			  GotoTable[i][j] = ch;//读取 
 		  }
 	  }
 	  fclose(file);
-	  // redu[i].statusNumber, redu[i].symbol, redu[i].gram.getGramName(), redu[i].gram.getSymbol(), redu[i].gram.getPosi());
-	 
-	
 	  int statusNumber, posi;
-	 
-	
-	 // memset(reduSymbol, 0, BUFF_SIZE); memset(getGramName, 0, BUFF_SIZE); memset(gramGetSymbol, 0, BUFF_SIZE);
 	  file = fopen("C:\\Users\\THINKPAD\\Desktop\\redu.txt", "r");
 	  if (file == NULL)return false;
 	  while (!feof(file)) {
