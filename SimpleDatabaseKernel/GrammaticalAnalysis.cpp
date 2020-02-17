@@ -2691,89 +2691,21 @@ void GrammaticalAnalysis::init_reduction()
 }
 ActionStatus GrammaticalAnalysis::action( const Gram &symbol,  stack<int>&statusStack,  stack<Gram>&gramStack)
 {
-	int i, j,k;
 	bool flag = true;
 	ActionStatus act=error;
-	bool shifted = false,reduced=true;
+	bool shifted = false,reduced=false;
 	while (flag) {
 		flag = false;
-			for (i = gramStack.size()-1; i >=1 ; i--) {
-				GramDataType temp;
-				vector<Gram>vec = gramStack.top(i);
-				for (j = 0; j < redu.size(); j++) {
-					if (vec.size() != redu[j].gram.ls.size())continue;
-					for (k = 0; k < vec.size(); k++) {
-						if (vec[k] != redu[j].gram.ls[k])break;
-					}
-					if (k >= vec.size()&&(redu[j].gram.ls.size()==vec.size()|| redu[j].gram.getSymbol() == symbol) /*&& redu[j].symbol == symbol*/) {
-						flag = true;
-						
-						int curStatus;
-						gramStack.pop(i);//出栈i+1个元素
-						statusStack.pop(i);//出栈i+1个元素		
-						statusStack.push(redu[j].statusNumber);
-						gramStack.push(redu[j].gram.getGramName());
-						i = gramStack.size() - 1;
-							act = reduction;
-							cout << "归约" << endl;
-							break;
-
-					}
-
+		if (reduction(symbol, statusStack, gramStack)) {
+			flag = true;
+			reduced = true;
+		}
+		if (GotoTable[statusStack.top()][symbol] != EMPTY&&!shifted) {	//移进
+				if (shift_in(symbol, statusStack, gramStack)) {
+					 act = shift;
+					shifted = true;
+					flag = true;
 				}
-			}
-			if (GotoTable[statusStack.top()][symbol] != EMPTY&&!shifted) {	//移进
-				string str = GotoTable[statusStack.top()][symbol];
-				str = str.substr(1, str.size() - 1);
-				statusStack.push(atoi(str.c_str()));
-				gramStack.push(symbol);
-				act = shift;
-				shifted = true;
-				flag = true;
-				cout << "移进" << endl;
-					vector<GramDataType>&vecTemp = this->status[statusStack.top()];
-					vector<GramDataType>emptyVec;
-					int i;
-					string temp ;
-					bool tokenFlag = true;
-					while (tokenFlag&&file->get_token_size() >= 1) {
-						temp = file->get_token();
-						if (temp==""&&file->get_token_size()>=1) {
-							temp = file->get_token_size();
-						}
-						else {
-							tokenFlag = false;
-						}
-					}
-					if (temp != "")
-						file->roll_back();
-					else
-						continue;
-					cout << temp << endl;
-					Gram gram = string_convert_to_GramToken(temp).getGram();
-					int emptyIndex = -1;
-					/*cout << gram_map_to_string(gram) << endl;*/
-					for (i = 0; i < vecTemp.size(); i++) {			
-						if (vecTemp[i].ls.size() == 1&&vecTemp[i].ls[0]==e_empty) {
-							if (vecTemp[i].symbol == e_empty)
-								emptyIndex = i;
-							emptyVec.push_back(vecTemp[i]);
-							if (gram == vecTemp[i].symbol) {
-								cout << gram_map_to_string(gram) << "  " << gram_map_to_string(vecTemp[i].symbol) << endl;
-								break;
-							}
-							
-						}
-					}
-					if (i < vecTemp.size()) {
-						gramStack.push(vecTemp[i].getGramName());
-						statusStack.push(0);//垃圾值，顺便加入什么值，由上面的进行归约
-						//file->roll_back();//回滚值
-					}
-					else if (emptyIndex != -1) {
-						gramStack.push(vecTemp[emptyIndex].getGramName());
-						statusStack.push(0);
-					}
 					
 			}
 			
@@ -2978,7 +2910,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
  */
  void GramTokenType::set_value(const std::string &str)
  {
-	 if (str == "e_l_bracket" || str == "e_r_bracket" || str == "e_comma" || str == "e_assignment_symbol") /*为e_r_bracket、e_l_bracket、e_comma、e_assignment_symbol*/{
+	 if (str == "l_bracket" || str == "r_bracket" || str == "comma" || str == "assignment_symbol") /*为e_r_bracket、e_l_bracket、e_comma、e_assignment_symbol*/{
 		 int i;
 		 for (i = 0; i < GRAM_STRING_TABLE_MAX; i++)
 			 if (GramStringTable[i] == str)break;
@@ -3121,7 +3053,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
   */
   bool GrammaticalAnalysis::read_status()
   {
-	  int i, j, k;
+	  int  k;
 	  vector<GramDataType> vec;
 	  char ch[CHAR_SIZE];
 	  memset(ch, 0, CHAR_SIZE);
@@ -3173,7 +3105,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  }
 	  }
 	  fclose(file);
-	  return false;
+	  return true;
   }
 
   bool GrammaticalAnalysis::read_redu()
@@ -3185,7 +3117,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  if (file == NULL)return false;
 	  while (!feof(file)) {
 		  Redu temp;
-		  Gram gram;
+	/*	  Gram gram;*/
 		  char  reduSymbol[BUFF_SIZE], getGramName[BUFF_SIZE], gramGetSymbol[BUFF_SIZE];
 		  Gram gramReduSymbol, gramGetGramName, gramGetSymbolTemp;
 		  /*原因同上*/
@@ -3209,12 +3141,99 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  redu.push_back(temp);
 	  }
 	  fclose(file);
-	  return false;
+	  return true;
   }
 
   bool GrammaticalAnalysis::read_file()
   {
 	  return read_status()&&read_redu()&&read_GotoTable();
+  }
+
+  bool GrammaticalAnalysis::reduction(const Gram&symbol,stack<int>& statusStack, stack<Gram>& gramStack)
+  {
+	  int i,j,k;
+	  bool flag = false;
+	  for (i = gramStack.size() - 1; i >= 1; i--) {
+		  	GramDataType temp;
+		  	vector<Gram>vec = gramStack.top(i);
+		  	for (j = 0; j < redu.size(); j++) {
+		  		if (vec.size() != redu[j].gram.ls.size())continue;
+		  		for (k = 0; k < vec.size(); k++) {
+		  			if (vec[k] != redu[j].gram.ls[k])break;
+		  		}
+		  		if (k >= vec.size()&&(redu[j].gram.ls.size()==vec.size()|| redu[j].gram.getSymbol() == symbol) /*&& redu[j].symbol == symbol*/) {
+		  			flag = true;
+		  		/*	int curStatus;*/
+		  			gramStack.pop(i);//出栈i+1个元素
+		  			statusStack.pop(i);//出栈i+1个元素		
+		  			statusStack.push(redu[j].statusNumber);
+		  			gramStack.push(redu[j].gram.getGramName());
+		  			i = gramStack.size() - 1;
+		  				//act = reduc;
+		  				cout << "归约" << endl;
+		  				break;
+
+		  		}
+
+		  	}
+		  }
+	  return flag;
+  }
+
+  bool GrammaticalAnalysis::shift_in(const Gram & symbol, stack<int>& statusStack, stack<Gram>& gramStack)
+  {
+
+	  string str = GotoTable[statusStack.top()][symbol];
+	  str = str.substr(1, str.size() - 1);
+	  statusStack.push(atoi(str.c_str()));
+	  gramStack.push(symbol);
+	 /* act = shift;
+	  shifted = true;
+	  flag = true;*/
+	  cout << "移进" << endl;
+	  vector<GramDataType>&vecTemp = this->status[statusStack.top()];
+	  vector<GramDataType>emptyVec;
+	  int i;
+	  string temp;
+	  bool tokenFlag = true;
+	  temp = file->get_token();
+	  while (tokenFlag&&file->get_token_size() >= 1) {
+		  if (temp == ""&&file->get_token_size() >= 1) {
+			  temp = file->get_token();
+		  }
+		  else {
+			  tokenFlag = false;
+		  }
+	  }
+	  if (temp != "")
+		  file->roll_back();
+	  else
+		  return false;
+	  cout << temp << endl;
+	  Gram gram = string_convert_to_GramToken(temp).getGram();
+	  int emptyIndex = -1;
+	  for (i = 0; i < vecTemp.size(); i++) {
+		  if (vecTemp[i].ls.size() == 1 && vecTemp[i].ls[0] == e_empty) {
+			  if (vecTemp[i].symbol == e_empty)
+				  emptyIndex = i;
+			  emptyVec.push_back(vecTemp[i]);
+			  if (gram == vecTemp[i].symbol) {
+				  cout << gram_map_to_string(gram) << "  " << gram_map_to_string(vecTemp[i].symbol) << endl;
+				  break;
+			  }
+
+		  }
+	  }
+	  if (i < vecTemp.size()) {
+		  gramStack.push(vecTemp[i].getGramName());
+		  statusStack.push(0);//垃圾值，顺便加入什么值，由上面的进行归约
+							  //file->roll_back();//回滚值
+	  }
+	  else if (emptyIndex != -1) {
+		  gramStack.push(vecTemp[emptyIndex].getGramName());
+		  statusStack.push(0);
+	  }
+	  return true;
   }
 
   Reduction::Reduction(const int &statusNumber, const Gram &symbol, const GramDataType &gram)

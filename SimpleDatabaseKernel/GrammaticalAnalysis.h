@@ -175,7 +175,7 @@ public:
  public:
 	 Reduction(const int&, const Gram&, const GramDataType&);
  };
- enum ActionStatus{acc,reduction,shift,error};//action标志
+ enum ActionStatus{acc,reduc,shift,error};//action标志
  using Redu = Reduction;
 class Grammatical { 
 public :
@@ -302,6 +302,8 @@ private:
 	bool read_GotoTable();
 	bool read_redu();
 	bool read_file();
+	bool reduction(const Gram&symbol,stack<int>&statusStack, stack<Gram>&gramStack);
+	bool shift_in(const Gram&symbol, stack<int>&statusStack, stack<Gram>&gramStack);
 	vector<Gram>first_set[GRAM_ENUM_MAX]{};
 	vector<vector<GramDataType>>status;
 	static GramType gramArray[GRAM_MAX]; //文法数组 grammatical array
