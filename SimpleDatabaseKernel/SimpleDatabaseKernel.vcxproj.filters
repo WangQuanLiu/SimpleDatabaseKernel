@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="源文件\databaseMangement">
+      <UniqueIdentifier>{d1860eee-d9e8-4805-bc60-f72de10317f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\databaseMangement">
+      <UniqueIdentifier>{ee1d8115-65f6-4960-82cc-ba5adec4d20e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="testswitch.h">
@@ -25,6 +31,21 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="GrammaticalAnalysis.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="databaseFile.h">
+      <Filter>头文件\databaseMangement</Filter>
+    </ClInclude>
+    <ClInclude Include="databaseHead.h">
+      <Filter>头文件\databaseMangement</Filter>
+    </ClInclude>
+    <ClInclude Include="databaseMangement.h">
+      <Filter>头文件\databaseMangement</Filter>
+    </ClInclude>
+    <ClInclude Include="index.h">
+      <Filter>头文件\databaseMangement</Filter>
+    </ClInclude>
+    <ClInclude Include="query.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -40,6 +61,18 @@
     </ClCompile>
     <ClCompile Include="GrammaticalAnalysis.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="databaseFile.cpp">
+      <Filter>源文件\databaseMangement</Filter>
+    </ClCompile>
+    <ClCompile Include="databaseHead.cpp">
+      <Filter>源文件\databaseMangement</Filter>
+    </ClCompile>
+    <ClCompile Include="databaseMangement.cpp">
+      <Filter>源文件\databaseMangement</Filter>
+    </ClCompile>
+    <ClCompile Include="index.cpp">
+      <Filter>源文件\databaseMangement</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

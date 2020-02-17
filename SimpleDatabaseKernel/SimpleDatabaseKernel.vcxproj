@@ -119,14 +119,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="databaseFile.h" />
+    <ClInclude Include="databaseHead.h" />
+    <ClInclude Include="databaseMangement.h" />
     <ClInclude Include="file.h" />
     <ClInclude Include="GrammaticalAnalysis.h" />
+    <ClInclude Include="index.h" />
     <ClInclude Include="LexicalAnalysis.h" />
+    <ClInclude Include="query.h" />
     <ClInclude Include="testswitch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="databaseFile.cpp" />
+    <ClCompile Include="databaseHead.cpp" />
+    <ClCompile Include="databaseMangement.cpp" />
     <ClCompile Include="file.cpp" />
     <ClCompile Include="GrammaticalAnalysis.cpp" />
+    <ClCompile Include="index.cpp" />
     <ClCompile Include="LexicalAnalysis.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
