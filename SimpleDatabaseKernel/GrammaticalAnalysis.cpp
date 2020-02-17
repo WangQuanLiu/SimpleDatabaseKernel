@@ -2705,10 +2705,10 @@ ActionStatus GrammaticalAnalysis::action( const Gram &symbol,  stack<int>&status
 	int i, j,k;
 	bool flag = true;
 	ActionStatus act=error;
-	bool shifted = false;
+	bool shifted = false,reduced=true;
 	while (flag) {
 		flag = false;
-			for (i = gramStack.size(); i >=1 ; i--) {
+			for (i = gramStack.size()-1; i >=1 ; i--) {
 				GramDataType temp;
 				vector<Gram>vec = gramStack.top(i);
 				for (j = 0; j < redu.size(); j++) {
@@ -2718,12 +2718,13 @@ ActionStatus GrammaticalAnalysis::action( const Gram &symbol,  stack<int>&status
 					}
 					if (k >= vec.size()&&(redu[j].gram.ls.size()==vec.size()|| redu[j].gram.getSymbol() == symbol) /*&& redu[j].symbol == symbol*/) {
 						flag = true;
+						
 						int curStatus;
 						gramStack.pop(i);//出栈i+1个元素
-						gramStack;
 						statusStack.pop(i);//出栈i+1个元素		
 						statusStack.push(redu[j].statusNumber);
 						gramStack.push(redu[j].gram.getGramName());
+						i = gramStack.size() - 1;
 							act = reduction;
 							cout << "归约" << endl;
 							break;
@@ -2744,20 +2745,29 @@ ActionStatus GrammaticalAnalysis::action( const Gram &symbol,  stack<int>&status
 					vector<GramDataType>&vecTemp = this->status[statusStack.top()];
 					vector<GramDataType>emptyVec;
 					int i;
-					string temp = file->get_token();
-					
-					if (temp == "" || file->get_token_size() == 0) {
-						if (file->get_token_size() >= 1) {
-							temp = file->get_token();
-
+					string temp ;
+					bool tokenFlag = true;
+					while (tokenFlag&&file->get_token_size() >= 1) {
+						temp = file->get_token();
+						if (temp==""&&file->get_token_size()>=1) {
+							temp = file->get_token_size();
 						}
-						continue;
+						else {
+							tokenFlag = false;
+						}
 					}
+					if (temp != "")
+						file->roll_back();
+					else
+						continue;
 					cout << temp << endl;
 					Gram gram = string_convert_to_GramToken(temp).getGram();
+					int emptyIndex = -1;
 					/*cout << gram_map_to_string(gram) << endl;*/
 					for (i = 0; i < vecTemp.size(); i++) {			
 						if (vecTemp[i].ls.size() == 1&&vecTemp[i].ls[0]==e_empty) {
+							if (vecTemp[i].symbol == e_empty)
+								emptyIndex = i;
 							emptyVec.push_back(vecTemp[i]);
 							if (gram == vecTemp[i].symbol) {
 								cout << gram_map_to_string(gram) << "  " << gram_map_to_string(vecTemp[i].symbol) << endl;
@@ -2769,7 +2779,11 @@ ActionStatus GrammaticalAnalysis::action( const Gram &symbol,  stack<int>&status
 					if (i < vecTemp.size()) {
 						gramStack.push(vecTemp[i].getGramName());
 						statusStack.push(0);//垃圾值，顺便加入什么值，由上面的进行归约
-						file->roll_back();//回滚值
+						//file->roll_back();//回滚值
+					}
+					else if (emptyIndex != -1) {
+						gramStack.push(vecTemp[emptyIndex].getGramName());
+						statusStack.push(0);
 					}
 					
 			}
