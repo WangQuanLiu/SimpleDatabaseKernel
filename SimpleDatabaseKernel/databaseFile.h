@@ -3,6 +3,7 @@
 #endif
 #include<direct.h>
 namespace dbm {
+
 #define _DATABASE_FILE_
 #define RECORD_SIZE (int)(pow(2,14))
 #define PAGE_SIZE 40960
