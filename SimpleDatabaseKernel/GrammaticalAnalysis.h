@@ -16,6 +16,7 @@
 #define CHAR_SIZE 100
 #define EMPTY "-1"
 #define GOTO_TABLE_MAX 10000
+#define CONFIGURATION_FILE_HOME(x) string(string("C:\\Users\\THINKPAD\\Desktop\\")+string(x)) 
 using namespace file;
 using CFilePtr = file::File *;
 enum GramCategory {

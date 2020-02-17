@@ -2128,9 +2128,9 @@ GrammaticalAnalysis::GrammaticalAnalysis(string filePath)
 void GrammaticalAnalysis::run()
 {
 	//init();
-	fstream statusFile("C:\\Users\\THINKPAD\\Desktop\\status.txt", ios::in);
-	fstream gotoTableFile ("C:\\Users\\THINKPAD\\Desktop\\table.txt", ios::in);
-	fstream reduFile("C:\\Users\\THINKPAD\\Desktop\\redu.txt", ios::in);
+	fstream statusFile(CONFIGURATION_FILE_HOME("status.txt"), ios::in);
+	fstream gotoTableFile (CONFIGURATION_FILE_HOME("table.txt"), ios::in);
+	fstream reduFile(CONFIGURATION_FILE_HOME("redu.txt"), ios::in);
 	if (!statusFile || !gotoTableFile) {
 		GramType gramTypeTemp = gramArray[0];
 		for (int i = 0; i < gramTypeTemp.vec.size(); i++) {
@@ -2676,7 +2676,7 @@ void GrammaticalAnalysis::init_reduction()
 
 	}
 	FILE*file;
-	file = fopen("C:\\Users\\THINKPAD\\Desktop\\redu.txt", "w");
+	file = fopen(CONFIGURATION_FILE_HOME("redu.txt").c_str(), "w");
 	if (file == NULL)return ;
 	for (i = 0; i < redu.size(); i++) {
 		fprintf(file, "%d %s %s %s %d \n", redu[i].statusNumber,gram_map_to_string( redu[i].symbol).c_str(),gram_map_to_string( redu[i].gram.getGramName()).c_str(),gram_map_to_string( redu[i].gram.getSymbol()).c_str(), redu[i].gram.getPosi());
@@ -3069,7 +3069,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
   bool GrammaticalAnalysis::save_status()
   {
 	  int i, j, k;
-	  FILE*file = fopen("C:\\Users\\THINKPAD\\Desktop\\status.txt", "w");
+	  FILE*file = fopen(CONFIGURATION_FILE_HOME("status.txt").c_str(), "w");
 	  if (file == NULL)return false;
 	  for (i = 0; i < status.size(); i++) {
 		  fprintf(file, "status-begin:\n");
@@ -3089,7 +3089,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
   bool GrammaticalAnalysis::save_GotoTable()
   {
 	  int i, j;
-	  FILE* file = fopen("C:\\Users\\THINKPAD\\Desktop\\table.txt", "w");
+	  FILE* file = fopen( CONFIGURATION_FILE_HOME("table.txt").c_str(), "w");
 	  if (file == NULL)return false;
 	  for (i = 0; i < GOTO_TABLE_MAX; i++) {
 		  for (j = 0; j < GRAM_ENUM_MAX; j++) {
@@ -3103,7 +3103,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
   bool GrammaticalAnalysis::save_redu()
   {
 	  int i, j;
-	  FILE*file = fopen("C:\\Users\\THINKPAD\\Desktop\\redu.txt", "w");
+	  FILE*file = fopen(CONFIGURATION_FILE_HOME("redu.txt").c_str(), "w");
 	  if (file == NULL)return false;
 	  for (i = 0; i < redu.size(); i++) {
 		  fprintf(file, "%d %s %s %s %d \n", redu[i].statusNumber, gram_map_to_string(redu[i].symbol).c_str(), gram_map_to_string(redu[i].gram.getGramName()).c_str(), gram_map_to_string(redu[i].gram.getSymbol()).c_str(), redu[i].gram.getPosi());
@@ -3125,7 +3125,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  vector<GramDataType> vec;
 	  char ch[CHAR_SIZE];
 	  memset(ch, 0, CHAR_SIZE);
-	  FILE*file = fopen("C:\\Users\\THINKPAD\\Desktop\\status.txt", "r");
+	  FILE*file = fopen(CONFIGURATION_FILE_HOME("status.txt").c_str(), "r");
 	  if (file == NULL)return false;
 	  while (!feof(file)) {
 		  fscanf(file, "%s", ch);
@@ -3164,7 +3164,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  int i, j;
 	  char ch[CHAR_SIZE];
 	  memset(ch, 0, CHAR_SIZE);
-	 FILE* file = fopen("C:\\Users\\THINKPAD\\Desktop\\table.txt", "r");
+	 FILE* file = fopen(CONFIGURATION_FILE_HOME("table.txt").c_str(), "r");
 	  if (file == NULL)return false;
 	  for (i = 0; i < GOTO_TABLE_MAX; i++) {
 		  for (j = 0; j < GRAM_ENUM_MAX; j++) {
@@ -3181,7 +3181,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  int statusNumber, posi;
 	  char ch[CHAR_SIZE];
 	  memset(ch, 0, CHAR_SIZE);
-	  FILE* file = fopen("C:\\Users\\THINKPAD\\Desktop\\redu.txt", "r");
+	  FILE* file = fopen(CONFIGURATION_FILE_HOME("redu.txt").c_str(), "r");
 	  if (file == NULL)return false;
 	  while (!feof(file)) {
 		  Redu temp;
