@@ -2725,7 +2725,9 @@ ActionStatus GrammaticalAnalysis::action( const Gram &symbol,  stack<int>&status
 						statusStack.push(redu[j].statusNumber);
 						gramStack.push(redu[j].gram.getGramName());
 							act = reduction;
+							cout << "归约" << endl;
 							break;
+
 					}
 
 				}
@@ -2738,23 +2740,38 @@ ActionStatus GrammaticalAnalysis::action( const Gram &symbol,  stack<int>&status
 				act = shift;
 				shifted = true;
 				flag = true;
+				cout << "移进" << endl;
 					vector<GramDataType>&vecTemp = this->status[statusStack.top()];
+					vector<GramDataType>emptyVec;
 					int i;
+					string temp = file->get_token();
+					
+					if (temp == "" || file->get_token_size() == 0) {
+						if (file->get_token_size() >= 1) {
+							temp = file->get_token();
+
+						}
+						continue;
+					}
+					cout << temp << endl;
+					Gram gram = string_convert_to_GramToken(temp).getGram();
+					/*cout << gram_map_to_string(gram) << endl;*/
 					for (i = 0; i < vecTemp.size(); i++) {			
 						if (vecTemp[i].ls.size() == 1&&vecTemp[i].ls[0]==e_empty) {
-							Gram gram = string_convert_to_GramToken(file->get_token()).getGram();
+							emptyVec.push_back(vecTemp[i]);
 							if (gram == vecTemp[i].symbol) {
 								cout << gram_map_to_string(gram) << "  " << gram_map_to_string(vecTemp[i].symbol) << endl;
 								break;
 							}
-							file->roll_back();
+							
 						}
 					}
-					if (i >= vecTemp.size()) {
+					if (i < vecTemp.size()) {
 						gramStack.push(vecTemp[i].getGramName());
 						statusStack.push(0);//垃圾值，顺便加入什么值，由上面的进行归约
 						file->roll_back();//回滚值
 					}
+					
 			}
 			
 	}
