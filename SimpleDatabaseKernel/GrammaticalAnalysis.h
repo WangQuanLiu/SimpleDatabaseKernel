@@ -279,9 +279,8 @@ class GrammaticalAnalysis {
 public:
 	GrammaticalAnalysis(string filePath);
 	void run();
-
+	bool check_grammatical();
 #if TEST&&GRAM_TEST
-	
 	void test() {
 		init();
 	}
@@ -289,38 +288,41 @@ public:
 private:
 	file::CFilePtr file;
 	void init();
-	bool check_grammatical();
 	string **GotoTable;
 #if(TEST&&GRAM_TEST)
 	void print(int GotoTable[GOTO_TABLE_MAX][GRAM_ENUM_MAX]);
 #endif
 	vector<Redu>redu;//记录可归约的文法
-	bool save_status(vector<vector<GramDataType>>&, string **);
-	bool read_status(vector<vector<GramDataType>>&, string **);
+	bool save_file();
+	bool save_status();
+	bool save_GotoTable();
+	bool save_redu();
+	bool read_status();
+	bool read_GotoTable();
+	bool read_redu();
+	bool read_file();
 	vector<Gram>first_set[GRAM_ENUM_MAX]{};
 	vector<vector<GramDataType>>status;
-	inline vector<GramDataType>&vector_join_other_vector(vector<GramDataType>&join, vector<GramDataType>&beJoined);
-	 GramTokenType string_convert_to_GramToken(const string& str);
-	vector<vector<GramDataType>>items(GramType);
-	vector<GramDataType>Goto(const GramDataType&, const Gram&);
-	vector<GramDataType>Goto(const GramType&,const Gram&);
-	vector<GramDataType>Goto(const vector<GramDataType> &, const Gram &);
-	vector<GramType> get_derived_grammar(  DataType& );//派生文法，即文法推导文法，不
-//	vector<Gram>  generate_firstSet(const Gram gram, bool visit[GRAM_ENUM_MAX]);
-	void generate_firstSet();
-	vector<Gram> first(const Gram obj);//寻找文法中第一个非文法的字符  find first char of non-grammatical in grammatical
-	vector<Gram> first(const Gram obj,bool [GRAM_ENUM_MAX]);//寻找文法中第一个非文法的字符  find first char of non-grammatical in grammatical
-	GramCategory is_grammatical(Gram obj);//判断是文法还是非文法 Judge whether it is grammatical or non-grammatical
-	void grammatical_convert_to_dfa();//文法转换成dfa
-	vector<GramDataType> closure(const vector<GramDataType>);
-	inline Gram string_convert_to_gram(const string&);
-	inline string gram_map_to_string(const Gram&obj);
-//	inline void init_reduction();
-inline	GramType gram_map_to_gramtype(const Gram&obj);//gram map to gramtype
 	static GramType gramArray[GRAM_MAX]; //文法数组 grammatical array
 	friend vector<Gram> operator+(const vector<Gram>, const vector<Gram>);
 	inline Gram string_map_to_gram(const string&);
 	void init_reduction();//临时函数
 	ActionStatus action( const Gram&,  stack<int>&,  stack<Gram>&);
+	vector<vector<GramDataType>>items(GramType);
+	vector<GramDataType>Goto(const GramDataType&, const Gram&);
+	vector<GramDataType>Goto(const GramType&, const Gram&);
+	vector<GramDataType>Goto(const vector<GramDataType> &, const Gram &);
+	vector<GramType> get_derived_grammar(DataType&);//派生文法，即文法推导文法，不
+	inline	GramType gram_map_to_gramtype(const Gram&obj);//gram map to gramtype
+	inline Gram string_convert_to_gram(const string&);
+	inline string gram_map_to_string(const Gram&obj);
+	inline vector<GramDataType>&vector_join_other_vector(vector<GramDataType>&join, vector<GramDataType>&beJoined);
+	GramTokenType string_convert_to_GramToken(const string& str);
+	void generate_firstSet();
+	vector<Gram> first(const Gram obj);//寻找文法中第一个非文法的字符  find first char of non-grammatical in grammatical
+	vector<Gram> first(const Gram obj, bool[GRAM_ENUM_MAX]);//寻找文法中第一个非文法的字符  find first char of non-grammatical in grammatical
+	GramCategory is_grammatical(Gram obj);//判断是文法还是非文法 Judge whether it is grammatical or non-grammatical
+	void grammatical_convert_to_dfa();//文法转换成dfa
+	vector<GramDataType> closure(const vector<GramDataType>);
 };
 

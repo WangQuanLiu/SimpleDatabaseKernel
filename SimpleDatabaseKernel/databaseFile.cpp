@@ -90,11 +90,9 @@ namespace dbm {
 	{
 		int size = 0, i, tableNumber = 0, tableSize = 0, colSize = 0;
 		char ch[BUFF_SIZE];
-		//LibraryNameMangement nameMangementTemp;//库
 		TableNameMangement tableNameTemp;//表
 		vector<string>tableName, colName, colType;
 		FILE*file = fopen(DATABASE_HOME_PATH(databaseName + "\\" + databaseName + ".ini").c_str(), "r");
-
 		if (file == NULL)return false;
 		fscanf(file, "<table number>\t%d\n", &tableSize);
 		if (tableSize == 0) {
@@ -113,7 +111,6 @@ namespace dbm {
 		tableNumber = 0;//表计数归零
 		while (!feof(file)) {
 			while (fscanf(file, "%s", ch) && strcmp(ch, "<end>")) {
-
 				//	fscanf(file, "col_number:%d", &colSize);//读取列数量
 				fscanf(file, "%s %s", ch, ch);
 				fscanf(file, "%d", &colSize);

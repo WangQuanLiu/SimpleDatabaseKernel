@@ -3,7 +3,6 @@
 #endif
 #include<direct.h>
 namespace dbm {
-
 #define _DATABASE_FILE_
 #define RECORD_SIZE (int)(pow(2,14))
 #define PAGE_SIZE 40960
@@ -44,6 +43,7 @@ namespace dbm {
 		void clear();
 	};
 	using Page_ptr = Page*;
+	using Page_ptr_ptr = Page_ptr*;
 	struct RecordHeadInfo {//头部文件信息
 		RecordHeadInfo();
 		RecordHeadInfo(const RecordHeadInfo&obj);

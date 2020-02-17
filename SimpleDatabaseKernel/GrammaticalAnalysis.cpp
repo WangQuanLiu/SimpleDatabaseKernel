@@ -2137,10 +2137,10 @@ void GrammaticalAnalysis::run()
 			gramTypeTemp.vec[i].symbol = e_eof;
 		}
 		status = items(gramTypeTemp);
-		save_status(status,GotoTable);
+		save_file();
 	}
 	else {
-		read_status(status,GotoTable);
+		read_file();
 	}
 	//init_reduction();
 	check_grammatical();
@@ -2195,28 +2195,17 @@ void GrammaticalAnalysis::print(int GotoTable[GOTO_TABLE_MAX][GRAM_ENUM_MAX])
 	int i,k,l;
 	for (i = 0; i < GOTO_TABLE_MAX; i++) {
 		vector<GramDataType>temp = status[i];
-	/*	for (j = 0; j < GRAM_ENUM_MAX; j++) {*/
-			//if (GotoTable[i][j] != EMPTY) 
-		cout << "status:" << i << "-->" << endl;//<</*gram_map_to_string(static_cast<Gram>(j)) <<"	"<< gram_map_to_string(static_cast<Gram>(j))<<endl*/;
+		cout << "status:" << i << "-->" << endl;
 				
 
 		for (k = 0; k < temp.size(); k++) {
 			cout <<"gram->"<< gram_map_to_string(temp[k].getGramName()) << "  symbol  "/* <<gram_map_to_string( temp[k].symbol)*/ <<"	"<<gram_map_to_string(static_cast<Gram>(k))<< "  posi " << temp[k].posi << endl;
-					
-					/*cout << gram_map_to_string(temp[k].) << "	";*/
-			//cout<<gram_map_to_string(temp[k].symbol)
 					for (l = 0; l < temp[k].ls.size(); l++)
 						cout <<gram_map_to_string( temp[k].ls[l].getCategory() )<< "	";	
 					cout << endl;
 				}
-			
-		
-		//}
-
 		printf("\n\n\n");
 	}
-
-
 }
 
 /*
@@ -3073,26 +3062,34 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
   /*
   功能：保存状态表和跳转表到文件
   */
-  bool GrammaticalAnalysis::save_status(vector<vector<GramDataType>>&status, string** GotoTable)
+  bool GrammaticalAnalysis::save_file()
   {
-	  int i, j,k;
-	  //fstream file= fstream ("status.txt", ios::out);
+	  return save_redu()&&save_GotoTable()&&save_status();
+  }
+  bool GrammaticalAnalysis::save_status()
+  {
+	  int i, j, k;
 	  FILE*file = fopen("C:\\Users\\THINKPAD\\Desktop\\status.txt", "w");
-	  if (file==NULL)return false;
+	  if (file == NULL)return false;
 	  for (i = 0; i < status.size(); i++) {
 		  fprintf(file, "status-begin:\n");
 		  for (j = 0; j < status[i].size(); j++) {
 			  fprintf(file, "gram-begin:\n");
 			  fprintf(file, "%s %s %d\n", GramStringTable[status[i][j].getGramName()].c_str(), GramStringTable[status[i][j].getSymbol()].c_str(), status[i][j].getPosi());
 			  for (k = 0; k < status[i][j].ls.size(); k++) {
-				  fprintf(file,"%s\n", GramStringTable[status[i][j].ls[k].getCategory()].c_str());
+				  fprintf(file, "%s\n", GramStringTable[status[i][j].ls[k].getCategory()].c_str());
 			  }
 			  fprintf(file, "gram-end:\n");
 		  }
 		  fprintf(file, "status-end:\n");
 	  }
 	  fclose(file);
-	  file = fopen("C:\\Users\\THINKPAD\\Desktop\\table.txt","w");
+	  return true;
+  }
+  bool GrammaticalAnalysis::save_GotoTable()
+  {
+	  int i, j;
+	  FILE* file = fopen("C:\\Users\\THINKPAD\\Desktop\\table.txt", "w");
 	  if (file == NULL)return false;
 	  for (i = 0; i < GOTO_TABLE_MAX; i++) {
 		  for (j = 0; j < GRAM_ENUM_MAX; j++) {
@@ -3101,13 +3098,18 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  fprintf(file, "\n");
 	  }
 	  fclose(file);
-	  file = fopen("C:\\Users\\THINKPAD\\Desktop\\redu.txt", "w");
+	  return true;
+  }
+  bool GrammaticalAnalysis::save_redu()
+  {
+	  int i, j;
+	  FILE*file = fopen("C:\\Users\\THINKPAD\\Desktop\\redu.txt", "w");
 	  if (file == NULL)return false;
 	  for (i = 0; i < redu.size(); i++) {
-		  fprintf(file, "%d %s %s %s %d \n", redu[i].statusNumber,gram_map_to_string( redu[i].symbol).c_str(),gram_map_to_string(redu[i].gram.getGramName()).c_str(),gram_map_to_string( redu[i].gram.getSymbol()).c_str(),redu[i].gram.getPosi());
+		  fprintf(file, "%d %s %s %s %d \n", redu[i].statusNumber, gram_map_to_string(redu[i].symbol).c_str(), gram_map_to_string(redu[i].gram.getGramName()).c_str(), gram_map_to_string(redu[i].gram.getSymbol()).c_str(), redu[i].gram.getPosi());
 		  fprintf(file, "begin\n");
 		  for (j = 0; j < redu[i].gram.ls.size(); j++) {
-			 fprintf(file,"%s \n", gram_map_to_string( redu[i].gram.ls[j].getCategory()).c_str());
+			  fprintf(file, "%s \n", gram_map_to_string(redu[i].gram.ls[j].getCategory()).c_str());
 		  }
 		  fprintf(file, "end\n");
 	  }
@@ -3117,7 +3119,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
   /*
   功能：读取状态表和跳转表
   */
-  bool GrammaticalAnalysis::read_status(vector<vector<GramDataType>>&status, string **GotoTable)
+  bool GrammaticalAnalysis::read_status()
   {
 	  int i, j, k;
 	  vector<GramDataType> vec;
@@ -3152,7 +3154,17 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  vec.clear();
 	  }
 	  fclose(file);
-	  file = fopen("C:\\Users\\THINKPAD\\Desktop\\table.txt", "r");
+	 
+	  
+	  return true;
+  }
+
+  bool GrammaticalAnalysis::read_GotoTable()
+  {
+	  int i, j;
+	  char ch[CHAR_SIZE];
+	  memset(ch, 0, CHAR_SIZE);
+	 FILE* file = fopen("C:\\Users\\THINKPAD\\Desktop\\table.txt", "r");
 	  if (file == NULL)return false;
 	  for (i = 0; i < GOTO_TABLE_MAX; i++) {
 		  for (j = 0; j < GRAM_ENUM_MAX; j++) {
@@ -3161,8 +3173,15 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  }
 	  }
 	  fclose(file);
+	  return false;
+  }
+
+  bool GrammaticalAnalysis::read_redu()
+  {
 	  int statusNumber, posi;
-	  file = fopen("C:\\Users\\THINKPAD\\Desktop\\redu.txt", "r");
+	  char ch[CHAR_SIZE];
+	  memset(ch, 0, CHAR_SIZE);
+	  FILE* file = fopen("C:\\Users\\THINKPAD\\Desktop\\redu.txt", "r");
 	  if (file == NULL)return false;
 	  while (!feof(file)) {
 		  Redu temp;
@@ -3174,23 +3193,28 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  fscanf(file, "%s", ch);
 		  temp.statusNumber = statusNumber;
 		  /*Gram */gramReduSymbol = string_map_to_gram(reduSymbol),
-			  gramGetGramName=string_map_to_gram(getGramName),
-			  gramGetSymbolTemp=string_map_to_gram( gramGetSymbol);		  
+			  gramGetGramName = string_map_to_gram(getGramName),
+			  gramGetSymbolTemp = string_map_to_gram(gramGetSymbol);
 		  if (gramReduSymbol == e_error || gramGetGramName == e_error || gramGetSymbolTemp == e_error)continue;
 		  temp.statusNumber = statusNumber;
 		  temp.symbol = gramReduSymbol;
 		  temp.gram.setGramName(gramGetGramName);
 		  temp.gram.set_symbol(gramGetSymbolTemp);
 		  temp.gram.posi = posi;
-		
-		  while (fscanf(file, "%s", ch)&&strcmp( ch, "end")) {
-			 temp.gram.ls.push_back( string_map_to_gram(ch));
-			  
+
+		  while (fscanf(file, "%s", ch) && strcmp(ch, "end")) {
+			  temp.gram.ls.push_back(string_map_to_gram(ch));
+
 		  }
 		  redu.push_back(temp);
 	  }
 	  fclose(file);
-	  return true;
+	  return false;
+  }
+
+  bool GrammaticalAnalysis::read_file()
+  {
+	  return read_status()&&read_redu()&&read_GotoTable();
   }
 
   Reduction::Reduction(const int &statusNumber, const Gram &symbol, const GramDataType &gram)

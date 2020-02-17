@@ -495,6 +495,26 @@ namespace dbm {
 			this->databaseFile.dataMangementPtr->table[i].headInfo.type.push_back(a_string);
 		return true;
 	}
+	inline void dataMangement::newPage(int tableIndex,shared_ptr<Page> pagePtr, size_t colSize, size_t pageSize, Item item)
+	{
+		Page temp;
+		if (pageSize > 0) {
+
+			(pagePtr)->nextPageFlag = true;//脏页
+			(pagePtr)->nextPageNum = this->databaseFile.dataMangementPtr->table[tableIndex].headInfo.pageNumber + 1;//下一页
+		}
+		temp.curPageNum = ++this->databaseFile.dataMangementPtr->table[tableIndex].headInfo.pageNumber;//当前页数
+		temp.dirtyPage = true;
+		temp.nextPageFlag = false;
+		temp.itemSize++;
+		temp.usedSpaceSize += colSize;
+		temp.unUsedSpaceSize -= colSize;
+		temp.itemPtrSet.push_back(make_shared<Item>(item));
+		this->databaseFile.dataMangementPtr->table[tableIndex].headInfo.pageOrder.push_back(temp.curPageNum);
+		this->databaseFile.dataMangementPtr->table[tableIndex].headInfo.totalDataNum++;
+		this->databaseFile.dataMangementPtr->table[tableIndex].headInfo.usedSpaceSize += colSize;
+		this->databaseFile.dataMangementPtr->table[tableIndex].pagePtrSet.push_back(make_shared<Page>(temp));
+	}
 	/*
 	输入：InsertData类型
 	功能：插入数据
@@ -514,21 +534,12 @@ namespace dbm {
 		if (this->databaseFile.nameMangementTablePtr->nameTable.tableMangement[i].colSize != data.data.size())return false;//两者列数不等
 		bool flag = false;//表示未插入
 		for (j = 0; j < this->databaseFile.nameMangementTablePtr->nameTable.tableMangement[i].colSize; j++) {
-			/*if (this->databaseFile.nameMangementTablePtr->nameTable.tableMangement[i].column[j].attributeType != data.data.type[j]||
-				this->databaseFile.nameMangementTablePtr->nameTable.tableMangement[i].column[j].type_size()<data.data.typeSize[j])
-				return false;*/
 			colSize += this->databaseFile.nameMangementTablePtr->nameTable.tableMangement[i].column[j].type_size();
 		}
 		list<shared_ptr<Page>>&page = this->databaseFile.dataMangementPtr->table[i].pagePtrSet;
 		list<shared_ptr<Page>>::iterator pageBegin(page.begin()), pageEnd(page.end());
 		list<shared_ptr<Page>>::iterator pageTemp = page.begin();
 		for (j = 0; j < pageSize; j++) {//遍历页
-
-			/*int size=(int)(this->databaseFile.dataMangementPtr->table[i].headInfo.pageOrder[j]);
-			while (size > 1) {
-				size--;
-				pageTemp++;
-			}*/
 			if ((*pageTemp)->unUsedSpaceSize >= colSize) {//有空间可插
 				flag = true;
 				break;
@@ -540,7 +551,6 @@ namespace dbm {
 			item.item.push_back(DataType(data.data.values[j]));
 		}
 		if (flag) {//有空间可插
-
 			if ((*pageTemp)->deletedFlag.size()>0) {
 				int deleteIndex = (*pageTemp)->deletedFlag[0];
 				(*pageTemp)->deletedFlag.erase((*pageTemp)->deletedFlag.begin());
@@ -558,30 +568,12 @@ namespace dbm {
 			(*pageTemp)->itemSize++;//项数加一
 			(*pageTemp)->unUsedSpaceSize -= colSize;//未使用空间-列空间
 			(*pageTemp)->usedSpaceSize += colSize;//已使用空间+列空间
-
 			this->databaseFile.dataMangementPtr->table[i].headInfo.usedSpaceSize += colSize;//总计空间+列空间
 			this->databaseFile.dataMangementPtr->table[i].headInfo.totalDataNum++;//总数加一
 
 		}
 		else {//新开一页
-			Page temp;
-			if (pageSize > 0) {
-
-				(*pageTemp)->nextPageFlag = true;//脏页
-				(*pageTemp)->nextPageNum = this->databaseFile.dataMangementPtr->table[i].headInfo.pageNumber + 1;//下一页
-			}
-
-			temp.curPageNum = ++this->databaseFile.dataMangementPtr->table[i].headInfo.pageNumber;//当前页数
-			temp.dirtyPage = true;
-			temp.nextPageFlag = false;
-			temp.itemSize++;
-			temp.usedSpaceSize += colSize;
-			temp.unUsedSpaceSize -= colSize;
-			temp.itemPtrSet.push_back(make_shared<Item>(item));
-			this->databaseFile.dataMangementPtr->table[i].headInfo.pageOrder.push_back(temp.curPageNum);
-			this->databaseFile.dataMangementPtr->table[i].headInfo.totalDataNum++;
-			this->databaseFile.dataMangementPtr->table[i].headInfo.usedSpaceSize += colSize;
-			this->databaseFile.dataMangementPtr->table[i].pagePtrSet.push_back(make_shared<Page>(temp));
+			newPage(i, *pageTemp, colSize, pageSize, item);
 		}
 
 		return true;
@@ -672,6 +664,18 @@ namespace dbm {
 		return this->values.size();
 	}
 
+
+	InsertData::InsertData(const string & tableName, const string & values)
+	{
+		this->set_tableName(tableName);
+		this->add_data(values);
+	}
+
+	InsertData::InsertData(const string & tableName, const vector<string>& values)
+	{
+		this->set_tableName(tableName);
+		this->add_data(values);
+	}
 
 	void InsertData::set_tableName(const string & tableName)
 	{

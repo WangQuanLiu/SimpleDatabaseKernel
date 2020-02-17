@@ -32,11 +32,11 @@ namespace dbm {
 		Data() = default;
 		size_t size()const;
 		vector<string>values;
-		//vector<AttributeType>type;
-		//vector<int>typeSize;
 	};
 	struct InsertData {
 		InsertData() = default;
+		InsertData(const string&tableName, const string&values);
+		InsertData(const string&tableName, const vector<string>&values);
 		void set_tableName(const string&tableName);
 		void add_data(const string&value);
 		void add_data(const vector<string>&value);
@@ -67,14 +67,15 @@ namespace dbm {
 		bool modification_name(const NameQuery&nameQuery, const string&modeficationedName);//修改名字及文件
 		bool delete_talbe_or_library(const NameQuery&nameQuery);//删除库名、表名及文件
 		bool delete_column(const string&libraryName, const string&tableName, const string&colName);//删除列名
-		bool add_table_or_library(const NameQuery&nameQuery);//添加库名，表名及文件
-		bool add_column(const string&libraryName, const string&tableName, const string&columnName, const string & type);
+		bool add_table_or_library(const NameQuery&nameQuery);//添加库名，表名及文件	
 		bool add_data(const InsertData&data);
 		bool delete_data(const DeleteData&data);
 		bool save();//保存所有数据
 		bool table_data(const string&tableName, resultData&result);
+	protected:
+		bool add_column(const string&libraryName, const string&tableName, const string&columnName, const string & type);
 	private:
-
+		inline void newPage(int tableIndex,shared_ptr<Page> pagePtr, size_t colSize,size_t pageSize, Item item);
 		//NameMangement nameMangement;//名字管理
 		DatabaseFile databaseFile;//数据库数据
 	};
