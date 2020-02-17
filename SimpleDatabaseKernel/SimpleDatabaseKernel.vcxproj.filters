@@ -19,18 +19,15 @@
     <Filter Include="头文件\databaseMangement">
       <UniqueIdentifier>{ee1d8115-65f6-4960-82cc-ba5adec4d20e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\compilerFrontEnd">
+      <UniqueIdentifier>{c647dded-8503-472e-a1db-9fab7af462d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\compilerFrontEnd">
+      <UniqueIdentifier>{29ec49b7-a173-431d-9899-d98c8ead7b27}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="testswitch.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="file.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="LexicalAnalysis.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="GrammaticalAnalysis.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="databaseFile.h">
@@ -48,18 +45,18 @@
     <ClInclude Include="query.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="LexicalAnalysis.h">
+      <Filter>头文件\compilerFrontEnd</Filter>
+    </ClInclude>
+    <ClInclude Include="file.h">
+      <Filter>头文件\compilerFrontEnd</Filter>
+    </ClInclude>
+    <ClInclude Include="GrammaticalAnalysis.h">
+      <Filter>头文件\compilerFrontEnd</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="file.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="LexicalAnalysis.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="GrammaticalAnalysis.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="databaseFile.cpp">
@@ -73,6 +70,15 @@
     </ClCompile>
     <ClCompile Include="index.cpp">
       <Filter>源文件\databaseMangement</Filter>
+    </ClCompile>
+    <ClCompile Include="LexicalAnalysis.cpp">
+      <Filter>源文件\compilerFrontEnd</Filter>
+    </ClCompile>
+    <ClCompile Include="file.cpp">
+      <Filter>源文件\compilerFrontEnd</Filter>
+    </ClCompile>
+    <ClCompile Include="GrammaticalAnalysis.cpp">
+      <Filter>源文件\compilerFrontEnd</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
