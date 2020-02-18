@@ -88,14 +88,14 @@
 	GramDataType{
 	DataType(e_id),
 	DataType(e_integer),
-	 DataType(e_comma),
+//	 DataType(e_comma),
 	DataType(e_create_data_type_suffix_def),
 	
  },
 	 GramDataType{
 	 DataType(e_id),
 	 DataType(e_real),
-	 DataType(e_comma),
+//	 DataType(e_comma),
 	 DataType(e_create_data_type_suffix_def),
  },
 	 GramDataType{
@@ -104,7 +104,7 @@
 	 DataType(e_l_bracket),
 	 DataType(e_integer),
 	 DataType(e_r_bracket),
-	 DataType(e_comma),
+//	 DataType(e_comma),
 	 DataType(e_create_data_type_suffix_def)
  },
 
