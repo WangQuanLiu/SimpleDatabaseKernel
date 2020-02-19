@@ -89,14 +89,16 @@
 	DataType(e_id),
 	DataType(e_integer),
 //	 DataType(e_comma),
-	DataType(e_create_data_type_suffix_def),
+//	DataType(e_create_data_type_suffix_def),
 	
  },
 	 GramDataType{
 	 DataType(e_id),
 	 DataType(e_real),
 //	 DataType(e_comma),
-	 DataType(e_create_data_type_suffix_def),
+//	 DataType(e_create_data_type_suffix_def),//2020/2/19
+DataType(e_not),//2020/2/19
+DataType(e_null),//2020/2/19
  },
 	 GramDataType{
 	 DataType(e_id),
@@ -105,7 +107,9 @@
 	 DataType(e_integer),
 	 DataType(e_r_bracket),
 //	 DataType(e_comma),
-	 DataType(e_create_data_type_suffix_def)
+	// DataType(e_create_data_type_suffix_def)//2020/2/19
+	 DataType(e_not),//2020/2/19
+	 DataType(e_null),//2020/2/19
  },
 	 /*无e_create_data_type_suffix_def  begin*/
 
@@ -138,7 +142,9 @@
 	GramDataType{  //repeat
 	DataType(e_id),
 	DataType(e_integer),
-	DataType(e_create_data_type_suffix_def),
+	//DataType(e_create_data_type_suffix_def),//2020/2/19
+	 DataType(e_not),//2020/2/19
+	 DataType(e_null),//2020/2/19
 	DataType(e_comma), 
 	DataType( e_create_data_def)},
 
@@ -146,7 +152,9 @@
 	 DataType(e_id),
 	 DataType(e_real),
 	 DataType(e_comma),
-	 DataType(e_create_data_type_suffix_def),
+	// DataType(e_create_data_type_suffix_def),//2020/2/19
+	 DataType(e_not),//2020/2/19
+	 DataType(e_null),//2020/2/19
 	 DataType(e_comma),
 	 DataType(e_create_data_def)
 	},
@@ -158,7 +166,9 @@
 	 DataType(e_integer),
 	 DataType(e_r_bracket),
 	 DataType(e_comma),
-	DataType(e_create_data_type_suffix_def),
+//	DataType(e_create_data_type_suffix_def),//2020/2/19
+DataType(e_not),//2020/2/19
+DataType(e_null),//2020/2/19
 	 DataType(e_comma),
 	 DataType(e_create_data_def)
 	 },
@@ -2772,19 +2782,23 @@ ActionStatus GrammaticalAnalysis::action( const Gram &symbol,  stack<int>&status
 	bool shifted = false,reduced=false;
 	while (flag) {
 		flag = false;
+		if (GotoTable[statusStack.top()][symbol] != EMPTY&&!shifted) {	//移进
+			if (shift_in(symbol, statusStack, gramStack)) {
+				act = shift;
+				shifted = true;
+				flag = true;
+				/*GramTokenType gramTemp = get_next_token();
+				if (strcmp(gramTemp.getString().c_str(), "")&&
+					GotoTable[statusStack.top()][gramTemp.getGram()] != EMPTY) {
+					
+				}*/
+			}
+
+		}
 		if (reduction(symbol, statusStack, gramStack)) {
 			flag = true;
 			reduced = true;
-		}
-		if (GotoTable[statusStack.top()][symbol] != EMPTY&&!shifted) {	//移进
-				if (shift_in(symbol, statusStack, gramStack)) {
-					 act = shift;
-					shifted = true;
-					flag = true;
-				}
-					
-			}
-			
+		}		
 	}
 	
 	if (statusStack.size() == 2&& gramStack.top()==e_s) {
@@ -2793,6 +2807,25 @@ ActionStatus GrammaticalAnalysis::action( const Gram &symbol,  stack<int>&status
 		act = acc;
 	}
 	return act;
+}
+string GrammaticalAnalysis::get_next_token()
+{
+	string temp;
+	bool tokenFlag = true;
+	temp = file->get_token();
+	while (tokenFlag&&file->get_token_size() >= 1) {
+		if (temp == ""&&file->get_token_size() >= 1) {
+			temp = file->get_token();
+		}
+		else {
+			tokenFlag = false;
+		}
+	}
+	if (strcmp(temp.c_str(),""))
+		file->roll_back();
+	else
+		return "";
+	return temp;
 }
 GramType GrammaticalAnalysis::gramArray[GRAM_MAX]{
    Grammatical::v_start,//0
@@ -3272,7 +3305,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  vector<GramDataType>emptyVec;
 	  int i;
 	  string temp;
-	  bool tokenFlag = true;
+	 /* bool tokenFlag = true;
 	  temp = file->get_token();
 	  while (tokenFlag&&file->get_token_size() >= 1) {
 		  if (temp == ""&&file->get_token_size() >= 1) {
@@ -3285,12 +3318,10 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  if (temp != "")
 		  file->roll_back();
 	  else
-		  return false;
+		  return false;*/
+	  temp = get_next_token();
+	  if (!strcmp(temp.c_str(), ""))return false;
 	  cout << temp << endl;
-	  GramTokenType gramTemp =temp;
-	  if (GotoTable[statusStack.top()][gramTemp.getGram()] != EMPTY) {
-		  return true;
-	  }
 	  Gram gram = string_convert_to_GramToken(temp).getGram();
 	  int emptyIndex = -1;
 	  for (i = 0; i < vecTemp.size(); i++) {
@@ -3309,7 +3340,6 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 
 		  }
 	  }
-	//  if (nextShift)return true;
 	  if (i < vecTemp.size()) {
 		  gramStack.push(vecTemp[i].getGramName());
 		  statusStack.push(0);//垃圾值，顺便加入什么值，由上面的进行归约

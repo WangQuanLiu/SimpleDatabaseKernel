@@ -311,6 +311,7 @@ private:
 	inline Gram string_map_to_gram(const string&);
 	void init_reduction();//ÁÙÊ±º¯Êý
 	ActionStatus action( const Gram&,  stack<int>&,  stack<Gram>&);
+	string get_next_token();
 	vector<vector<GramDataType>>items(GramType);
 	vector<GramDataType>Goto(const GramDataType&, const Gram&);
 	vector<GramDataType>Goto(const GramType&, const Gram&);
