@@ -131,6 +131,7 @@ struct DataType   {	//单个文法类
 private:	Gram category;
 
 };
+enum shiftIn{shift_suc,shift_error,shift_continue};
 class GramDataType {//单个文法集合
 
 public: 
@@ -303,7 +304,7 @@ private:
 	bool read_redu();
 	bool read_file();
 	bool reduction(const Gram&symbol,stack<int>&statusStack, stack<Gram>&gramStack);
-	bool shift_in(const Gram&symbol, stack<int>&statusStack, stack<Gram>&gramStack);
+	shiftIn shift_in(const Gram&symbol, stack<int>&statusStack, stack<Gram>&gramStack);
 	vector<Gram>first_set[GRAM_ENUM_MAX]{};
 	vector<vector<GramDataType>>status;
 	static GramType gramArray[GRAM_MAX]; //文法数组 grammatical array
