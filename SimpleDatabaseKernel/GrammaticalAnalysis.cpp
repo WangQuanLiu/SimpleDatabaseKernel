@@ -107,7 +107,34 @@
 //	 DataType(e_comma),
 	 DataType(e_create_data_type_suffix_def)
  },
+	 /*无e_create_data_type_suffix_def  begin*/
 
+
+	 GramDataType{
+	 DataType(e_id),
+	 DataType(e_integer),
+	 //	 DataType(e_comma),
+	// DataType(e_create_data_type_suffix_def),
+
+ },
+	 GramDataType{
+	 DataType(e_id),
+	 DataType(e_real),
+	 //	 DataType(e_comma),
+	// DataType(e_create_data_type_suffix_def),
+ },
+	 GramDataType{
+	 DataType(e_id),
+	 DataType(e_char),
+	 DataType(e_l_bracket),
+	 DataType(e_integer),
+	 DataType(e_r_bracket),
+	 //	 DataType(e_comma),
+	// DataType(e_create_data_type_suffix_def)
+ },
+
+
+	 /*无e_create_data_type_suffix_def end*/
 	GramDataType{  //repeat
 	DataType(e_id),
 	DataType(e_integer),
@@ -134,7 +161,40 @@
 	DataType(e_create_data_type_suffix_def),
 	 DataType(e_comma),
 	 DataType(e_create_data_def)
-	 }
+	 },
+
+
+	 /*无e_create_data_type_suffix_def begin*/
+
+	 GramDataType{  //repeat
+	 DataType(e_id),
+	 DataType(e_integer),
+	// DataType(e_create_data_type_suffix_def),
+	 DataType(e_comma),
+	 DataType(e_create_data_def) },
+
+	 GramDataType{
+	 DataType(e_id),
+	 DataType(e_real),
+	 DataType(e_comma),
+	// DataType(e_create_data_type_suffix_def),
+	 DataType(e_comma),
+	 DataType(e_create_data_def)
+ },
+
+	 GramDataType{
+	 DataType(e_id),
+	 DataType(e_char),
+	 DataType(e_l_bracket),
+	 DataType(e_integer),
+	 DataType(e_r_bracket),
+	 DataType(e_comma),
+	// DataType(e_create_data_type_suffix_def),
+	 DataType(e_comma),
+	 DataType(e_create_data_def)
+ }
+
+	 /*无e_create_data_type_suffix_def end*/
 
 };
  GramType Grammatical::v_create_data_type_def{
@@ -169,11 +229,11 @@
 	v_create_data_type_suffix_def->ε
 	v_create_data_type_suffix_def->not null
 	*/
-	GramDataType{
+	/*GramDataType{
 	DataType(Gram::e_empty)
 	
 	}
-	,GramDataType{
+	,*/GramDataType{
 	DataType(e_not),
 	DataType(e_null)
 }
@@ -828,30 +888,30 @@ GramDataType{
  },
 
 	///*无e_where_addop_def begin------------------*/
-	// GramDataType{
+	 GramDataType{
 
-	// DataType(e_gather_fuc_def),
-	// DataType(e_l_bracket),
-	// DataType(e_id),
-	//// DataType(e_where_addop_def),
-	// DataType(e_r_bracket)
- //},
-	// GramDataType{
+	 DataType(e_gather_fuc_def),
+	 DataType(e_l_bracket),
+	 DataType(e_id),
+	// DataType(e_where_addop_def),
+	 DataType(e_r_bracket)
+ },
+	 GramDataType{
 
-	// DataType(e_gather_fuc_def),
-	// DataType(e_l_bracket),
-	// DataType(e_real),
-	//// DataType(e_where_addop_def),
-	// DataType(e_r_bracket)
- //},
-	// GramDataType{
+	 DataType(e_gather_fuc_def),
+	 DataType(e_l_bracket),
+	 DataType(e_real),
+	// DataType(e_where_addop_def),
+	 DataType(e_r_bracket)
+ },
+	 GramDataType{
 
-	// DataType(e_gather_fuc_def),
-	// DataType(e_l_bracket),
-	// DataType(e_integer),
-	//// DataType(e_where_addop_def),
-	// DataType(e_r_bracket)
- //},
+	 DataType(e_gather_fuc_def),
+	 DataType(e_l_bracket),
+	 DataType(e_integer),
+	// DataType(e_where_addop_def),
+	 DataType(e_r_bracket)
+ },
 
 	 /*无e_where_addop_def end------------------*/
 
@@ -877,25 +937,25 @@ GramDataType{
  },
 
 	 /*无e_where_addop_def begin------------------*/
-	// GramDataType{
-	// DataType(e_l_bracket),
-	// DataType(e_real),
-	//// DataType(e_where_addop_def),
-	// DataType(e_r_bracket)
- //},
+	 GramDataType{
+	 DataType(e_l_bracket),
+	 DataType(e_real),
+	// DataType(e_where_addop_def),
+	 DataType(e_r_bracket)
+ },
 
-	// GramDataType{
-	// DataType(e_l_bracket),
-	// DataType(e_id),
-	//// DataType(e_where_addop_def),
-	// DataType(e_r_bracket)
- //},
-	// GramDataType{
-	// DataType(e_l_bracket),
-	// DataType(e_integer),
-	//// DataType(e_where_addop_def),
-	// DataType(e_r_bracket)
- //},
+	 GramDataType{
+	 DataType(e_l_bracket),
+	 DataType(e_id),
+	// DataType(e_where_addop_def),
+	 DataType(e_r_bracket)
+ },
+	 GramDataType{
+	 DataType(e_l_bracket),
+	 DataType(e_integer),
+	// DataType(e_where_addop_def),
+	 DataType(e_r_bracket)
+ },
 
 	 /*无e_where_addop_def end------------------*/
 
@@ -2566,6 +2626,7 @@ vector<Gram> GrammaticalAnalysis::first(const Gram  gram)
  vector<GramDataType> GrammaticalAnalysis::closure(const vector<GramDataType> obj)
  {
 	 vector<GramDataType> temp = { obj };
+	// temp=get_derived_grammar(obj[0].)
 	 int size,i,k,p,u; //保存容器大小
 do {
 		 size = temp.size();
@@ -3226,6 +3287,10 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  else
 		  return false;
 	  cout << temp << endl;
+	  GramTokenType gramTemp =temp;
+	  if (GotoTable[statusStack.top()][gramTemp.getGram()] != EMPTY) {
+		  return true;
+	  }
 	  Gram gram = string_convert_to_GramToken(temp).getGram();
 	  int emptyIndex = -1;
 	  for (i = 0; i < vecTemp.size(); i++) {
