@@ -2358,6 +2358,7 @@ do {
 				vector<GramDataType>temp = Goto(vec[i], static_cast<Gram>(k));
 				if (temp.size() <= 0)continue;
 				char ch[BUFF_SIZE];
+				bool flag = false;
 				string str = is_grammatical(static_cast<Gram>(k)) ? "s" : "g";
 				for (t = 0; t < vec.size(); t++) {
 					//if (vec[t].size() != temp.size())break;
@@ -2365,22 +2366,27 @@ do {
 					if (vec[t] == temp) {	//有相同的文法				
 						str = str + _itoa(static_cast<int>(t), ch, 10);
 						GotoTable[i][k] = str;
+						flag = true;
 						break;
 					}
 				}
+				
 				if (t >= vec.size()) {//无相同的文法
 					cout << "status:" << i << "->" << gram_map_to_string(static_cast<Gram>(k))<<"  ";
 					str = str + _itoa(static_cast<int>(vec.size()), ch, 10);
 					GotoTable[i][k] = str;					
 					cout << vec.size() << endl;
  					vec.push_back(temp);
-				}
-				for (t = 0; t < temp.size(); t++) {//添加归约
-				//	if (temp[t].ls.size == 1 && (temp[t].ls[0] == e_id || temp[t].ls[0] == e_real || temp[t].ls[0] == e_str || temp[t].ls[0] == e_integer))continue;
-					if (temp[t].getPosi() == temp[t].ls.size()) {
-						redu.push_back(Redu(vec.size(), temp[t].getSymbol(), temp[t]));
+
+
+					for (t = 0; t < temp.size(); t++) {//添加归约
+													   //	if (temp[t].ls.size == 1 && (temp[t].ls[0] == e_id || temp[t].ls[0] == e_real || temp[t].ls[0] == e_str || temp[t].ls[0] == e_integer))continue;
+						if (temp[t].getPosi() == temp[t].ls.size()) {
+							redu.push_back(Redu(vec.size(), temp[t].getSymbol(), temp[t]));//vec.size 改成i
+						}
 					}
 				}
+			
 				str.clear();
 			}
 
@@ -3294,6 +3300,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 
 	  string str = GotoTable[statusStack.top()][symbol];
 	  bool nextShift = false;
+	  shiftIn shiftTemp=shift_suc;
 	  str = str.substr(1, str.size() - 1);
 	  statusStack.push(atoi(str.c_str()));
 	  gramStack.push(symbol);
@@ -3308,7 +3315,11 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  cout << temp << endl;
 	  Gram gram = string_convert_to_GramToken(temp).getGram();
 	  int emptyIndex = -1;
+	  bool staEnd = false;
 	  for (i = 0; i < vecTemp.size(); i++) {
+		  if (vecTemp[i].getPosi() < vecTemp[i].ls.size() && vecTemp[i].ls[vecTemp[i].getPosi()]==e_gram_end) {
+			  staEnd = true;
+		  }
 		  if (!nextShift&&vecTemp[i].getPosi()<vecTemp[i].ls.size()&&
 			  vecTemp[i].ls[vecTemp[i].getPosi()].getCategory() == gram) {
 			  nextShift = true;
@@ -3329,12 +3340,22 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  statusStack.push(0);//垃圾值，顺便加入什么值，由上面的进行归约
 							  //file->roll_back();//回滚值
 	  }
-	  else if (emptyIndex != -1&&GotoTable[gramStack.top()][gram]==EMPTY) {
+	  
+	//  else if(GotoTable[gramS])
+	  else if (emptyIndex != -1&&GotoTable[statusStack.top()][gram]==EMPTY) {
+		
 		  gramStack.push(vecTemp[emptyIndex].getGramName());
 		  statusStack.push(0);
-		  return shift_continue;
+		//  shiftTemp = shift_continue;
+		  reduction(symbol, statusStack, gramStack);
 	  }
-	  return shift_suc;
+	   if (GotoTable[statusStack.top()][gram] == EMPTY&&
+		   GotoTable[statusStack.top()][e_gram_end]!=EMPTY) {
+		  gramStack.push(e_gram_end);
+		  statusStack.push(0);
+		
+	  }
+	  return shiftTemp;
   }
 
   Reduction::Reduction(const int &statusNumber, const Gram &symbol, const GramDataType &gram)
