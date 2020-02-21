@@ -65,7 +65,7 @@
 	DataType( e_create_data_def),
 	DataType(e_constraint_def),
 	DataType(e_r_bracket),
- DataType(e_gram_end)//add tiem 2020/2/19 17:55
+ //DataType(e_gram_end)//add tiem 2020/2/19 17:55
  },
 	 GramDataType{
 	 DataType(e_create),
@@ -75,7 +75,7 @@
 	 DataType(e_create_data_def),
 	// DataType(e_constraint_def),
 	 DataType(e_r_bracket),
-	  DataType(e_gram_end)//add tiem 2020/2/19 17:55
+//	  DataType(e_gram_end)//add tiem 2020/2/19 17:55
  }
 };
  GramType Grammatical::v_create_data_def{
@@ -89,16 +89,16 @@
 	DataType(e_id),
 	DataType(e_integer),
 //	 DataType(e_comma),
-//	DataType(e_create_data_type_suffix_def),
+	DataType(e_create_data_type_suffix_def),
 	
  },
 	 GramDataType{
 	 DataType(e_id),
 	 DataType(e_real),
 //	 DataType(e_comma),
-//	 DataType(e_create_data_type_suffix_def),//2020/2/19
-DataType(e_not),//2020/2/19
-DataType(e_null),//2020/2/19
+	 DataType(e_create_data_type_suffix_def),//2020/2/19
+//DataType(e_not),//2020/2/19
+//DataType(e_null),//2020/2/19
  },
 	 GramDataType{
 	 DataType(e_id),
@@ -107,54 +107,54 @@ DataType(e_null),//2020/2/19
 	 DataType(e_integer),
 	 DataType(e_r_bracket),
 //	 DataType(e_comma),
-	// DataType(e_create_data_type_suffix_def)//2020/2/19
-	 DataType(e_not),//2020/2/19
-	 DataType(e_null),//2020/2/19
+	 DataType(e_create_data_type_suffix_def)//2020/2/19
+	 //DataType(e_not),//2020/2/19
+	 //DataType(e_null),//2020/2/19
  },
 	 /*无e_create_data_type_suffix_def  begin*/
 
 
-	 GramDataType{
-	 DataType(e_id),
-	 DataType(e_integer),
-	 //	 DataType(e_comma),
+	// GramDataType{
+	// DataType(e_id),
+	// DataType(e_integer),
+	// //	 DataType(e_comma),
 	// DataType(e_create_data_type_suffix_def),
 
- },
-	 GramDataType{
-	 DataType(e_id),
-	 DataType(e_real),
-	 //	 DataType(e_comma),
-	// DataType(e_create_data_type_suffix_def),
- },
-	 GramDataType{
-	 DataType(e_id),
-	 DataType(e_char),
-	 DataType(e_l_bracket),
-	 DataType(e_integer),
-	 DataType(e_r_bracket),
-	 //	 DataType(e_comma),
-	// DataType(e_create_data_type_suffix_def)
- },
+ //},
+	// GramDataType{
+	// DataType(e_id),
+	// DataType(e_real),
+	// //	 DataType(e_comma),
+	//// DataType(e_create_data_type_suffix_def),
+ //},
+	// GramDataType{
+	// DataType(e_id),
+	// DataType(e_char),
+	// DataType(e_l_bracket),
+	// DataType(e_integer),
+	// DataType(e_r_bracket),
+	// //	 DataType(e_comma),
+	//// DataType(e_create_data_type_suffix_def)
+ //},
 
 
 	 /*无e_create_data_type_suffix_def end*/
 	GramDataType{  //repeat
 	DataType(e_id),
 	DataType(e_integer),
-	//DataType(e_create_data_type_suffix_def),//2020/2/19
-	 DataType(e_not),//2020/2/19
-	 DataType(e_null),//2020/2/19
+	DataType(e_create_data_type_suffix_def),//2020/2/19
+	 //DataType(e_not),//2020/2/19
+	 //DataType(e_null),//2020/2/19
 	DataType(e_comma), 
 	DataType( e_create_data_def)},
 
 	 GramDataType{
 	 DataType(e_id),
 	 DataType(e_real),
-	 DataType(e_comma),
-	// DataType(e_create_data_type_suffix_def),//2020/2/19
-	 DataType(e_not),//2020/2/19
-	 DataType(e_null),//2020/2/19
+	 //DataType(e_comma),
+	 DataType(e_create_data_type_suffix_def),//2020/2/19
+	 //DataType(e_not),//2020/2/19
+	 //DataType(e_null),//2020/2/19
 	 DataType(e_comma),
 	 DataType(e_create_data_def)
 	},
@@ -165,10 +165,10 @@ DataType(e_null),//2020/2/19
 	 DataType(e_l_bracket),
 	 DataType(e_integer),
 	 DataType(e_r_bracket),
-	 DataType(e_comma),
-//	DataType(e_create_data_type_suffix_def),//2020/2/19
-DataType(e_not),//2020/2/19
-DataType(e_null),//2020/2/19
+	 //DataType(e_comma),
+	DataType(e_create_data_type_suffix_def),//2020/2/19
+//DataType(e_not),//2020/2/19
+//DataType(e_null),//2020/2/19
 	 DataType(e_comma),
 	 DataType(e_create_data_def)
 	 },
@@ -176,33 +176,33 @@ DataType(e_null),//2020/2/19
 
 	 /*无e_create_data_type_suffix_def begin*/
 
-	 GramDataType{  //repeat
-	 DataType(e_id),
-	 DataType(e_integer),
-	// DataType(e_create_data_type_suffix_def),
-	 DataType(e_comma),
-	 DataType(e_create_data_def) },
+	// GramDataType{  //repeat
+	// DataType(e_id),
+	// DataType(e_integer),
+	//// DataType(e_create_data_type_suffix_def),
+	// DataType(e_comma),
+	// DataType(e_create_data_def) },
 
-	 GramDataType{
-	 DataType(e_id),
-	 DataType(e_real),
-	 DataType(e_comma),
-	// DataType(e_create_data_type_suffix_def),
-	 DataType(e_comma),
-	 DataType(e_create_data_def)
- },
+	// GramDataType{
+	// DataType(e_id),
+	// DataType(e_real),
+	// DataType(e_comma),
+	//// DataType(e_create_data_type_suffix_def),
+	// DataType(e_comma),
+	// DataType(e_create_data_def)
+ //},
 
-	 GramDataType{
-	 DataType(e_id),
-	 DataType(e_char),
-	 DataType(e_l_bracket),
-	 DataType(e_integer),
-	 DataType(e_r_bracket),
-	 DataType(e_comma),
-	// DataType(e_create_data_type_suffix_def),
-	 DataType(e_comma),
-	 DataType(e_create_data_def)
- }
+	// GramDataType{
+	// DataType(e_id),
+	// DataType(e_char),
+	// DataType(e_l_bracket),
+	// DataType(e_integer),
+	// DataType(e_r_bracket),
+	// DataType(e_comma),
+	//// DataType(e_create_data_type_suffix_def),
+	// DataType(e_comma),
+	// DataType(e_create_data_def)
+ //}
 
 	 /*无e_create_data_type_suffix_def end*/
 
@@ -239,11 +239,11 @@ DataType(e_null),//2020/2/19
 	v_create_data_type_suffix_def->ε
 	v_create_data_type_suffix_def->not null
 	*/
-	/*GramDataType{
+	GramDataType{
 	DataType(Gram::e_empty)
 	
 	}
-	,*/GramDataType{
+	,GramDataType{
 	DataType(e_not),
 	DataType(e_null)
 }
@@ -984,9 +984,6 @@ GramDataType{
 	DataType(e_where_algorithm_operator_def),
 	DataType(e_r_bracket)
 	},
-
-
-
 	GramDataType{
 
 	DataType(e_id),
@@ -1567,7 +1564,7 @@ GramDataType{
 	DataType(e_table_name_def),
 	 DataType(e_id),//modification at 2020/1/28 21:37
 	DataType(e_constriant_connect_def),
-	 DataType(e_gram_end)//add tiem 2020/2/19 17:56
+//	 DataType(e_gram_end)//add tiem 2020/2/19 17:56
 	},
 	 GramDataType{
 	 DataType(e_select),
@@ -1577,7 +1574,7 @@ GramDataType{
 	// DataType(e_table_name_def),
 	DataType(e_id),		//modification at 2020/1/28 21:37
 	 DataType(e_constriant_connect_def),
-	  DataType(e_gram_end)//add tiem 2020/2/19 17:56
+//	  DataType(e_gram_end)//add tiem 2020/2/19 17:56
  },
 
 
@@ -1590,7 +1587,7 @@ GramDataType{
 	DataType(e_table_name_def),
 	 DataType(e_id),//modification at 2020/1/28 21:40		////GramDataType{
 	DataType(e_constriant_connect_def),
-	 DataType(e_gram_end)//add tiem 2020/2/19 17:56
+//	 DataType(e_gram_end)//add tiem 2020/2/19 17:56
 	//},
 	//DataType(e_constriant_connect_def),
 //	 DataType(e_gram_end)//add tiem 2020/1/26 10:30
@@ -1602,7 +1599,7 @@ GramDataType{
 	 DataType(e_from),
 	 DataType(e_id),//modification at 2020/1/28 21:40
 	 DataType(e_constriant_connect_def),
-	 	 DataType(e_gram_end)//add tiem 2020/2/19 17:56
+	 //	 DataType(e_gram_end)//add tiem 2020/2/19 17:56
  },
 
 	GramDataType{
@@ -1612,7 +1609,7 @@ GramDataType{
 	DataType(e_table_name_def),
 	 DataType(e_id),//modification at 2020/1/28 21:40
 	DataType(e_where_def),
- DataType(e_gram_end)//add tiem 2020/2/19 17:56
+ //DataType(e_gram_end)//add tiem 2020/2/19 17:56
 	},
 
 	 GramDataType{
@@ -1621,7 +1618,7 @@ GramDataType{
 	 DataType(e_from),
 	 DataType(e_id),//modification at 2020/1/28 21:40
 	 DataType(e_where_def),
-	 DataType(e_gram_end)//add tiem 2020/2/19 17:56
+	// DataType(e_gram_end)//add tiem 2020/2/19 17:56
  },
 
 	GramDataType{
@@ -1632,7 +1629,7 @@ GramDataType{
 	DataType(e_table_name_def),
 	 DataType(e_id),//modification at 2020/1/28 21:40
 	DataType(e_where_def),
-	 DataType(e_gram_end)//add tiem 2020/2/19 17:56
+	// DataType(e_gram_end)//add tiem 2020/2/19 17:56
 		},
 	 GramDataType{
 	 DataType(e_select),
@@ -1641,7 +1638,7 @@ GramDataType{
 	 DataType(e_from),
 	 DataType(e_id),//modification at 2020/1/28 21:40
 	 DataType(e_where_def),
-	  DataType(e_gram_end)//add tiem 2020/2/19 17:56
+	//  DataType(e_gram_end)//add tiem 2020/2/19 17:56
  }
 };
  GramType Grammatical::v_create_database_def{
@@ -1653,7 +1650,7 @@ GramDataType{
 	DataType(e_create),
 	DataType(e_database),
 	DataType(e_id),
-	 DataType(e_gram_end)//add tiem 2020/2/19 17:56
+	// DataType(e_gram_end)//add tiem 2020/2/19 17:56
 	},
 
 };
@@ -1664,7 +1661,7 @@ GramDataType{
 	GramDataType{
 	DataType(e_use),
 	DataType(e_id),
-	 DataType(e_gram_end)//add tiem 2020/2/19 17:56
+	// DataType(e_gram_end)//add tiem 2020/2/19 17:56
 }
 
 };
@@ -1677,14 +1674,14 @@ GramDataType{
 	DataType(e_delete),
 	DataType(e_from),
 	DataType(e_id),
-	 DataType(e_gram_end)//add tiem 2020/2/19 17:56
+	// DataType(e_gram_end)//add tiem 2020/2/19 17:56
 	},
 	 GramDataType{
 	 DataType(e_delete),
 	 DataType(e_from),
 	 DataType(e_id),
 	 DataType(e_where_def),
-	 	 DataType(e_gram_end)//add tiem 2020/2/19 17:56
+	 //	 DataType(e_gram_end)//add tiem 2020/2/19 17:56
  }
 	
 };
@@ -1696,7 +1693,7 @@ GramDataType{
 	DataType(e_delete),
 	DataType(e_table),
 	DataType(e_id),
-	 DataType(e_gram_end)//add tiem 2020/2/19 17:56
+	// DataType(e_gram_end)//add tiem 2020/2/19 17:56
 }
 };
  GramType Grammatical::v_alter_table_add_col_name_def{
@@ -1712,7 +1709,7 @@ GramDataType{
 	DataType(e_column),
 	DataType(e_id),
 	DataType(e_real),
-	 DataType(e_gram_end)//add tiem 2020/2/19 17:56
+	// DataType(e_gram_end)//add tiem 2020/2/19 17:56
 	},
 	 GramDataType{
 	 DataType(e_alter),
@@ -1722,7 +1719,7 @@ GramDataType{
 	 DataType(e_column),
 	 DataType(e_id),
 	 DataType(e_integer),
-	  DataType(e_gram_end)//add tiem 2020/2/19 17:56
+	//  DataType(e_gram_end)//add tiem 2020/2/19 17:56
  },
 	 GramDataType{
 	 DataType(e_alter),
@@ -1732,7 +1729,7 @@ GramDataType{
 	 DataType(e_column),
 	 DataType(e_id),
 	 DataType(e_str),//modification at 20201/28
-	  DataType(e_gram_end)//add tiem 2020/2/19 17:56
+	//  DataType(e_gram_end)//add tiem 2020/2/19 17:56
  }
 };
  GramType Grammatical::v_alter_table_drop_col_name_def{
@@ -1745,7 +1742,7 @@ GramDataType{
 	DataType(e_id),
 	DataType(e_drop),
 	DataType(e_id),
-	 DataType(e_gram_end)//add tiem 2020/2/19 17:56
+	// DataType(e_gram_end)//add tiem 2020/2/19 17:56
 }
 };
  GramType Grammatical::v_insert_def{
@@ -1768,7 +1765,7 @@ GramDataType{
 	DataType(e_int_real_col_name_rep_def),
 	DataType(e_integer),
 	DataType(e_r_bracket),
-	DataType(e_gram_end)//add tiem 2020/2/19 17:56
+	//DataType(e_gram_end)//add tiem 2020/2/19 17:56
 	},
 
 	 GramDataType{
@@ -1787,7 +1784,7 @@ GramDataType{
 	 DataType(e_int_real_col_name_rep_def),
 	 DataType(e_real),
 	 DataType(e_r_bracket),
-	 	DataType(e_gram_end)//add tiem 2020/2/19 17:56
+	 //	DataType(e_gram_end)//add tiem 2020/2/19 17:56
  },
 
 	 GramDataType{
@@ -1806,7 +1803,7 @@ GramDataType{
 	 DataType(e_int_real_col_name_rep_def),
 	 DataType(e_str),
 	 DataType(e_r_bracket),
-	 	DataType(e_gram_end)//add tiem 2020/2/19 17:56
+	 //	DataType(e_gram_end)//add tiem 2020/2/19 17:56
  },
 
 
@@ -1826,7 +1823,7 @@ GramDataType{
 	// DataType(e_int_real_col_name_rep_def),
 	  DataType(e_integer),
 	 DataType(e_r_bracket),
-	 	DataType(e_gram_end)//add tiem 2020/2/19 17:56
+	// 	DataType(e_gram_end)//add tiem 2020/2/19 17:56
  },
 
 	 GramDataType{
@@ -1845,7 +1842,7 @@ GramDataType{
 	 // DataType(e_int_real_col_name_rep_def),
 	 DataType(e_str),
 	 DataType(e_r_bracket),
-	 	DataType(e_gram_end)//add tiem 2020/2/19 17:56
+	 	//DataType(e_gram_end)//add tiem 2020/2/19 17:56
  },
 
 		GramDataType{
@@ -1864,7 +1861,7 @@ GramDataType{
 		// DataType(e_int_real_col_name_rep_def),
 		DataType(e_real),
 		DataType(e_r_bracket),
-			DataType(e_gram_end)//add tiem 2020/2/19 17:56
+		//	DataType(e_gram_end)//add tiem 2020/2/19 17:56
 	},
 
 	// GramDataType{
@@ -2014,7 +2011,7 @@ GramDataType{
 	DataType(e_equal),
 	DataType(e_str),//modification at 2020/1/28 21:32
 	DataType(e_update_addop_def),
-	 DataType(e_gram_end)//add tiem 2020/2/19 17:56
+	// DataType(e_gram_end)//add tiem 2020/2/19 17:56
 	},
 	 GramDataType{
 	 DataType(e_update),
@@ -2024,7 +2021,7 @@ GramDataType{
 	 DataType(e_equal),
 	 DataType(e_real),
 	 DataType(e_update_addop_def),
-	  DataType(e_gram_end)//add tiem 2020/2/19 17:56
+	//  DataType(e_gram_end)//add tiem 2020/2/19 17:56
  },
 	 GramDataType{
 	 DataType(e_update),
@@ -2034,7 +2031,7 @@ GramDataType{
 	 DataType(e_equal),
 	 DataType(e_integer),
 	 DataType(e_update_addop_def),
-	  DataType(e_gram_end)//add tiem 2020/2/19 17:56
+	 // DataType(e_gram_end)//add tiem 2020/2/19 17:56
  },
 
 	GramDataType{
@@ -2046,7 +2043,7 @@ GramDataType{
 	DataType(e_integer),
 	DataType(e_update_addop_def),
 	DataType(e_where_def),
-	 DataType(e_gram_end)//add tiem 2020/2/19 17:56
+	// DataType(e_gram_end)//add tiem 2020/2/19 17:56
 	},
 	 GramDataType{
 	 DataType(e_update),
@@ -2057,7 +2054,7 @@ GramDataType{
 	 DataType(e_real),
 	 DataType(e_update_addop_def),
 	 DataType(e_where_def),
-	 	 DataType(e_gram_end)//add tiem 2020/2/19 17:56
+	// 	 DataType(e_gram_end)//add tiem 2020/2/19 17:56
  },
 	 GramDataType{
 	 DataType(e_update),
@@ -2068,7 +2065,7 @@ GramDataType{
 	 DataType(e_str),//modification at 2020/1/28 21:32
 	 DataType(e_update_addop_def),
 	 DataType(e_where_def),
-	 	 DataType(e_gram_end)//add tiem 2020/2/19 17:56
+	// 	 DataType(e_gram_end)//add tiem 2020/2/19 17:56
  }
 };
  GramType Grammatical::v_create_view_def{
@@ -2081,7 +2078,7 @@ GramDataType{
 	DataType(e_id),
 	DataType(e_as),
 	DataType(e_select_def),
-DataType(e_gram_end)//add tiem 2020/2/19 17:56
+//DataType(e_gram_end)//add tiem 2020/2/19 17:56
 	}
 };
  GramType Grammatical::v_drop_view_def{
@@ -2092,7 +2089,7 @@ DataType(e_gram_end)//add tiem 2020/2/19 17:56
 	DataType(e_drop),
 	DataType(e_view),
 	DataType(e_id),
- DataType(e_gram_end)//add tiem 2020/2/19 17:56
+ //DataType(e_gram_end)//add tiem 2020/2/19 17:56
 	}
 };
  GramType Grammatical::v_create_index_def{
@@ -2108,7 +2105,7 @@ DataType(e_gram_end)//add tiem 2020/2/19 17:56
 	DataType(e_l_bracket),
 	DataType(e_id),
 	DataType(e_r_bracket),
-	 DataType(e_gram_end)//add tiem 2020/2/19 17:56
+	// DataType(e_gram_end)//add tiem 2020/2/19 17:56
 	}
 };
  GramType Grammatical::v_drop_index_def{
@@ -2119,7 +2116,7 @@ DataType(e_gram_end)//add tiem 2020/2/19 17:56
 	DataType(e_drop),
 	DataType(e_index),
 	DataType(e_id),
-	 DataType(e_gram_end)//add tiem 2020/2/19 17:56
+	// DataType(e_gram_end)//add tiem 2020/2/19 17:56
 	}
 };
  GramType Grammatical::v_drop_database_def{
@@ -2127,7 +2124,7 @@ DataType(e_gram_end)//add tiem 2020/2/19 17:56
 	 DataType(e_drop),
 	// DataType(e_database),
 	 DataType(e_id),
-	 DataType(e_gram_end)//add tiem 2020/2/19 17:56
+	// DataType(e_gram_end)//add tiem 2020/2/19 17:56
 	}
  };
  GramDataType::GramDataType(initializer_list<DataType> initializer)
@@ -2350,7 +2347,7 @@ vector< vector<GramDataType>> GrammaticalAnalysis::items(GramType obj )
 	}
 #endif
 	int size;
-do {
+//do {
 		size = vec.size();
 		for (i = 0; i < vec.size(); i++) {
 			for (k = 0; k < GRAM_ENUM_MAX; k++) {
@@ -2377,8 +2374,6 @@ do {
 					GotoTable[i][k] = str;					
 					cout << vec.size() << endl;
  					vec.push_back(temp);
-
-
 					for (t = 0; t < temp.size(); t++) {//添加归约
 													   //	if (temp[t].ls.size == 1 && (temp[t].ls[0] == e_id || temp[t].ls[0] == e_real || temp[t].ls[0] == e_str || temp[t].ls[0] == e_integer))continue;
 						if (temp[t].getPosi() == temp[t].ls.size()) {
@@ -2391,7 +2386,7 @@ do {
 			}
 
 		}
-} while (size != vec.size());//add at  2020/1/13 21:33
+//} while (size != vec.size());//add at  2020/1/13 21:33
 	return vec;
 }
 /*
@@ -2949,10 +2944,6 @@ GramType GrammaticalAnalysis::gramArray[GRAM_MAX]{
 	
 		 bool flag = true;
 		 if (objA.ls.size() != objB.ls.size())return false;
-		 int objASymbol[GRAM_ENUM_MAX], objBSymbol[GRAM_ENUM_MAX];
-		 for (int i = 0; i < GRAM_ENUM_MAX; i++)
-			 objASymbol[i] = objBSymbol[i] = 0;
-
 		 for (int i = 0; i <objA.ls.size(); i++) {
 			 if (objA.ls[i] != objB.ls[i])return false;
 		 }
@@ -3315,15 +3306,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  cout << temp << endl;
 	  Gram gram = string_convert_to_GramToken(temp).getGram();
 	  int emptyIndex = -1;
-	  bool staEnd = false;
 	  for (i = 0; i < vecTemp.size(); i++) {
-		  if (vecTemp[i].getPosi() < vecTemp[i].ls.size() && vecTemp[i].ls[vecTemp[i].getPosi()]==e_gram_end) {
-			  staEnd = true;
-		  }
-		  if (!nextShift&&vecTemp[i].getPosi()<vecTemp[i].ls.size()&&
-			  vecTemp[i].ls[vecTemp[i].getPosi()].getCategory() == gram) {
-			  nextShift = true;
-		  }
 		  if (vecTemp[i].ls.size() == 1 && vecTemp[i].ls[0] == e_empty) {
 			  if (vecTemp[i].symbol == e_empty)
 				  emptyIndex = i;
@@ -3335,6 +3318,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 
 		  }
 	  }
+	  bool gramEnd = false;
 	  if (i < vecTemp.size()) {
 		  gramStack.push(vecTemp[i].getGramName());
 		  statusStack.push(0);//垃圾值，顺便加入什么值，由上面的进行归约
@@ -3342,15 +3326,26 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  }
 	  
 	//  else if(GotoTable[gramS])
+	 
 	  else if (emptyIndex != -1&&GotoTable[statusStack.top()][gram]==EMPTY) {
 		
 		  gramStack.push(vecTemp[emptyIndex].getGramName());
 		  statusStack.push(0);
-		//  shiftTemp = shift_continue;
 		  reduction(symbol, statusStack, gramStack);
+		  vecTemp = this->status[statusStack.top()];
+		  for (i = 0; i < vecTemp.size(); i++) {
+			  if (vecTemp[i].symbol == e_gram_end) {
+				  gramEnd = true;
+			  }
+		  }
 	  }
+	  
+	  int flag1 = GotoTable[statusStack.top()][gram] == EMPTY ? 1:0,
+		  flag2= GotoTable[statusStack.top()][e_gram_end]==EMPTY?1:0;
+	  cout <<flag1<<" "<<flag2  << endl;
+
 	   if (GotoTable[statusStack.top()][gram] == EMPTY&&
-		   GotoTable[statusStack.top()][e_gram_end]!=EMPTY) {
+		   (GotoTable[statusStack.top()][e_gram_end] != EMPTY||gramEnd)) {
 		  gramStack.push(e_gram_end);
 		  statusStack.push(0);
 		

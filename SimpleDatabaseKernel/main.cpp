@@ -25,7 +25,7 @@ completed date:2020/1/19 11:38
 create by WangQuanLiu
 E-mail:wangquanliu@163.com
 因为本人水平有限，程序难免于差强人意，敬请谅解！
-如果您对这个项目有好的建议还请发邮箱于我。
+
 */
 #ifndef _LexicalAnalysis_
 #include"LexicalAnalysis.h"
