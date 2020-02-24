@@ -57,25 +57,15 @@
 	/*
 	v_create_def -> create table table_name (v_create_data_def v_constraint_def)
 	*/
-	//GramDataType{
-	//DataType(e_create),
-	//DataType(e_table),
-	//DataType(e_id),
-	//DataType(e_l_bracket),
-	//DataType( e_create_data_def),
-	//DataType(e_constraint_def),
-	//DataType(e_r_bracket),
- ////DataType(e_gram_end)//add tiem 2020/2/19 17:55
- //},
+	
 	 GramDataType{
 	 DataType(e_create),
 	 DataType(e_table),
 	 DataType(e_id),
 	 DataType(e_l_bracket),
 	 DataType(e_create_data_def),
-	// DataType(e_constraint_def),
 	 DataType(e_r_bracket),
-//	  DataType(e_gram_end)//add tiem 2020/2/19 17:55
+
  }
 };
  GramType Grammatical::v_create_data_def{
@@ -1380,6 +1370,13 @@ GramDataType{
 	v_select_def->select v_select_connect_def from v_table_name_def v_constriant_connect_def
 	v_select_def->select v_select_connect_def from v_table_name_def v_where_def
 	*/
+	 GramDataType{
+	 DataType(e_select),
+	 DataType(e_select_connect_def),
+	 DataType(e_from),
+	 DataType(e_id),
+	 DataType(e_col_name_rep_def)
+	 },
 	 GramDataType{
 	 DataType(e_select),
 	 DataType(e_distance),
@@ -2980,18 +2977,14 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  int emptyIndex = -1;
 	  for (i = 0; i < vecTemp.size(); i++) {
 		  if (vecTemp[i].ls.size() == 1 && vecTemp[i].ls[0] == e_empty) {
-			 /* if (vecTemp[i].symbol == e_empty)*/
 				  emptyIndex = i;
-			/*  emptyVec.push_back(vecTemp[i]);*/
 			  if (gram == vecTemp[i].symbol) {
 				  cout << gram_map_to_string(gram) << "  " << gram_map_to_string(vecTemp[i].symbol) << endl;
 				  break;
 			  }
-
 		  }
 	  }
-	  if (emptyIndex != -1&&GotoTable[statusStack.top()][gram]==EMPTY) {
-		
+	  if (emptyIndex != -1&&GotoTable[statusStack.top()][gram]==EMPTY) {	
 		  gramStack.push(vecTemp[emptyIndex].getGramName());
 		  statusStack.push(0);
 	  }
