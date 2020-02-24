@@ -68,7 +68,7 @@ bool check_input_file(int argc, char*argv[]) {
 void Compile::run()
 {
 	//file = new LexicalAnalysisFile;
-	//lexical_run(file->get_file());
+//	lexical_run(file->get_file());
 grammatical_run("C:\\Users\\THINKPAD\\Desktop\\sql.lex");
 
 }

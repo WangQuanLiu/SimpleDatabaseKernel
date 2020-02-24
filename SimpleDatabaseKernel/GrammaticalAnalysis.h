@@ -10,7 +10,7 @@
 #endif
 #define _GrammaticalAnalysis_
 #define GRAM_MAX 67
-#define GRAM_ENUM_MAX 139
+#define GRAM_ENUM_MAX 141
 #define GRAM_STRING_TABLE_MAX GRAM_ENUM_MAX
 #define BUFF_SIZE 1000
 #define CHAR_SIZE 100
@@ -52,7 +52,7 @@ const string GramStringTable[GRAM_STRING_TABLE_MAX]{ //文法的字符串
 	"e_create","e_table","e_char","e_not","e_null","e_primary","e_key","e_foreign","e_references","e_check","e_in","e_unique", "e_like","e_where",
 	"e_order","e_by","e_desc","e_asc","e_group","e_having","e_right","e_left","e_full","e_join","e_on","e_distance","e_from",
 	"e_database","e_use","e_delete","e_alter","e_add","e_drop","e_column","e_insert","e_into","e_values","e_update","e_set",
-	"e_view","e_as","e_index","e_select","e_natural",
+	"e_view","e_as","e_index","e_select","e_natural","e_int","e_float",
 
 	"e_real","e_integer","e_str","e_id","e_strMatch","e_eof",
 
@@ -92,7 +92,7 @@ enum Gram{ //文法的枚举类
 	e_create,e_table,e_char,e_not,e_null,e_primary,e_key,e_foreign,e_references,e_check,e_in,e_unique, e_like,e_where,
 	e_order,e_by,e_desc,e_asc,e_group,e_having,e_right,e_left,e_full,e_join,e_on,e_distance,e_from,
 	e_database,e_use,e_delete,e_alter,e_add,e_drop,e_column,e_insert,e_into,e_values,e_update,e_set,
-	e_view,e_as,e_index,e_select,e_natural,
+	e_view,e_as,e_index,e_select,e_natural,e_int,e_float,
 
 	e_real,e_integer,e_str,e_id,e_strMatch,e_eof,
 
