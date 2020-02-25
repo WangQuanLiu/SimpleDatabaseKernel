@@ -139,20 +139,7 @@
  }
 };
   GramType Grammatical::v_create_data_type_suffix_def{
-	// v_create_data_type_suffx_def-> ¦Å |not null     ¦Å representive  empty
-
-	/*
-	v_create_data_type_suffix_def->¦Å
-	v_create_data_type_suffix_def->not null
-	*/
-	/*GramDataType{
-	DataType(Gram::e_empty)
 	
-	}
-	,GramDataType{
-	DataType(e_not),
-	DataType(e_null)
-}*/
 
 };
  GramType Grammatical::v_constraint_def{
@@ -163,19 +150,6 @@
 	v_constraint_def->¦Å
 	v_constraint_def->v_primary_def for_che_uni_def
 	*/
-	//GramDataType{
-	//DataType(e_primary_def),
-	//DataType(e_for_che_uni_def)
-	//},
-	///*GramDataType{
-	//DataType(Gram::e_empty)
-	//},*/
-	//GramDataType{
-	//DataType(e_primary_def)
-	//},
-	//GramDataType{
-	//DataType(e_for_che_uni_def)
-	//}
 };
  GramType Grammatical::v_primary_def {
 	/*
@@ -183,26 +157,6 @@
 	v_primary_def ->primary key (col_name_rep_def)
 	primary_def->¦Å
 	*/
-//	GramDataType{
-//	DataType(e_primary),
-//	DataType(e_key),
-//	DataType(e_l_bracket),
-//	DataType(e_col_name_rep_def),
-//	 DataType(e_id),//add at 2020/1/29 20:02
-//	DataType(e_r_bracket)
-//},
-//
-//GramDataType{
-//	 DataType(e_primary),
-//	 DataType(e_key),
-//	 DataType(e_l_bracket),
-//	// DataType(e_col_name_rep_def),
-//	 DataType(e_id),//add at 2020/1/29 20:02
-//	 DataType(e_r_bracket)
-// },
-//GramDataType{
-//	DataType(Gram::e_empty)
-//}
 
 };
  GramType Grammatical::v_for_che_uni_def{
@@ -212,24 +166,6 @@
 	v_for_che_uni_def->v_unique_def v_for_che_uni_def
 	v_for_che_uni_def->¦Å
 	*/
-	//GramDataType{
-	//DataType(e_foreign_def),
-	//DataType(e_for_che_uni_def)
-
-	//},
-	//GramDataType{
-	//DataType(e_check_def),
-	//DataType(e_for_che_uni_def)
-	//
-	//},
-	//GramDataType{
-	//DataType(e_unique_def),
-	//DataType(e_for_che_uni_def)
-
-	//	},
-	//GramDataType{
-	//DataType(e_empty)
-	//}
 };
  GramType Grammatical::v_col_name_rep_def{
 
@@ -246,9 +182,7 @@
 	 GramDataType{
 	 DataType(e_empty)
  },
-	/*GramDataType{
-	DataType(e_id),
-	}*/
+
 };
  GramType Grammatical::v_foreign_def{
 
@@ -257,73 +191,6 @@
 	v_foreign_def->foreign key ( col_name_rep_def) references table_name ( col_name_rep_def)
 	v_foreign_def->foreign key ( col_name_rep_def) references table_name ( col_name_rep_def),v_foreign_def
 	*/
-	//GramDataType{
-	//DataType(e_foreign),
-	//DataType(e_key),
-	//DataType(e_l_bracket),
-	//DataType(e_col_name_rep_def),
-	// DataType(e_id),//add at 2020/1/29 20:02
-	//DataType(e_r_bracket),
-	//DataType(e_references),
-	//DataType(e_id),
-	//DataType(e_l_bracket),
-	//DataType(e_col_name_rep_def),
-	// DataType(e_id),//add at 2020/1/29 20:02
-	//DataType(e_r_bracket)
-	//	},
-	// GramDataType{
-	// DataType(e_foreign),
-	// DataType(e_key),
-	// DataType(e_l_bracket),
-	//// DataType(e_col_name_rep_def),
-	// DataType(e_id),//add at 2020/1/29 20:02
-	// DataType(e_r_bracket),
-	// DataType(e_references),
-	// DataType(e_id),
-	// DataType(e_l_bracket),
-	//// DataType(e_col_name_rep_def),
-	// DataType(e_id),//add at 2020/1/29 20:02
-	// DataType(e_r_bracket)
- //},
-
-
-
-
-
-	//GramDataType{
-	//DataType(e_foreign),
-	//DataType(e_key),
-	//DataType(e_l_bracket),
-	//DataType(e_col_name_rep_def),
-	// DataType(e_id),//add at 2020/1/29 20:02
-	//DataType(e_r_bracket),
-	//DataType(e_references),
-	//DataType(e_id),
-	//DataType(e_l_bracket),
-	//DataType(e_col_name_rep_def),
-	// DataType(e_id),//add at 2020/1/29 20:02
-	//DataType(e_r_bracket),
-	//DataType(e_comma),
-	//DataType(e_foreign_def)
-	//},
-
-
-	// GramDataType{
-	// DataType(e_foreign),
-	// DataType(e_key),
-	// DataType(e_l_bracket),
-	//// DataType(e_col_name_rep_def),
-	// DataType(e_id),//add at 2020/1/29 20:02
-	// DataType(e_r_bracket),
-	// DataType(e_references),
-	// DataType(e_id),
-	// DataType(e_l_bracket),
-	//// DataType(e_col_name_rep_def),
-	// DataType(e_id),//add at 2020/1/29 20:02
-	// DataType(e_r_bracket),
-	// DataType(e_comma),
-	// DataType(e_foreign_def)
- //}
 };
  GramType Grammatical::v_str_rep_def{
 	/*
@@ -343,70 +210,12 @@
 	v_check_def->check ( col_name in (v_str_rep_def))
 	v_check_def->check ( col_name in (v_str_rep_def)),v_check_def
 	*/
-	/*GramDataType{
-	DataType(e_check),
-	DataType(e_l_bracket),
-	DataType(e_id),
-	DataType(e_in),
-	DataType(e_l_bracket),
-	DataType(e_str_rep_def),
-	DataType(e_r_bracket),
-	DataType(e_r_bracket)
-
-	},
-	GramDataType{
-	DataType(e_check),
-	DataType(e_l_bracket),
-	DataType(e_id),
-	DataType(e_in),
-	DataType(e_l_bracket),
-	DataType(e_str_rep_def),
-	DataType(e_r_bracket),
-	DataType(e_r_bracket),
-	DataType(e_comma),
-	DataType(e_check_def)
-	}*/
 };
  GramType Grammatical::v_unique_def{
 	/*
 	v_unique_def->unique ( col_name_rep_def)
 	v_unique_def->unique (col_name_erp_def),unique_def
 	*/
-	//GramDataType{
-	//DataType(e_unique),
-	//DataType(e_l_bracket),
-	//DataType(e_col_name_rep_def),
-	// DataType(e_id),//add at 2020/1/29 20:02
-	//DataType(e_r_bracket)
-	//},
-	// GramDataType{
-	// DataType(e_unique),
-	// DataType(e_l_bracket),
-	//// DataType(e_col_name_rep_def),
-	// DataType(e_id),//add at 2020/1/29 20:02
-	// DataType(e_r_bracket)
- //},
-
-
-
-	//GramDataType{
-	//DataType(e_unique),
-	//DataType(e_l_bracket),
-	//DataType(e_col_name_rep_def),
-	// DataType(e_id),//add at 2020/1/29 20:02
-	//DataType(e_r_bracket),
-	//DataType(e_comma),
-	//DataType(e_unique_def)
-	//},
-	// GramDataType{
-	// DataType(e_unique),
-	// DataType(e_l_bracket),
-	//// DataType(e_col_name_rep_def),
-	// DataType(e_id),//add at 2020/1/29 20:02
-	// DataType(e_r_bracket),
-	// DataType(e_comma),
-	// DataType(e_unique_def)
- //}
 };
  GramType Grammatical::v_addop_def{
 	/*
@@ -506,29 +315,13 @@ GramDataType{
 	v_int_real_col_name_def->flaot
 	v_int_real_col_name->col_name
 	*/
-	/*GramDataType{
-	DataType(e_integer)
-	},
-	GramDataType{
-	DataType(e_real)
-	},*/
-	//GramDataType{
-	//DataType(e_id)
-	//}
+	
 };
  GramType Grammatical::v_int_real_col_name_rep_def{
 	/*
 	v_int_real_col_name_rep_def ->v_int_real_col_name_def,v_int_rel_col_name_rep_def
 	v_int_real_col_name_rep_def->v_int_real_col_name_def
 	*/
-	/*GramDataType{
-	DataType(e_int_real_col_name_def),
-	DataType(e_comma),
-	DataType(e_int_real_col_name_rep_def)
-	},
-	GramDataType{
-	DataType(e_int_real_col_name_def)
-	},*/
 	 GramDataType{
 	 DataType(e_comma),
 	 DataType(e_integer),
@@ -550,15 +343,6 @@ GramDataType{
 	 DataType(e_empty)
 
  }
-	/* GramDataType{
-	 DataType(e_str),
-	 },
-	 GramDataType{
-	 DataType(e_real),
- },
-	 GramDataType{
-	 DataType(e_integer),
- }*/
 };
   GramType Grammatical::v_where_addop_def{
 	/*
@@ -570,99 +354,6 @@ GramDataType{
 	v_where_addop_def->addop ( v_where_algorithm_operator_def )
 	v_where_addop_def->addop v_int_real_col_name_def v_where_mulop_def
 	*/
-	/*GramDataType{
-	DataType(e_addop_def),
-	DataType(e_l_bracket),
-	DataType(e_id),
-	DataType(e_where_mulop_def),
-	DataType(e_r_bracket)
-	},
-	  GramDataType{
-	  DataType(e_addop_def),
-	  DataType(e_l_bracket),
-	  DataType(e_real),
-	  DataType(e_where_mulop_def),
-	  DataType(e_r_bracket)
-  },
-	  GramDataType{
-	  DataType(e_addop_def),
-	  DataType(e_l_bracket),
-	  DataType(e_integer),
-	  DataType(e_where_mulop_def),
-	  DataType(e_r_bracket)
-  },
-
-
-
-GramDataType{
-	DataType(e_addop_def),
-	DataType(e_gather_fuc_def),
-	DataType(e_l_bracket),
-	DataType(e_id),
-	DataType(e_where_mulop_def),
-	DataType(e_r_bracket)
-	},
-	  GramDataType{
-	  DataType(e_addop_def),
-	  DataType(e_gather_fuc_def),
-	  DataType(e_l_bracket),
-	  DataType(e_real),
-	  DataType(e_where_mulop_def),
-	  DataType(e_r_bracket)
-  },
-	  GramDataType{
-	  DataType(e_addop_def),
-	  DataType(e_gather_fuc_def),
-	  DataType(e_l_bracket),
-	  DataType(e_integer),
-	  DataType(e_where_mulop_def),
-	  DataType(e_r_bracket)
-  },
-
-
-
-	GramDataType{
-	DataType(e_addop_def),
-	DataType(e_gather_fuc_def),
-	DataType(e_l_bracket),
-	DataType(e_where_algorithm_operator_def),
-	DataType(e_r_bracket)
-	},
-
-	GramDataType{
-	DataType(e_addop_def),
-	DataType(e_id),
-	DataType(e_where_mulop_def),
-	},
-	  GramDataType{
-	  DataType(e_addop_def),
-	  DataType(e_real),
-	  DataType(e_where_mulop_def),
-  },
-	  GramDataType{
-	  DataType(e_addop_def),
-	  DataType(e_integer),
-	  DataType(e_where_mulop_def),
-  },
-
-
-	GramDataType{
-	DataType(Gram::e_empty)
-	},
-
-
-
-	GramDataType {
-	DataType(e_addop_def),
-	DataType(e_l_bracket),
-	DataType(e_where_algorithm_operator_def),
-	DataType(e_r_bracket)
-	},*/
-	/*GramDataType{
-	DataType(e_addop_def),
-	DataType(e_int_real_col_name_def),
-	DataType(e_where_mulop_def),
-	}*/
 };
  GramType Grammatical::v_where_mulop_def{
 	/*
@@ -674,105 +365,6 @@ GramDataType{
 	v_where_mulop_def->mulop ( v_where_alogrithm_operator_def)
 	v_where_mulip_def->mulop v_int_real_col_name_def v_where_addop_def
 	*/
-
-
-	/*GramDataType{
-	DataType(e_mulop_def),
-	DataType(e_l_bracket),
-	DataType(e_id),
-	DataType(e_where_addop_def),
-	DataType(e_r_bracket)
-},
-GramDataType{
-	 DataType(e_mulop_def),
-	 DataType(e_l_bracket),
-	 DataType(e_real),
-	 DataType(e_where_addop_def),
-	 DataType(e_r_bracket)
- },
-	 GramDataType{
-	 DataType(e_mulop_def),
-	 DataType(e_l_bracket),
-	 DataType(e_integer),
-	 DataType(e_where_addop_def),
-	 DataType(e_r_bracket)
- },
-
-
-
-
-GramDataType{
-	DataType(e_mulop_def),
-	DataType(e_gather_fuc_def),
-	DataType(e_l_bracket),
-	DataType(e_id),
-	DataType(e_where_addop_def),
-	DataType(e_r_bracket)
-},
-GramDataType{
-	 DataType(e_mulop_def),
-	 DataType(e_gather_fuc_def),
-	 DataType(e_l_bracket),
-	 DataType(e_real),
-	 DataType(e_where_addop_def),
-	 DataType(e_r_bracket)
- },
-	 GramDataType{
-	 DataType(e_mulop_def),
-	 DataType(e_gather_fuc_def),
-	 DataType(e_l_bracket),
-	 DataType(e_integer),
-	 DataType(e_where_addop_def),
-	 DataType(e_r_bracket)
- },
-
-
-
-GramDataType{
-	DataType(e_mulop_def),
-	DataType(e_gather_fuc_def),
-	DataType(e_l_bracket),
-	DataType(e_where_algorithm_operator_def),
-	DataType(e_r_bracket)
-},
-
-
-
-GramDataType{
-	DataType(e_mulop_def),
-	DataType(e_integer),
-	DataType(e_where_addop_def),
-},
-GramDataType{
-	 DataType(e_mulop_def),
-	 DataType(e_real),
-	 DataType(e_where_addop_def),
- },
-	 GramDataType{
-	 DataType(e_mulop_def),
-	 DataType(e_id),
-	 DataType(e_where_addop_def),
- },
-
-
-
-
-
-GramDataType{
-	DataType(Gram::e_empty)
-},
-
-GramDataType{
-	DataType(e_mulop_def),
-	DataType(e_l_bracket),
-	DataType(e_where_algorithm_operator_def),
-	DataType(e_r_bracket)
-},*/
-//GramDataType{
-//	DataType(e_mulop_def),
-//	DataType(e_int_real_col_name_def),
-//	DataType(e_where_addop_def),
-//}
 
 };
 
@@ -963,50 +555,6 @@ GramDataType{
 	v_order_def->order by col_name comma_and_col_name_def asc
 	
 	*/
-
-	GramDataType{
-	DataType(e_order),
-	DataType(e_by),
-	DataType(e_id),
-	
-	},
-	GramDataType{
-	DataType(e_order),
-	DataType(e_by),
-	DataType(e_id),
-	DataType(e_comma_and_col_name_def),
-	 
-	},
-	GramDataType{
-	DataType(e_order),
-	DataType(e_by),
-	DataType(e_id),
-	DataType(e_desc),
-	
-	},
-	GramDataType{
-	DataType(e_order),
-	DataType(e_by),
-	DataType(e_id),
-	DataType(e_asc),
-	
-	},
-
-	GramDataType{
-	DataType(e_order),
-	DataType(e_by),
-	DataType(e_id),
-	DataType(e_comma_and_col_name_def),
-	DataType(e_desc),
-	
-	},
-	GramDataType{
-	DataType(e_order),
-	DataType(e_by),
-	DataType(e_id),
-	DataType(e_comma_and_col_name_def),
-	DataType(e_asc),
-	},
 };
   GramType Grammatical::v_group_def{
 	/*
@@ -1014,19 +562,6 @@ GramDataType{
 	v_group_def->group by col_name v_comma_and_col_name_def
 	
 	*/
-	GramDataType{
-	DataType(e_group),
-	DataType(e_by),
-	DataType(e_id),
-	 
-	},
-	GramDataType{
-	DataType(e_group),
-	DataType(e_by),
-	DataType(e_id),
-	DataType(e_comma_and_col_name_def),
-	 
-	}
 
 };
  GramType Grammatical:: v_having_def{
@@ -1035,11 +570,6 @@ GramDataType{
 	v_having_def-> having v_where_logic_def
 	
 	*/
-	GramDataType{
-	DataType(e_having),
-	DataType(e_where_logic_def),
-
-}
 };
  GramType Grammatical::v_where_algorithm_operator_rep_def{
 	/*
@@ -1105,56 +635,6 @@ GramDataType{
 	v_connect_addop_def->addop ( v_int_real_col_name v_connect_mulop_def )
 	v_conenct_addop_def->¦Å
 	*/
-	/*GramDataType{
-	DataType(e_addop),
-	DataType(e_id),
-	DataType(e_connect_mulop_def),
-	},
-	 GramDataType{
-	 DataType(e_addop),
-	 DataType(e_real),
-	 DataType(e_connect_mulop_def),
- },
-	 GramDataType{
-	 DataType(e_addop),
-	 DataType(e_integer),
-	 DataType(e_connect_mulop_def),
- },
-
-
-
-
-	GramDataType{
-	DataType(e_connect_mulop_def)
-	},
-	GramDataType{
-	DataType(e_addop),
-	DataType(e_l_bracket),
-	DataType(e_integer),
-	DataType(e_connect_mulop_def),
-	DataType(e_r_bracket)
-	},
-	 GramDataType{
-	 DataType(e_addop),
-	 DataType(e_l_bracket),
-	 DataType(e_id),
-	 DataType(e_connect_mulop_def),
-	 DataType(e_r_bracket)
- },
-	 GramDataType{
-	 DataType(e_addop),
-	 DataType(e_l_bracket),
-	 DataType(e_real),
-	 DataType(e_connect_mulop_def),
-	 DataType(e_r_bracket)
- },
-
-
-
-
-	GramDataType{
-	DataType(e_empty)
-	}*/
 };
  GramType Grammatical::v_connect_mulop_def{
 	/*
@@ -1163,89 +643,12 @@ GramDataType{
 	v_connect_mulop_def->mulop ( v_int_real_col_name_def )
 	v_connect_mulop_def -> ¦Å
 	*/
-	/*GramDataType{
-	DataType(e_mulop),
-	DataType(e_id)
-	},
-	 GramDataType{
-	 DataType(e_mulop),
-	 DataType(e_real)
- },
-	 GramDataType{
-	 DataType(e_mulop),
-	 DataType(e_integer)
- },
-
-
-
-
-	GramDataType{
-	DataType(e_connect_addop_def)
-	},
-	GramDataType{
-	DataType(e_mulop),
-	DataType(e_l_bracket),
-	DataType(e_id),
-	DataType(e_r_bracket),
-	},
-	 GramDataType{
-	 DataType(e_mulop),
-	 DataType(e_l_bracket),
-	 DataType(e_integer),
-	 DataType(e_r_bracket),
- },
-	 GramDataType{
-	 DataType(e_mulop),
-	 DataType(e_l_bracket),
-	 DataType(e_real),
-	 DataType(e_r_bracket),
- },
-
-
-
-
-	GramDataType{
-	DataType(e_empty)
-	}*/
 };
  GramType Grammatical::v_connect_algorithm_operator_def{
 	/*
 	v_connect_algorithm_operator_def->( v_int_real_col_name_def v_connect_addop_def )
 	v_connect_algorithm_operator_def->v_int_real_col_name_def v_connect_addop_def
 	*/
-	/*GramDataType{
-	DataType(e_l_bracket),
-	DataType(e_real),
-	DataType(e_connect_addop_def),
-	DataType(e_r_bracket)
-	},
-	 GramDataType{
-	 DataType(e_l_bracket),
-	 DataType(e_id),
-	 DataType(e_connect_addop_def),
-	 DataType(e_r_bracket)
- },
-	 GramDataType{
-	 DataType(e_l_bracket),
-	 DataType(e_integer),
-	 DataType(e_connect_addop_def),
-	 DataType(e_r_bracket)
- },
-
-
-
-	GramDataType{
-	DataType(e_id),
-	DataType(e_connect_addop_def)
-	},
-	 GramDataType{
-	 DataType(e_real),
-	 DataType(e_connect_addop_def)
-	},
-	 GramDataType{
-	 DataType(e_integer),
-	 DataType(e_connect_addop_def)
-	}*/
 };
  GramType Grammatical::v_connect_algorithm_operator_or_string_def{
 	/*
@@ -1253,51 +656,24 @@ GramDataType{
 	v_connect_algorithm_operator_or_string_def->string
 	
 	*/
-	/*GramDataType{
-	DataType(e_connect_algorithm_operator_def)
-	},
-	GramDataType{
-	DataType(e_str)
-	},*/
 	
 };
  GramType Grammatical::v_connect_compare_def{
 	/*
 	v_connect_compare_def->v_connect_algorithm_operator_or_string compare v_connect_algorithm_operator_or_string 
 	*/
-	/*GramDataType{
-	DataType(e_connect_algorithm_operator_or_string_def),
-	DataType(e_compare_def),
-	DataType(e_connect_algorithm_operator_or_string_def)
-	}*/
 };
  GramType Grammatical::v_connect_compare_or_str_match_def{
 	/*
 	v_connect_compare_or_str_match_def->v_connect_compare_def
 	v_connect_compare_or_str_match_def->col_name like string_match
 	*/
-	/*GramDataType{
-	DataType(e_connect_compare_def)
-	},
-	GramDataType{
-	DataType(e_id),
-	DataType(e_like),
-	DataType(e_strMatch)*/
-//}
 };
  GramType Grammatical::v_logic_connect_compare_or_str_match_def{
 	/*
 	v_logic_connect_compare_or_str_match_def->logic v_connect_compare_or_str_match_def v_logic_connect_compare_or_str_match_def
 	v_logic_connect_compare_or_str_match_def->¦Å
 	*/
-	/*GramDataType{
-	DataType(e_logic_def),
-	DataType(e_connect_compare_or_str_match_def),
-	DataType(e_logic_connect_compare_or_str_match_def),
-	},
-	GramDataType{
-	DataType(e_empty)
-	}*/
 };
  GramType Grammatical::v_connect_logic_def{
 	/*
@@ -1321,16 +697,6 @@ GramDataType{
 	v_constriant_having_def->v_having_def v_order_def
 	v_constriant_having_def->¦Å
 	*/
-	/*GramDataType{
-	DataType(e_having_def)
-	},
-	GramDataType{
-	DataType(e_having_def),
-	DataType(e_order_def)
-	},
-	GramDataType{
-	DataType(e_empty)
-	}*/
 };
  GramType Grammatical::v_constraint_group_def{
 	/*
@@ -1339,36 +705,12 @@ GramDataType{
 	v_constraint_group_def->v_constriant_having_def
 	
 	*/
-	/*GramDataType{
-	DataType(e_group_def)
-	},
-	GramDataType{
-	DataType(e_group_def),
-	DataType(e_constraint_having_def)
-	},
-	GramDataType{
-	DataType(e_constraint_having_def)}*/
 };
  GramType Grammatical::v_select_connect_def{
 	/*
 	v_select_connect_def->*
 	v_select_connect_def->v_select_operator_def
 	*/
-	//GramDataType{
-	//DataType(e_mulop),
-	//DataType(e_select_connect_def),//add at 2020/2/24
-	//},
-	// GramDataType{
-	// DataType(e_id),
-	// DataType(e_col_name_rep_def),
-	// DataType(e_select_connect_def),//add at 2020/2/24
-	// },
-	// GramDataType{
-	// DataType(e_empty)
- //}
-	/*GramDataType{
-	DataType(e_select_operator_def)
-	}*/
 };
  GramType Grammatical::v_constriant_connect_def{
 	/*
@@ -1389,17 +731,6 @@ GramDataType{
 	v_table_name_def-> table_name,v_table_name_def
 	v_table_name_def->table_name
 	*/
-	/*GramDataType{
-	DataType(e_id),
-	DataType(e_comma),
-	DataType(e_table_name_def)
-	},
-	 GramDataType{
-	 DataType(e_empty)
-	 }*/
-	/*GramDataType{
-	DataType(e_id)
-	}*/
 };
  GramType Grammatical::v_select_def{
 	/*
@@ -1467,7 +798,7 @@ GramDataType{
 	GramDataType{
 	DataType(e_use),
 	DataType(e_id),
-	// DataType(e_gram_end)//add tiem 2020/2/19 17:56
+	
 }
 
 };
@@ -1480,14 +811,14 @@ GramDataType{
 	DataType(e_delete),
 	DataType(e_from),
 	DataType(e_id),
-	// DataType(e_gram_end)//add tiem 2020/2/19 17:56
+	
 	},
 	 GramDataType{
 	 DataType(e_delete),
 	 DataType(e_from),
 	 DataType(e_id),
 	 DataType(e_where_def),
-	 //	 DataType(e_gram_end)//add tiem 2020/2/19 17:56
+	
  }
 	
 };
@@ -1499,7 +830,7 @@ GramDataType{
 	DataType(e_delete),
 	DataType(e_table),
 	DataType(e_id),
-	// DataType(e_gram_end)//add tiem 2020/2/19 17:56
+	
 }
 };
  GramType Grammatical::v_alter_table_add_col_name_def{
@@ -1515,7 +846,6 @@ GramDataType{
 	DataType(e_column),
 	DataType(e_id),
 	DataType(e_real),
-	// DataType(e_gram_end)//add tiem 2020/2/19 17:56
 	},
 	 GramDataType{
 	 DataType(e_alter),
@@ -1525,7 +855,6 @@ GramDataType{
 	 DataType(e_column),
 	 DataType(e_id),
 	 DataType(e_integer),
-	//  DataType(e_gram_end)//add tiem 2020/2/19 17:56
  },
 	 GramDataType{
 	 DataType(e_alter),
@@ -1535,7 +864,6 @@ GramDataType{
 	 DataType(e_column),
 	 DataType(e_id),
 	 DataType(e_str),//modification at 20201/28
-	//  DataType(e_gram_end)//add tiem 2020/2/19 17:56
  }
 };
  GramType Grammatical::v_alter_table_drop_col_name_def{
@@ -1548,7 +876,6 @@ GramDataType{
 	DataType(e_id),
 	DataType(e_drop),
 	DataType(e_id),
-	// DataType(e_gram_end)//add tiem 2020/2/19 17:56
 }
 };
  GramType Grammatical::v_insert_def{
@@ -1733,7 +1060,7 @@ GramDataType{
 	DataType(e_id),
 	DataType(e_as),
 	DataType(e_select_def),
-//DataType(e_gram_end)//add tiem 2020/2/19 17:56
+
 	}
 };
  GramType Grammatical::v_drop_view_def{
@@ -1744,7 +1071,7 @@ GramDataType{
 	DataType(e_drop),
 	DataType(e_view),
 	DataType(e_id),
- //DataType(e_gram_end)//add tiem 2020/2/19 17:56
+
 	}
 };
  GramType Grammatical::v_create_index_def{
@@ -1760,7 +1087,7 @@ GramDataType{
 	DataType(e_l_bracket),
 	DataType(e_id),
 	DataType(e_r_bracket),
-	// DataType(e_gram_end)//add tiem 2020/2/19 17:56
+	
 	}
 };
  GramType Grammatical::v_drop_index_def{
@@ -1771,15 +1098,14 @@ GramDataType{
 	DataType(e_drop),
 	DataType(e_index),
 	DataType(e_id),
-	// DataType(e_gram_end)//add tiem 2020/2/19 17:56
+
 	}
 };
  GramType Grammatical::v_drop_database_def{
 	 GramDataType{
 	 DataType(e_drop),
-	// DataType(e_database),
 	 DataType(e_id),
-	// DataType(e_gram_end)//add tiem 2020/2/19 17:56
+	
 	}
  };
  GramDataType::GramDataType(initializer_list<DataType> initializer)
