@@ -174,9 +174,8 @@
 	v_col_name_rep_def->col_name,v_col_name_rep_def
 	*/
 	GramDataType{
-	 DataType(e_comma),
+	DataType(e_comma),
 	DataType(e_id),
-	
 	DataType(e_col_name_rep_def)
 	},
 	 GramDataType{
@@ -731,6 +730,15 @@ GramDataType{
 	v_table_name_def-> table_name,v_table_name_def
 	v_table_name_def->table_name
 	*/
+
+	 GramDataType{
+	 DataType(e_comma),
+	 DataType(e_id),
+	 DataType(e_table_name_def)
+ },
+	 GramDataType{
+	 DataType(e_empty)
+ },
 };
  GramType Grammatical::v_select_def{
 	/*
