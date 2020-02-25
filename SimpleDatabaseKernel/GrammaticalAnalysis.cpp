@@ -1016,15 +1016,13 @@ GramDataType{
 	
 };
  GramType Grammatical::v_drop_view_def{
-	/*
-	v_drop_view_def->drop view view_name
-	*/
-	GramDataType{
-	DataType(e_drop),
-	DataType(e_view),
-	DataType(e_id),
-
-	}
+	 /*
+	 v_drop_view_def->drop view view_name
+	 */
+	 GramDataType{
+	  DataType(e_drop),
+	  DataType(e_id)
+ }
 };
  GramType Grammatical::v_create_index_def{
 	/*
@@ -1138,7 +1136,6 @@ vector<DataType> GramDataType::getLs()
 GrammaticalAnalysis::GrammaticalAnalysis(string filePath)
 {		
 		file = new GrammaticalAnalysisFile(filePath);
-	//	file->set_file_path(filePath);
 		init();
 }
 void GrammaticalAnalysis::run()
@@ -1157,7 +1154,6 @@ void GrammaticalAnalysis::run()
 	else {
 		read_file();
 	}
-	//init_reduction();
 	check_grammatical();
 }
 /*
@@ -1185,7 +1181,6 @@ void GrammaticalAnalysis::init()
 }
 bool GrammaticalAnalysis::check_grammatical()
 {
-
 	stack<int>statusStack;
 	stack<Gram>gramStack;
 	vector<GramDataType>curStatus = status[0];
@@ -1196,9 +1191,12 @@ bool GrammaticalAnalysis::check_grammatical()
 		string str = file->get_token();
 		if (!strcmp(str.c_str() , ""))continue;
 		temp = string_convert_to_GramToken(str);
-		action(temp.getGram(), statusStack, gramStack);
+		if (action(temp.getGram(), statusStack, gramStack) == error) {
+			str = get_original_string(str);
+			cout <<"line: "<< file->get_cur_line()<<" " << str << " error!" << endl;
+			break;
+		}
 	}
-
 	return false;
 }
 void GrammaticalAnalysis::print(int GotoTable[GOTO_TABLE_MAX][GRAM_ENUM_MAX])
@@ -1715,26 +1713,18 @@ ActionStatus GrammaticalAnalysis::action( const Gram &symbol,  stack<int>&status
 {
 	bool flag = true;
 	ActionStatus act=error;
-	bool shifted = false,reduced=false;
-	if (GotoTable[statusStack.top()][symbol] != EMPTY&&!shifted) {	//移进
-		act = shift;
-		shifted = true;
-		shiftIn shift = shift_in(symbol, statusStack, gramStack);
-		if(shift==shift_continue)
-			flag = false;
-		else flag = true;
-
+	if (GotoTable[statusStack.top()][symbol] != EMPTY) {	//移进
+		 act = shift;
+		 shift_in(symbol, statusStack, gramStack);
 	}
 	while (flag) {
 		flag = false;
-		
 		if (reduction(symbol, statusStack, gramStack)) {
+			act = reduc;
 			flag = true;
-			reduced = true;
 		}		
 	}
-	
-	if ( gramStack.top()==e_s) {
+	if (gramStack.top()==e_s) {
 		statusStack.pop(statusStack.size());
 		gramStack.pop(gramStack.size());
 		statusStack.push(0);
@@ -2108,7 +2098,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 			  if (!strcmp(ch, "status-end:"))break;
 			  GramDataType temp;
 			  char gramName[BUFF_SIZE], symbol[BUFF_SIZE];
-			  /* 变量定义放上面，内存暴涨，未知原因*/
+			  
 			  fscanf(file, "%s %s %d", gramName, symbol, &temp.posi);
 			  temp.setGramName(string_convert_to_gram(gramName));
 			  temp.set_symbol(string_convert_to_gram(symbol));
@@ -2159,10 +2149,10 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  if (file == NULL)return false;
 	  while (!feof(file)) {
 		  Redu temp;
-	/*	  Gram gram;*/
+	
 		  char  reduSymbol[BUFF_SIZE], getGramName[BUFF_SIZE], gramGetSymbol[BUFF_SIZE];
 		  Gram gramReduSymbol, gramGetGramName, gramGetSymbolTemp;
-		  /*原因同上*/
+		  
 		  fscanf(file, "%d %s %s %s %d", &statusNumber, &reduSymbol, &getGramName, &gramGetSymbol, &posi);
 		  fscanf(file, "%s", ch);
 		  temp.statusNumber = statusNumber;
@@ -2189,6 +2179,29 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
   bool GrammaticalAnalysis::read_file()
   {
 	  return read_status()&&read_redu()&&read_GotoTable();
+  }
+
+  string GrammaticalAnalysis::get_original_string( string str)
+  {
+	  if (str == "e_l_bracket") {
+		  str == "(";
+	  }
+	  else if (str == "e_r_bracket") {
+		  str = ")";
+	  }
+	  else if (str == "e_equal") {
+		  str = "=";
+	  }
+	  else if (str == "e_comma") {
+		  str = ",";
+	  }
+	  else {
+		  int i;
+		  for (i = 0; i < str.size(); i++)
+			  if (str[i] == ' ')break;
+		  str = str.substr(i, str.size() - i);
+	  }
+	  return str;
   }
 
   bool GrammaticalAnalysis::reduction(const Gram&symbol,stack<int>& statusStack, stack<Gram>& gramStack)
@@ -2229,28 +2242,26 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  return flag;
   }
 
-  shiftIn GrammaticalAnalysis::shift_in(const Gram & symbol, stack<int>& statusStack, stack<Gram>& gramStack)
+  bool GrammaticalAnalysis::shift_in(const Gram & symbol, stack<int>& statusStack, stack<Gram>& gramStack)
   {
 
 	  string str = GotoTable[statusStack.top()][symbol];
 	  bool nextShift = false;
-	  shiftIn shiftTemp=shift_suc;
 	  str = str.substr(1, str.size() - 1);
 	  statusStack.push(atoi(str.c_str()));
 	  gramStack.push(symbol);
 	  cout << "移进" << endl;
 	  reuction_empty(statusStack, gramStack);
-	
-	  return shiftTemp;
+	  return true;
   }
 
-  shiftIn GrammaticalAnalysis::reuction_empty(stack<int>&statusStack, stack<Gram>&gramStack)
+  void GrammaticalAnalysis::reuction_empty(stack<int>&statusStack, stack<Gram>&gramStack)
   {
 	  vector<GramDataType>&vecTemp = this->status[statusStack.top()];
 	  int i;
 	  string temp,str;
 	  temp = get_next_token();
-	  if (!strcmp(temp.c_str(), ""))return shift_error;
+	  if (!strcmp(temp.c_str(), ""))return ;
 	  cout << temp << endl;
 	  Gram gram = string_convert_to_GramToken(temp).getGram();
 	  int emptyIndex = -1;
@@ -2366,3 +2377,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  return;
   }
 
+  bool syntaxTree::semantic_analysis_use_database_def(vector<string>& vec)
+  {
+	  return false;
+  }

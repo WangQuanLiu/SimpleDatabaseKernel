@@ -278,7 +278,7 @@ bool GrammaticalAnalysisFile::read_file()
 	else {
 		char tempCharacter[FILE_LINE_MAX_NUMBER];
 		list<string>saveList;
-		//bool signleToken ;
+	
 		while (!file.eof()) { //保存到saveList
 			file.getline(tempCharacter, FILE_LINE_MAX_NUMBER);
 			saveList.push_back(tempCharacter);
@@ -287,7 +287,7 @@ bool GrammaticalAnalysisFile::read_file()
 		while (!saveList.empty()) {
 			ls.clear();
 			str.clear();
-			//signleToken = true;
+			
 			lastIndex=lastLeftBracket = lastRightBracket = 0;
 			str = saveList.front();
 			saveList.pop_front();
@@ -297,13 +297,11 @@ bool GrammaticalAnalysisFile::read_file()
 					if(str[i]!=' ')
 					temp = temp + str[i];
 					if (str[i] == ' '||i==str.size()-1) {
-						if (i - lastIndex != 0) {
-						/*	signleToken = false;*/
+						if (i - lastIndex != 0) {		
 							temp=string_map_to_gram(temp);
 							ls.push_back(temp);	
 							lastIndex = i;
-						}
-						//ls.push_back(" ");
+						}	
 						temp = "";
 						continue;
 					}
@@ -313,11 +311,8 @@ bool GrammaticalAnalysisFile::read_file()
 			}
 			else {
 				ls.push_back(string(""));
-				token.push_back(ls);
 			}
-			/*if (signleToken) {
-				ls.push_back(str);
-			}*/
+			
 			token.push_back(ls);//插入一行数据到token中
 		}
 		

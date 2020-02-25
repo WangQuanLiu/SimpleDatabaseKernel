@@ -11,7 +11,6 @@
 #include<string>
 #include<Windows.h>
 #include<direct.h>
-//#include"GrammaticalAnalysis.h"
 #ifndef _TESTSWITCH_
 #include"testswitch.h"
 #endif
@@ -44,17 +43,13 @@ namespace file {
 		inline virtual	bool set_file_path(string filename);//设置文件 名
 		inline virtual	bool set_file_path(char*filename);
 		void roll_back();//回滚
-		//	string executeRellback();//回滚函数,只能回滚一次
-		//	string getRellback();//获取回滚值 
-			//获取符号
-	virtual string get_token();//获取符号
+		virtual string get_token();//获取符号
 		string get_file();//获取文件名
 		bool get_flag() { return flag; }
 		
 #if FILE_TEST==true
 		friend class FileTest;
 #endif
-
 	protected:
 		bool flag;//检测文件是否成功打开 
 		//读取文件
@@ -68,32 +63,18 @@ namespace file {
 	using CFilePtr = File *;
 	class LexicalAnalysisFile :public File { //语法分析文件类型
 	protected:
-
 		bool read_file();
-
 	public:
-		//string get_token();
 		LexicalAnalysisFile(string filePath) :File(filePath) {  }
 		bool set_file_path(string fileName);
-		/*LexicalAnalysisFile(char*ch) {
-
-		}*/
 	};
-	
-
 	class GrammaticalAnalysisFile :public File {
-		
-	public:
-		//string get_token();
-		
 	protected:
 		bool read_file();
-		
 	public:
 		GrammaticalAnalysisFile(string filePath) :File(filePath) { set_file_path(filePath); }
 		bool set_file_path(string fileName);
 	private:
-		
 		string string_map_to_gram(const string&);
 	inline   int string_hash(const string&);
 	enum symbol{ keyword , num, real, id, add_sub_symbol, mul_symbol,
@@ -102,11 +83,7 @@ namespace file {
 	};
 	static const string symbolStringTable[SYMBOL_SIZE];
 	static const string keywordTable[KEYWORD_TABLE];
-		//deque<deque<string>>token;
-		//string rollBack;
-	
 	};
-
 }
 
 

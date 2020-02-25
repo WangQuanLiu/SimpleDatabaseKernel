@@ -67,7 +67,7 @@ bool check_input_file(int argc, char*argv[]) {
 }
 void Compile::run()
 {
-	//file = new LexicalAnalysisFile;
+	
 	lexical_run(file->get_file());
 grammatical_run("C:\\Users\\THINKPAD\\Desktop\\sql.lex");
 
@@ -76,39 +76,24 @@ void Compile::lexical_run(string filePath)
 {
 	LexicalAnalysis lex(filePath);
 		lex.run();
-	//	cout << "file.get_token() " << temp << endl;
-	//	cout << "getRellback() " << file.getRellback() << endl;
 
 }
 void Compile::grammatical_run(string Path)
 {
 	GrammaticalAnalysis gram(Path);
 	gram.run();
-	/*gra.test_first();
-	gra.test();*/
 }
 Compile::Compile(int argc,char*argv[])
 {
 	string str = "C:\\Users\\THINKPAD\\Desktop\\sql.txt";
 	file = new LexicalAnalysisFile(str);
-		//file->set_file_path(argv[2]);
 }
 int main(int argc,char *argv[]) {
-/*#if TEST==true
-	Test test;
-	test.test();
-#endif*/ // TEST==TRUE	
-	//if (!check_input_file(argc, argv))return -1;
-//	if (!check_input_file(argc, argv))return 0;
 	argv = (char**)malloc(sizeof(char *[3]));
-	
-	
 	argv[2] = "C:\\Users\\THINKPAD\\Desktop\\sql.txt";
 	cout << argv[2] << endl;
 	Compile compile(argc, argv);
 	compile.run();
-
-
 
 	system("pause");
 	return 0;
