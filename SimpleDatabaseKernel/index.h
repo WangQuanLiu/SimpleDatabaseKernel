@@ -180,11 +180,14 @@ namespace dbm {
 		indexMangement() = default;
 		bool read_index_ini();
 		bool save_index_ini();
-		indexPtr query_index(const string&libraryName, const string&tableName, const string&colName);
+		bool query_index(const string&libraryName, const string&tableName, const string&colName);
 		shared_ptr<index> create_index(const string&libraryName, const string&tableName, const string&colName,const int colIndex, Record&record);
 		bool erase_index(const string&libraryName, const string&tableName, const string&colName);
+	protected:
+		indexPtr inner_query_index(const string&libraryName, const string&tableName, const string&colName);
 		vector<shared_ptr<index>> indexSet;
 	};
+
 	template<typename Type>
 	void swap_values(Type& valuesOne, Type& valuesTwo);
 

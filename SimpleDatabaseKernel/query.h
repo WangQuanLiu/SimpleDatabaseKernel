@@ -21,7 +21,7 @@ namespace dbm {
 		string condition;//条件
 		dbm::AttributeType conditionType;//条件类型
 	};
-	class queryMangement :public dbm::dataMangement, dbm::indexMangement {
+	class queryMangement :public dbm::dataMangement, public dbm::indexMangement {
 	public:
 		queryMangement() = default;
 		bool condition_query_single_table(const QueryData&condition, dbm::resultData_ptr resultPtr);

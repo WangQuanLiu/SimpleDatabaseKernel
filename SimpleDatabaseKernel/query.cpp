@@ -10,7 +10,7 @@ namespace dbm {
 				break;
 			}
 		}
-		dbm::indexPtr ptr = query_index(get_currently_library_name(),
+		dbm::indexPtr ptr = inner_query_index(get_currently_library_name(),
 			condition.tableName, condition.tableName);
 		if (ptr == nullptr) {
 

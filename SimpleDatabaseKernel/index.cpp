@@ -1096,7 +1096,12 @@ namespace dbm {
 		fclose(file);
 		return true;
 	}
-	indexPtr indexMangement::query_index(const string & libraryName, const string & tableName, const string & colName)
+	bool indexMangement::query_index(const string & libraryName, const string & tableName, const string & colName)
+	{
+		if (inner_query_index(libraryName, tableName, colName) != nullptr)return true;
+		return false;
+	}
+	indexPtr indexMangement::inner_query_index(const string & libraryName, const string & tableName, const string & colName)
 	{
 		int i;
 		for (i = 0; i < indexSet.size(); i++) {
@@ -1109,7 +1114,7 @@ namespace dbm {
 	}
 	shared_ptr<index> indexMangement::create_index(const string & libraryName, const string & tableName, const string & colName, const int colIndex, Record&record)
 	{
-		if (query_index(libraryName, tableName, colName) != nullptr)return nullptr;
+		if (inner_query_index(libraryName, tableName, colName) != nullptr)return nullptr;
 		shared_ptr<index>ptr = make_shared<index>( index());
 		if (ptr == nullptr||record.headInfo.tableName==tableName)return nullptr;
 		int i,pageNum,j=0;

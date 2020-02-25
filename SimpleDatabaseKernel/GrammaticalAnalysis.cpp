@@ -1049,7 +1049,8 @@ GramDataType{
 	DataType(e_drop),
 	DataType(e_index),
 	DataType(e_id),
-
+	DataType(e_on),
+	DataType(e_id)
 	}
 };
  GramType Grammatical::v_drop_database_def{
@@ -2378,19 +2379,19 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  return;
   }
 
-  bool syntaxTree::semantic_analysis_use_database_def(vector<string>& vec)
+  bool syntaxTree::semantic_analysis_use_database(vector<string>& vec)
   {
 	  if (queryMangement.query_name(dbm::NameQuery(vec[1]))) {
 		  queryMangement.set_cur_library_name(vec[1]);
 		  return true;
 	  }
 	  else {
-		  cout << "语义分析：" << "库名" << vec[1] << "不存在" << endl;
+		  printf_not_found_library_name(vec[1]);
 		  return false;
 	  }
   }
 
-  bool syntaxTree::semantic_analysis_create_def(vector<string>& vec)
+  bool syntaxTree::semantic_analysis_create(vector<string>& vec)
   {
 	  int i;
 	  if (!queryMangement.query_name(dbm::NameQuery(queryMangement.get_currently_library_name(), vec[2]))) {
@@ -2402,13 +2403,51 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  for (i = 0; i < id.size(); i++) {
 			  queryMangement.add_name(dbm::NameQuery(queryMangement.get_currently_library_name(), vec[2], id[i]), type[i]);
 		  }
+		  return true;
 	  }
 	  else {
-		  cout << "语义分析：" << "表名" << vec[2] << "不存在" << endl;
+		  printf_not_found_table_name(vec[2]);
 		  return false;
 	  }
   }
 
+  bool syntaxTree::semantic_analysis_drop_database(vector<string>& vec)
+  {
+	  if (queryMangement.query_name(dbm::NameQuery(vec[1]))) {
+		  queryMangement.delete_name(dbm::NameQuery(vec[1]));
+		  return true;
+	  }
+	  else {
+		  printf_not_found_library_name(vec[1]);
+		  return false;
+	  }
+  }
 
+  bool syntaxTree::semantic_analysis_drop_index(vector<string>& vec)
+  {
+	  if (queryMangement.query_index(queryMangement.get_currently_library_name(),vec[2],vec[4])) {
+		  queryMangement.erase_index(queryMangement.get_currently_library_name(), vec[2], vec[4]);
+		  return true;
+	  }
+	  else {
+		  printf_not_found_index_name(vec[2]);
+		  return false;
+	  }
+  }
+
+  inline void syntaxTree::printf_not_found_library_name(const string & libraryName)
+  {
+	  cout << "语义分析：" << "库名" <<libraryName << "不存在" << endl;
+  }
+
+  inline void syntaxTree::printf_not_found_index_name(const string & indexName)
+  {
+	  cout << "语义分析：" << "索引" << indexName << "不存在" << endl;
+  }
+
+  inline void syntaxTree::printf_not_found_table_name(const string& tableName)
+  {
+	  cout << "语义分析：" << "表名" <<tableName  << "不存在" << endl;
+  }
 
   }
