@@ -2394,12 +2394,19 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
   {
 	  int i;
 	  if (!queryMangement.query_name(dbm::NameQuery(queryMangement.get_currently_library_name(), vec[2]))) {
-		  for (i = 4; i < vec.size() - 1; i += 2) {
-
+		  vector<string>type, id;
+		  for (i = 4; i < vec.size(); i += 3) {
+			  id.push_back(vec[i]);
+			  type.push_back( vec[i + 1]);
+		  }
+		  for (i = 0; i < id.size(); i++) {
+			  queryMangement.add_name(dbm::NameQuery(queryMangement.get_currently_library_name(), vec[2], id[i]), type[i]);
 		  }
 	  }
-
-	  return false;
+	  else {
+		  cout << "语义分析：" << "表名" << vec[2] << "不存在" << endl;
+		  return false;
+	  }
   }
 
 
