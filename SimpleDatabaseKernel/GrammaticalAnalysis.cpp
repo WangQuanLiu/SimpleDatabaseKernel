@@ -292,21 +292,7 @@ GramDataType{
 	v_gather_fuc_def->min
 	v_gather_fuc_def->max
 	*/
-	GramDataType{
-	DataType(e_sum)
-	},
-	GramDataType{
-	DataType(e_avg)
-},
-GramDataType{
-	DataType(e_count)
-},
-GramDataType{
-	DataType(e_min)
-},
-GramDataType{
-	DataType(e_max)
-}
+	
 };
  GramType Grammatical::v_int_real_col_name_def{
 	/*
@@ -795,7 +781,7 @@ GramDataType{
 	DataType(e_create),
 	DataType(e_database),
 	DataType(e_id),
-	// DataType(e_gram_end)//add tiem 2020/2/19 17:56
+
 	},
 
 };
@@ -815,12 +801,12 @@ GramDataType{
 	v_delete_element_def->delete from table_name
 	
 	*/
-	GramDataType{
+	/*GramDataType{
 	DataType(e_delete),
 	DataType(e_from),
 	DataType(e_id),
-	
-	},
+	 DataType(e_where_def),
+	},*/
 	 GramDataType{
 	 DataType(e_delete),
 	 DataType(e_from),
@@ -838,53 +824,18 @@ GramDataType{
 	DataType(e_delete),
 	DataType(e_table),
 	DataType(e_id),
-	
-}
+	}
 };
  GramType Grammatical::v_alter_table_add_col_name_def{
 	/*
 	v_alter_table_col_name_def -> alter table table_name add column col_name v_int_real_col_name
 	
 	*/
-	GramDataType{
-	DataType(e_alter),
-	DataType(e_table),
-	DataType(e_id),
-	DataType(e_add),
-	DataType(e_column),
-	DataType(e_id),
-	DataType(e_real),
-	},
-	 GramDataType{
-	 DataType(e_alter),
-	 DataType(e_table),
-	 DataType(e_id),
-	 DataType(e_add),
-	 DataType(e_column),
-	 DataType(e_id),
-	 DataType(e_integer),
- },
-	 GramDataType{
-	 DataType(e_alter),
-	 DataType(e_table),
-	 DataType(e_id),
-	 DataType(e_add),
-	 DataType(e_column),
-	 DataType(e_id),
-	 DataType(e_str),//modification at 20201/28
- }
 };
  GramType Grammatical::v_alter_table_drop_col_name_def{
 	 /*
 	 v_alter_table_drop_col_name_def->alter table table_name drop col_name
 	 */
-	GramDataType{
-	DataType(e_alter),
-	DataType(e_table),
-	DataType(e_id),
-	DataType(e_drop),
-	DataType(e_id),
-}
 };
  GramType Grammatical::v_insert_def{
 	 /*
@@ -1062,14 +1013,7 @@ GramDataType{
 	/*
 	v_create_view_def->create view view_name as v_select_def
 	*/
-	GramDataType{
-	DataType(e_create),
-	DataType(e_view),
-	DataType(e_id),
-	DataType(e_as),
-	DataType(e_select_def),
-
-	}
+	
 };
  GramType Grammatical::v_drop_view_def{
 	/*
@@ -1199,7 +1143,6 @@ GrammaticalAnalysis::GrammaticalAnalysis(string filePath)
 }
 void GrammaticalAnalysis::run()
 {
-	//init();
 	fstream statusFile(CONFIGURATION_FILE_HOME("status.txt"), ios::in);
 	fstream gotoTableFile (CONFIGURATION_FILE_HOME("table.txt"), ios::in);
 	fstream reduFile(CONFIGURATION_FILE_HOME("redu.txt"), ios::in);
