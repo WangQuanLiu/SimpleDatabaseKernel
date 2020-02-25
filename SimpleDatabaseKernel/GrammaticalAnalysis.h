@@ -305,6 +305,7 @@ private:
 	bool read_file();
 	bool reduction(const Gram&symbol,stack<int>&statusStack, stack<Gram>&gramStack);
 	shiftIn shift_in(const Gram&symbol, stack<int>&statusStack, stack<Gram>&gramStack);
+	shiftIn reuction_empty(stack<int>&statusStack, stack<Gram>&gramStack);
 	vector<Gram>first_set[GRAM_ENUM_MAX]{};
 	vector<vector<GramDataType>>status;
 	static GramType gramArray[GRAM_MAX]; //文法数组 grammatical array
