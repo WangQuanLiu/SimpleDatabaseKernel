@@ -10,7 +10,7 @@ bool queryMangement::condition_query_single_table(const QueryData & condition, d
 			break;
 		}
 	}
-	dbm::indexPtr ptr=indexMangement.query_index(this->dataMangement.get_currently_library_name(), 
+	dbm::indexPtr ptr=query_index(get_currently_library_name(), 
 		condition.tableName, condition.tableName);
 	if (ptr == nullptr) {
 

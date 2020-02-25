@@ -77,9 +77,7 @@ namespace dbm {
 		resultData table_data(const string&tableName);
 	protected:
 		bool add_column(const string&libraryName, const string&tableName, const string&columnName, const string & type);
-	private:
 		inline void newPage(int tableIndex, size_t colSize,size_t pageSize, Item item);
-		//NameMangement nameMangement;//名字管理
 		DatabaseFile databaseFile;//数据库数据
 	};
 }
