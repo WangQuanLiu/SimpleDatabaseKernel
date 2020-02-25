@@ -2380,6 +2380,28 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 
   bool syntaxTree::semantic_analysis_use_database_def(vector<string>& vec)
   {
+	  if (queryMangement.query_name(dbm::NameQuery(vec[1]))) {
+		  queryMangement.set_cur_library_name(vec[1]);
+		  return true;
+	  }
+	  else {
+		  cout << "语义分析：" << "库名" << vec[1] << "不存在" << endl;
+		  return false;
+	  }
+  }
+
+  bool syntaxTree::semantic_analysis_create_def(vector<string>& vec)
+  {
+	  int i;
+	  if (!queryMangement.query_name(dbm::NameQuery(queryMangement.get_currently_library_name(), vec[2]))) {
+		  for (i = 4; i < vec.size() - 1; i += 2) {
+
+		  }
+	  }
+
 	  return false;
   }
+
+
+
   }

@@ -3,10 +3,12 @@
 #include<cstdlib>
 #include<vector>
 #include<map>
-//#include<stack>
 #ifndef _TESTSWITCH_
 #include"testswitch.h"
 #include"file.h"
+#endif
+#ifndef _QUERY_
+#include"query.h"
 #endif
 namespace cfe {
 #define _GrammaticalAnalysis_
@@ -334,8 +336,12 @@ namespace cfe {
 	};
 	class syntaxTree {
 	public:
-
+		
 	private:
-		bool semantic_analysis_use_database_def(vector<string>&vec);
+		bool semantic_analysis_use_database_def(vector<string>& vec);
+		bool semantic_analysis_create_def(vector<string>&vec);
+		dbm::queryMangement queryMangement;
+
 	};
 }
+

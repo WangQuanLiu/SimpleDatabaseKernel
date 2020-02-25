@@ -1,4 +1,3 @@
-
 #ifndef _TESTSWITCH_
 #define _TESTSWITCH_
 #define TEST true
