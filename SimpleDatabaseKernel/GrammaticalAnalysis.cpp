@@ -238,8 +238,9 @@
 	v_col_name_rep_def->col_name,v_col_name_rep_def
 	*/
 	GramDataType{
+	 DataType(e_comma),
 	DataType(e_id),
-	DataType(e_comma),
+	
 	DataType(e_col_name_rep_def)
 	},
 	 GramDataType{
@@ -828,7 +829,26 @@ GramDataType{
 	DataType(e_compare_def),
 	 DataType(e_where_algorithm_operator_def),
 	},
- 
+	 GramDataType{
+	 DataType(e_id),
+	 DataType(e_compare_def),
+	 DataType(e_where_algorithm_operator_def),
+ },
+	 GramDataType{
+	 DataType(e_integer),
+	 DataType(e_compare_def),
+	 DataType(e_where_algorithm_operator_def),
+ },
+	 GramDataType{
+	 DataType(e_real),
+	 DataType(e_compare_def),
+	 DataType(e_where_algorithm_operator_def),
+ },
+	 GramDataType{
+	 DataType(e_str),
+	 DataType(e_compare_def),
+	 DataType(e_where_algorithm_operator_def),
+ },
 };
  GramType Grammatical::v_where_compare_or_string_match_def{
 	/*
@@ -861,13 +881,6 @@ GramDataType{
 	DataType(e_where_compare_or_string_match_def),
 	DataType(e_logic_and_where_compare_string_match_def)
 },
-GramDataType{
-	DataType(e_logic_def),
-	DataType(e_l_bracket),
-	DataType(e_where_compare_or_string_match_def),
-	DataType(e_logic_and_where_compare_string_match_def),
-	DataType(e_r_bracket)
-	},
 	GramDataType{
 	DataType(e_empty)
 	}
@@ -883,13 +896,6 @@ GramDataType{
 	DataType(e_where_compare_or_string_match_def),
 	DataType(e_logic_and_where_compare_string_match_def)
 	},
-	
-	GramDataType{
-	DataType(e_l_bracket),
-	DataType(e_where_compare_or_string_match_def),
-	DataType(e_logic_and_where_compare_string_match_def),
-	DataType(e_r_bracket)
-	},
 
 };
  GramType Grammatical::v_where_def{
@@ -899,8 +905,11 @@ GramDataType{
 	GramDataType{
 	DataType(e_where),
 	DataType(e_where_logic_def),
-	// DataType(e_gram_end)//add tiem 2020/1/26 10:30
-	}
+	},
+	 GramDataType{
+	 DataType(e_empty),
+	
+ }
 };
  GramType Grammatical::v_comma_and_col_name_def{
 	/*
@@ -1317,18 +1326,18 @@ GramDataType{
 	v_select_connect_def->*
 	v_select_connect_def->v_select_operator_def
 	*/
-	GramDataType{
-	DataType(e_mulop),
-	DataType(e_select_connect_def),//add at 2020/2/24
-	},
-	 GramDataType{
-	 DataType(e_id),
-	 DataType(e_col_name_rep_def),
-	 DataType(e_select_connect_def),//add at 2020/2/24
-	 },
-	 GramDataType{
-	 DataType(e_empty)
- }
+	//GramDataType{
+	//DataType(e_mulop),
+	//DataType(e_select_connect_def),//add at 2020/2/24
+	//},
+	// GramDataType{
+	// DataType(e_id),
+	// DataType(e_col_name_rep_def),
+	// DataType(e_select_connect_def),//add at 2020/2/24
+	// },
+	// GramDataType{
+	// DataType(e_empty)
+ //}
 	/*GramDataType{
 	DataType(e_select_operator_def)
 	}*/
@@ -1370,17 +1379,11 @@ GramDataType{
 	v_select_def->select v_select_connect_def from v_table_name_def v_constriant_connect_def
 	v_select_def->select v_select_connect_def from v_table_name_def v_where_def
 	*/
-	 GramDataType{
-	 DataType(e_select),
-	 DataType(e_select_connect_def),
-	 DataType(e_from),
-	 DataType(e_id),
-	 DataType(e_col_name_rep_def)
-	 },
+
 	 GramDataType{
 	 DataType(e_select),
 	 DataType(e_distance),
-	 DataType(e_select_connect_def),
+	 DataType(e_mulop),
 	 DataType(e_from),
 	 DataType(e_id),
 	 DataType(e_col_name_rep_def),
@@ -1388,13 +1391,33 @@ GramDataType{
 	 },
 	 GramDataType{
 	 DataType(e_select),
-	 DataType(e_select_connect_def),
+	 DataType(e_distance),
+	 DataType(e_id),
+	 DataType(e_col_name_rep_def),
 	 DataType(e_from),
 	 DataType(e_id),
 	 DataType(e_col_name_rep_def),
 	 DataType(e_where_def)
  },
-	
+
+
+	 GramDataType{
+	 DataType(e_select),
+	 DataType(e_mulop),
+	 DataType(e_from),
+	 DataType(e_id),
+	 DataType(e_col_name_rep_def),
+	 DataType(e_where_def)
+ },
+	 GramDataType{
+	 DataType(e_select),
+	 DataType(e_id),
+	 DataType(e_col_name_rep_def),
+	 DataType(e_from),
+	 DataType(e_id),
+	 DataType(e_col_name_rep_def),
+	 DataType(e_where_def)
+ },
 };
  GramType Grammatical::v_create_database_def{
 	/*
@@ -2457,9 +2480,11 @@ ActionStatus GrammaticalAnalysis::action( const Gram &symbol,  stack<int>&status
 		}		
 	}
 	
-	if (statusStack.size() == 2&& gramStack.top()==e_s) {
-		statusStack.pop();
-		gramStack.pop();
+	if ( gramStack.top()==e_s) {
+		statusStack.pop(statusStack.size());
+		gramStack.pop(gramStack.size());
+		statusStack.push(0);
+		gramStack.push(e_s);
 		act = acc;
 	}
 	return act;
@@ -2926,32 +2951,28 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  		}
 		  		if (k >= vec.size()&&(redu[j].gram.ls.size()==vec.size()|| redu[j].gram.getSymbol() == symbol) /*&& redu[j].symbol == symbol*/) {
 		  			flag = true;
-		  		/*	int curStatus;*/
 		  			gramStack.pop(i);//出栈i+1个元素
 		  			statusStack.pop(i);//出栈i+1个元素		
 		  			statusStack.push(redu[j].statusNumber); 
 					reduNum = k;
 					cout << j << endl;
-					/*string statusNumber = GotoTable[redu[j].statusNumber][symbol];
-					cout << statusNumber << endl;
-					statusNumber = statusNumber.substr(1, statusNumber.size() - 1);*/
-					//statusStack.push(atoi(statusNumber.c_str()));
 		  			gramStack.push(redu[j].gram.getGramName());
 		  			i = gramStack.size() - 1;
 		  				//act = reduc;
 		  				cout << "归约" << endl;
 		  				break;
-
 		  		}
 
 		  	}
 		  }
+
 	  if (flag) {
 		  string str = GotoTable[statusStack.top()][static_cast<int>(gramStack.top())];
 		  statusStack.pop();
 		  str = str.substr(1, str.size() - 1);
 		  statusStack.push(atoi(str.c_str()));
 	  }
+	 
 	  return flag;
   }
 
@@ -2964,10 +2985,8 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  str = str.substr(1, str.size() - 1);
 	  statusStack.push(atoi(str.c_str()));
 	  gramStack.push(symbol);
-	
 	  cout << "移进" << endl;
 	  vector<GramDataType>&vecTemp = this->status[statusStack.top()];
-	 // vector<GramDataType>emptyVec;
 	  int i;
 	  string temp;
 	  temp = get_next_token();
@@ -2986,7 +3005,9 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  }
 	  if (emptyIndex != -1&&GotoTable[statusStack.top()][gram]==EMPTY) {	
 		  gramStack.push(vecTemp[emptyIndex].getGramName());
-		  statusStack.push(0);
+		  str = GotoTable[statusStack.top()][vecTemp[emptyIndex].getGramName()];
+		  str = str.substr(1, str.size() - 1);
+		  statusStack.push(atoi(str.c_str()));
 	  }
 	/*  else
 		  return shift_continue;*/
