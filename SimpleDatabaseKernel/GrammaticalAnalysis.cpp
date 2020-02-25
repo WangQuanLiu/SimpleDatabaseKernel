@@ -1221,11 +1221,9 @@ void GrammaticalAnalysis::init()
 	for (i = 0; i < GOTO_TABLE_MAX; i++) {
 		for (j = 0; j < GRAM_ENUM_MAX; j++) {
 			GotoTable[i][j] = EMPTY;
-			//reverseTable[i][j] = -1;
 		}
 	}
 	for (i = 0; i < GRAM_MAX; i++) {
-		//gramArray[i].setGramName = static_cast<Gram>(i);
 		gramArray[i].setGramName(static_cast<Gram>(i));
 		for (int j = 0; j < gramArray[i].vec.size(); j++) {
 			gramArray[i].vec[j].setGramName(static_cast<Gram>(i));
@@ -1233,8 +1231,6 @@ void GrammaticalAnalysis::init()
 	}
 
 	generate_firstSet();
-	
-
 }
 bool GrammaticalAnalysis::check_grammatical()
 {

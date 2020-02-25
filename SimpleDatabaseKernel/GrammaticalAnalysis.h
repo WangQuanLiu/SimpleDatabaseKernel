@@ -15,7 +15,7 @@
 #define BUFF_SIZE 1000
 #define CHAR_SIZE 100
 #define EMPTY "-1"
-#define GOTO_TABLE_MAX 10000
+#define GOTO_TABLE_MAX 800
 #define CONFIGURATION_FILE_HOME(x) string(string("C:\\Users\\THINKPAD\\Desktop\\")+string(x)) 
 using namespace file;
 using CFilePtr = file::File *;
@@ -290,7 +290,7 @@ public:
 private:
 	file::CFilePtr file;
 	void init();
-	string **GotoTable;
+	string** GotoTable;
 #if(TEST&&GRAM_TEST)
 	void print(int GotoTable[GOTO_TABLE_MAX][GRAM_ENUM_MAX]);
 #endif
