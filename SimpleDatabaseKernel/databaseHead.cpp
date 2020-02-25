@@ -17,6 +17,7 @@ namespace dbm {
 	DataType& DataType::operator=(DataType obj)
 	{
 		this->data = obj.data;
+	
 		return *this;
 	}
 
@@ -239,4 +240,45 @@ namespace dbm {
 	{
 		clear();
 	}
+	bool operator==(const Item&objOne, const Item&objTwo) {
+		if (objOne.item.size() != objTwo.item.size())return false;
+		int i;
+		for (i = 0; i < objOne.item.size(); i++) {
+			if (objOne.item[i] != objTwo.item[i])return false;
+		}
+		return true;
+	}
+	Item::Item(const Item & obj)
+	{
+		this->item = obj.item;
+		//this->nextDataNumber = obj.nextDataNumber;
+	}
+	Item::Item(const Item * obj)
+	{
+		this->item = obj->item;
+		//this->nextDataNumber = obj->nextDataNumber;
+	}
+	Item & Item::operator=(const Item & obj)
+	{
+		this->item = obj.item;
+		//this->nextDataNumber = obj.nextDataNumber;
+		return *this;
+	}
+	Item & Item::operator+=(const Item & obj)
+	{
+		int i=0;
+		for (; i < obj.item.size(); i++) {
+			this->item.push_back(obj.item[i]);
+		}
+		return *this;
+	}
+	/*
+	功能：清空、重置
+	*/
+	void Item::clear()
+	{
+		this->item.clear();
+		//this->nextDataNumber = ITEM_EMPTY;
+	}
+
 }

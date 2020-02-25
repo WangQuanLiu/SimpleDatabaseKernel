@@ -235,7 +235,7 @@ namespace dbm {
 			fprintf(file, "<used space size>\t%d\n", record.headInfo.usedSpaceSize);
 			fprintf(file, "<table type num>\t%d\n", record.headInfo.tableTypeNum);
 			fprintf(file, "<type_begin>\n");
-			list<AttributeType>::iterator begin(record.headInfo.type.begin()), end(record.headInfo.type.end());
+			vector<AttributeType>::iterator begin(record.headInfo.type.begin()), end(record.headInfo.type.end());
 			while (begin != end) {//类型
 				fprintf(file, "%d\n", static_cast<int>(*begin));
 				begin++;
@@ -303,11 +303,11 @@ namespace dbm {
 					}
 					fscanf(file, "%s %s %s %u", ch, ch, ch, &page->nextPageNum);//<next page num>
 					fscanf(file, "%s %s %u", ch, ch, &page->itemSize);//<item size>
-					fscanf(file, "%s", ch);//<deletedFlag_begin>
-					while (fscanf(file, "%s", ch) && strcmp(ch, "<deletedFlag_end>")) { //添加已删除的项
-						page->deletedFlag.push_back(atoi(ch));
-					}
-					for (j = 0; j < page->itemSize + page->deletedFlag.size(); j++) {	//数据个数
+					//fscanf(file, "%s", ch);//<deletedFlag_begin>
+					//while (fscanf(file, "%s", ch) && strcmp(ch, "<deletedFlag_end>")) { //添加已删除的项
+					//	page->deletedFlag.push_back(atoi(ch));
+					//}
+					for (j = 0; j < page->itemSize /*+ page->deletedFlag.size()*/; j++) {	//数据个数
 						itemPtr = make_shared<Item>(new Item());
 						if (itemPtr == nullptr) {
 							cerr << "read_table_data DatabaseFile iterPtr memory  allocation failure!" << endl;
@@ -370,7 +370,7 @@ namespace dbm {
 				fprintf(file, "<deletedFlag_end>\n");
 				list<shared_ptr<Item>>::iterator itemSetBegin(page->itemPtrSet.begin()), itemSetEnd(page->itemPtrSet.end());
 				for (; itemSetBegin != itemSetEnd; itemSetBegin++) {	//write data
-					for (j = 0; j < colTypeNum; j++) {
+					for (j = 0; j < (*itemSetBegin)->item.size(); j++) {
 						fprintf(file, "%s\t", (*itemSetBegin)->item[j].get_data().c_str());
 					}
 					fprintf(file, "\n");
@@ -426,39 +426,7 @@ namespace dbm {
 		}
 		return true;
 	}
-	bool operator==(const Item&objOne, const Item&objTwo) {
-		if (objOne.item.size() != objTwo.item.size())return false;
-		int i;
-		for (i = 0; i < objOne.item.size(); i++) {
-			if (objOne.item[i] != objTwo.item[i])return false;
-		}
-		return true;
-	}
-	Item::Item(const Item & obj)
-	{
-		this->item = obj.item;
-		//this->nextDataNumber = obj.nextDataNumber;
-	}
-	Item::Item(const Item * obj)
-	{
-		this->item = obj->item;
-		//this->nextDataNumber = obj->nextDataNumber;
-	}
-	Item & Item::operator=(const Item & obj)
-	{
-		this->item = obj.item;
-		//this->nextDataNumber = obj.nextDataNumber;
-		return *this;
-	}
-	/*
-	功能：清空、重置
-	*/
-	void Item::clear()
-	{
-		this->item.clear();
-		//this->nextDataNumber = ITEM_EMPTY;
-	}
-
+	
 	Page::Page()
 	{
 		this->curPageNum = 0;
@@ -517,7 +485,7 @@ namespace dbm {
 		this->usedSpaceSize = 0;
 		list<shared_ptr<Item>>::iterator begin(itemPtrSet.begin()), end(itemPtrSet.end());
 		while (begin != end) {
-			(*begin)->clear();
+			(*begin) = nullptr;
 			begin++;
 		}
 		itemPtrSet.clear();
@@ -595,6 +563,7 @@ namespace dbm {
 		list<shared_ptr<Page>>::iterator begin(this->pagePtrSet.begin()), end(pagePtrSet.end());
 		while (begin != end) {
 			(*begin)->clear();
+			(*begin) = nullptr;
 			begin++;
 		}
 

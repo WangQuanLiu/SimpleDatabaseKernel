@@ -17,7 +17,7 @@
 #include <io.h>
 #include <direct.h>
 namespace dbm {
-#define _DATABAS_EHEAD_
+#define _DATABASE_HEAD_
 #define BUFF_SIZE 4096
 #define LIBRARY_NAME_EMPTY ""
 #define TIME_STRUCT_SIZE 64
@@ -59,6 +59,7 @@ namespace dbm {
 		string get_data()const;
 	private:
 		string data;
+	//	AttributeType type;
 	};
 	enum AttributeType { a_int, a_flaot, a_string, a_error };//属性类别
 	typedef struct ColNameAndType {
@@ -96,6 +97,21 @@ namespace dbm {
 		void clear();
 		~NameMangementFile();
 	};
+	struct Item {//表中的一行数据
+		Item() = default;
+		//Item & operator==(const Item & objOne, const Item & objTwo);
+		Item(const Item&obj);
+		Item(const Item*obj);
+		Item&operator=(const Item&obj);
+		Item&operator+=(const Item&obj);
+		vector<DataType>item;//一行数据
+		friend bool operator==(const Item&itemOne, const Item&itemTwo);
+	//	Item&operator=(const Item&obj);
+		//	 int nextDataNumber;//下一个数据号
+		void clear();//清空重置
+
+	};
+	using Item_ptr = Item*;
 	inline bool is_spacial_directory(const char*path);
 	inline bool is_directory(int attrib);
 	inline void get_file_path(const char*path, const char*fileName, char*filePath);

@@ -54,14 +54,17 @@ namespace dbm {
 	};
 
 	struct resultData {
-		shared_ptr<RecordHeadInfo>recordHeadInfoPtr;
-		list<shared_ptr<Page>>pagePtr;//页
+		vector<CNT>ColName;
+		RecordHeadInfo recordHeadInfo;
+		list<Page>page;//页
 		resultData&operator=(const resultData&obj);
 	};
-	class dataMangement :public  NameMangement {
+	using resultData_ptr = resultData*;
+	class dataMangement :public  NameMangement{
 	public:
 		dataMangement();
 		dataMangement(const string&libraryName);
+		string get_currently_library_name();
 		void set_library(const string&librarName);
 		bool query_data(const NameQuery&nameQuery)const;//查询数据
 		bool modification_name(const NameQuery&nameQuery, const string&modeficationedName);//修改名字及文件
@@ -71,11 +74,11 @@ namespace dbm {
 		bool add_data(const InsertData&data);
 		bool delete_data(const DeleteData&data);
 		bool save();//保存所有数据
-		bool table_data(const string&tableName, resultData&result);
+		resultData table_data(const string&tableName);
 	protected:
 		bool add_column(const string&libraryName, const string&tableName, const string&columnName, const string & type);
 	private:
-		inline void newPage(int tableIndex,shared_ptr<Page> pagePtr, size_t colSize,size_t pageSize, Item item);
+		inline void newPage(int tableIndex, size_t colSize,size_t pageSize, Item item);
 		//NameMangement nameMangement;//名字管理
 		DatabaseFile databaseFile;//数据库数据
 	};

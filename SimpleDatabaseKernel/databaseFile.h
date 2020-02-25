@@ -11,19 +11,7 @@ namespace dbm {
 #define ITEM_EMPTY -1
 #define STRING_EMPTY ""
 
-	struct Item {//表中的一行数据
-		Item() = default;
-		//Item & operator==(const Item & objOne, const Item & objTwo);
-		Item(const Item&obj);
-		Item(const Item*obj);
-		Item&operator=(const Item&obj);
-		vector<DataType>item;//一行数据
-		friend bool operator==(const Item&itemOne, const Item&itemTwo);
-		//	 int nextDataNumber;//下一个数据号
-		void clear();//清空重置
-
-	};
-	using Item_ptr = Item*;
+	
 	class Page {
 	public:
 		Page();
@@ -52,7 +40,7 @@ namespace dbm {
 		unsigned totalDataNum;//总计数据个数
 		unsigned usedSpaceSize;//已使用空间大小
 		int tableTypeNum;//列个数
-		list<AttributeType> type;//类型数组
+		vector<AttributeType> type;//类型数组
 		unsigned pageNumber;//页数
 		vector<unsigned>pageOrder;//页序
 		string addTiem, modificationTime;//添加时间，修改时间

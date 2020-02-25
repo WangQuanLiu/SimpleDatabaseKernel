@@ -263,12 +263,18 @@ namespace dbm {
 
 		//	this->nameMangement.set_nameMangementFile( this->databaseFile.nameMangementTablePtr);//delete at 2020/2/16
 		set_nameMangementFile(this->databaseFile.nameMangementTablePtr);
-
+		//read_index_ini();
 	}
 
 	dataMangement::dataMangement(const string & libraryName)
 	{
+		//read_index_ini();
 		set_library(libraryName);
+	}
+
+	string dataMangement::get_currently_library_name()
+	{
+		return this->nameMangementFilePtr->curLibraryName;
 	}
 
 	void dataMangement::set_library(const string & librarName)
@@ -394,7 +400,7 @@ namespace dbm {
 				}
 				if (j >= this->databaseFile.nameMangementTablePtr->nameTable.tableMangement[i].colSize)return false;
 				int temp = j;
-				list<AttributeType>::iterator begin = this->databaseFile.dataMangementPtr->table[i].headInfo.type.begin(),
+				vector<AttributeType>::iterator begin = this->databaseFile.dataMangementPtr->table[i].headInfo.type.begin(),
 					end = this->databaseFile.dataMangementPtr->table[i].headInfo.type.end();
 				while (begin != end&&temp > 0) {
 					begin++;
@@ -495,25 +501,20 @@ namespace dbm {
 			this->databaseFile.dataMangementPtr->table[i].headInfo.type.push_back(a_string);
 		return true;
 	}
-	inline void dataMangement::newPage(int tableIndex,shared_ptr<Page> pagePtr, size_t colSize, size_t pageSize, Item item)
+	inline void dataMangement::newPage(int tableIndex, size_t colSize, size_t pageSize, Item item)
 	{
-		Page temp;
-		if (pageSize > 0) {
-
-			(pagePtr)->nextPageFlag = true;//脏页
-			(pagePtr)->nextPageNum = this->databaseFile.dataMangementPtr->table[tableIndex].headInfo.pageNumber + 1;//下一页
-		}
-		temp.curPageNum = ++this->databaseFile.dataMangementPtr->table[tableIndex].headInfo.pageNumber;//当前页数
-		temp.dirtyPage = true;
-		temp.nextPageFlag = false;
-		temp.itemSize++;
-		temp.usedSpaceSize += colSize;
-		temp.unUsedSpaceSize -= colSize;
-		temp.itemPtrSet.push_back(make_shared<Item>(item));
-		this->databaseFile.dataMangementPtr->table[tableIndex].headInfo.pageOrder.push_back(temp.curPageNum);
+		shared_ptr<Page> temp=make_shared<Page>(new Page());
+		temp->curPageNum = ++this->databaseFile.dataMangementPtr->table[tableIndex].headInfo.pageNumber;//当前页数
+		temp->dirtyPage = true;
+		temp->nextPageFlag = false;
+		temp->itemSize++;
+		temp->usedSpaceSize += colSize;
+		temp->unUsedSpaceSize -= colSize;
+		temp->itemPtrSet.push_back(make_shared<Item>(item));
+		this->databaseFile.dataMangementPtr->table[tableIndex].headInfo.pageOrder.push_back(temp->curPageNum);
 		this->databaseFile.dataMangementPtr->table[tableIndex].headInfo.totalDataNum++;
 		this->databaseFile.dataMangementPtr->table[tableIndex].headInfo.usedSpaceSize += colSize;
-		this->databaseFile.dataMangementPtr->table[tableIndex].pagePtrSet.push_back(make_shared<Page>(temp));
+		this->databaseFile.dataMangementPtr->table[tableIndex].pagePtrSet.push_back(temp);
 	}
 	/*
 	输入：InsertData类型
@@ -573,7 +574,12 @@ namespace dbm {
 
 		}
 		else {//新开一页
-			newPage(i, *pageTemp, colSize, pageSize, item);
+			if (pageSize > 0) {
+
+				(*pageTemp)->nextPageFlag = true;//脏页
+				(*pageTemp)->nextPageNum = this->databaseFile.dataMangementPtr->table[i].headInfo.pageNumber + 1;//下一页
+			}
+			newPage(i, colSize, pageSize, item);
 		}
 
 		return true;
@@ -635,27 +641,29 @@ namespace dbm {
 
 	bool dataMangement::save()
 	{
-		return this->databaseFile.save();
+		return this->databaseFile.save()/*&&save_index_ini()*/;
 	}
 	/*
 	输入：表名、result
 	功能：get表名为tableName的数据
 	输出：成功返回true,失败返回false
 	*/
-	bool dataMangement::table_data(const string&tableName, resultData&result)
+	resultData dataMangement::table_data(const string&tableName)
 	{
-		if (!query_data(NameQuery(this->databaseFile.nameMangementTablePtr->curLibraryName, tableName)))return false;
+		resultData result;
+		if (!query_data(NameQuery(this->databaseFile.nameMangementTablePtr->curLibraryName, tableName)))return resultData();
 		int i;
 		for (i = 0; i < this->databaseFile.dataMangementPtr->tableNumber; i++)
 			if (tableName == this->databaseFile.dataMangementPtr->table[i].headInfo.tableName)break;
-		if (i >= this->databaseFile.dataMangementPtr->tableNumber)return false;
-		result.recordHeadInfoPtr = make_shared<RecordHeadInfo>(this->databaseFile.dataMangementPtr->table[i].headInfo);
+		if (i >= this->databaseFile.dataMangementPtr->tableNumber)return resultData();
+		result.ColName = this->databaseFile.nameMangementTablePtr->nameTable.tableMangement[i].column;
+		result.recordHeadInfo =this->databaseFile.dataMangementPtr->table[i].headInfo;
 		list<shared_ptr<Page>>&pageSet = this->databaseFile.dataMangementPtr->table[i].pagePtrSet;
 		list<shared_ptr<Page>>::iterator pageBegn(pageSet.begin()), pageEnd(pageSet.end());
 		for (; pageBegn != pageEnd; pageBegn++) {
-			result.pagePtr.push_back(*pageBegn);
+			result.page.push_back(**pageBegn);
 		}
-		return true;
+		return result;
 	}
 
 
@@ -710,8 +718,8 @@ namespace dbm {
 
 	resultData & resultData::operator=(const resultData & obj)
 	{
-		this->pagePtr = obj.pagePtr;
-		this->recordHeadInfoPtr = obj.recordHeadInfoPtr;
+		this->page = obj.page;
+		this->recordHeadInfo = obj.recordHeadInfo;
 		return *this;
 	}
 }

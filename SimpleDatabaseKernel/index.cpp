@@ -35,6 +35,89 @@ namespace dbm {
 	{
 		this->bPlusRoot = new BPlusNode();
 	}
+	//indexResultDataSetPtr BPlusTreeInterface::range_query(bPlusType keywordOne, bPlusType keywordTwo)
+	//{
+	//	return range_query( keywordOne, keywordTwo);
+	//}
+	indexResultDataSetPtr BPlusTreeInterface::range_query(bPlusType keyword)
+	{
+		return this->range_query( keyword, keyword);
+	}
+	bool BPlusTreeInterface::modifiy(BPlusData & isModifiy, BPlusData & modifiryer)
+	{
+		BPlusNode_ptr ptr = inner_query(*this->bPlusRoot, isModifiy.keyword);
+		if (ptr == nullptr)return false;
+		else {
+			int i;
+			do {
+				for (i = 0; i < ptr->cot; i++) {
+					if (ptr->keyword[i] == isModifiy.keyword&&
+						ptr->nextNode.leaf.position[i] == isModifiy.orignalData) {
+						ptr->keyword[i] = modifiryer.keyword;
+						ptr->nextNode.leaf.position[i] = modifiryer.orignalData;
+						return true;
+					}
+				}
+				if (i >= ptr->cot&&ptr->keyword[ptr->cot - 1] == isModifiy.keyword) {
+					ptr = ptr->nextNode.leaf.next;
+				}
+				else break;
+			} while (ptr != nullptr);
+			return false;
+		}
+	}
+	/*
+	功能：查询数据
+	*/
+	BPlusNode_ptr BPlusTreeInterface::inner_query(BPlusNode&node, bPlusType & keyword)
+	{
+		if (node.proerty == bt_leaf) {
+			int i;
+			for (i = 0; i < node.cot; i++) {
+				if (node.keyword[i] > keyword)break;
+			}
+			if (i >= node.cot)return nullptr;
+			else return &node;
+		}
+		else {
+			int i, nearst = -1;
+			for (i = 0; i < node.cot; i++) {
+				if (keyword < node.keyword[i])nearst = i;
+			}
+			if (nearst == -1) {
+				return inner_query(*node.nextNode.next[i], keyword);
+			}
+			else
+				return inner_query(*node.nextNode.next[nearst], keyword);
+		}
+	}
+	/*
+	功能：按范围查询数据
+	*/
+	indexResultDataSetPtr BPlusTreeInterface::range_query( bPlusType keywordOne, bPlusType keywordTwo)
+	{
+		BPlusNode_ptr nodePtr=inner_query(*this->bPlusRoot, keywordOne);
+		if (nodePtr == nullptr)return nullptr;
+			bool flag = false;
+			int i;
+			BPlusNode_ptr next;
+			indexResultDataSetPtr ptr=shared_ptr<indexResultDataSet>( new indexResultDataSet());
+			do {
+				for (i = 0; i < nodePtr->cot; i++) {
+					if (nodePtr->keyword[i] > keywordOne&&nodePtr->keyword[i] < keywordTwo) {
+						flag = true;
+						ptr->list.push_back(indexResultData(nodePtr->keyword[i], nodePtr->nextNode.leaf.position[i]));
+					}
+					else {
+						break;
+					}
+				}
+				next = nodePtr->nextNode.leaf.next;
+			} while (i>= nodePtr->cot&&next != nullptr);
+			if (!flag)return nullptr;
+		
+			return ptr;
+	}
 	/*
 	输入：B+树类型值 value
 	功能：寻找这个值
@@ -63,7 +146,7 @@ namespace dbm {
 				for (; i < node.cot; i++) {
 					if (node.keyword[i] == value.keyword) {
 						cot++;
-						result.push_back(BPlusResultData(i, make_shared<OriginalData>(temp->nextNode.leaf.position[i])));
+						result.push_back(BPlusResultData( make_shared<OriginalData>(temp->nextNode.leaf.position[i])));
 					}
 				}
 				if (node.cot >= B_PLUS_TREE_KEYWORD_SIZE&&node.keyword[B_PLUS_TREE_KEYWORD_SIZE - 1] == value.keyword) {
@@ -127,6 +210,7 @@ namespace dbm {
 			}
 			else {//有n-1个，
 				BPlusNode_ptr temp = new BPlusNode(), L = new BPlusNode();
+			
 				int i;
 				for (i = 0; i < B_PLUS_TREE_KEYWORD_SIZE - 1; i++) {
 					temp->keyword[i] = node->keyword[i];
@@ -464,7 +548,7 @@ namespace dbm {
 			if (i >= nodePtr->cot)return false;
 			else if (i == nodePtr->cot - 1) {//最后一个结点
 			   // nodePtr->cot--;
-				nodePtr->keyword[i] = STRING_EMPTY;
+				nodePtr->keyword[i] = "";
 			}
 			else {//要删除的结点在中间
 				for (; i < nodePtr->cot - 1; i++) {
@@ -718,6 +802,28 @@ namespace dbm {
 		return true;
 	}
 
+	void BPlusTreeInterface::clear()
+	{
+		 clear(this->bPlusRoot);
+	}
+
+	void BPlusTreeInterface::clear(BPlusNode_ptr nodePtr)
+	{
+		if (nodePtr->proerty == bt_leaf) {
+		
+			delete nodePtr->nextNode.leaf.next;
+			delete nodePtr;
+		}
+		else {
+			int i;
+			for (i = 0; i < nodePtr->pointCot; i++) {
+				clear(nodePtr->nextNode.next[i]);
+				delete nodePtr->nextNode.next[i];
+			}
+			delete nodePtr;
+		}
+	}
+
 	BPlusNode::Node::Node()
 	{
 	}
@@ -753,10 +859,13 @@ namespace dbm {
 		}
 		this->nextNode.next[i] = nullptr;
 		this->cot = 0;
+		this->parent = nullptr;
+		this->pointCot = 0;
 	}
 
 	void BPlusNode::set_values(const BPlusNode & obj)
 	{
+		clear();
 		int i;
 		this->parent = obj.parent;
 		this->cot = obj.cot;
@@ -779,14 +888,14 @@ namespace dbm {
 		}
 	}
 
-	BPlusResultData::BPlusResultData(const int & dataPosi, const shared_ptr<OriginalData>& dataPtr)
+	BPlusResultData::BPlusResultData( const shared_ptr<OriginalData>& dataPtr)
 	{
-		this->set_value(dataPosi, dataPtr);
+		this->set_value( dataPtr);
 	}
 
-	inline void BPlusResultData::set_value(const int & dataPosi, const shared_ptr<OriginalData>& dataPtr)
+	inline void BPlusResultData::set_value( const shared_ptr<OriginalData>& dataPtr)
 	{
-		this->dataPosi = dataPosi;
+		
 		this->dataPtr = dataPtr;
 	}
 
@@ -818,7 +927,7 @@ namespace dbm {
 	}
 	bool operator==(const BPlusNode&objOne, const BPlusNode&objTwo) {
 		bool flag = objOne.cot == objTwo.cot&&objOne.proerty == objTwo.proerty;
-
+		
 		if (flag) {
 			if (objOne.proerty == bt_internal_node) {
 				int i;
@@ -851,22 +960,22 @@ namespace dbm {
 
 	bPlusType::bPlusType()
 	{
-		this->category = integer;
+		this->category = a_int;
 	}
 
 	bPlusType::bPlusType(const char * ch)
 	{
 		this->s = ch;
-		this->category = integer;
+		this->category = a_int;
 	}
 
 	bPlusType::bPlusType(const string & str)
 	{
 		this->s = str;
-		this->category = integer;
+		this->category = a_int;
 	}
 
-	void bPlusType::set_category(const bPlusTypeCategory & category)
+	void bPlusType::set_category(const AttributeType & category)
 	{
 		this->category = category;
 	}
@@ -888,10 +997,10 @@ namespace dbm {
 	}
 	bool operator==(const bPlusType&objOne, const bPlusType&objTwo) {
 		if (objOne.category != objTwo.category)return false;
-		if (objOne.category == integer) {
+		if (objOne.category == a_int) {
 			return atoi(objOne.s.c_str()) == atoi(objTwo.s.c_str());
 		}
-		else if (objOne.category == real)return atof(objOne.s.c_str()) == atof(objTwo.s.c_str());
+		else if (objOne.category == a_flaot)return atof(objOne.s.c_str()) == atof(objTwo.s.c_str());
 		else return objOne.s == objTwo.s;
 	}
 	bool operator!=(const bPlusType&objOne, const bPlusType&objTwo) {
@@ -899,19 +1008,19 @@ namespace dbm {
 	}
 	bool operator>(const bPlusType&objOne, const bPlusType&objTwo) {
 		if (objOne.category != objTwo.category)return false;
-		if (objOne.category == integer) {
+		if (objOne.category == a_int) {
 			return atoi(objOne.s.c_str()) > atoi(objTwo.s.c_str());
 		}
-		else if (objOne.category == real)
+		else if (objOne.category == a_flaot)
 			return atof(objOne.s.c_str()) > atof(objTwo.s.c_str());
 		else return objOne.s > objTwo.s;
 	}
 	bool operator<(const bPlusType&objOne, const bPlusType&objTwo) {
 		if (objOne.category != objTwo.category)return false;
-		if (objOne.category == integer) {
+		if (objOne.category == a_int) {
 			return atoi(objOne.s.c_str()) < atoi(objTwo.s.c_str());
 		}
-		else if (objOne.category == real) {
+		else if (objOne.category == a_flaot) {
 			return atof(objOne.s.c_str()) < atof(objTwo.s.c_str());
 		}
 		else
@@ -924,12 +1033,125 @@ namespace dbm {
 		return objOne < objTwo || objOne == objTwo;
 	}
 
+	BPlusLeaf::BPlusLeaf()
+	{
+		this->next = nullptr;
+	}
+
 	BPlusLeaf & BPlusLeaf::operator=(const BPlusLeaf & obj)
 	{
 		int i;
 		for (i = 0; i < B_PLUS_TREE_KEYWORD_SIZE; i++)
 			this->position[i] = obj.position[i];
 		this->next = obj.next;
+		return *this;
+	}
+	indexResultData::indexResultData(const bPlusType & keyword, const OriginalData & info)
+	{
+		this->keyword = keyword;
+		this->info = info;
+	}
+	indexResultData & indexResultData::operator=(const indexResultData & resultData)
+	{
+		this->keyword = resultData.keyword;
+		this->info = resultData.info;
+		return *this;
+	}
+	/*
+	功能：读取index.ini配置文件
+	*/
+	bool indexMangement::read_index_ini()
+	{
+		FILE*file = fopen(INDEX_FILE_HOME, "r");
+		if (file == NULL)return false;
+		int cot,i;
+		char libraryName[CHAR_MAX],tableName[CHAR_MAX],colName[CHAR_MAX];
+		memset(libraryName, 0, CHAR_MAX);
+		memset(tableName, 0, CHAR_MAX);
+		memset(colName, 0, CHAR_MAX);
+		shared_ptr<index> temp=make_shared<index>( index());
+		fscanf(file, "%d", &cot);
+		for (i = 0; i < cot; i++) {
+			fscanf(file, "<index> %s %s %s", &libraryName, &tableName, &colName);
+			temp->libraryName = libraryName;
+			temp->tableName = tableName;
+			temp->colName = colName;
+			this->indexSet.push_back(temp);
+		}
+		fclose(file);
+		return true;
+	}
+/*
+功能：输出indexSet里面的内容
+*/
+	bool indexMangement::save_index_ini()
+	{
+		FILE*file = fopen(INDEX_FILE_HOME, "w");
+		if (file == NULL)return false;
+		int i;
+		for (i = 0; i < this->indexSet.size(); i++) {
+			fprintf(file, "<index> %s %s %s", this->indexSet[i]->libraryName.c_str(),
+				this->indexSet[i]->tableName.c_str(), this->indexSet[i]->colName.c_str());
+		}
+		fclose(file);
+		return true;
+	}
+	indexPtr indexMangement::query_index(const string & libraryName, const string & tableName, const string & colName)
+	{
+		int i;
+		for (i = 0; i < indexSet.size(); i++) {
+			if (indexSet[i]->libraryName == libraryName&&
+				indexSet[i]->tableName == tableName&&indexSet[i]->colName == colName) {
+				return indexSet[i];
+			}
+		}	
+		return nullptr;
+	}
+	shared_ptr<index> indexMangement::create_index(const string & libraryName, const string & tableName, const string & colName, const int colIndex, Record&record)
+	{
+		if (query_index(libraryName, tableName, colName) != nullptr)return nullptr;
+		shared_ptr<index>ptr = make_shared<index>( index());
+		if (ptr == nullptr||record.headInfo.tableName==tableName)return nullptr;
+		int i,pageNum,j=0;
+		list<shared_ptr<Page>>::iterator begin(record.pagePtrSet.begin());
+		BPlusData data;
+		for (i = 0; i < record.headInfo.pageNumber; i++,begin++) {
+			pageNum = record.headInfo.pageOrder[i];
+			Page &page = **begin;
+			list<shared_ptr<Item>>::iterator itemBegin(page.itemPtrSet.begin());
+			for (j = 0; j < page.itemSize; j++,itemBegin++) {
+				Item& items = **itemBegin;
+				data.keyword = items.item[colIndex].get_data();
+					data.keyword.category = record.headInfo.type[colIndex];
+				data.orignalData.pagePosi.pageNumber = i;
+				data.orignalData.pagePosi.posi = j;
+				ptr->bplus.insert(data);
+			}
+		}
+		indexSet.push_back(ptr);
+		return ptr;
+	}
+	bool indexMangement::erase_index(const string & libraryName, const string & tableName, const string & colName)
+	{
+		vector<shared_ptr<index>>::iterator begin(indexSet.begin()), end(indexSet.end());
+		for (; begin != end; begin++) {
+			if ((*begin)->libraryName == libraryName && 
+				(*begin)->tableName == tableName &&
+				(*begin)->colName == colName) {
+				(*begin)->bplus.clear();
+				indexSet.erase(begin);
+				return true;
+			}
+		}
+		return false;
+	}
+	indexResultDataSet & indexResultDataSet::operator+=( indexResultDataSet & dataSet)
+	{
+	
+		std::list<indexResultData>::iterator dataSetBegin(dataSet.list.begin()),dataSetEnd(dataSet.list.end());
+		for (; dataSetBegin != dataSetEnd; dataSetBegin++) {
+			this->list.push_back(*dataSetBegin);
+		}
 		return *this;
 	}
 }
