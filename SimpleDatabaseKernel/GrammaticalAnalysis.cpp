@@ -2,6 +2,7 @@
 #ifndef _GrammaticalAnalysis_
 #include"GrammaticalAnalysis.h"
 #endif
+namespace cfe{
 #define CLOSURE_FUNC false
 #define GOTO_FUNC false
 #define ITEMS_FUNC true
@@ -2380,4 +2381,5 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
   bool syntaxTree::semantic_analysis_use_database_def(vector<string>& vec)
   {
 	  return false;
+  }
   }

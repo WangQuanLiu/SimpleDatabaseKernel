@@ -14,6 +14,7 @@
 #ifndef _TESTSWITCH_
 #include"testswitch.h"
 #endif
+namespace cfe {
 #define CHARACTER_MAX 257
 #define READ_MAX 10
 #define ENTER ""
@@ -21,11 +22,8 @@
 #define FILE_LINE_MAX_NUMBER 1024
 #define SYMBOL_SIZE 15
 #define KEYWORD_TABLE 53
-using namespace std;
-extern enum Gram;
-
-namespace file {
-	
+	using namespace std;
+	extern enum Gram;
 	using FilePtr = FILE *;
 	class File //父文件类型
 	{
@@ -46,7 +44,7 @@ namespace file {
 		virtual string get_token();//获取符号
 		string get_file();//获取文件名
 		bool get_flag() { return flag; }
-		
+
 #if FILE_TEST==true
 		friend class FileTest;
 #endif
@@ -76,16 +74,17 @@ namespace file {
 		bool set_file_path(string fileName);
 	private:
 		string string_map_to_gram(const string&);
-	inline   int string_hash(const string&);
-	enum symbol{ keyword , num, real, id, add_sub_symbol, mul_symbol,
-		div_symbol, logical_symbol, compare_symbol, character, characterMatch,
-		l_bracket, r_bracket, comma, assignment_symbol, blank
+		inline   int string_hash(const string&);
+		enum symbol {
+			keyword, num, real, id, add_sub_symbol, mul_symbol,
+			div_symbol, logical_symbol, compare_symbol, character, characterMatch,
+			l_bracket, r_bracket, comma, assignment_symbol, blank
+		};
+		static const string symbolStringTable[SYMBOL_SIZE];
+		static const string keywordTable[KEYWORD_TABLE];
 	};
-	static const string symbolStringTable[SYMBOL_SIZE];
-	static const string keywordTable[KEYWORD_TABLE];
-	};
-}
 
+}
 
 
 

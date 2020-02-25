@@ -24,7 +24,6 @@ The project address :https://github.com/WangQuanLiu/SimpleDatabaseKernel
 completed date:2020/1/19 11:38
 create by WangQuanLiu
 E-mail:wangquanliu@163.com
-因为本人水平有限，程序难免于差强人意，敬请谅解！
 
 */
 #ifndef _LexicalAnalysis_
@@ -38,7 +37,7 @@ E-mail:wangquanliu@163.com
 #endif
 #include"GrammaticalAnalysis.h"
 using namespace std;
-using namespace file;
+
 class Compile { //主类，完成编译与实现任务，把词法分析、语法分析与后面的数据库联系起来
 public :
 	void run();
@@ -46,7 +45,7 @@ public :
 	void grammatical_run(string Path);
 	Compile(int argc,char*argv[]);
 private:
-	file::CFilePtr file;
+	cfe::CFilePtr file;
 };
 bool check_input_file(int argc, char*argv[]) {
 	
@@ -74,19 +73,19 @@ grammatical_run("C:\\Users\\THINKPAD\\Desktop\\sql.lex");
 }
 void Compile::lexical_run(string filePath)
 {
-	LexicalAnalysis lex(filePath);
+	cfe::LexicalAnalysis lex(filePath);
 		lex.run();
 
 }
 void Compile::grammatical_run(string Path)
 {
-	GrammaticalAnalysis gram(Path);
+	cfe::GrammaticalAnalysis gram(Path);
 	gram.run();
 }
 Compile::Compile(int argc,char*argv[])
 {
 	string str = "C:\\Users\\THINKPAD\\Desktop\\sql.txt";
-	file = new LexicalAnalysisFile(str);
+	file = new cfe::LexicalAnalysisFile(str);
 }
 int main(int argc,char *argv[]) {
 	argv = (char**)malloc(sizeof(char *[3]));
