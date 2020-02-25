@@ -753,7 +753,7 @@ GramDataType{
 	 DataType(e_mulop),
 	 DataType(e_from),
 	 DataType(e_id),
-	 DataType(e_col_name_rep_def),
+	 DataType(e_table_name_def),
 	 DataType(e_where_def)
 	 },
 	 GramDataType{
@@ -763,7 +763,7 @@ GramDataType{
 	 DataType(e_col_name_rep_def),
 	 DataType(e_from),
 	 DataType(e_id),
-	 DataType(e_col_name_rep_def),
+	 DataType(e_table_name_def),
 	 DataType(e_where_def)
  },
 
@@ -773,7 +773,7 @@ GramDataType{
 	 DataType(e_mulop),
 	 DataType(e_from),
 	 DataType(e_id),
-	 DataType(e_col_name_rep_def),
+	 DataType(e_table_name_def),
 	 DataType(e_where_def)
  },
 	 GramDataType{
@@ -782,7 +782,7 @@ GramDataType{
 	 DataType(e_col_name_rep_def),
 	 DataType(e_from),
 	 DataType(e_id),
-	 DataType(e_col_name_rep_def),
+	 DataType(e_table_name_def),
 	 DataType(e_where_def)
  },
 };
