@@ -339,13 +339,17 @@ namespace cfe {
 		dbm::AttributeType conditionType;//条件类型
 		string valueOne, valueTwo;
 	};
+	struct columnDetails {
+		string tableName;
+		vector<dbm::CNT>columnInfo;
+	};
 	class syntaxTree {
 	public:
 		
 	private:
 		bool semantic_analysis_where(dbm::Item_ptr itemPtr,vector<GramToken>&vec, vector<GramToken>&tableName);
 		bool semantic_analysis_compare(syntaxCondition condition);
-		bool semantic_analysis_logic(syntaxCondition conditionOne, GramToken symbol, syntaxCondition conditionTwo);
+		bool semantic_analysis_logic(bool expressionOne, GramToken symbol, bool expressionTwo);
 		bool semantic_analysis_select(vector<GramTokenType>&vec);
 		bool semantic_analysis_insert_data(vector<GramTokenType>&vec);
 		bool semantic_analysis_delete_table(vector<GramTokenType>&vec);
@@ -357,11 +361,11 @@ namespace cfe {
 		inline void execute_distance(dbm::resultData_ptr resultPtr);
 		inline void printf_symbol_status(const string symbolType, const string & name, const string&status);
 		dbm::queryMangement queryMangement;
-	
+		inline dbm::AttributeType gram_data_type_convert_to_AttributeType(Gram gram);
+		int find_dot(const string&str);
+		bool compare_values(dbm::AttributeType type, dbm::queryData queryType, dbm::DataType dataOne, dbm::DataType dataTwo);
+		vector<columnDetails>get_column_details(vector<string>&tableName);
 	};
-	inline dbm::AttributeType gram_data_type_convert_to_AttributeType(Gram gram);
-	int find_dot(const string&str);
-	bool compare_values(dbm::AttributeType type,dbm::queryData queryType, dbm::DataType dataOne, dbm::DataType dataTwo);
 	
 }
 

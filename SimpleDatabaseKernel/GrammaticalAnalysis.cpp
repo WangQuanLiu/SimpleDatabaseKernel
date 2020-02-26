@@ -2028,7 +2028,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  return temp;
  }
 
-  dbm::AttributeType gram_data_type_convert_to_AttributeType(Gram gram)
+  dbm::AttributeType syntaxTree::gram_data_type_convert_to_AttributeType(Gram gram)
   {
 	  if (gram == e_integer) {
 		  return dbm::a_int;
@@ -2042,7 +2042,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  return dbm::a_error;
   }
 
-  int find_dot(const string & str)
+  int syntaxTree::find_dot(const string & str)
   {
 	  int i;
 	  for (i = 0; i < str.size(); i++) {
@@ -2416,13 +2416,13 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  return compare_values(condition.conditionType, condition.conditionSymbol, condition.valueOne, condition.valueTwo);
   }
 
-  bool syntaxTree::semantic_analysis_logic(syntaxCondition conditionOne, GramToken symbol, syntaxCondition conditionTwo)
+  bool syntaxTree::semantic_analysis_logic(bool expressionOne, GramToken symbol, bool expressionTwo)
   {
 	  if (symbol.getGram() == e_and) {
-		  return semantic_analysis_compare( conditionOne)&&semantic_analysis_compare( conditionTwo);
+		  return expressionOne&&expressionTwo;
 	  }
 	  else if (symbol.getGram() == e_or) {
-		  return semantic_analysis_compare(conditionOne) || semantic_analysis_compare(conditionTwo);
+		  return expressionOne || expressionTwo;
 	  }
 	  return false;
   }
@@ -2544,7 +2544,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
   }
 
  
-  bool compare_values(dbm::AttributeType type, dbm::queryData queryType, dbm::DataType dataOne, dbm::DataType dataTwo)
+  bool syntaxTree::compare_values(dbm::AttributeType type, dbm::queryData queryType, dbm::DataType dataOne, dbm::DataType dataTwo)
   {
 	  if (queryType == dbm::qd_equal_greater_than) {
 		  if (type == dbm::a_int) {
@@ -2570,4 +2570,9 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  return dbm::compare_single_symbol_values(type, queryType, dataOne, dataTwo);
 	  }
 	 }
+	 vector<columnDetails> syntaxTree::get_column_details(vector<string>& tableName)
+	{
+
+	  return vector<columnDetails>();
+	}
   }

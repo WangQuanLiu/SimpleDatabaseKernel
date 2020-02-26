@@ -396,6 +396,19 @@ namespace dbm {
 		return true;
 	}
 	/*
+	输入：表名
+	功能：获取表中列的信息
+	输出：存在在表返回列信息，否则返回大小零的集合
+	*/
+	vector<CNT> dataMangement::get_column_info_in_table(const string & tableName)
+	{
+		NameQueryIndex index = query_name_inner(NameQuery(this->get_currently_library_name(), tableName));
+		if (index.flag) {
+			return this->nameMangementFilePtr->nameTable.tableMangement[index.tableNameIndex].column;
+		}
+		return vector<CNT>();
+	}
+	/*
 	输入:libraryName库名、tableName表名、colName列名
 	功能：删除colName列名
 	输出:删除成功返回true,失败返回flase
