@@ -26,7 +26,10 @@ namespace dbm {
 
 		return true;
 	}
-
+	/*
+	输入：结果集指针
+	功能：去重复
+	*/
 	void queryMangement::remove_duplicate(dbm::resultData_ptr resultPtr)
 	{
 		std::set<string>s;
@@ -62,7 +65,11 @@ namespace dbm {
 		resultPtr->recordHeadInfo.usedSpaceSize = totalColSize;
 		resultPtr->recordHeadInfo.totalDataNum = total;
 	}
-
+	/*
+	输入：结果集1和结果集2
+	功能：连接结果集1和结果集2
+	输出：返回连接后的结果集
+	*/
 	dbm::resultData_ptr queryMangement::one_table_natual_connect_another_table(dbm::resultData_ptr ptrOne, dbm::resultData_ptr ptrTwo)
 	{
 		dbm::resultData_ptr ptr = new dbm::resultData();
@@ -89,7 +96,11 @@ namespace dbm {
 		}
 		return ptr;
 	}
-
+	/*
+	输入：条件类型，列号，索引指针，结果集指针
+	功能：通过索引得到符号条件类型的结果集
+	输出：
+	*/
 	void queryMangement::erase_index_condition(const QueryData & condition, int colIndex, dbm::indexPtr ptr, dbm::resultData_ptr resultPtr)
 	{
 
@@ -122,7 +133,10 @@ namespace dbm {
 		}
 		erase_index_condition_values(indexSetPtr, resultPtr);
 	}
-
+	/*
+	输入：条件类型，列号，结果集指针
+	功能：按条件筛选结果集
+	*/
 	void queryMangement::erase_condition(const QueryData & condition, int colIndex, dbm::resultData_ptr resultPtr)
 	{
 		QueryData conditionTemp = condition;
@@ -150,7 +164,10 @@ namespace dbm {
 			erase_condition_values(condition, colIndex, resultPtr);
 		}
 	}
-
+	/*
+	输入：索引结果数据集合指针，结果集指针
+	功能：通过索引结果数据集合指针得到结果集
+	*/
 	void queryMangement::erase_index_condition_values(dbm::indexResultDataSetPtr indexSetPtr, dbm::resultData_ptr resultPtr)
 	{
 		int i, j;
@@ -187,7 +204,10 @@ namespace dbm {
 		resultPtr->recordHeadInfo.usedSpaceSize = totalColSize;
 		resultPtr->recordHeadInfo.totalDataNum = totalCot;
 	}
-
+	/*
+	输入：条件，列号，结果集
+	功能：筛选条件结果集得到新结果集
+	*/
 	void queryMangement::erase_condition_values(const QueryData  condition, int colIndex, dbm::resultData_ptr resultPtr)
 	{
 		dbm::AttributeType type = resultPtr->recordHeadInfo.type[colIndex];
