@@ -339,7 +339,6 @@ namespace cfe {
 		
 	private:
 		bool semantic_analysis_select(vector<GramTokenType>&vec);
-		bool semantic_analysis_distance(vector<GramTokenType>&vec);
 		bool semantic_analysis_insert_data(vector<GramTokenType>&vec);
 		bool semantic_analysis_delete_table(vector<GramTokenType>&vec);
 		bool semantic_analysis_create_database(vector<GramTokenType>&vec);
@@ -347,6 +346,7 @@ namespace cfe {
 		bool semantic_analysis_create(vector<GramTokenType>&vec);
 		bool semantic_analysis_drop_database(vector<GramTokenType>&vec);
 		bool semantic_analysis_drop_index(vector<GramTokenType>&vec);
+		inline void execute_distance(dbm::resultData_ptr resultPtr);
 		inline void printf_symbol_status(const string symbolType, const string & name, const string&status);
 		dbm::queryMangement queryMangement;
 	

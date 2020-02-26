@@ -2401,6 +2401,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 
   bool syntaxTree::semantic_analysis_select(vector<GramTokenType>& vec)
   {
+
 	 
 	  return false;
   }
@@ -2502,6 +2503,11 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  printf_symbol_status("index name",vec[2].getString(),"doesn't exist");
 		  return false;
 	  }
+  }
+
+  inline void syntaxTree::execute_distance(dbm::resultData_ptr resultPtr)
+  {
+	  queryMangement.remove_duplicate(resultPtr);
   }
 
   inline void syntaxTree::printf_symbol_status(const string symbolType,const string & name,const string&status)
