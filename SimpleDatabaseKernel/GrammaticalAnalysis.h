@@ -347,7 +347,7 @@ namespace cfe {
 	public:
 		
 	private:
-		bool semantic_analysis_where(dbm::Item_ptr itemPtr,vector<GramToken>&vec, vector<GramToken>&tableName);
+		bool semantic_analysis_where(dbm::Item_ptr itemPtr,vector<GramToken>&vec, vector<CDIT>&columnInfoInTable);
 		bool semantic_analysis_compare(syntaxCondition condition);
 		bool semantic_analysis_logic(bool expressionOne, GramToken symbol, bool expressionTwo);
 		bool semantic_analysis_select(vector<GramTokenType>&vec);
@@ -362,9 +362,9 @@ namespace cfe {
 		inline void printf_symbol_status(const string symbolType, const string & name, const string&status);
 		dbm::queryMangement queryMangement;
 		inline dbm::AttributeType gram_data_type_convert_to_AttributeType(Gram gram);
-		int find_dot(const string&str);
 		bool compare_values(dbm::AttributeType type, dbm::queryData queryType, dbm::DataType dataOne, dbm::DataType dataTwo);
 		vector<CDIT>get_column_details(vector<string>&tableName);
+		int get_column_position_in_connect_table(const string&columnName,vector<CDIT>&columnInfoInTable);
 	};
 	
 }

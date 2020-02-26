@@ -2042,15 +2042,6 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  return dbm::a_error;
   }
 
-  int syntaxTree::find_dot(const string & str)
-  {
-	  int i;
-	  for (i = 0; i < str.size(); i++) {
-		  if (str[i] == '.')return i;
-	  }
-	  return -1;
-  }
-
   /*
   功能：保存状态表和跳转表到文件
   */
@@ -2405,7 +2396,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  return;
   }
 
-  bool syntaxTree::semantic_analysis_where(dbm::Item_ptr itemPtr, vector<GramToken>& vec,vector<GramToken>&tableName)
+  bool syntaxTree::semantic_analysis_where(dbm::Item_ptr itemPtr, vector<GramToken>& vec, vector<CDIT>&columnInfoInTable)
   {
 
 	  return false;
@@ -2582,4 +2573,41 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		}
 		return columnInfo;
 	}
+	 int syntaxTree::get_column_position_in_connect_table(const string & columnName, vector<CDIT>& columnInfoInTable)
+	 {
+		 int i,j,position=0;
+		 for (i = 0; i < columnName.size(); i++) {
+			 if (columnName[i] == '.')break;
+		 }
+		 if (i < columnName.size()) {
+			 string tableName = columnName.substr(0, i),columnNameTemp = columnName.substr(i + 1, columnName.size() - i);
+			 for (i = 0; i < columnInfoInTable.size(); i++) {
+				 if (tableName == columnInfoInTable[i].tableName) {
+					 break;
+				 }
+				 position += columnInfoInTable[i].columnInfo.size();
+			 }
+			 for (j = 0; j < columnInfoInTable[i].columnInfo.size(); j++) {
+				 if (columnInfoInTable[i].columnInfo[j].colName == columnName) {
+					 break;
+				 }
+				 position++;
+			 }
+			 if (j > columnInfoInTable[i].columnInfo.size())return -1;
+		 }
+		 else {
+			 int columnCount = 0;
+			 for (i = 0; i < columnInfoInTable.size(); i++) {
+				 for (j = 0; j < columnInfoInTable[i].columnInfo.size(); j++) {
+					 if (columnInfoInTable[i].columnInfo[j].colName == columnName) {
+						 columnCount++;
+					 }
+					 position++;
+				 }
+				 position += columnInfoInTable[i].columnInfo.size();
+			 }
+			 if (columnCount > 1)return -1;
+		 }
+		 return position;
+	 }
   }
