@@ -1101,6 +1101,11 @@ namespace dbm {
 		if (inner_query_index(libraryName, tableName, colName) != nullptr)return true;
 		return false;
 	}
+	/*
+	输入：库名，表名列名
+	功能：查询该列是否有索引
+	输出：有该索引返回索引指针，否则返回nullptr
+	*/
 	indexPtr indexMangement::inner_query_index(const string & libraryName, const string & tableName, const string & colName)
 	{
 		int i;
@@ -1112,6 +1117,11 @@ namespace dbm {
 		}	
 		return nullptr;
 	}
+	/*
+	输入：库名，表名，列名，列在表中的序号，记录结构
+	功能：建立该列的索引
+	输出：成功返回创建成功的索引号，否则为nullptr
+	*/
 	shared_ptr<index> indexMangement::create_index(const string & libraryName, const string & tableName, const string & colName, const int colIndex, Record&record)
 	{
 		if (inner_query_index(libraryName, tableName, colName) != nullptr)return nullptr;
@@ -1136,6 +1146,11 @@ namespace dbm {
 		indexSet.push_back(ptr);
 		return ptr;
 	}
+	/*
+	输入：库名，表名，列名
+	功能：删除该索引号
+	输出：成功返回true,失败返回false
+	*/
 	bool indexMangement::erase_index(const string & libraryName, const string & tableName, const string & colName)
 	{
 		vector<shared_ptr<index>>::iterator begin(indexSet.begin()), end(indexSet.end());

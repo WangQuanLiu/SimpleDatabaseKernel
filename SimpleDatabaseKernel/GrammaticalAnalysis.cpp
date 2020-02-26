@@ -2399,101 +2399,107 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  return;
   }
 
-  bool syntaxTree::semantic_analysis_insert_data(vector<string>& vec, vector<Gram>&type)
+  bool syntaxTree::semantic_analysis_select(vector<GramTokenType>& vec)
   {
-	  if (queryMangement.query_name(dbm::NameQuery(vec[2]))) {
+	 
+	  return false;
+  }
+
+  bool syntaxTree::semantic_analysis_insert_data(vector<GramTokenType>& vec)
+  {
+	  if (queryMangement.query_name(dbm::NameQuery(vec[2].getString()))) {
 		  int i;
 		  vector<dbm::AttributeType>atrributeType;
 		  vector<string>values;
 		  for (i = 5; i < vec.size() - 1; i += 2) {
-			  values.push_back(vec[i]);
-			//  atrributeType.push_back()
+			  values.push_back(vec[i].getString());
+			  atrributeType.push_back(gram_data_type_convert_to_AttributeType(vec[i].getGram()));
 		  }
-		  
-		 
+		  return queryMangement.check_all_column_type_in_table(
+			  this->queryMangement.get_currently_library_name(), vec[2].getString(), values, atrributeType);
 	  }
 	  else {
-		  printf_symbol_status("table name", vec[2], "doesn't exist");
+		  printf_symbol_status("table name", vec[2].getString(), "doesn't exist");
 		  return false;
 	  }
   }
 
-  bool syntaxTree::semantic_analysis_delete_table(vector<string>& vec)
+  bool syntaxTree::semantic_analysis_delete_table(vector<GramTokenType>& vec)
   {
-	  if (queryMangement.query_name(dbm::NameQuery(vec[2]))) {
-		  queryMangement.delete_talbe_or_library(dbm::NameQuery(queryMangement.get_currently_library_name(), vec[2]));
+	  if (queryMangement.query_name(dbm::NameQuery(vec[2].getString()))) {
+		  queryMangement.delete_talbe_or_library(dbm::NameQuery(queryMangement.get_currently_library_name(), vec[2].getString()));
 		  return true;
 	  }
 	  else {
-		  printf_symbol_status("table name", vec[2] , "doesn't exist");
+		  printf_symbol_status("table name", vec[2].getString() , "doesn't exist");
 		  return false;
 	  }
   }
 
-  bool syntaxTree::semantic_analysis_create_database(vector<string>& vec)
+  bool syntaxTree::semantic_analysis_create_database(vector<GramTokenType>& vec)
   {
-	  if (!queryMangement.query_name(dbm::NameQuery(vec[2]))) {
-		  queryMangement.add_table_or_library(dbm::NameQuery(vec[2]));
+	  if (!queryMangement.query_name(dbm::NameQuery(vec[2].getString()))) {
+		  queryMangement.add_table_or_library(dbm::NameQuery(vec[2].getString()));
 		  return true;
 	  }
 	  else {
-		  printf_symbol_status("library name", vec[2], "already exist");
+		  printf_symbol_status("library name", vec[2].getString(), "already exist");
 		  return false;
 	  }
   }
 
-  bool syntaxTree::semantic_analysis_use_database(vector<string>& vec)
+  bool syntaxTree::semantic_analysis_use_database(vector<GramTokenType>& vec)
   {
-	  if (queryMangement.query_name(dbm::NameQuery(vec[1]))) {
-		  queryMangement.set_cur_library_name(vec[1]);
+	  if (queryMangement.query_name(dbm::NameQuery(vec[1].getString()))) {
+		  queryMangement.set_cur_library_name(vec[1].getString());
 		  return true;
 	  }
 	  else {
-		  printf_symbol_status("library name",vec[1],"doesn't exist");
+		  printf_symbol_status("library name",vec[1].getString(),"doesn't exist");
 		  return false;
 	  }
   }
 
-  bool syntaxTree::semantic_analysis_create(vector<string>& vec)
+  bool syntaxTree::semantic_analysis_create(vector<GramTokenType>& vec)
   {
 	  int i;
-	  if (!queryMangement.query_name(dbm::NameQuery(queryMangement.get_currently_library_name(), vec[2]))) {
+	  if (!queryMangement.query_name(dbm::NameQuery(queryMangement.get_currently_library_name(), vec[2].getString()))) {
 		  vector<string>type, id;
 		  for (i = 4; i < vec.size(); i += 3) {
-			  id.push_back(vec[i]);
-			  type.push_back( vec[i + 1]);
+			  id.push_back(vec[i].getString());
+			  type.push_back( vec[i + 1].getString());
 		  }
 		  for (i = 0; i < id.size(); i++) {
-			  queryMangement.add_name(dbm::NameQuery(queryMangement.get_currently_library_name(), vec[2], id[i]), type[i]);
+			  queryMangement.add_name(dbm::NameQuery(queryMangement.get_currently_library_name(), vec[2].getString(), id[i]), type[i]);
 		  }
 		  return true;
 	  }
 	  else {
-		  printf_symbol_status("table name",vec[2],"already exist");
+		  printf_symbol_status("table name",vec[2].getString(),"already exist");
 		  return false;
 	  }
   }
 
-  bool syntaxTree::semantic_analysis_drop_database(vector<string>& vec)
+  bool syntaxTree::semantic_analysis_drop_database(vector<GramTokenType>& vec)
   {
-	  if (queryMangement.query_name(dbm::NameQuery(vec[1]))) {
-		  queryMangement.delete_name(dbm::NameQuery(vec[1]));
+	  if (queryMangement.query_name(dbm::NameQuery(vec[1].getString()))) {
+		  queryMangement.delete_name(dbm::NameQuery(vec[1].getString()));
 		  return true;
 	  }
 	  else {
-		  printf_symbol_status("library name", vec[1],"doesn't exist");
+		  printf_symbol_status("library name", vec[1].getString(),"doesn't exist");
 		  return false;
 	  }
   }
 
-  bool syntaxTree::semantic_analysis_drop_index(vector<string>& vec)
+  bool syntaxTree::semantic_analysis_drop_index(vector<GramTokenType>& vec)
   {
-	  if (queryMangement.query_index(queryMangement.get_currently_library_name(),vec[2],vec[4])) {
-		  queryMangement.erase_index(queryMangement.get_currently_library_name(), vec[2], vec[4]);
+	  if (queryMangement.query_index(queryMangement.get_currently_library_name(),vec[2].getString(),vec[4].getString())) {
+		  queryMangement.erase_index(queryMangement.get_currently_library_name(), vec[2].getString(), vec[4].getString());
 		  return true;
 	  }
 	  else {
-		  printf_symbol_status("index name",vec[2],"doesn't exist");
+		  printf_symbol_status("index name",vec[2].getString(),"doesn't exist");
 		  return false;
 	  }
   }

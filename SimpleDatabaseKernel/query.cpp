@@ -1,5 +1,10 @@
 #include"query.h"
 namespace dbm {
+	/*
+	输入：条件类型，结果集
+	功能：筛选出符合结果的结果集
+	输出：成功返回true,失败返回false
+	*/
 	bool queryMangement::condition_query_single_table(const QueryData & condition, dbm::resultData_ptr resultPtr)
 	{
 		if (condition.tableName != resultPtr->recordHeadInfo.tableName)return false;

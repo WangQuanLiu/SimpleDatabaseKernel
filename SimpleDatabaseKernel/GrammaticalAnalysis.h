@@ -338,13 +338,15 @@ namespace cfe {
 	public:
 		
 	private:
-		bool semantic_analysis_insert_data(vector<string>&vec, vector<Gram>&type);
-		bool semantic_analysis_delete_table(vector<string>&vec);
-		bool semantic_analysis_create_database(vector<string>&vec);
-		bool semantic_analysis_use_database(vector<string>& vec);
-		bool semantic_analysis_create(vector<string>&vec);
-		bool semantic_analysis_drop_database(vector<string>&vec);
-		bool semantic_analysis_drop_index(vector<string>&vec);
+		bool semantic_analysis_select(vector<GramTokenType>&vec);
+		bool semantic_analysis_distance(vector<GramTokenType>&vec);
+		bool semantic_analysis_insert_data(vector<GramTokenType>&vec);
+		bool semantic_analysis_delete_table(vector<GramTokenType>&vec);
+		bool semantic_analysis_create_database(vector<GramTokenType>&vec);
+		bool semantic_analysis_use_database(vector<GramTokenType>& vec);
+		bool semantic_analysis_create(vector<GramTokenType>&vec);
+		bool semantic_analysis_drop_database(vector<GramTokenType>&vec);
+		bool semantic_analysis_drop_index(vector<GramTokenType>&vec);
 		inline void printf_symbol_status(const string symbolType, const string & name, const string&status);
 		dbm::queryMangement queryMangement;
 	
