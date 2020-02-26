@@ -22,6 +22,7 @@ namespace dbm {
 		bool add_name(const NameQuery&nameQuery, const string&colType);//添加列名
 		void set_cur_library_name(const string&libraryName);
 		AttributeType quer_column_type(const string&libraryName, const string&tableName, const string&columnName);//查询列类型
+		bool check_all_column_type_in_table(const string&libraryName, const string&tableName, vector<string>&strType,vector<AttributeType>&type);
 	protected:
 		NameQueryIndex query_name_inner(const NameQuery&nameQuery)const;
 		bool add_database_name_or_table_name(const NameQuery&nameQuery);
@@ -69,13 +70,13 @@ namespace dbm {
 		bool query_data(const NameQuery&nameQuery)const;//查询数据
 		bool modification_name(const NameQuery&nameQuery, const string&modeficationedName);//修改名字及文件
 		bool delete_talbe_or_library(const NameQuery&nameQuery);//删除库名、表名及文件
-		bool delete_column(const string&libraryName, const string&tableName, const string&colName);//删除列名
 		bool add_table_or_library(const NameQuery&nameQuery);//添加库名，表名及文件	
 		bool add_data(const InsertData&data);
 		bool delete_data(const DeleteData&data);
 		bool save();//保存所有数据
 		resultData table_data(const string&tableName);
 	protected:
+		bool delete_column(const string&libraryName, const string&tableName, const string&colName);//删除列名
 		bool add_column(const string&libraryName, const string&tableName, const string&columnName, const string & type);
 		inline void newPage(int tableIndex, size_t colSize,size_t pageSize, Item item);
 		DatabaseFile databaseFile;//数据库数据

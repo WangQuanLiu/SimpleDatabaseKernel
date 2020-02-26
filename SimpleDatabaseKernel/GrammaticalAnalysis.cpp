@@ -2031,6 +2031,20 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  return temp;
  }
 
+  dbm::AttributeType gram_data_type_convert_to_AttributeType(Gram gram)
+  {
+	  if (gram == e_integer) {
+		  return dbm::a_int;
+	  }
+	  else if (gram == e_float) {
+		  return dbm::a_flaot;
+	  }
+	  else if (gram == e_str) {
+		  return dbm::a_string;
+	  }
+	  return dbm::a_error;
+  }
+
   /*
   功能：保存状态表和跳转表到文件
   */
@@ -2385,13 +2399,21 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  return;
   }
 
-  bool syntaxTree::semantic_analysis_insert_data(vector<string>& vec, vector<string>& type)
+  bool syntaxTree::semantic_analysis_insert_data(vector<string>& vec, vector<Gram>&type)
   {
 	  if (queryMangement.query_name(dbm::NameQuery(vec[2]))) {
-
+		  int i;
+		  vector<dbm::AttributeType>atrributeType;
+		  vector<string>values;
+		  for (i = 5; i < vec.size() - 1; i += 2) {
+			  values.push_back(vec[i]);
+			//  atrributeType.push_back()
+		  }
+		  
+		 
 	  }
 	  else {
-
+		  printf_symbol_status("table name", vec[2], "doesn't exist");
 		  return false;
 	  }
   }

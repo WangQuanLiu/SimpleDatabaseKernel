@@ -338,7 +338,7 @@ namespace cfe {
 	public:
 		
 	private:
-		bool semantic_analysis_insert_data(vector<string>&vec, vector<string>&type);
+		bool semantic_analysis_insert_data(vector<string>&vec, vector<Gram>&type);
 		bool semantic_analysis_delete_table(vector<string>&vec);
 		bool semantic_analysis_create_database(vector<string>&vec);
 		bool semantic_analysis_use_database(vector<string>& vec);
@@ -349,5 +349,6 @@ namespace cfe {
 		dbm::queryMangement queryMangement;
 	
 	};
+	inline dbm::AttributeType gram_data_type_convert_to_AttributeType(Gram gram);
 }
 

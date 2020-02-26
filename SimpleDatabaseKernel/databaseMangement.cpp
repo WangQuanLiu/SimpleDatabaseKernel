@@ -160,6 +160,22 @@ namespace dbm {
 
 		return a_error;
 	}
+	bool NameMangement::check_all_column_type_in_table(const string&libraryName, const string&tableName, vector<string>&str, vector<AttributeType>&type)
+	{
+		int i;
+		const NameQueryIndex index = query_name_inner(NameQuery(libraryName, tableName));
+		if (index.flag) {
+			vector<CNT>&columnMangement = this->nameMangementFilePtr->nameTable.tableMangement[index.databaseNameIndex].column;
+			if (columnMangement.size() != type.size())return false;
+			for (i = 0; columnMangement.size(); i++) {
+				if (columnMangement[i].attributeType != type[i]||
+					(type[i] == a_string&&columnMangement[i].type_size()<str.size()-1)) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
 	/*
 	输入：nameQUuery 库名
 					 库名、表名
