@@ -2411,17 +2411,19 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  return false;
   }
 
-  bool syntaxTree::semantic_analysis_compare(dbm::QueryData queryData, dbm::resultData_ptr resultPtr)
+  bool syntaxTree::semantic_analysis_compare(syntaxCondition condition)
   {
-	  if (resultPtr->recordHeadInfo.totalDataNum > 0) {
-		  this->queryMangement.condition_query_single_table(queryData, resultPtr);
-	  }
-	  if (resultPtr->recordHeadInfo.totalDataNum > 0)return true;
-	  return false;
+	  return compare_values(condition.conditionType, condition.conditionSymbol, condition.valueOne, condition.valueTwo);
   }
 
-  bool syntaxTree::semantic_analysis_logic(bool left_expression, GramToken symbol, bool right_expression)
+  bool syntaxTree::semantic_analysis_logic(syntaxCondition conditionOne, GramToken symbol, syntaxCondition conditionTwo)
   {
+	  if (symbol.getGram() == e_and) {
+		  return semantic_analysis_compare( conditionOne)&&semantic_analysis_compare( conditionTwo);
+	  }
+	  else if (symbol.getGram() == e_or) {
+		  return semantic_analysis_compare(conditionOne) || semantic_analysis_compare(conditionTwo);
+	  }
 	  return false;
   }
 
@@ -2541,5 +2543,31 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  cout << "ÓïÒå·ÖÎö£º" << symbolType <<" "<<name <<" "<<status << endl;
   }
 
-
+ 
+  bool compare_values(dbm::AttributeType type, dbm::queryData queryType, dbm::DataType dataOne, dbm::DataType dataTwo)
+  {
+	  if (queryType == dbm::qd_equal_greater_than) {
+		  if (type == dbm::a_int) {
+			  return atoi(dataOne.get_data().c_str())>= atoi(dataTwo.get_data().c_str());
+		  }
+		  else if (type == dbm::a_flaot) {
+			  return atof(dataOne.get_data().c_str()) >= atof(dataTwo.get_data().c_str());
+		  }
+		  return dataOne.get_data() >= dataTwo.get_data();
+	  }
+	  else if (queryType == dbm::qd_equal_or_less_then) {
+		  if (type == dbm::a_int) {
+			  return atoi(dataOne.get_data().c_str()) <= atoi(dataTwo.get_data().c_str());
+		  }
+		  else if (type == dbm::a_flaot) {
+			  return atof(dataOne.get_data().c_str()) <= atof(dataTwo.get_data().c_str());
+		  }
+		  else {
+			  return dataOne.get_data() <= dataTwo.get_data();
+		  }
+	  }
+	  else {
+		  return dbm::compare_single_symbol_values(type, queryType, dataOne, dataTwo);
+	  }
+	 }
   }

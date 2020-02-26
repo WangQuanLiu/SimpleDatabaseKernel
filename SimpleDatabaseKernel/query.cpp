@@ -238,7 +238,7 @@ namespace dbm {
 		resultPtr->recordHeadInfo.totalDataNum = totalCot;
 	}
 
-	bool queryMangement::compare_single_symbol_values(dbm::AttributeType type, queryData queryType, dbm::DataType dataOne, dbm::DataType dataTwo)
+	bool compare_single_symbol_values(dbm::AttributeType type, queryData queryType, dbm::DataType dataOne, dbm::DataType dataTwo)
 	{
 		if (type == dbm::a_int) {
 			return inner_compare_single_symbol_values<int>(queryType, atoi(dataOne.get_data().c_str()), atoi(dataTwo.get_data().c_str()));

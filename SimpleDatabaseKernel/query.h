@@ -32,13 +32,14 @@ namespace dbm {
 		void erase_condition(const QueryData&condition, int colIndex, dbm::resultData_ptr resultPtr);
 		void erase_index_condition_values(dbm::indexResultDataSetPtr indexSetPtr, dbm::resultData_ptr resultPtr);
 		void erase_condition_values(const QueryData condition, int colIndex, dbm::resultData_ptr resultPtr);
-		bool compare_single_symbol_values(dbm::AttributeType type, queryData queryType, dbm::DataType dataOne, dbm::DataType dataTwo);
-		template<typename Type>
-		bool inner_compare_single_symbol_values(queryData type, Type dataOne, Type dataTwo);
+	
 		//dbm::indexMangement indexMangement;
 	};
+	bool compare_single_symbol_values(dbm::AttributeType type, queryData queryType, dbm::DataType dataOne, dbm::DataType dataTwo);
 	template<typename Type>
-	inline bool queryMangement::inner_compare_single_symbol_values(queryData queryType, Type dataOne, Type dataTwo)
+	bool inner_compare_single_symbol_values(queryData type, Type dataOne, Type dataTwo);
+	template<typename Type>
+	inline bool inner_compare_single_symbol_values(queryData queryType, Type dataOne, Type dataTwo)
 	{
 		if (queryType == qd_equal) {
 			return dataOne == dataTwo;
@@ -54,4 +55,5 @@ namespace dbm {
 		}
 		return false;
 	}
+	
 }
