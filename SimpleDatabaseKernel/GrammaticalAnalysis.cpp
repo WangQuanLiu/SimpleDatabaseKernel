@@ -280,10 +280,10 @@ GramDataType{
 	},
 	GramDataType{
 	DataType(e_or)
-},
+}/*,
 GramDataType{
 	DataType(e_not)
-}
+}*/
 };
  GramType Grammatical::v_gather_fuc_def{
 	/*
@@ -427,9 +427,6 @@ GramDataType{
 	 DataType(e_compare_def),
 	 DataType(e_where_algorithm_operator_def),
  },
-
-
-
 	 GramDataType{
 	 DataType(e_where_algorithm_operator_def),
 	 DataType(e_equal),
@@ -2045,6 +2042,15 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  return dbm::a_error;
   }
 
+  int find_dot(const string & str)
+  {
+	  int i;
+	  for (i = 0; i < str.size(); i++) {
+		  if (str[i] == '.')return i;
+	  }
+	  return -1;
+  }
+
   /*
   功能：保存状态表和跳转表到文件
   */
@@ -2397,6 +2403,26 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  for (i = 0; i < min; i++)
 		  vec.pop_back();
 	  return;
+  }
+
+  bool syntaxTree::semantic_analysis_where(dbm::Item_ptr itemPtr, vector<GramToken>& vec,vector<GramToken>&tableName)
+  {
+
+	  return false;
+  }
+
+  bool syntaxTree::semantic_analysis_compare(dbm::QueryData queryData, dbm::resultData_ptr resultPtr)
+  {
+	  if (resultPtr->recordHeadInfo.totalDataNum > 0) {
+		  this->queryMangement.condition_query_single_table(queryData, resultPtr);
+	  }
+	  if (resultPtr->recordHeadInfo.totalDataNum > 0)return true;
+	  return false;
+  }
+
+  bool syntaxTree::semantic_analysis_logic(bool left_expression, GramToken symbol, bool right_expression)
+  {
+	  return false;
   }
 
   bool syntaxTree::semantic_analysis_select(vector<GramTokenType>& vec)

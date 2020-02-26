@@ -16,9 +16,9 @@ namespace dbm {
 			}
 		}
 		dbm::indexPtr ptr = inner_query_index(get_currently_library_name(),
-			condition.tableName, condition.tableName);
+			condition.tableName, condition.columnName);
 		if (ptr == nullptr) {
-
+			erase_condition(condition, colIndex, resultPtr);
 		}
 		else {
 			erase_index_condition(condition, colIndex, ptr, resultPtr);

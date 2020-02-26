@@ -334,10 +334,14 @@ namespace cfe {
 		void grammatical_convert_to_dfa();//文法转换成dfa
 		vector<GramDataType> closure(const vector<GramDataType>);
 	};
+
 	class syntaxTree {
 	public:
 		
 	private:
+		bool semantic_analysis_where(dbm::Item_ptr itemPtr,vector<GramToken>&vec, vector<GramToken>&tableName);
+		bool semantic_analysis_compare(dbm::QueryData queryData, dbm::resultData_ptr resultPtr);
+		bool semantic_analysis_logic(bool left_expression, GramToken symbol, bool right_expression);
 		bool semantic_analysis_select(vector<GramTokenType>&vec);
 		bool semantic_analysis_insert_data(vector<GramTokenType>&vec);
 		bool semantic_analysis_delete_table(vector<GramTokenType>&vec);
@@ -352,5 +356,6 @@ namespace cfe {
 	
 	};
 	inline dbm::AttributeType gram_data_type_convert_to_AttributeType(Gram gram);
+	int find_dot(const string&str);
 }
 
