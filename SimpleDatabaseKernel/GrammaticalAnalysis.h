@@ -339,10 +339,10 @@ namespace cfe {
 		dbm::AttributeType conditionType;//条件类型
 		string valueOne, valueTwo;
 	};
-	struct columnDetails {
+	typedef struct columnDetailsInTable {
 		string tableName;
 		vector<dbm::CNT>columnInfo;
-	};
+	}CDIT;
 	class syntaxTree {
 	public:
 		
@@ -364,7 +364,7 @@ namespace cfe {
 		inline dbm::AttributeType gram_data_type_convert_to_AttributeType(Gram gram);
 		int find_dot(const string&str);
 		bool compare_values(dbm::AttributeType type, dbm::queryData queryType, dbm::DataType dataOne, dbm::DataType dataTwo);
-		vector<columnDetails>get_column_details(vector<string>&tableName);
+		vector<CDIT>get_column_details(vector<string>&tableName);
 	};
 	
 }

@@ -2570,9 +2570,16 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  return dbm::compare_single_symbol_values(type, queryType, dataOne, dataTwo);
 	  }
 	 }
-	 vector<columnDetails> syntaxTree::get_column_details(vector<string>& tableName)
+	 vector<CDIT> syntaxTree::get_column_details(vector<string>& tableName)
 	{
-
-	  return vector<columnDetails>();
+		int i;
+		vector<CDIT>columnInfo;
+		for (i = 0; i < tableName.size(); i++) {
+			CDIT temp;
+			temp.tableName = tableName[i];
+			temp.columnInfo = queryMangement.get_column_info_in_table(tableName[i]);
+			columnInfo.push_back(temp);
+		}
+		return columnInfo;
 	}
   }
