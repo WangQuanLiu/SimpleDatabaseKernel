@@ -338,14 +338,16 @@ namespace cfe {
 	public:
 		
 	private:
+		bool semantic_analysis_insert_data(vector<string>&vec, vector<string>&type);
+		bool semantic_analysis_delete_table(vector<string>&vec);
+		bool semantic_analysis_create_database(vector<string>&vec);
 		bool semantic_analysis_use_database(vector<string>& vec);
 		bool semantic_analysis_create(vector<string>&vec);
 		bool semantic_analysis_drop_database(vector<string>&vec);
 		bool semantic_analysis_drop_index(vector<string>&vec);
-		inline void printf_not_found_table_name(const string &tableName);
-		inline void printf_not_found_library_name(const string&libraryName);
-		inline void printf_not_found_index_name(const string&indexName);
+		inline void printf_symbol_status(const string symbolType, const string & name, const string&status);
 		dbm::queryMangement queryMangement;
+	
 	};
 }
 

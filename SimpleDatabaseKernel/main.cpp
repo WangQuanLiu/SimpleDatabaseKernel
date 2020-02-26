@@ -68,6 +68,7 @@ void Compile::run()
 {
 	
 	lexical_run(file->get_file());
+	cout << "词法分析完成！" << endl;
 grammatical_run("C:\\Users\\THINKPAD\\Desktop\\sql.lex");
 
 }

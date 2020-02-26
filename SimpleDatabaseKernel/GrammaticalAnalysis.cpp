@@ -1021,8 +1021,8 @@ GramDataType{
 	 v_drop_view_def->drop view view_name
 	 */
 	 GramDataType{
-	  DataType(e_drop),
-	  DataType(e_id)
+	 DataType(e_drop),
+	 DataType(e_id),
  }
 };
  GramType Grammatical::v_create_index_def{
@@ -1057,7 +1057,6 @@ GramDataType{
 	 GramDataType{
 	 DataType(e_drop),
 	 DataType(e_id),
-	
 	}
  };
  GramDataType::GramDataType(initializer_list<DataType> initializer)
@@ -1189,15 +1188,22 @@ bool GrammaticalAnalysis::check_grammatical()
 	statusStack.push(0);
 	gramStack.push(e_s);
 	GramTokenType temp;
+	string str;
+	int lastLineNum = 0;
 	while (file->get_token_size()>0) {
-		string str = file->get_token();
+		 str = file->get_token();
 		if (!strcmp(str.c_str() , ""))continue;
+		lastLineNum = file->get_cur_line();
 		temp = string_convert_to_GramToken(str);
 		if (action(temp.getGram(), statusStack, gramStack) == error) {
 			str = get_original_string(str);
-			cout <<"line: "<< file->get_cur_line()<<" " << str << " error!" << endl;
+			cout <<"line: "<< lastLineNum <<" " << str << " error!" << endl;
 			break;
 		}
+	}
+	if (gramStack.size() > 1) {
+		str = get_original_string(str);
+		cout << "line: " << lastLineNum << " " << str << " error!" << endl;
 	}
 	return false;
 }
@@ -2379,6 +2385,41 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  return;
   }
 
+  bool syntaxTree::semantic_analysis_insert_data(vector<string>& vec, vector<string>& type)
+  {
+	  if (queryMangement.query_name(dbm::NameQuery(vec[2]))) {
+
+	  }
+	  else {
+
+		  return false;
+	  }
+  }
+
+  bool syntaxTree::semantic_analysis_delete_table(vector<string>& vec)
+  {
+	  if (queryMangement.query_name(dbm::NameQuery(vec[2]))) {
+		  queryMangement.delete_talbe_or_library(dbm::NameQuery(queryMangement.get_currently_library_name(), vec[2]));
+		  return true;
+	  }
+	  else {
+		  printf_symbol_status("table name", vec[2] , "doesn't exist");
+		  return false;
+	  }
+  }
+
+  bool syntaxTree::semantic_analysis_create_database(vector<string>& vec)
+  {
+	  if (!queryMangement.query_name(dbm::NameQuery(vec[2]))) {
+		  queryMangement.add_table_or_library(dbm::NameQuery(vec[2]));
+		  return true;
+	  }
+	  else {
+		  printf_symbol_status("library name", vec[2], "already exist");
+		  return false;
+	  }
+  }
+
   bool syntaxTree::semantic_analysis_use_database(vector<string>& vec)
   {
 	  if (queryMangement.query_name(dbm::NameQuery(vec[1]))) {
@@ -2386,7 +2427,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  return true;
 	  }
 	  else {
-		  printf_not_found_library_name(vec[1]);
+		  printf_symbol_status("library name",vec[1],"doesn't exist");
 		  return false;
 	  }
   }
@@ -2406,7 +2447,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  return true;
 	  }
 	  else {
-		  printf_not_found_table_name(vec[2]);
+		  printf_symbol_status("table name",vec[2],"already exist");
 		  return false;
 	  }
   }
@@ -2418,7 +2459,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  return true;
 	  }
 	  else {
-		  printf_not_found_library_name(vec[1]);
+		  printf_symbol_status("library name", vec[1],"doesn't exist");
 		  return false;
 	  }
   }
@@ -2430,24 +2471,15 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  return true;
 	  }
 	  else {
-		  printf_not_found_index_name(vec[2]);
+		  printf_symbol_status("index name",vec[2],"doesn't exist");
 		  return false;
 	  }
   }
 
-  inline void syntaxTree::printf_not_found_library_name(const string & libraryName)
+  inline void syntaxTree::printf_symbol_status(const string symbolType,const string & name,const string&status)
   {
-	  cout << "语义分析：" << "库名" <<libraryName << "不存在" << endl;
+	  cout << "语义分析：" << symbolType <<" "<<name <<" "<<status << endl;
   }
 
-  inline void syntaxTree::printf_not_found_index_name(const string & indexName)
-  {
-	  cout << "语义分析：" << "索引" << indexName << "不存在" << endl;
-  }
-
-  inline void syntaxTree::printf_not_found_table_name(const string& tableName)
-  {
-	  cout << "语义分析：" << "表名" <<tableName  << "不存在" << endl;
-  }
 
   }
