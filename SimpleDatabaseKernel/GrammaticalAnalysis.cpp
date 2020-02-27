@@ -2436,7 +2436,11 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	 
 	  return false;
   }
-
+  /*
+  输入：插入数据语句
+  功能：插入数据
+  输出：插入成功返回true,否则返回false
+  */
   bool syntaxTree::semantic_analysis_insert_data(vector<GramTokenType>& vec)
   {
 	  if (queryMangement.query_name(dbm::NameQuery(vec[2].getString()))) {
@@ -2455,7 +2459,11 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  return false;
 	  }
   }
-
+  /*
+  输入：删除表语句
+  功能：删除表
+  输出：删除表成功返回true,否则返回false
+  */
   bool syntaxTree::semantic_analysis_delete_table(vector<GramTokenType>& vec)
   {
 	  if (queryMangement.query_name(dbm::NameQuery(vec[2].getString()))) {
@@ -2467,7 +2475,11 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  return false;
 	  }
   }
-
+  /*
+  输入：创建库语句
+  功能：创建库
+  输出：创建成功返回true,否则返回false
+  */
   bool syntaxTree::semantic_analysis_create_database(vector<GramTokenType>& vec)
   {
 	  if (!queryMangement.query_name(dbm::NameQuery(vec[2].getString()))) {
@@ -2479,7 +2491,11 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  return false;
 	  }
   }
-
+  /*
+  输入：切换库语句
+  功能：切换库
+  输出：切换成功返回true,否则返回false
+  */
   bool syntaxTree::semantic_analysis_use_database(vector<GramTokenType>& vec)
   {
 	  if (queryMangement.query_name(dbm::NameQuery(vec[1].getString()))) {
@@ -2491,7 +2507,11 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  return false;
 	  }
   }
-
+  /*
+  输入：创建表语句
+  功能：创建表
+  输出：创建成功返回true,否则返回false
+  */
   bool syntaxTree::semantic_analysis_create(vector<GramTokenType>& vec)
   {
 	  int i;
@@ -2511,7 +2531,11 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  return false;
 	  }
   }
-
+  /*
+  输入：删除数据库语句
+  功能：删除数据库
+  输出：找到数据库返回true,否则返回false
+  */
   bool syntaxTree::semantic_analysis_drop_database(vector<GramTokenType>& vec)
   {
 	  if (queryMangement.query_name(dbm::NameQuery(vec[1].getString()))) {
@@ -2523,7 +2547,11 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  return false;
 	  }
   }
-
+  /*
+  输入：删除索引语句
+  功能：删除索引
+  输出：找到索引返回true,否则返回false
+  */
   bool syntaxTree::semantic_analysis_drop_index(vector<GramTokenType>& vec)
   {
 	  if (queryMangement.query_index(queryMangement.get_currently_library_name(),vec[2].getString(),vec[4].getString())) {
@@ -2535,7 +2563,10 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  return false;
 	  }
   }
-
+  /*
+  输入：结果集
+  功能：去除重复
+  */
   inline void syntaxTree::execute_distance(dbm::resultData_ptr resultPtr)
   {
 	  queryMangement.remove_duplicate(resultPtr);
@@ -2547,6 +2578,11 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
   }
 
  
+  /*
+  输入：数据类型，比较类型，数据1，数据2
+  功能：比较数据1与数据2
+  输出：数据1通过比较类型大小数据2返回true,否则返回false
+  */
   bool syntaxTree::compare_values(dbm::AttributeType type, dbm::queryData queryType, dbm::DataType dataOne, dbm::DataType dataTwo)
   {
 	  if (queryType == dbm::qd_equal_greater_than) {
@@ -2573,6 +2609,11 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  return dbm::compare_single_symbol_values(type, queryType, dataOne, dataTwo);
 	  }
 	 }
+  /*
+  输入：表名
+  功能：获取表中列的详细信息
+  输出：返回详细信息
+  */
 	 vector<CDIT> syntaxTree::get_column_details(vector<string>& tableName)
 	{
 		int i;
@@ -2585,6 +2626,11 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		}
 		return columnInfo;
 	}
+	 /*
+	 输入：列名，连接表的列信息集合
+	 功能：获取列在连接表中位置
+	 输出：找到返回位置，否则返回-1
+	 */
 	 int syntaxTree::get_column_position_in_connect_table(const string & columnName, vector<CDIT>& columnInfoInTable)
 	 {
 		 int i,j,position=0;
@@ -2622,6 +2668,11 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		 }
 		 return position;
 	 }
+	 /*
+	 输入：where like 字符匹配中的字符匹配
+	 功能：找到字符匹配中的关键数字或字符位置，即排除%,_
+	 输出：返回位置集合
+	  */
 	 vector<matchKeyword> syntaxTree::find_match_keyword(string & condition)
 	 {
 		 vector<matchKeyword>keyword;
