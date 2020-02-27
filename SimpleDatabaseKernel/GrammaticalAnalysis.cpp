@@ -458,14 +458,14 @@ GramDataType{
 	v_where_compare_or_string_match_def-> v_where_compare_def
 	v_where_compare_or_string_match_def-> col_name like string_match
 	*/
-	GramDataType{
+	/*GramDataType{
 	DataType(e_where_compare_def)
 	},
 	GramDataType{
 	DataType(e_id),
 	DataType(e_like),
 	DataType(e_strMatch)
-	}
+	}*/
 
 };
  GramType Grammatical::v_logic_and_where_compare_string_match_def{
@@ -481,7 +481,7 @@ GramDataType{
 	},*/
 	GramDataType{
 	DataType(e_logic_def),
-	DataType(e_where_compare_or_string_match_def),
+	DataType(e_where_compare_def),
 	DataType(e_logic_and_where_compare_string_match_def)
 },
 	GramDataType{
@@ -496,7 +496,7 @@ GramDataType{
 	*/
 
 	GramDataType{
-	DataType(e_where_compare_or_string_match_def),
+	DataType(e_where_compare_def),
 	DataType(e_logic_and_where_compare_string_match_def)
 	},
 
