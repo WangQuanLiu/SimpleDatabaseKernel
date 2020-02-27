@@ -19,6 +19,7 @@ namespace cfe {
 #define CHAR_SIZE 100
 #define EMPTY "-1"
 #define GOTO_TABLE_MAX 800
+#define RANGE_MAX 1000
 #define CONFIGURATION_FILE_HOME(x) string(string("C:\\Users\\THINKPAD\\Desktop\\")+string(x)) 
 	using CFilePtr = File *;
 	enum GramCategory {
@@ -351,12 +352,18 @@ namespace cfe {
 		string keyword;
 		int position;
 	};
+	struct positionRange {
+		positionRange(int first, int second) {
+			this->first = first;
+			this->second = second;
+		}
+		int first, second;
+	};
 	class syntaxTree {
 	public:
 		
 	private:
 		bool semantic_analysis_where(dbm::Item_ptr itemPtr,vector<GramToken>&vec, vector<CDIT>&columnInfoInTable);
-		bool sematinc_analysis_where_like(string values,string condition);
 		bool semantic_analysis_where_compare(syntaxCondition condition);
 		bool semantic_analysis_logic(bool expressionOne, GramToken symbol, bool expressionTwo);
 		bool semantic_analysis_select(vector<GramTokenType>&vec);

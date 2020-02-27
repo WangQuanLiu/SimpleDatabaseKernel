@@ -2405,13 +2405,23 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
   bool syntaxTree::sematinc_analysis_where_like(string values, string condition)
   {
 	  vector<matchKeyword> keyword = find_match_keyword(condition);
-	  int i,lastIndexPosi=0;
+	  int i,lastIndexPosi=0,j;
+	  vector<int>posi;
+	  vector<vector<positionRange>>posiRange;
+	  vector<positionRange>posiRangeTemp;
+	  string temp;
 	  for (i = 0; i < keyword.size(); i++) {
-
+		   posi= find_substring_position(values, keyword[i].keyword);
+		   if (posi.size() <= 0)return false;
+		   for (j = 0; j < posi.size(); j++) {
+			   posiRangeTemp.push_back(positionRange(posi[j],posi[j]+ keyword[i].keyword.size()));
+		   }
+		   posiRange.push_back(posiRangeTemp);
+		   posiRangeTemp.clear();
 	  }
 	 
 
-	  return false;
+	  return true;
   }
 
   bool syntaxTree::semantic_analysis_where_compare(syntaxCondition condition)
