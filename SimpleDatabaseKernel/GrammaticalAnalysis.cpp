@@ -2398,7 +2398,13 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 
   bool syntaxTree::semantic_analysis_where(dbm::Item_ptr itemPtr, vector<GramToken>& vec, vector<CDIT>&columnInfoInTable)
   {
-
+	  int i,j,colNum;
+	  dbm::queryData queryType;
+	  string valuesOne, valuesTwo;
+	
+	  for (i = 1; i < vec.size(); i++) {
+		 
+	  }
 	  return false;
   }
 
@@ -2620,9 +2626,10 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	 功能：获取列在连接表中位置
 	 输出：找到返回位置，否则返回-1
 	 */
-	 int syntaxTree::get_column_position_in_connect_table(const string & columnName, vector<CDIT>& columnInfoInTable)
+	 columnPosi syntaxTree::get_column_position_in_connect_table(const string & columnName, vector<CDIT>& columnInfoInTable)
 	 {
 		 int i,j,position=0;
+		 columnPosi temp;
 		 for (i = 0; i < columnName.size(); i++) {
 			 if (columnName[i] == '.')break;
 		 }
@@ -2630,32 +2637,36 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 			 string tableName = columnName.substr(0, i),columnNameTemp = columnName.substr(i + 1, columnName.size() - i);
 			 for (i = 0; i < columnInfoInTable.size(); i++) {
 				 if (tableName == columnInfoInTable[i].tableName) {
+					 temp.tableIndex = i;
 					 break;
 				 }
-				 position += columnInfoInTable[i].columnInfo.size();
+				// position += columnInfoInTable[i].columnInfo.size();
 			 }
 			 for (j = 0; j < columnInfoInTable[i].columnInfo.size(); j++) {
 				 if (columnInfoInTable[i].columnInfo[j].colName == columnName) {
+					 temp.columnIndex = j;
 					 break;
 				 }
-				 position++;
+				// position++;
 			 }
-			 if (j > columnInfoInTable[i].columnInfo.size())return -1;
+			 if (j > columnInfoInTable[i].columnInfo.size())return columnPosi();
 		 }
 		 else {
 			 int columnCount = 0;
 			 for (i = 0; i < columnInfoInTable.size(); i++) {
 				 for (j = 0; j < columnInfoInTable[i].columnInfo.size(); j++) {
 					 if (columnInfoInTable[i].columnInfo[j].colName == columnName) {
+						 temp.tableIndex = i;
+						 temp.columnIndex = j;
 						 columnCount++;
 					 }
-					 position++;
+					// position++;
 				 }
-				 position += columnInfoInTable[i].columnInfo.size();
+				 //position += columnInfoInTable[i].columnInfo.size();
 			 }
-			 if (columnCount > 1)return -1;
+			 if (columnCount > 1)return columnPosi();
 		 }
-		 return position;
+		 return temp;
 	 }
 	 /*
 	 输入：where like 字符匹配中的字符匹配
@@ -2697,7 +2708,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	 {
 		 const int max = 200;
 		 int priStrSize = primaryString.size() - 1, subStrSize = subString.size() - 1;
-		 int i, offset, binary[max];
+		 int i, offset=0, binary[max];
 		 bool flag;
 		 vector<int>position;
 		 for (i = 0; i < max; i++)
@@ -2721,5 +2732,75 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 			 }
 		 }
 		 return position;
+	 }
+	 void syntaxTree::printf_column_type_not_match(string & columnOne, string & columnTwo)
+	 {
+		 cout << columnOne << " and " << columnTwo << " type isn't match" << endl;
+	 }
+	 dbm::queryData syntaxTree::gram_convert_to_queryData(const Gram & gram)
+	 {
+		//e_less_than, e_less_than_or_equal, e_equal, e_unequal, e_greater_than, e_greater_than_or_equal
+		 switch (gram)
+		 {
+		 case e_less_than:
+			 return dbm::qd_less_than;
+		 case e_less_than_or_equal:
+			 return dbm::qd_equal_or_less_then;
+		 case e_greater_than:
+			 return dbm::qd_greater_than;
+		 case e_greater_than_or_equal:
+			 return dbm::qd_equal_greater_than;
+		 case e_equal:
+			 return dbm::qd_equal;
+		 case e_unequal:
+			 return dbm::qd_unequal;
+		 default:
+			 break;
+		 }
+		 return dbm::queryData();
+	 }
+	 wcs syntaxTree::where_compare_analysis(GramToken& valuesOne, GramToken& compareSymbol, GramToken& valuesTwo, vector<CDIT>&columnInfoInTable)
+	 {
+		   int bin;
+	
+		 bin = (valuesOne.getGram() == e_id) ? 1 * 2 : 0 + valuesTwo.getGram() == e_id ? 1 : 0;
+		 switch (bin)
+		 {
+		 case 3:
+			 return where_compare_analysis_both_column(valuesOne, compareSymbol, valuesTwo, columnInfoInTable);
+		 case 2:
+			 
+		 case 1:
+			
+		 case 0:
+
+		 }
+		 return wcs_error;
+	 }
+	 wcs syntaxTree::where_compare_analysis_both_column(GramToken& valuesOne, GramToken& compareSymbol, GramToken& valuesTwo, vector<CDIT>& columnInfoInTable)
+	 {
+		 columnPosi columnPosiLeft, columnPosiRight;
+		 bool leftLogic;
+		 syntaxCondition temp;
+		 columnPosiLeft = get_column_position_in_connect_table(valuesOne.getString(), columnInfoInTable),
+			 columnPosiRight = get_column_position_in_connect_table(valuesTwo.getString(), columnInfoInTable);
+		 if (!columnPosiLeft.flag || !columnPosiRight.flag ||
+			 (columnInfoInTable[columnPosiLeft.tableIndex].columnInfo[columnPosiLeft.columnIndex].attributeType
+				 != columnInfoInTable[columnPosiRight.tableIndex].columnInfo[columnPosiRight.columnIndex].attributeType)) {
+			 printf_column_type_not_match(valuesOne.getString(), valuesTwo.getString());
+			 return wcs_error;
+		 }
+		 temp.conditionSymbol = gram_convert_to_queryData(compareSymbol.getGram());
+		 temp.conditionType = columnInfoInTable[columnPosiLeft.tableIndex].columnInfo[columnPosiLeft.columnIndex].attributeType;
+		 temp.valueOne = valuesOne.getString();
+		 temp.valueTwo = valuesTwo.getString();
+		 leftLogic = semantic_analysis_where_compare(temp);
+		 if (leftLogic == true) {
+			 return wcs_ture;
+		 }
+		 else {
+			 return wcs_false;
+		 }
+		
 	 }
   }

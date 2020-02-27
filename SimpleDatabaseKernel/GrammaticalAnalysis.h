@@ -359,6 +359,18 @@ namespace cfe {
 		}
 		int first, second;
 	};
+	struct columnPosi {
+		columnPosi() {
+			flag = false;
+			tableIndex = columnIndex = 0;
+		}
+		bool flag;
+		int tableIndex, columnIndex;
+	};
+	enum whereCompareStatus {
+		wcs_ture,wcs_false,wcs_error
+	};
+	using wcs = whereCompareStatus;
 	class syntaxTree {
 	public:
 		
@@ -380,9 +392,13 @@ namespace cfe {
 		inline dbm::AttributeType gram_data_type_convert_to_AttributeType(Gram gram);
 		bool compare_values(dbm::AttributeType type, dbm::queryData queryType, dbm::DataType dataOne, dbm::DataType dataTwo);
 		vector<CDIT>get_column_details(vector<string>&tableName);
-		int get_column_position_in_connect_table(const string&columnName,vector<CDIT>&columnInfoInTable);
+		columnPosi get_column_position_in_connect_table(const string&columnName,vector<CDIT>&columnInfoInTable);
 		vector<matchKeyword>find_match_keyword(string&condition);
 		vector<int>find_substring_position(string primaryString, string subString);
+		void printf_column_type_not_match(string& columnOne, string& columnTwo);
+		dbm::queryData gram_convert_to_queryData(const Gram&gram);
+		wcs where_compare_analysis(GramToken& valuesOne, GramToken& compareSymbol, GramToken &valuesTwo, vector<CDIT>&columnInfoInTable);
+		wcs where_compare_analysis_both_column(GramToken& valuesOne, GramToken& compareSymbol, GramToken& valuesTwo, vector<CDIT>&columnInfoInTable);
 	};
 	
 }
