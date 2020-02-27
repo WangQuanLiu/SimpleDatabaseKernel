@@ -2404,8 +2404,11 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 
   bool syntaxTree::sematinc_analysis_where_like(string values, string condition)
   {
-	  int i;
-	  
+	  vector<matchKeyword> keyword = find_match_keyword(condition);
+	  int i,lastIndexPosi=0;
+	  for (i = 0; i < keyword.size(); i++) {
+
+	  }
 	 
 
 	  return false;
@@ -2644,5 +2647,39 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 				 conti = false;
 		 }
 		 return keyword;
+	 }
+	 /*
+	 输入：主串，子串
+	 功能：寻找子串在主串中的位置		sunday 算法
+	 输出：位置集合
+	 */
+	 vector<int> syntaxTree::find_substring_position(string primaryString, string subString)
+	 {
+		 const int max = 200;
+		 int priStrSize = primaryString.size() - 1, subStrSize = subString.size() - 1;
+		 int i, offset, binary[max];
+		 bool flag;
+		 vector<int>position;
+		 for (i = 0; i < max; i++)
+			 binary[i] = -1;
+		 for (i = 0; i <= subStrSize; i++)
+			 binary[i] = subString[i];
+		 while (offset + subStrSize <= priStrSize) {
+			 i = 0;
+			 flag = false;
+			 for (; i <= subStrSize&&!flag; i++) {
+				 if (primaryString[offset + i] != subString[i])flag = true;
+			 }
+			 if (flag) {
+				 i = subStrSize + 1;
+				 if (binary[primaryString[offset + i]] == -1)offset += i + 1;
+				 else offset = offset + i - binary[primaryString[offset + i]];
+			 }
+			 else {
+				 position.push_back(offset);
+				 offset++;
+			 }
+		 }
+		 return position;
 	 }
   }

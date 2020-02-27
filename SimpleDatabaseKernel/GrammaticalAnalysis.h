@@ -375,6 +375,7 @@ namespace cfe {
 		vector<CDIT>get_column_details(vector<string>&tableName);
 		int get_column_position_in_connect_table(const string&columnName,vector<CDIT>&columnInfoInTable);
 		vector<matchKeyword>find_match_keyword(string&condition);
+		vector<int>find_substring_position(string primaryString, string subString);
 	};
 	
 }
