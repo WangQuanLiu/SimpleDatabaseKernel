@@ -2396,16 +2396,28 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  return;
   }
 
-  bool syntaxTree::semantic_analysis_where(dbm::Item_ptr itemPtr, vector<GramToken>& vec, vector<CDIT>&columnInfoInTable)
+  wcs syntaxTree::semantic_analysis_where(dbm::Item_ptr itemPtr, vector<GramToken>& vec, vector<CDIT>&columnInfoInTable)
   {
 	  int i,j,colNum;
 	  dbm::queryData queryType;
 	  string valuesOne, valuesTwo;
-	
-	  for (i = 1; i < vec.size(); i++) {
-		 
+	  bool leftLogic;
+	  wcs wcsFlag = where_compare_analysis(vec[1], vec[2], vec[3], columnInfoInTable);
+	  if(wcsFlag ==wcs_error)return wcs_error;
+	  else if (wcsFlag == wcs_ture) leftLogic=true;
+	  else  leftLogic = false;
+	  for (i = 4; i < vec.size(); i+=4) {
+		  wcsFlag = where_compare_analysis(vec[i + 1], vec[i + 2], vec[i + 3], columnInfoInTable);
+		  if (wcsFlag == wcs_error)return wcs_error;
+		  else if (wcsFlag == wcs_ture) {
+			  leftLogic = semantic_analysis_logic(leftLogic, vec[i], true);
+		  }
+		  else {
+			  leftLogic = semantic_analysis_logic(leftLogic, vec[i], false);
+		  }
 	  }
-	  return false;
+	  if (leftLogic == true)return wcs_ture;
+	  else return wcs_false;
   }
 
 
@@ -2761,9 +2773,8 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	 }
 	 wcs syntaxTree::where_compare_analysis(GramToken& valuesOne, GramToken& compareSymbol, GramToken& valuesTwo, vector<CDIT>&columnInfoInTable)
 	 {
-		   int bin;
-	
-		 bin = (valuesOne.getGram() == e_id) ? 1 * 2 : 0 + valuesTwo.getGram() == e_id ? 1 : 0;
+		  
+		 int bin = (valuesOne.getGram() == e_id) ? 1 * 2 : 0 + valuesTwo.getGram() == e_id ? 1 : 0;
 		 switch (bin)
 		 {
 		 case 3:

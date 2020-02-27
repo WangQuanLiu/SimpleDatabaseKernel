@@ -375,7 +375,7 @@ namespace cfe {
 	public:
 		
 	private:
-		bool semantic_analysis_where(dbm::Item_ptr itemPtr,vector<GramToken>&vec, vector<CDIT>&columnInfoInTable);
+		wcs semantic_analysis_where(dbm::Item_ptr itemPtr,vector<GramToken>&vec, vector<CDIT>&columnInfoInTable);
 		bool semantic_analysis_where_compare(syntaxCondition condition);
 		bool semantic_analysis_logic(bool expressionOne, GramToken symbol, bool expressionTwo);
 		bool semantic_analysis_select(vector<GramTokenType>&vec);
