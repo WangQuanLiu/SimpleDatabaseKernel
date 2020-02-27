@@ -2402,7 +2402,16 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  return false;
   }
 
-  bool syntaxTree::semantic_analysis_compare(syntaxCondition condition)
+  bool syntaxTree::sematinc_analysis_where_like(string values, string condition)
+  {
+	  int i;
+	  
+	 
+
+	  return false;
+  }
+
+  bool syntaxTree::semantic_analysis_where_compare(syntaxCondition condition)
   {
 	  return compare_values(condition.conditionType, condition.conditionSymbol, condition.valueOne, condition.valueTwo);
   }
@@ -2609,5 +2618,31 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 			 if (columnCount > 1)return -1;
 		 }
 		 return position;
+	 }
+	 vector<matchKeyword> syntaxTree::find_match_keyword(string & condition)
+	 {
+		 vector<matchKeyword>keyword;
+		 matchKeyword temp;
+		 bool conti = false;
+		 int i;
+		 for (i = 0; i < condition.size(); i++) {
+			 if (condition[i] != '%'&&condition[i] != '_') {
+				 if (conti == true&&i+1<condition.size()) {
+					 temp.keyword.push_back(condition[i]);
+					 temp.position = i;
+				 }
+				 else {
+					 if (temp.keyword.size()>0) {
+						 temp.position = temp.position - temp.keyword.size() + 1;
+						 keyword.push_back(temp);
+					 }
+					 conti = true;
+					 temp.keyword = condition[i];
+					 temp.position = i;
+				 }
+			 }else
+				 conti = false;
+		 }
+		 return keyword;
 	 }
   }

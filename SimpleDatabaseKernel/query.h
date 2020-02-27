@@ -11,7 +11,8 @@ namespace dbm {
 		qd_less_than, //小于
 		qd_equal_or_less_then,//小于等于 
 		qd_equal,//等于
-		qd_unequal//不等于
+		qd_unequal,//不等于
+		qd_like
 	};
 	using queryType = dbm::AttributeType;
 	struct QueryData {

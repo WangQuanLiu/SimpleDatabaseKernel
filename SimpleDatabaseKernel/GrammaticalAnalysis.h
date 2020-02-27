@@ -343,12 +343,21 @@ namespace cfe {
 		string tableName;
 		vector<dbm::CNT>columnInfo;
 	}CDIT;
+	struct matchKeyword {
+		matchKeyword() {
+			keyword = "";
+			position = 0;
+		}
+		string keyword;
+		int position;
+	};
 	class syntaxTree {
 	public:
 		
 	private:
 		bool semantic_analysis_where(dbm::Item_ptr itemPtr,vector<GramToken>&vec, vector<CDIT>&columnInfoInTable);
-		bool semantic_analysis_compare(syntaxCondition condition);
+		bool sematinc_analysis_where_like(string values,string condition);
+		bool semantic_analysis_where_compare(syntaxCondition condition);
 		bool semantic_analysis_logic(bool expressionOne, GramToken symbol, bool expressionTwo);
 		bool semantic_analysis_select(vector<GramTokenType>&vec);
 		bool semantic_analysis_insert_data(vector<GramTokenType>&vec);
@@ -365,6 +374,7 @@ namespace cfe {
 		bool compare_values(dbm::AttributeType type, dbm::queryData queryType, dbm::DataType dataOne, dbm::DataType dataTwo);
 		vector<CDIT>get_column_details(vector<string>&tableName);
 		int get_column_position_in_connect_table(const string&columnName,vector<CDIT>&columnInfoInTable);
+		vector<matchKeyword>find_match_keyword(string&condition);
 	};
 	
 }
