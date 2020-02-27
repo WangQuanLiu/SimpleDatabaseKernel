@@ -2824,4 +2824,18 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 			 return wcs_false;
 		 }
 	 }
+	 wcs syntaxTree::where_compare_analysis_both_literal_char(GramToken & valuesOne, GramToken & compareSymbol, GramToken & valuesTwo)
+	 {
+		 syntaxCondition temp;
+		 if (valuesOne.getGram() != valuesTwo.getGram()) {
+			 printf_column_type_not_match(valuesOne.getString(), valuesTwo.getString());
+			 return wcs_error;
+		 }
+		 temp.conditionSymbol = gram_convert_to_queryData(compareSymbol.getGram());
+		 temp.conditionType = gram_data_type_convert_to_AttributeType(valuesOne.getGram());
+		 temp.valueOne = valuesOne.getString();
+		 temp.valueTwo = valuesTwo.getString();
+		 if (semantic_analysis_where_compare(temp))return wcs_ture;
+		 else return wcs_false;
+	 }
   }
