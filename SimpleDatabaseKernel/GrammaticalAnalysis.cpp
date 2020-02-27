@@ -2773,7 +2773,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		 case 1:
 			
 		 case 0:
-
+			 break;
 		 }
 		 return wcs_error;
 	 }
@@ -2802,5 +2802,26 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 			 return wcs_false;
 		 }
 		
+	 }
+	 wcs syntaxTree::where_compare_analysis_column_and_literal_char(GramToken & valuesOne, GramToken & compareSymbol, GramToken & valuesTwo, vector<CDIT>& columnInfoInTable)
+	 {
+		 columnPosi columnPosi;
+		 syntaxCondition temp;
+		 columnPosi = get_column_position_in_connect_table(valuesOne.getString(), columnInfoInTable);
+		 if (!columnPosi.flag || columnInfoInTable[columnPosi.tableIndex].columnInfo[columnPosi.columnIndex].attributeType !=
+			 gram_data_type_convert_to_AttributeType(valuesTwo.getGram())) {
+			 printf_column_type_not_match(valuesOne.getString(), valuesTwo.getString());
+			 return wcs_error;
+		 }
+		 temp.conditionSymbol = gram_convert_to_queryData(compareSymbol.getGram());
+		 temp.conditionType = gram_data_type_convert_to_AttributeType(valuesTwo.getGram());
+		 temp.valueOne = valuesOne.getString();
+		 temp.valueTwo = valuesTwo.getString();
+		 if (semantic_analysis_where_compare(temp)) {
+			 return wcs_ture;
+		 }
+		 else {
+			 return wcs_false;
+		 }
 	 }
   }

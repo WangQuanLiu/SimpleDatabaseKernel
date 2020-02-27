@@ -399,6 +399,7 @@ namespace cfe {
 		dbm::queryData gram_convert_to_queryData(const Gram&gram);
 		wcs where_compare_analysis(GramToken& valuesOne, GramToken& compareSymbol, GramToken &valuesTwo, vector<CDIT>&columnInfoInTable);
 		wcs where_compare_analysis_both_column(GramToken& valuesOne, GramToken& compareSymbol, GramToken& valuesTwo, vector<CDIT>&columnInfoInTable);
+		wcs where_compare_analysis_column_and_literal_char(GramToken& valuesOne, GramToken& compareSymbol, GramToken& valuesTwo, vector<CDIT>&columnInfoInTable);
 	};
 	
 }
