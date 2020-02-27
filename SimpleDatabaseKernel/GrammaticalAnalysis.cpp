@@ -2769,10 +2769,11 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		 case 3:
 			 return where_compare_analysis_both_column(valuesOne, compareSymbol, valuesTwo, columnInfoInTable);
 		 case 2:
-			 
+			 return where_compare_analysis_column_and_literal_char(valuesOne, compareSymbol, valuesTwo, columnInfoInTable);
 		 case 1:
-			
+			 return where_compare_analysis_column_and_literal_char(valuesTwo, compareSymbol, valuesOne, columnInfoInTable);
 		 case 0:
+			 return where_compare_analysis_both_literal_char(valuesOne, compareSymbol, valuesTwo);
 			 break;
 		 }
 		 return wcs_error;
