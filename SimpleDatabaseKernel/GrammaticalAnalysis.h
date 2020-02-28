@@ -375,7 +375,8 @@ namespace cfe {
 	public:
 		
 	private:
-		wcs semantic_analysis_where(dbm::Item_ptr itemPtr,vector<GramToken>&vec, vector<CDIT>&columnInfoInTable);
+		wcs semantic_analysis_where(dbm::resultData_ptr ptr, vector<GramToken>&vec, vector<CDIT>&columnInfoInTable);
+		wcs semantic_analysis_where(dbm::shared_ptr<dbm::Item> itemPtr,vector<GramToken>&vec, vector<CDIT>&columnInfoInTable);
 		bool semantic_analysis_where_compare(syntaxCondition condition);
 		bool semantic_analysis_logic(bool expressionOne, GramToken symbol, bool expressionTwo);
 		bool semantic_analysis_select(vector<GramTokenType>&vec);
@@ -401,6 +402,8 @@ namespace cfe {
 		wcs where_compare_analysis_both_column(GramToken& valuesOne, GramToken& compareSymbol, GramToken& valuesTwo, vector<CDIT>&columnInfoInTable);
 		wcs where_compare_analysis_column_and_literal_char(GramToken& valuesOne, GramToken& compareSymbol, GramToken& valuesTwo, vector<CDIT>&columnInfoInTable);
 		wcs where_compare_analysis_both_literal_char(GramToken& valuesOne, GramToken& compareSymbol, GramToken& valuesTwo);
+		wcs display_select_statement(dbm::resultData_ptr ptr, vector<GramToken>&vec, vector<CDIT>&columnInfoInTable);
+		void display_select_statement(dbm::resultData_ptr ptr, vector<int>&posi);
 	};
 	
 }

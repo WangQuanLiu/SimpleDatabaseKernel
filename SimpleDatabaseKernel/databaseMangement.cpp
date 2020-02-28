@@ -677,20 +677,20 @@ namespace dbm {
 	功能：get表名为tableName的数据
 	输出：成功返回true,失败返回false
 	*/
-	resultData dataMangement::table_data(const string&tableName)
+	resultData_ptr dataMangement::table_data(const string&tableName)
 	{
-		resultData result;
-		if (!query_data(NameQuery(this->databaseFile.nameMangementTablePtr->curLibraryName, tableName)))return resultData();
+		resultData_ptr result=new resultData();
+		if (!query_data(NameQuery(this->databaseFile.nameMangementTablePtr->curLibraryName, tableName)))return nullptr;
 		int i;
 		for (i = 0; i < this->databaseFile.dataMangementPtr->tableNumber; i++)
 			if (tableName == this->databaseFile.dataMangementPtr->table[i].headInfo.tableName)break;
-		if (i >= this->databaseFile.dataMangementPtr->tableNumber)return resultData();
-		result.ColName = this->databaseFile.nameMangementTablePtr->nameTable.tableMangement[i].column;
-		result.recordHeadInfo =this->databaseFile.dataMangementPtr->table[i].headInfo;
+		if (i >= this->databaseFile.dataMangementPtr->tableNumber)return nullptr;
+		result->ColName = this->databaseFile.nameMangementTablePtr->nameTable.tableMangement[i].column;
+		result->recordHeadInfo =this->databaseFile.dataMangementPtr->table[i].headInfo;
 		list<shared_ptr<Page>>&pageSet = this->databaseFile.dataMangementPtr->table[i].pagePtrSet;
 		list<shared_ptr<Page>>::iterator pageBegn(pageSet.begin()), pageEnd(pageSet.end());
 		for (; pageBegn != pageEnd; pageBegn++) {
-			result.page.push_back(**pageBegn);
+			result->page.push_back(**pageBegn);
 		}
 		return result;
 	}

@@ -75,7 +75,7 @@ namespace dbm {
 		bool delete_data(const DeleteData&data);
 		bool save();//保存所有数据
 		vector<CNT>get_column_info_in_table(const string&tableName);
-		resultData table_data(const string&tableName);
+		resultData_ptr table_data(const string&tableName);
 	protected:
 		bool delete_column(const string&libraryName, const string&tableName, const string&colName);//删除列名
 		bool add_column(const string&libraryName, const string&tableName, const string&columnName, const string & type);

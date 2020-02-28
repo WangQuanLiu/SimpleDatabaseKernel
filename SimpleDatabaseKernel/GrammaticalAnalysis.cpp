@@ -2396,7 +2396,41 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  return;
   }
 
-  wcs syntaxTree::semantic_analysis_where(dbm::Item_ptr itemPtr, vector<GramToken>& vec, vector<CDIT>&columnInfoInTable)
+  wcs syntaxTree::semantic_analysis_where(dbm::resultData_ptr ptr, vector<GramToken>& vec, vector<CDIT>& columnInfoInTable)
+  {
+	  list<dbm::Page>::iterator pageBegin(ptr->page.begin()), pageEnd(ptr->page.end());
+	  list<shared_ptr<dbm::Item>>::iterator itemBegin, itemEnd;
+	  wcs wcsTemp;
+	  int num;
+	  unsigned lineDataSize=0, i,j;
+	  for (i = 0; columnInfoInTable.size(); i++) {
+		  for (j = 0; j < columnInfoInTable[i].columnInfo.size(); j++) {
+			  lineDataSize += columnInfoInTable[i].columnInfo[j].type_size();
+		  }
+	  }
+	  ptr->recordHeadInfo.usedSpaceSize = ptr->recordHeadInfo.totalDataNum = 0;
+	  for (; pageBegin != pageEnd; pageBegin++) {
+		  dbm::Page&page = *pageBegin;
+		   itemBegin=page.itemPtrSet.begin(),itemEnd=page.itemPtrSet.end();
+		  for (num=0; itemBegin != itemEnd; itemBegin++,num++) {
+			  dbm::shared_ptr<dbm::Item>&item =*itemBegin;
+			  wcsTemp = semantic_analysis_where(item, vec, columnInfoInTable);
+			  if (wcsTemp == wcs_error)return wcs_error;
+			  else if (wcsTemp == wcs_false) {
+				  page.deletedFlag.push_back( num);
+				  page.dirtyPage = true;
+				  page.itemSize--;
+				  page.unUsedSpaceSize += lineDataSize;
+				  page.usedSpaceSize -= lineDataSize;
+			  }
+		  }
+		  ptr->recordHeadInfo.usedSpaceSize += page.usedSpaceSize;
+		  ptr->recordHeadInfo.totalDataNum += page.itemSize;
+	  }
+	  return wcs_ture;
+  }
+
+  wcs syntaxTree::semantic_analysis_where(dbm::shared_ptr<dbm::Item> itemPtr, vector<GramToken>& vec, vector<CDIT>&columnInfoInTable)
   {
 	  int i,j,colNum;
 	  dbm::queryData queryType;
@@ -2439,9 +2473,29 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 
   bool syntaxTree::semantic_analysis_select(vector<GramTokenType>& vec)
   {
+	  int fromPosi, wherePosi,i;
+	  vector<string>tableName;
+	  for (i = 0; i < vec.size(); i++) {
+		  if (vec[i].getString() == "from")fromPosi = i;
+		  else if (vec[i].getString() == "where")wherePosi = i;
+	  }
+	  for (i = fromPosi + 1; i <= wherePosi - 1; i+=2) {
+		  tableName.push_back(vec[i].getString());
+	  }
+	  vector<CDIT>columnDetails=get_column_details(tableName);
+	dbm::resultData_ptr ptr=queryMangement.table_data(tableName[0]),ptrTemp;
+	for (i = 1; i < tableName.size(); i++) {
+		ptrTemp = queryMangement.table_data(tableName[i]);
+		ptr = queryMangement.one_table_natual_connect_another_table(ptr, ptrTemp);
+	}
+	vector<GramTokenType>whereStatement(vec.begin()+wherePosi,vec.end());
+	if (semantic_analysis_where(ptr, whereStatement, columnDetails)==wcs_error) {
+		return false;
+	}
+	else {
 
-	 
-	  return false;
+	}
+	  return true;
   }
   /*
   输入：插入数据语句
@@ -2849,5 +2903,50 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		 temp.valueTwo = valuesTwo.getString();
 		 if (semantic_analysis_where_compare(temp))return wcs_ture;
 		 else return wcs_false;
+	 }
+	 wcs syntaxTree::display_select_statement(dbm::resultData_ptr ptr, vector<GramToken>& vec, vector<CDIT>& columnInfoInTable)
+	 {
+		 int i,j,k;
+		 vector<int>posi;
+		 columnPosi temp;
+		 int position = 0;
+		 if (vec.size() == 1) {	
+			 for (i = 0; i < columnInfoInTable.size(); i++) {
+				 for (j = 0; j < columnInfoInTable[i].columnInfo.size(); j++) {
+					 cout << columnInfoInTable[i].columnInfo[j].colName << " ";
+					 posi.push_back(position);
+					 position++;
+				 }
+			 }
+			 cout << endl;
+		 }
+		 else {	
+			 for (i = 0; i < vec.size(); i++) {
+				 temp = get_column_position_in_connect_table(vec[i].getString(), columnInfoInTable);
+				 if (temp.flag == false)return wcs_error;
+				 for (j = 0; j <= temp.tableIndex; j++)
+					 for (k = 0; k <= temp.tableIndex; k++) 
+						 position++;
+				 posi.push_back(position);
+			 }
+		 }
+		 return wcs_ture;
+	 }
+	 void syntaxTree::display_select_statement(dbm::resultData_ptr ptr, vector<int>& posi)
+	 {
+		 int i;
+		 list<dbm::Page>::iterator pageBegin=ptr->page.begin(), pageEnd=ptr->page.end();
+		 list<shared_ptr<dbm::Item>>::iterator itemBegin, itemEnd;
+		 for (; pageBegin != pageEnd; pageBegin++) {
+			 dbm::Page page = *pageBegin;
+			 itemBegin = page.itemPtrSet.begin();
+			 itemEnd = page.itemPtrSet.end();
+			 for (; itemBegin != itemEnd; itemBegin++) {
+				 for (i = 0; i < (*itemBegin)->item.size(); i++) {
+					 cout << (*itemBegin)->item[i].get_data() << " ";
+				 }
+				 cout << endl;
+			 }
+		 }
 	 }
   }
