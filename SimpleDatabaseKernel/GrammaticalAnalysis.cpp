@@ -2432,8 +2432,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 
   wcs syntaxTree::semantic_analysis_where(dbm::shared_ptr<dbm::Item> itemPtr, vector<GramToken>& vec, vector<CDIT>&columnInfoInTable)
   {
-	  int i,j,colNum;
-	  dbm::queryData queryType;
+	  int i;
 	  string valuesOne, valuesTwo;
 	  bool leftLogic;
 	  wcs wcsFlag = where_compare_analysis(vec[1], vec[2], vec[3], columnInfoInTable);
@@ -2475,12 +2474,16 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
   {
 	  int fromPosi, wherePosi,i;
 	  vector<string>tableName;
+	  vector<GramTokenType> displayName;
 	  for (i = 0; i < vec.size(); i++) {
 		  if (vec[i].getString() == "from")fromPosi = i;
 		  else if (vec[i].getString() == "where")wherePosi = i;
 	  }
 	  for (i = fromPosi + 1; i <= wherePosi - 1; i+=2) {
 		  tableName.push_back(vec[i].getString());
+	  }
+	  for (i = 1; i < fromPosi; i+=2) {
+		  displayName.push_back(vec[i].getString());
 	  }
 	  vector<CDIT>columnDetails=get_column_details(tableName);
 	dbm::resultData_ptr ptr=queryMangement.table_data(tableName[0]),ptrTemp;
@@ -2493,7 +2496,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		return false;
 	}
 	else {
-
+		if(display_select_statement(ptr, displayName, columnDetails)==wcs_error)return false;
 	}
 	  return true;
   }
@@ -2930,23 +2933,31 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 				 posi.push_back(position);
 			 }
 		 }
+		 display_select_statement(ptr, posi);
 		 return wcs_ture;
 	 }
 	 void syntaxTree::display_select_statement(dbm::resultData_ptr ptr, vector<int>& posi)
 	 {
-		 int i;
+		 int i,cot;
+		 set<int>s;
 		 list<dbm::Page>::iterator pageBegin=ptr->page.begin(), pageEnd=ptr->page.end();
 		 list<shared_ptr<dbm::Item>>::iterator itemBegin, itemEnd;
 		 for (; pageBegin != pageEnd; pageBegin++) {
 			 dbm::Page page = *pageBegin;
 			 itemBegin = page.itemPtrSet.begin();
 			 itemEnd = page.itemPtrSet.end();
-			 for (; itemBegin != itemEnd; itemBegin++) {
+			 for (i = 0; i < page.deletedFlag.size(); i++) {
+				 s.insert(page.deletedFlag[i]);
+			 }
+			 cot = 0;
+			 for (; itemBegin != itemEnd; itemBegin++,cot++) {
+				 if (s.count(cot) != 0)continue;
 				 for (i = 0; i < (*itemBegin)->item.size(); i++) {
 					 cout << (*itemBegin)->item[i].get_data() << " ";
 				 }
 				 cout << endl;
 			 }
+			 s.clear();
 		 }
 	 }
   }
