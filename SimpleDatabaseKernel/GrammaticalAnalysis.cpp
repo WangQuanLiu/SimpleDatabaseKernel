@@ -2304,7 +2304,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  Gram gram = e_error;
 		  int emptyIndex = -1;
 		  vector<GramDataType>&vecTemp = this->status[statusStack.top()];
-		  if (!strcmp(temp.c_str(), "")) {
+		  if (temp!="") {
 			  cout << temp << endl;
 			  gram = string_convert_to_GramToken(temp).getGram();
 		  }
@@ -2577,7 +2577,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
   */
   bool syntaxTree::semantic_analysis_insert_data(vector<GramTokenType>& vec)
   {
-	  if (queryMangement.query_name(dbm::NameQuery(vec[2].getString()))) {
+	  if (queryMangement.query_name(dbm::NameQuery(queryMangement.get_currently_library_name(), vec[2].getString()))) {
 		  int i;
 		  vector<dbm::AttributeType>atrributeType;
 		  vector<string>values;
