@@ -280,61 +280,7 @@ namespace cfe {
 		Gram gram; //语法类别
 		string	string;//字符串
 	}GramToken;
-	class GrammaticalAnalysis {
-	public:
-		GrammaticalAnalysis(string filePath);
-		void run();
-		bool check_grammatical();
-#if TEST&&GRAM_TEST
-		void test() {
-			init();
-		}
-#endif
-	private:
-		CFilePtr file;
-		void init();
-		string** GotoTable;
-#if(TEST&&GRAM_TEST)
-		void print(int GotoTable[GOTO_TABLE_MAX][GRAM_ENUM_MAX]);
-#endif
-		vector<Redu>redu;//记录可归约的文法
-		bool save_file();
-		bool save_status();
-		bool save_GotoTable();
-		bool save_redu();
-		bool read_status();
-		bool read_GotoTable();
-		bool read_redu();
-		bool read_file();
-		string get_original_string(string str);
-		bool reduction(const Gram&symbol, stack<int>&statusStack, stack<Gram>&gramStack);
-		bool shift_in(const Gram&symbol, stack<int>&statusStack, stack<Gram>&gramStack);
-		void reuction_empty(stack<int>&statusStack, stack<Gram>&gramStack);
-		vector<Gram>first_set[GRAM_ENUM_MAX]{};
-		vector<vector<GramDataType>>status;
-		static GramType gramArray[GRAM_MAX]; //文法数组 grammatical array
-		friend vector<Gram> operator+(const vector<Gram>, const vector<Gram>);
-		inline Gram string_map_to_gram(const string&);
-		void init_reduction();//临时函数
-		ActionStatus action(const Gram&, stack<int>&, stack<Gram>&);
-		string get_next_token();
-		vector<vector<GramDataType>>items(GramType);
-		vector<GramDataType>Goto(const GramDataType&, const Gram&);
-		vector<GramDataType>Goto(const GramType&, const Gram&);
-		vector<GramDataType>Goto(const vector<GramDataType> &, const Gram &);
-		vector<GramType> get_derived_grammar(DataType&);//派生文法，即文法推导文法，不
-		inline	GramType gram_map_to_gramtype(const Gram&obj);//gram map to gramtype
-		inline Gram string_convert_to_gram(const string&);
-		inline string gram_map_to_string(const Gram&obj);
-		inline vector<GramDataType>&vector_join_other_vector(vector<GramDataType>&join, vector<GramDataType>&beJoined);
-		GramTokenType string_convert_to_GramToken(const string& str);
-		void generate_firstSet();
-		vector<Gram> first(const Gram obj);//寻找文法中第一个非文法的字符  find first char of non-grammatical in grammatical
-		vector<Gram> first(const Gram obj, bool[GRAM_ENUM_MAX]);//寻找文法中第一个非文法的字符  find first char of non-grammatical in grammatical
-		GramCategory is_grammatical(Gram obj);//判断是文法还是非文法 Judge whether it is grammatical or non-grammatical
-		void grammatical_convert_to_dfa();//文法转换成dfa
-		vector<GramDataType> closure(const vector<GramDataType>);
-	};
+
 	struct syntaxCondition {
 		dbm::queryData conditionSymbol;
 		dbm::AttributeType conditionType;//条件类型
@@ -368,15 +314,16 @@ namespace cfe {
 		int tableIndex, columnIndex;
 	};
 	enum whereCompareStatus {
-		wcs_ture,wcs_false,wcs_error
+		wcs_ture, wcs_false, wcs_error
 	};
 	using wcs = whereCompareStatus;
 	class syntaxTree {
 	public:
-		
+		bool execute(Gram gram, vector<GramTokenType>&token);
+		bool save();
 	private:
-		wcs semantic_analysis_where(dbm::resultData_ptr ptr, vector<GramToken>&vec, vector<CDIT>&columnInfoInTable);
-		wcs semantic_analysis_where(dbm::shared_ptr<dbm::Item> itemPtr,vector<GramToken>&vec, vector<CDIT>&columnInfoInTable);
+		wcs semantic_analysis_where(dbm::resultData_ptr ptr, vector<GramTokenType>&vec, vector<CDIT>&columnInfoInTable);
+		wcs semantic_analysis_where(dbm::shared_ptr<dbm::Item> itemPtr, vector<GramTokenType>&vec, vector<CDIT>&columnInfoInTable);
 		bool semantic_analysis_where_compare(syntaxCondition condition);
 		bool semantic_analysis_logic(bool expressionOne, GramToken symbol, bool expressionTwo);
 		bool semantic_analysis_select(vector<GramTokenType>&vec);
@@ -393,7 +340,7 @@ namespace cfe {
 		inline dbm::AttributeType gram_data_type_convert_to_AttributeType(Gram gram);
 		bool compare_values(dbm::AttributeType type, dbm::queryData queryType, dbm::DataType dataOne, dbm::DataType dataTwo);
 		vector<CDIT>get_column_details(vector<string>&tableName);
-		columnPosi get_column_position_in_connect_table(const string&columnName,vector<CDIT>&columnInfoInTable);
+		columnPosi get_column_position_in_connect_table(const string&columnName, vector<CDIT>&columnInfoInTable);
 		vector<matchKeyword>find_match_keyword(string&condition);
 		vector<int>find_substring_position(string primaryString, string subString);
 		void printf_column_type_not_match(string& columnOne, string& columnTwo);
@@ -405,6 +352,63 @@ namespace cfe {
 		wcs display_select_statement(dbm::resultData_ptr ptr, vector<GramToken>&vec, vector<CDIT>&columnInfoInTable);
 		void display_select_statement(dbm::resultData_ptr ptr, vector<int>&posi);
 	};
+	class GrammaticalAnalysis {
+	public:
+		GrammaticalAnalysis(string filePath);
+		void run();
+		bool check_grammatical();
+#if TEST&&GRAM_TEST
+		void test() {
+			init();
+		}
+#endif
+	private:
+		CFilePtr file;
+		void init();
+		string** GotoTable;
+#if(TEST&&GRAM_TEST)
+		void print(int GotoTable[GOTO_TABLE_MAX][GRAM_ENUM_MAX]);
+#endif
+		vector<Redu>redu;//记录可归约的文法
+		bool save_file();
+		bool save_status();
+		bool save_GotoTable();
+		bool save_redu();
+		bool read_status();
+		bool read_GotoTable();
+		bool read_redu();
+		bool read_file();
+		string get_original_string(string str);
+		bool reduction(const Gram&symbol, stack<int>&statusStack, stack<Gram>&gramStack,Gram& reduer);
+		bool shift_in(const Gram&symbol, stack<int>&statusStack, stack<Gram>&gramStack);
+		void reuction_empty(stack<int>&statusStack, stack<Gram>&gramStack);
+		vector<Gram>first_set[GRAM_ENUM_MAX]{};
+		vector<vector<GramDataType>>status;
+		static GramType gramArray[GRAM_MAX]; //文法数组 grammatical array
+		friend vector<Gram> operator+(const vector<Gram>, const vector<Gram>);
+		inline Gram string_map_to_gram(const string&);
+		void init_reduction();//临时函数
+		ActionStatus action(const Gram&, stack<int>&, stack<Gram>&,Gram& reduer);
+		string get_next_token();
+		vector<vector<GramDataType>>items(GramType);
+		vector<GramDataType>Goto(const GramDataType&, const Gram&);
+		vector<GramDataType>Goto(const GramType&, const Gram&);
+		vector<GramDataType>Goto(const vector<GramDataType> &, const Gram &);
+		vector<GramType> get_derived_grammar(DataType&);//派生文法，即文法推导文法，不
+		inline	GramType gram_map_to_gramtype(const Gram&obj);//gram map to gramtype
+		inline Gram string_convert_to_gram(const string&);
+		inline string gram_map_to_string(const Gram&obj);
+		inline vector<GramDataType>&vector_join_other_vector(vector<GramDataType>&join, vector<GramDataType>&beJoined);
+		GramTokenType string_convert_to_GramToken(const string& str);
+		void generate_firstSet();
+		vector<Gram> first(const Gram obj);//寻找文法中第一个非文法的字符  find first char of non-grammatical in grammatical
+		vector<Gram> first(const Gram obj, bool[GRAM_ENUM_MAX]);//寻找文法中第一个非文法的字符  find first char of non-grammatical in grammatical
+		GramCategory is_grammatical(Gram obj);//判断是文法还是非文法 Judge whether it is grammatical or non-grammatical
+		void grammatical_convert_to_dfa();//文法转换成dfa
+		vector<GramDataType> closure(const vector<GramDataType>);
+		syntaxTree syntax;
+	};
+	
 	
 }
 

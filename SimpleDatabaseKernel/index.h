@@ -177,7 +177,7 @@ namespace dbm {
 	using indexPtr = shared_ptr<index>;
 	class indexMangement {
 	public:
-		indexMangement() = default;
+		indexMangement();
 		bool read_index_ini();
 		bool save_index_ini();
 		bool query_index(const string&libraryName, const string&tableName, const string&colName);

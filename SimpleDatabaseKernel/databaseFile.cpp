@@ -19,7 +19,7 @@ namespace dbm {
 	bool DatabaseFile::read_database_data(const string & libraryName)
 	{
 		int i;
-		set_current_database_name(libraryName);
+		//set_current_database_name(libraryName);
 		bool flag = read_database_ini_file(libraryName);
 		if (flag == false)return false;
 		for (i = 0; i < this->nameMangementTablePtr->nameTable.tableSize; i++) {
@@ -39,7 +39,7 @@ namespace dbm {
 		this->nameMangementTablePtr->curLibraryName = libraryName;
 		this->dataMangementPtr->libraryName = libraryName;
 		this->nameMangementTablePtr->nameTable.libraryName = libraryName;
-
+		this->read_database_data(libraryName);
 	}
 	/*
 	功能：读取数据库的配置文件
@@ -303,10 +303,10 @@ namespace dbm {
 					}
 					fscanf(file, "%s %s %s %u", ch, ch, ch, &page->nextPageNum);//<next page num>
 					fscanf(file, "%s %s %u", ch, ch, &page->itemSize);//<item size>
-					//fscanf(file, "%s", ch);//<deletedFlag_begin>
-					//while (fscanf(file, "%s", ch) && strcmp(ch, "<deletedFlag_end>")) { //添加已删除的项
-					//	page->deletedFlag.push_back(atoi(ch));
-					//}
+					fscanf(file, "%s", ch);//<deletedFlag_begin>
+					while (fscanf(file, "%s", ch) && strcmp(ch, "<deletedFlag_end>")) { //添加已删除的项
+						page->deletedFlag.push_back(atoi(ch));
+					}
 					for (j = 0; j < page->itemSize /*+ page->deletedFlag.size()*/; j++) {	//数据个数
 						itemPtr = make_shared<Item>(new Item());
 						if (itemPtr == nullptr) {
@@ -400,7 +400,7 @@ namespace dbm {
 	*/
 	bool DatabaseFile::save()
 	{
-		if (this - save_database_mangement_system_ini_file() == false)
+		if (this->save_database_mangement_system_ini_file() == false)
 			return false;
 		if (this->nameMangementTablePtr->curLibraryName != LIBRARY_NAME_EMPTY&&!this->save_database_ini_file(this->nameMangementTablePtr->curLibraryName))
 			return false;

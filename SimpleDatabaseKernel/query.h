@@ -23,7 +23,7 @@ namespace dbm {
 	};
 	class queryMangement :public dbm::dataMangement, public dbm::indexMangement {
 	public:
-		queryMangement() = default;
+		queryMangement();
 		bool condition_query_single_table(const QueryData&condition, dbm::resultData_ptr resultPtr);
 		void remove_duplicate(dbm::resultData_ptr resultPtr);
 		dbm::resultData_ptr one_table_natual_connect_another_table(dbm::resultData_ptr ptrOne, dbm::resultData_ptr ptrTwo);

@@ -1152,7 +1152,11 @@ void GrammaticalAnalysis::run()
 	else {
 		read_file();
 	}
+	statusFile.close();
+	gotoTableFile.close();
+	reduFile.close();
 	check_grammatical();
+	syntax.save();
 }
 /*
 功能：初始化gramArray中的文法号
@@ -1186,23 +1190,33 @@ bool GrammaticalAnalysis::check_grammatical()
 	gramStack.push(e_s);
 	GramTokenType temp;
 	string str;
+	Gram reduer=e_s;
+	vector<GramTokenType>vec;
 	int lastLineNum = 0;
 	while (file->get_token_size()>0) {
 		 str = file->get_token();
 		if (!strcmp(str.c_str() , ""))continue;
 		lastLineNum = file->get_cur_line();
 		temp = string_convert_to_GramToken(str);
-		if (action(temp.getGram(), statusStack, gramStack) == error) {
+		vec.push_back(temp);
+		cfe::ActionStatus as = action(temp.getGram(), statusStack, gramStack, reduer);
+		if (as == error) {
 			str = get_original_string(str);
 			cout <<"line: "<< lastLineNum <<" " << str << " error!" << endl;
-			break;
+			return false;
 		}
+		else if (as == acc&&reduer!=e_s) {
+			syntax.execute(reduer, vec);
+			reduer = e_s;
+			vec.clear();
+		}
+		
 	}
 	if (gramStack.size() > 1) {
 		str = get_original_string(str);
 		cout << "line: " << lastLineNum << " " << str << " error!" << endl;
 	}
-	return false;
+	return true;
 }
 void GrammaticalAnalysis::print(int GotoTable[GOTO_TABLE_MAX][GRAM_ENUM_MAX])
 {
@@ -1714,7 +1728,7 @@ void GrammaticalAnalysis::init_reduction()
 	fclose(file);
 
 }
-ActionStatus GrammaticalAnalysis::action( const Gram &symbol,  stack<int>&statusStack,  stack<Gram>&gramStack)
+ActionStatus GrammaticalAnalysis::action( const Gram &symbol,  stack<int>&statusStack,  stack<Gram>&gramStack,Gram& reduer)
 {
 	bool flag = true;
 	ActionStatus act=error;
@@ -1724,7 +1738,7 @@ ActionStatus GrammaticalAnalysis::action( const Gram &symbol,  stack<int>&status
 	}
 	while (flag) {
 		flag = false;
-		if (reduction(symbol, statusStack, gramStack)) {
+		if (reduction(symbol, statusStack, gramStack,reduer)) {
 			act = reduc;
 			flag = true;
 		}		
@@ -2223,7 +2237,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  return str;
   }
 
-  bool GrammaticalAnalysis::reduction(const Gram&symbol,stack<int>& statusStack, stack<Gram>& gramStack)
+  bool GrammaticalAnalysis::reduction(const Gram&symbol,stack<int>& statusStack, stack<Gram>& gramStack,Gram& reduer)
   {
 	  int i,j,k,reduNum;
 	  bool flag = false;
@@ -2243,6 +2257,9 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 					reduNum = k;
 					cout << j << endl;
 		  			gramStack.push(redu[j].gram.getGramName());
+					if (redu[j].gram.getGramName() != e_s) {
+						reduer = redu[j].gram.getGramName();
+					}
 		  			i = gramStack.size() - 1;
 		  				cout << "归约" << endl;
 		  				break;
@@ -2396,7 +2413,41 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  return;
   }
 
-  wcs syntaxTree::semantic_analysis_where(dbm::resultData_ptr ptr, vector<GramToken>& vec, vector<CDIT>& columnInfoInTable)
+  bool syntaxTree::execute(Gram gram,vector<GramTokenType>&token)
+  {
+	  switch (gram)
+	  {
+	  case e_use_database_def:
+		  if (!semantic_analysis_use_database(token))return false;
+		  break;
+	  case e_select_def:
+		  if (!semantic_analysis_select(token))return false;
+		  break;
+	  case e_drop_database_def:
+		  if (!semantic_analysis_create_database(token))return false;
+	  case e_create_def:
+		  if (!semantic_analysis_create(token))return false;
+	  case e_insert_def:
+		  if (!semantic_analysis_insert_data(token))return false;
+	  case e_delete_table_def:
+	  case e_delete_element_def:
+	  case e_update_def:
+	  case e_create_index_def:
+	  case e_drop_index_def:
+	  default:
+		  break;
+	  }
+	  return true;
+  }
+
+  bool syntaxTree::save()
+  {
+	  this->queryMangement.save();
+	  this->queryMangement.save_index_ini();
+	  return false;
+  }
+
+  wcs syntaxTree::semantic_analysis_where(dbm::resultData_ptr ptr, vector<GramTokenType>& vec, vector<CDIT>& columnInfoInTable)
   {
 	  list<dbm::Page>::iterator pageBegin(ptr->page.begin()), pageEnd(ptr->page.end());
 	  list<shared_ptr<dbm::Item>>::iterator itemBegin, itemEnd;
@@ -2563,7 +2614,8 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
   bool syntaxTree::semantic_analysis_use_database(vector<GramTokenType>& vec)
   {
 	  if (queryMangement.query_name(dbm::NameQuery(vec[1].getString()))) {
-		  queryMangement.set_cur_library_name(vec[1].getString());
+		 queryMangement.set_library(vec[1].getString());
+		 dbm::DatabaseFile ptr = queryMangement.databaseFile;
 		  return true;
 	  }
 	  else {

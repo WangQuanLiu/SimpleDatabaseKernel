@@ -1,5 +1,8 @@
 #include"query.h"
 namespace dbm {
+	queryMangement::queryMangement()
+	{
+	}
 	/*
 	输入：条件类型，结果集
 	功能：筛选出符合结果的结果集

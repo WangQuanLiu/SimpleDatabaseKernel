@@ -42,7 +42,7 @@ class Compile { //主类，完成编译与实现任务，把词法分析、语法分析与后面的数据库联
 public :
 	void run();
 	void lexical_run(string Path);
-	void grammatical_run(string Path);
+	void grammatical_run(string Path)noexcept;
 	Compile(int argc,char*argv[]);
 private:
 	cfe::CFilePtr file;
@@ -78,7 +78,7 @@ void Compile::lexical_run(string filePath)
 		lex.run();
 
 }
-void Compile::grammatical_run(string Path)
+void Compile::grammatical_run(string Path)noexcept
 {
 	cfe::GrammaticalAnalysis gram(Path);
 	gram.run();

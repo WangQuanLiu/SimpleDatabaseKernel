@@ -145,6 +145,8 @@ namespace dbm {
 	{
 		this->nameMangementFilePtr->curLibraryName = libraryName;
 		this->nameMangementFilePtr->nameTable.libraryName = libraryName;
+		
+
 	}
 	/*
 	输入：库名、表名、列名
@@ -279,6 +281,7 @@ namespace dbm {
 
 		//	this->nameMangement.set_nameMangementFile( this->databaseFile.nameMangementTablePtr);//delete at 2020/2/16
 		set_nameMangementFile(this->databaseFile.nameMangementTablePtr);
+	
 		//read_index_ini();
 	}
 
@@ -296,7 +299,7 @@ namespace dbm {
 	void dataMangement::set_library(const string & librarName)
 	{
 		this->databaseFile.set_current_database_name(librarName);
-		this->databaseFile.read_database_data(librarName);
+		//this->databaseFile.read_database_data(librarName);
 	}
 
 	bool dataMangement::query_data(const NameQuery & nameQuery)const
@@ -670,7 +673,7 @@ namespace dbm {
 
 	bool dataMangement::save()
 	{
-		return this->databaseFile.save()/*&&save_index_ini()*/;
+		return this->databaseFile.save();
 	}
 	/*
 	输入：表名、result
