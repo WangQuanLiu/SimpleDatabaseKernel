@@ -319,6 +319,7 @@ namespace cfe {
 	using wcs = whereCompareStatus;
 	class syntaxTree {
 	public:
+		syntaxTree();
 		bool execute(Gram gram, vector<GramTokenType>&token);
 		bool save();
 	private:

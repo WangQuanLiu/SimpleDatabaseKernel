@@ -72,12 +72,11 @@ namespace dbm {
 		DatabaseFile();
 		~DatabaseFile();
 		bool read_database_data(const string&libraryName);//读取数据库数据
-		shared_ptr<NameMangementFile>get_nameMangementTablePtr();
-		shared_ptr<RecordTable>get_dataMangementPtr();
+		shared_ptr<RecordTable> dataMangementPtr;//数据库数据
+		shared_ptr<NameMangementFile> nameMangementTablePtr;
 		bool save();
 		friend class dataMangement;
 	private:
-
 		void set_current_database_name(const string&libraryName);//切换当前数据库
 		bool read_database_mangement_system_ini_file();//读取数据库管理系统配置文件
 		bool save_database_mangement_system_ini_file();//保存数据库管理系统配置文件
@@ -87,8 +86,7 @@ namespace dbm {
 		bool save_table_ini_file(const string&tableName);//保存tableName表配置文件
 		bool read_table_data(const string&tableName);//读取表数据
 		bool save_table_data(const string&tableName);//保存表数据
-		shared_ptr<RecordTable> dataMangementPtr;//数据库数据
-		shared_ptr<NameMangementFile> nameMangementTablePtr;
+		
 	};
 
 }

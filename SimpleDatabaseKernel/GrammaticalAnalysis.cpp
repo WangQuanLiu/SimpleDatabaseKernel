@@ -1156,7 +1156,7 @@ void GrammaticalAnalysis::run()
 	gotoTableFile.close();
 	reduFile.close();
 	check_grammatical();
-	syntax.save();
+	//syntax.save();
 }
 /*
 功能：初始化gramArray中的文法号
@@ -2413,6 +2413,10 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  return;
   }
 
+  syntaxTree::syntaxTree()
+  {
+  }
+
   bool syntaxTree::execute(Gram gram,vector<GramTokenType>&token)
   {
 	  switch (gram)
@@ -2423,8 +2427,8 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  case e_select_def:
 		  if (!semantic_analysis_select(token))return false;
 		  break;
-	  case e_drop_database_def:
-		  if (!semantic_analysis_create_database(token))return false;
+	  case e_drop_view_def:
+		  if (!semantic_analysis_drop_database(token))return false;
 	  case e_create_def:
 		  if (!semantic_analysis_create(token))return false;
 	  case e_insert_def:
@@ -2615,13 +2619,13 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
   {
 	  if (queryMangement.query_name(dbm::NameQuery(vec[1].getString()))) {
 		 queryMangement.set_library(vec[1].getString());
-		 dbm::DatabaseFile ptr = queryMangement.databaseFile;
-		  return true;
+		 
 	  }
 	  else {
 		  printf_symbol_status("library name",vec[1].getString(),"doesn't exist");
 		  return false;
-	  }
+	  } 
+	  return true;
   }
   /*
   输入：创建表语句

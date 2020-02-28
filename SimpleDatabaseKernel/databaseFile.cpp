@@ -54,8 +54,7 @@ namespace dbm {
 		FILE*file = fopen(DATABASE_HOME_PATH("database.ini").c_str(), "r");
 		vector<string>databaseName, tableName;//数据库名,表名
 		if (file == NULL)return false;
-		fscanf(file, "<datbase number>\t%d", &size);
-		fscanf(file, "%s %s\n", ch, ch);//无作用，读取多余的字符
+		fscanf(file, "%d", &size);
 		for (i = 0; i < size; i++) {
 			fscanf(file, "%s\n", ch);
 			databaseName.push_back(ch);
@@ -73,10 +72,11 @@ namespace dbm {
 		FILE*file = fopen(DATABASE_HOME_PATH("database.ini").c_str(), "w");
 		size_t size = nameMangementTablePtr->libraryNameTable.size(), i, databaseNumber = 0, tableNumber = 0, tableSize = 0;
 		if (file == NULL)return false;
-		fprintf(file, "<datbase number>\t%zd\n", size);
-		fprintf(file, "<database name>\n");
+		fprintf(file, "%d\n", size);
+		char ch[BUFF_SIZE];
 		for (i = 0; i < nameMangementTablePtr->libraryNameTable.size(); i++) {
-			fprintf(file, "%s\n", nameMangementTablePtr->libraryNameTable[i].c_str());
+			strcpy(ch ,nameMangementTablePtr->libraryNameTable[i].c_str());
+			fprintf(file, "%s\n", ch);
 		}
 		fclose(file);
 		return true;
@@ -386,14 +386,14 @@ namespace dbm {
 		return true;
 	}
 
-	shared_ptr<NameMangementFile> DatabaseFile::get_nameMangementTablePtr()
+	/*shared_ptr<NameMangementFile> DatabaseFile::get_nameMangementTablePtr()
 	{
 		return nameMangementTablePtr;
 	}
 	shared_ptr<RecordTable> DatabaseFile::get_dataMangementPtr()
 	{
 		return dataMangementPtr;
-	}
+	}*/
 	/*
 	功能:保存数据库中返回有数据及配置文件
 	输出：成功返回true,失败返回false
@@ -474,8 +474,8 @@ namespace dbm {
 	*/
 	void Page::clear()
 	{
-		this->deletedFlag.clear();
-		this->dirtyPage = false;
+		//this->deletedFlag.clear();
+	/*	this->dirtyPage = false;
 		this->curPageNum = 0;
 		this->itemSize = 0;
 		this->nextPageFlag = false;
@@ -488,7 +488,7 @@ namespace dbm {
 			(*begin) = nullptr;
 			begin++;
 		}
-		itemPtrSet.clear();
+		itemPtrSet.clear();*/
 	}
 
 	RecordHeadInfo::RecordHeadInfo()

@@ -1059,7 +1059,7 @@ namespace dbm {
 	}
 	indexMangement::indexMangement()
 	{
-		read_index_ini();
+		//read_index_ini();
 	}
 	/*
 	功能：读取index.ini配置文件
@@ -1076,7 +1076,7 @@ namespace dbm {
 		shared_ptr<index> temp=make_shared<index>( index());
 		fscanf(file, "%d", &cot);
 		for (i = 0; i < cot; i++) {
-			fscanf(file, "%s %s %s %s",libraryName, libraryName, tableName, colName);
+			fscanf(file, "%s %s %s", libraryName, tableName, colName);
 			temp->libraryName = libraryName;
 			temp->tableName = tableName;
 			temp->colName = colName;
@@ -1094,7 +1094,7 @@ namespace dbm {
 		if (file == NULL)return false;
 		int i;
 		for (i = 0; i < this->indexSet.size(); i++) {
-			fprintf(file, "<index> %s %s %s", this->indexSet[i]->libraryName.c_str(),
+			fprintf(file, "%s %s %s", this->indexSet[i]->libraryName.c_str(),
 				this->indexSet[i]->tableName.c_str(), this->indexSet[i]->colName.c_str());
 		}
 		fclose(file);

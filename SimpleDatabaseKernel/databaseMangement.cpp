@@ -1,8 +1,6 @@
 #include"databaseMangement.h"
 namespace dbm {
-	NameMangement::NameMangement(shared_ptr<NameMangementFile>ptr) {
-		this->nameMangementFilePtr = ptr;
-	}
+	
 	/*
 	输入：库名
 		  库名、表名
@@ -11,13 +9,12 @@ namespace dbm {
 		  没有该名字NameQuery->flag为false
 	输出：flag
 	*/
-	NameQueryIndex NameMangement::query_name_inner(const NameQuery &nameQuery) const {
+	NameQueryIndex dataMangement::query_name_inner(const NameQuery &nameQuery) const {
 		int i;
 		for (i = 0; i < nameMangementFilePtr->libraryNameTable.size(); i++) //查询库名
 			if (nameQuery.libraryName == nameMangementFilePtr->libraryNameTable[i]) {
 				break;
 			}
-
 		if (i < nameMangementFilePtr->libraryNameTable.size()) {
 			if (nameQuery.queryType == q_library_name)return NameQueryIndex(i);
 			int j;
@@ -36,15 +33,6 @@ namespace dbm {
 		}
 		return NameQueryIndex();
 	}
-	NameMangement & NameMangement::operator=(const NameMangement & obj)
-	{
-		this->nameMangementFilePtr = obj.nameMangementFilePtr;
-		return *this;
-	}
-	void NameMangement::set_nameMangementFile(shared_ptr<NameMangementFile> ptr)
-	{
-		this->nameMangementFilePtr = ptr;
-	}
 	/*
 	输入：库名
 		  库名、表名
@@ -52,7 +40,7 @@ namespace dbm {
 	功能：query_name 查询该库名 或 表名 或列名
 	输出：有该名字返回true,没有返回false
 	*/
-	bool NameMangement::query_name(const NameQuery &nameQuery) const {
+	bool dataMangement::query_name(const NameQuery &nameQuery) const {
 		return query_name_inner(nameQuery).flag;
 	}
 	/*
@@ -62,7 +50,7 @@ namespace dbm {
 	功能：改库名、表名、列名为nameQuery
 	输出：有该名字返回true,没有返回false
 	*/
-	bool NameMangement::nameMangeMent_modification_name(const NameQuery &nameQuery, const string &modficationedName) {
+	bool dataMangement::nameMangeMent_modification_name(const NameQuery &nameQuery, const string &modficationedName) {
 		NameQueryIndex temp = query_name_inner(nameQuery);
 		if (temp.flag) {
 			if (temp.queryType == q_library_name) {//修改库名
@@ -90,7 +78,7 @@ namespace dbm {
 	功能：删除库名、表名、列名为nameQuery
 	输出：有该名字返回true,没有返回false
 	*/
-	bool NameMangement::delete_name(const NameQuery &nameQuery) {
+	bool dataMangement::delete_name(const NameQuery &nameQuery) {
 		const NameQueryIndex temp = static_cast<const NameQueryIndex>(query_name_inner(nameQuery));
 		if (temp.flag) {
 			if (temp.queryType == q_library_name) {	//删除库名
@@ -124,7 +112,7 @@ namespace dbm {
 	功能：添加添加库名、表名
 	输出：成功返回true,失败返回false
 	*/
-	bool NameMangement::add_name(const NameQuery &nameQuery) {
+	bool dataMangement::add_name(const NameQuery &nameQuery) {
 		if (nameQuery.queryType == q_library_name || nameQuery.queryType == q_table_name)
 			return add_database_name_or_table_name(nameQuery);
 		return false;
@@ -136,12 +124,12 @@ namespace dbm {
 	功能：添加列名
 	输出：成功返回true,失败返回false
 	*/
-	bool NameMangement::add_name(const NameQuery &nameQuery, const string &colType) {
+	bool dataMangement::add_name(const NameQuery &nameQuery, const string &colType) {
 		if (nameQuery.queryType == q_col_name)
 			return add_col_name(nameQuery, colType);
 		return false;
 	}
-	void NameMangement::set_cur_library_name(const string &libraryName)
+	void dataMangement::set_cur_library_name(const string &libraryName)
 	{
 		this->nameMangementFilePtr->curLibraryName = libraryName;
 		this->nameMangementFilePtr->nameTable.libraryName = libraryName;
@@ -153,7 +141,7 @@ namespace dbm {
 	功能：查询这个列的类型
 	输出：成功返回这个列的类型，失败返回a_error
 	*/
-	AttributeType NameMangement::quer_column_type(const string & libraryName, const string & tableName, const string & columnName)
+	AttributeType dataMangement::quer_column_type(const string & libraryName, const string & tableName, const string & columnName)
 	{
 		const NameQueryIndex index = query_name_inner(NameQuery(libraryName, tableName, columnName));
 		if (index.flag) {
@@ -162,7 +150,7 @@ namespace dbm {
 
 		return a_error;
 	}
-	bool NameMangement::check_all_column_type_in_table(const string&libraryName, const string&tableName, vector<string>&str, vector<AttributeType>&type)
+	bool dataMangement::check_all_column_type_in_table(const string&libraryName, const string&tableName, vector<string>&str, vector<AttributeType>&type)
 	{
 		int i;
 		const NameQueryIndex index = query_name_inner(NameQuery(libraryName, tableName));
@@ -184,7 +172,7 @@ namespace dbm {
 	功能：添加库名或者表名
 	输出：成功返回true，失败返回false
 	*/
-	bool NameMangement::add_database_name_or_table_name(const NameQuery &nameQuery) {
+	bool dataMangement::add_database_name_or_table_name(const NameQuery &nameQuery) {
 		if (nameQuery.queryType == q_col_name)return false;
 		if (nameQuery.queryType == q_library_name) {
 			NameQueryIndex databaseTemp = query_name_inner(nameQuery);
@@ -212,7 +200,7 @@ namespace dbm {
 	功能：添加列名
 	输出：成功返回true,失败返回false
 	*/
-	bool NameMangement::add_col_name(const NameQuery &nameQuery, const string &colType) {
+	bool dataMangement::add_col_name(const NameQuery &nameQuery, const string &colType) {
 		if (nameQuery.queryType == q_col_name) {
 			NameQuery tableNameQuery = nameQuery;
 			tableNameQuery.queryType = q_table_name;
@@ -278,9 +266,9 @@ namespace dbm {
 
 	dataMangement::dataMangement()
 	{
-
+		nameMangementFilePtr = databaseFile.nameMangementTablePtr;
 		//	this->nameMangement.set_nameMangementFile( this->databaseFile.nameMangementTablePtr);//delete at 2020/2/16
-		set_nameMangementFile(this->databaseFile.nameMangementTablePtr);
+	//	set_nameMangementFile(this->databaseFile.nameMangementTablePtr);
 	
 		//read_index_ini();
 	}
@@ -299,7 +287,7 @@ namespace dbm {
 	void dataMangement::set_library(const string & librarName)
 	{
 		this->databaseFile.set_current_database_name(librarName);
-		//this->databaseFile.read_database_data(librarName);
+		this->databaseFile.read_database_data(librarName);
 	}
 
 	bool dataMangement::query_data(const NameQuery & nameQuery)const
