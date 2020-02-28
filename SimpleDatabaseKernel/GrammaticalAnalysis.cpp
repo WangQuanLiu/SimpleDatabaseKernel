@@ -1156,7 +1156,7 @@ void GrammaticalAnalysis::run()
 	gotoTableFile.close();
 	reduFile.close();
 	check_grammatical();
-	//syntax.save();
+	syntax.save();
 }
 /*
 功能：初始化gramArray中的文法号
@@ -2260,6 +2260,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 					if (redu[j].gram.getGramName() != e_s) {
 						reduer = redu[j].gram.getGramName();
 					}
+				
 		  			i = gramStack.size() - 1;
 		  				cout << "归约" << endl;
 		  				break;
@@ -2293,28 +2294,38 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 
   void GrammaticalAnalysis::reuction_empty(stack<int>&statusStack, stack<Gram>&gramStack)
   {
-	  vector<GramDataType>&vecTemp = this->status[statusStack.top()];
+	
 	  int i;
 	  string temp,str;
-	  temp = get_next_token();
-	  if (!strcmp(temp.c_str(), ""))return ;
-	  cout << temp << endl;
-	  Gram gram = string_convert_to_GramToken(temp).getGram();
-	  int emptyIndex = -1;
-	  for (i = 0; i < vecTemp.size(); i++) {
-		  if (vecTemp[i].ls.size() == 1 && vecTemp[i].ls[0] == e_empty) {
-			  emptyIndex = i;
-			  if (gram == vecTemp[i].symbol) {
-				  cout << gram_map_to_string(gram) << "  " << gram_map_to_string(vecTemp[i].symbol) << endl;
-				  break;
+	  bool flag = true;
+	  while (flag) {
+		  flag = false;
+		  temp = get_next_token();
+		  Gram gram = e_error;
+		  int emptyIndex = -1;
+		  vector<GramDataType>&vecTemp = this->status[statusStack.top()];
+		  if (!strcmp(temp.c_str(), "")) {
+			  cout << temp << endl;
+			  gram = string_convert_to_GramToken(temp).getGram();
+		  }
+
+		  for (i = 0; i < vecTemp.size(); i++) {
+			  if (vecTemp[i].ls.size() == 1 && vecTemp[i].ls[0] == e_empty) {
+				  emptyIndex = i;
+				  if (gram == vecTemp[i].symbol) {
+					  cout << gram_map_to_string(gram) << "  " << gram_map_to_string(vecTemp[i].symbol) << endl;
+					  break;
+				  }
 			  }
 		  }
-	  }
-	  if (emptyIndex != -1 && GotoTable[statusStack.top()][gram] == EMPTY) {
-		  gramStack.push(vecTemp[emptyIndex].getGramName());
-		  str = GotoTable[statusStack.top()][vecTemp[emptyIndex].getGramName()];
-		  str = str.substr(1, str.size() - 1);
-		  statusStack.push(atoi(str.c_str()));
+
+		  if (emptyIndex != -1 && (file->get_token_size() <= 0 || GotoTable[statusStack.top()][gram] == EMPTY)) {
+			  gramStack.push(vecTemp[emptyIndex].getGramName());
+			  str = GotoTable[statusStack.top()][vecTemp[emptyIndex].getGramName()];
+			  str = str.substr(1, str.size() - 1);
+			  statusStack.push(atoi(str.c_str()));
+			  flag = true;
+		  }
 	  }
   }
 
@@ -2429,10 +2440,13 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  break;
 	  case e_drop_view_def:
 		  if (!semantic_analysis_drop_database(token))return false;
+		  break;
 	  case e_create_def:
 		  if (!semantic_analysis_create(token))return false;
+		  break;
 	  case e_insert_def:
 		  if (!semantic_analysis_insert_data(token))return false;
+		  break;
 	  case e_delete_table_def:
 	  case e_delete_element_def:
 	  case e_update_def:
@@ -2458,7 +2472,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  wcs wcsTemp;
 	  int num;
 	  unsigned lineDataSize=0, i,j;
-	  for (i = 0; columnInfoInTable.size(); i++) {
+	  for (i = 0; i<columnInfoInTable.size(); i++) {
 		  for (j = 0; j < columnInfoInTable[i].columnInfo.size(); j++) {
 			  lineDataSize += columnInfoInTable[i].columnInfo[j].type_size();
 		  }
@@ -2527,7 +2541,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 
   bool syntaxTree::semantic_analysis_select(vector<GramTokenType>& vec)
   {
-	  int fromPosi, wherePosi,i;
+	  int fromPosi, wherePosi=vec.size(),i;
 	  vector<string>tableName;
 	  vector<GramTokenType> displayName;
 	  for (i = 0; i < vec.size(); i++) {
@@ -2538,7 +2552,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  tableName.push_back(vec[i].getString());
 	  }
 	  for (i = 1; i < fromPosi; i+=2) {
-		  displayName.push_back(vec[i].getString());
+		  displayName.push_back(vec[i]);
 	  }
 	  vector<CDIT>columnDetails=get_column_details(tableName);
 	dbm::resultData_ptr ptr=queryMangement.table_data(tableName[0]),ptrTemp;
@@ -2546,8 +2560,9 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		ptrTemp = queryMangement.table_data(tableName[i]);
 		ptr = queryMangement.one_table_natual_connect_another_table(ptr, ptrTemp);
 	}
-	vector<GramTokenType>whereStatement(vec.begin()+wherePosi,vec.end());
-	if (semantic_analysis_where(ptr, whereStatement, columnDetails)==wcs_error) {
+	vector<GramTokenType>whereStatement(vec.begin()+wherePosi-1,vec.end());
+	if (wherePosi!=vec.size()) {
+		if(semantic_analysis_where(ptr, whereStatement, columnDetails) == wcs_error)
 		return false;
 	}
 	else {

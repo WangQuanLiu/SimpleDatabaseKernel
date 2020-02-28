@@ -87,13 +87,16 @@ namespace dbm {
 					nameMangementFilePtr->nameTable.clear();//清空库中的配置文件
 					nameMangementFilePtr->curLibraryName = Q_EMPTY;
 				}
+				
+				delete_talbe_or_library(dbm::NameQuery(nameQuery.libraryName));
 				nameMangementFilePtr->libraryNameTable.erase(iter);
-
+				
 			}
 			else if (temp.queryType == q_table_name) {//删除表名
 				vector<TableNameMangement>::iterator iter = nameMangementFilePtr->nameTable.tableMangement.begin() + temp.tableNameIndex;
 				nameMangementFilePtr->nameTable.tableMangement.erase(iter);
 				nameMangementFilePtr->nameTable.tableSize = nameMangementFilePtr->nameTable.tableMangement.size();
+				delete_talbe_or_library(dbm::NameQuery(nameQuery.libraryName, nameQuery.tableName));
 			}
 			//删除列名
 			else {
@@ -287,7 +290,7 @@ namespace dbm {
 	void dataMangement::set_library(const string & librarName)
 	{
 		this->databaseFile.set_current_database_name(librarName);
-		this->databaseFile.read_database_data(librarName);
+		/*this->databaseFile.read_database_data(librarName);*/
 	}
 
 	bool dataMangement::query_data(const NameQuery & nameQuery)const
@@ -361,7 +364,7 @@ namespace dbm {
 
 			else {//库名或表名
 			//	flag  = this->nameMangement.delete_name(nameQuery);//delete at 2020/2/16
-				flag = delete_name(nameQuery);
+				//flag =delete_name(nameQuery);
 				if (nameQuery.queryType == q_library_name) {//库名
 					filePath = DATABASE_HOME_PATH(nameQuery.libraryName);
 				}
