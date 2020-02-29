@@ -1206,7 +1206,7 @@ bool GrammaticalAnalysis::check_grammatical()
 			return false;
 		}
 		else if (as == acc&&reduer!=e_s) {
-			syntax.execute(reduer, vec);
+			//syntax.execute(reduer, vec);
 			reduer = e_s;
 			vec.clear();
 		}
@@ -2047,7 +2047,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  if (gram == e_integer) {
 		  return dbm::a_int;
 	  }
-	  else if (gram == e_float) {
+	  else if (gram == e_real) {
 		  return dbm::a_flaot;
 	  }
 	  else if (gram == e_str) {
@@ -2298,6 +2298,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  int i;
 	  string temp,str;
 	  bool flag = true;
+	  Gram lastGram = e_gram_end;
 	  while (flag) {
 		  flag = false;
 		  temp = get_next_token();
@@ -2319,8 +2320,9 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 			  }
 		  }
 
-		  if (emptyIndex != -1 && (file->get_token_size() <= 0 || GotoTable[statusStack.top()][gram] == EMPTY)) {
+		  if (emptyIndex != -1&&lastGram!= vecTemp[emptyIndex].getGramName() &&(file->get_token_size()<=0|| GotoTable[statusStack.top()][gram] == EMPTY)) {
 			  gramStack.push(vecTemp[emptyIndex].getGramName());
+			  lastGram = vecTemp[emptyIndex].getGramName();
 			  str = GotoTable[statusStack.top()][vecTemp[emptyIndex].getGramName()];
 			  str = str.substr(1, str.size() - 1);
 			  statusStack.push(atoi(str.c_str()));
@@ -2579,14 +2581,21 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
   {
 	  if (queryMangement.query_name(dbm::NameQuery(queryMangement.get_currently_library_name(), vec[2].getString()))) {
 		  int i;
+		  bool flag;
 		  vector<dbm::AttributeType>atrributeType;
 		  vector<string>values;
 		  for (i = 5; i < vec.size() - 1; i += 2) {
 			  values.push_back(vec[i].getString());
 			  atrributeType.push_back(gram_data_type_convert_to_AttributeType(vec[i].getGram()));
 		  }
-		  return queryMangement.check_all_column_type_in_table(
+		  flag= queryMangement.check_all_column_type_in_table(
 			  this->queryMangement.get_currently_library_name(), vec[2].getString(), values, atrributeType);
+		  if (!flag)return false;
+		  dbm::InsertData insertData;
+		  insertData.tableName = vec[2].getString();
+		  insertData.add_data( values);
+		  queryMangement.add_data(insertData);
+		  return true;
 	  }
 	  else {
 		  printf_symbol_status("table name", vec[2].getString(), "doesn't exist");

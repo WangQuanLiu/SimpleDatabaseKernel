@@ -72,7 +72,7 @@ namespace dbm {
 		FILE*file = fopen(DATABASE_HOME_PATH("database.ini").c_str(), "w");
 		size_t size = nameMangementTablePtr->libraryNameTable.size(), i, databaseNumber = 0, tableNumber = 0, tableSize = 0;
 		if (file == NULL)return false;
-		fprintf(file, "%d\n", size);
+		fprintf(file, "%zd\n", size);
 		char ch[BUFF_SIZE];
 		for (i = 0; i < nameMangementTablePtr->libraryNameTable.size(); i++) {
 			strcpy(ch ,nameMangementTablePtr->libraryNameTable[i].c_str());
