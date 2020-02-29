@@ -158,7 +158,7 @@ namespace dbm {
 		int i;
 		const NameQueryIndex index = query_name_inner(NameQuery(libraryName, tableName));
 		if (index.flag) {
-			vector<CNT>&columnMangement = this->nameMangementFilePtr->nameTable.tableMangement[index.databaseNameIndex].column;
+			vector<CNT>&columnMangement = this->nameMangementFilePtr->nameTable.tableMangement[index.tableNameIndex].column;
 			if (columnMangement.size() != type.size())return false;
 			for (i = 0; i<columnMangement.size(); i++) {
 				if (columnMangement[i].attributeType != type[i]||
@@ -210,6 +210,9 @@ namespace dbm {
 			NameQueryIndex tableTemp = query_name_inner(tableNameQuery), colTemp = query_name_inner(nameQuery);
 			if (nameMangementFilePtr->curLibraryName == nameQuery.libraryName&&tableTemp.flag&&!colTemp.flag) {
 				nameMangementFilePtr->nameTable.tableMangement[tableTemp.tableNameIndex].column.push_back(CNT(nameQuery.colName, colType));
+				nameMangementFilePtr->nameTable.tableMangement[tableTemp.tableNameIndex].colSize++;
+				this->databaseFile.dataMangementPtr->table[tableTemp.tableNameIndex].headInfo.tableTypeNum++;
+				this->databaseFile.dataMangementPtr->table[tableTemp.tableNameIndex].headInfo.type.push_back(CNT(nameQuery.colName,colType).attributeType );
 				return true;
 			}
 		}
@@ -530,7 +533,7 @@ namespace dbm {
 		temp->curPageNum = ++this->databaseFile.dataMangementPtr->table[tableIndex].headInfo.pageNumber;//µ±Ç°Ò³Êý
 		temp->dirtyPage = true;
 		temp->nextPageFlag = false;
-		temp->itemSize++;
+		temp->itemSize=1;
 		temp->usedSpaceSize += colSize;
 		temp->unUsedSpaceSize -= colSize;
 		temp->itemPtrSet.push_back(make_shared<Item>(item));

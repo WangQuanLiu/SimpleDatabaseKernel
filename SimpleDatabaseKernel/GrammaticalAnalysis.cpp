@@ -1206,7 +1206,7 @@ bool GrammaticalAnalysis::check_grammatical()
 			return false;
 		}
 		else if (as == acc&&reduer!=e_s) {
-			//syntax.execute(reduer, vec);
+			syntax.execute(reduer, vec);
 			reduer = e_s;
 			vec.clear();
 		}
@@ -2665,6 +2665,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 			  id.push_back(vec[i].getString());
 			  type.push_back( vec[i + 1].getString());
 		  }
+		  queryMangement.add_table_or_library(dbm::NameQuery(queryMangement.get_currently_library_name(), vec[2].getString()));
 		  for (i = 0; i < id.size(); i++) {
 			  queryMangement.add_name(dbm::NameQuery(queryMangement.get_currently_library_name(), vec[2].getString(), id[i]), type[i]);
 		  }

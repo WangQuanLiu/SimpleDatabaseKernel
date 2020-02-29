@@ -38,6 +38,7 @@ namespace cfe {
 #define ASSIGNMENT_SYMBOL "assignment_symbol"
 #define BLANK "blank"
 #define MAX 1000
+#define NFA_CONVERT_TO_DFA_FUNCTION false
 	enum end_statusType {
 		logcial_symbol = 1,//Âß¼­·ûºÅ logical symbol
 		keyword,//¹Ø¼ü×Ö keyword

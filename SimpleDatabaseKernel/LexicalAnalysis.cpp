@@ -622,9 +622,9 @@ namespace cfe {
 			vector<int>temp = closure(nextStates);//找到这个状态无需输入字符的最大状态
 			status.insert(status.end(), temp.begin(), temp.end());//然后插入
 		}
-#if TEST&&LEXICAL_TEST
-		cout << "\n\n\n" << "ConverTable" << endl;
-#endif
+//#if TEST&&LEXICAL_TEST
+//		cout << "\n\n\n" << "ConverTable" << endl;
+//#endif
 
 
 		//	cout << LexicalAnalysis::alphabet[index] << endl;
@@ -695,7 +695,7 @@ namespace cfe {
 		status.push_back(s);//第二个状态为起始状态
 		while (j <= p) {
 			{
-#if (TEST==true&&LEXICAL_TEST==true)
+#if (TEST==true&&LEXICAL_TEST==true&&NFA_CONVERT_TO_DFA_FUNCTION)
 				int i;
 				for (i = 0; i < status.size(); i++) {
 					cout << "状态" << i << endl;
@@ -706,7 +706,7 @@ namespace cfe {
 			}
 			for (c = 0; c < ALPH_MAX; c++) {//字符集
 				s = dfa_edge(status[j].get_set(), alphabet[c]);//求在状态集status[j]中吃掉字符c得到状态集
-#if (TEST==true&&LEXICAL_TEST==true)
+#if (TEST==true&&LEXICAL_TEST==true&&NFA_CONVERT_TO_DFA_FUNCTION)
 				cout << "状态" << j << " " << alphabet[c] << " 字符得到的状态集" << endl;
 				s.print();
 #endif
