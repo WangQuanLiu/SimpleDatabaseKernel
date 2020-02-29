@@ -983,7 +983,7 @@ GramDataType{
 	 DataType(e_id),
 	 DataType(e_equal),
 	 DataType(e_real),
-	 DataType(e_update_addop_def),
+//	 DataType(e_update_addop_def),
 	 DataType(e_where_def)
  },
 	 GramDataType{
@@ -993,19 +993,19 @@ GramDataType{
 	 DataType(e_id),
 	 DataType(e_equal),
 	 DataType(e_integer),
-	 DataType(e_update_addop_def),
+//	 DataType(e_update_addop_def),
 	 DataType(e_where_def)
  },
-	 GramDataType{
-	 DataType(e_update),
-	 DataType(e_id),
-	 DataType(e_set),
-	 DataType(e_id),
-	 DataType(e_equal),
-	 DataType(e_id),
-	 DataType(e_update_addop_def),
-	 DataType(e_where_def)
- },
+	// GramDataType{
+	// DataType(e_update),
+	// DataType(e_id),
+	// DataType(e_set),
+	// DataType(e_id),
+	// DataType(e_equal),
+	// DataType(e_id),
+	// DataType(e_update_addop_def),
+	// DataType(e_where_def)
+ //},
 };
  GramType Grammatical::v_create_view_def{
 	/*
@@ -2451,6 +2451,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  break;
 	  case e_delete_table_def:
 	  case e_delete_element_def:
+		  break;
 	  case e_update_def:
 	  case e_create_index_def:
 	  case e_drop_index_def:
@@ -2506,12 +2507,12 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  int i;
 	  string valuesOne, valuesTwo;
 	  bool leftLogic;
-	  wcs wcsFlag = where_compare_analysis(vec[1], vec[2], vec[3], columnInfoInTable);
+	  wcs wcsFlag = where_compare_analysis(itemPtr,vec[1], vec[2], vec[3], columnInfoInTable);
 	  if(wcsFlag ==wcs_error)return wcs_error;
 	  else if (wcsFlag == wcs_ture) leftLogic=true;
 	  else  leftLogic = false;
 	  for (i = 4; i < vec.size(); i+=4) {
-		  wcsFlag = where_compare_analysis(vec[i + 1], vec[i + 2], vec[i + 3], columnInfoInTable);
+		  wcsFlag = where_compare_analysis(itemPtr,vec[i + 1], vec[i + 2], vec[i + 3], columnInfoInTable);
 		  if (wcsFlag == wcs_error)return wcs_error;
 		  else if (wcsFlag == wcs_ture) {
 			  leftLogic = semantic_analysis_logic(leftLogic, vec[i], true);
@@ -2562,14 +2563,14 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		ptrTemp = queryMangement.table_data(tableName[i]);
 		ptr = queryMangement.one_table_natual_connect_another_table(ptr, ptrTemp);
 	}
-	vector<GramTokenType>whereStatement(vec.begin()+wherePosi-1,vec.end());
+	vector<GramTokenType>whereStatement(vec.begin()+wherePosi,vec.end());
 	if (wherePosi!=vec.size()) {
 		if(semantic_analysis_where(ptr, whereStatement, columnDetails) == wcs_error)
 		return false;
 	}
-	else {
-		if(display_select_statement(ptr, displayName, columnDetails)==wcs_error)return false;
-	}
+	/*else {*/
+	/*	if(*/display_select_statement(ptr, displayName, columnDetails); /*)==wcs_error)return false;*/
+	//}
 	  return true;
   }
   /*
@@ -2634,6 +2635,28 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  return false;
 	  }
   }
+  bool syntaxTree::semantic_analysis_delete_element(vector<GramTokenType>& vec)
+  {
+	  if (!queryMangement.query_name(dbm::NameQuery( queryMangement.get_currently_library_name(), vec[2].getString()))) {
+		  vector<GramTokenType> whereStatement(vec.begin() + 2, vec.end());
+		  dbm::resultData_ptr ptr = queryMangement.table_data(vec[2].getString());
+		  list<dbm::Page>::iterator pageBegin(ptr->page.begin()), pageEnd(ptr->page.end());
+		  list<shared_ptr<dbm::Item>>::iterator itemBegin, itemEnd;
+		  vector<string>tableName;
+		  tableName.push_back( vec[2].getString());
+		  vector<CDIT>columnDetails = get_column_details(tableName);
+		  for (; pageBegin != pageEnd; pageBegin++) {
+			  itemBegin = (*pageBegin).itemPtrSet.begin();
+			  itemEnd = (*pageEnd).itemPtrSet.end();
+			  for (; itemBegin != itemEnd; itemBegin++) {
+				  semantic_analysis_where(*itemBegin, vec, columnDetails);
+			  }
+		  }
+		  return true;
+	  }
+
+	  return false;
+  }
   /*
    ‰»Î£∫«–ªªø‚”Ôæ‰
   π¶ƒ‹£∫«–ªªø‚
@@ -2675,6 +2698,10 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  printf_symbol_status("table name",vec[2].getString(),"already exist");
 		  return false;
 	  }
+  }
+  bool syntaxTree::semantic_analysis_update(vector<GramTokenType>& vec)
+  {
+	  return false;
   }
   /*
    ‰»Î£∫…æ≥˝ ˝æ›ø‚”Ôæ‰
@@ -2795,6 +2822,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 			 for (j = 0; j < columnInfoInTable[i].columnInfo.size(); j++) {
 				 if (columnInfoInTable[i].columnInfo[j].colName == columnName) {
 					 temp.columnIndex = j;
+					 temp.flag = true;
 					 break;
 				 }
 				// position++;
@@ -2809,6 +2837,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 						 temp.tableIndex = i;
 						 temp.columnIndex = j;
 						 columnCount++;
+						 temp.flag = true;
 					 }
 					// position++;
 				 }
@@ -2817,6 +2846,15 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 			 if (columnCount > 1)return columnPosi();
 		 }
 		 return temp;
+	 }
+	 unsigned syntaxTree::get_column_name_position_in_connect_table( string & columnName, vector<CDIT>& columnInfoInTable)
+	 {
+		 unsigned i, j,position=0;
+		 columnPosi temp = get_column_position_in_connect_table(columnName, columnInfoInTable);
+		 for (i = 0; i < temp.tableIndex; i++)
+			 position += columnInfoInTable[i].columnInfo.size();
+		 position += temp.columnIndex;
+		 return position;
 	 }
 	 /*
 	  ‰»Î£∫where like ◊÷∑˚∆•≈‰÷–µƒ◊÷∑˚∆•≈‰
@@ -2909,25 +2947,25 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		 }
 		 return dbm::queryData();
 	 }
-	 wcs syntaxTree::where_compare_analysis(GramToken& valuesOne, GramToken& compareSymbol, GramToken& valuesTwo, vector<CDIT>&columnInfoInTable)
+	 wcs syntaxTree::where_compare_analysis(dbm::shared_ptr<dbm::Item> itemPtr,GramToken& valuesOne, GramToken& compareSymbol, GramToken& valuesTwo, vector<CDIT>&columnInfoInTable)
 	 {
 		  
 		 int bin = (valuesOne.getGram() == e_id) ? 1 * 2 : 0 + valuesTwo.getGram() == e_id ? 1 : 0;
 		 switch (bin)
 		 {
 		 case 3:
-			 return where_compare_analysis_both_column(valuesOne, compareSymbol, valuesTwo, columnInfoInTable);
+			 return where_compare_analysis_both_column(itemPtr,valuesOne, compareSymbol, valuesTwo, columnInfoInTable);
 		 case 2:
-			 return where_compare_analysis_column_and_literal_char(valuesOne, compareSymbol, valuesTwo, columnInfoInTable);
+			 return where_compare_analysis_column_and_literal_char(itemPtr,valuesOne, compareSymbol, valuesTwo, columnInfoInTable);
 		 case 1:
-			 return where_compare_analysis_column_and_literal_char(valuesTwo, compareSymbol, valuesOne, columnInfoInTable);
+			 return where_compare_analysis_column_and_literal_char(itemPtr,valuesTwo, compareSymbol, valuesOne, columnInfoInTable);
 		 case 0:
 			 return where_compare_analysis_both_literal_char(valuesOne, compareSymbol, valuesTwo);
 			 break;
 		 }
 		 return wcs_error;
 	 }
-	 wcs syntaxTree::where_compare_analysis_both_column(GramToken& valuesOne, GramToken& compareSymbol, GramToken& valuesTwo, vector<CDIT>& columnInfoInTable)
+	 wcs syntaxTree::where_compare_analysis_both_column(dbm::shared_ptr<dbm::Item> itemPtr,GramToken& valuesOne, GramToken& compareSymbol, GramToken& valuesTwo, vector<CDIT>& columnInfoInTable)
 	 {
 		 columnPosi columnPosiLeft, columnPosiRight;
 		 bool leftLogic;
@@ -2942,7 +2980,8 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		 }
 		 temp.conditionSymbol = gram_convert_to_queryData(compareSymbol.getGram());
 		 temp.conditionType = columnInfoInTable[columnPosiLeft.tableIndex].columnInfo[columnPosiLeft.columnIndex].attributeType;
-		 temp.valueOne = valuesOne.getString();
+	//	 temp.valueOne = valuesOne.getString();//…æ≥˝”⁄2020/2/29
+		 temp.valueOne = (*itemPtr).item[get_column_name_position_in_connect_table(valuesOne.getString(), columnInfoInTable)].get_data();
 		 temp.valueTwo = valuesTwo.getString();
 		 leftLogic = semantic_analysis_where_compare(temp);
 		 if (leftLogic == true) {
@@ -2953,7 +2992,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		 }
 		
 	 }
-	 wcs syntaxTree::where_compare_analysis_column_and_literal_char(GramToken & valuesOne, GramToken & compareSymbol, GramToken & valuesTwo, vector<CDIT>& columnInfoInTable)
+	 wcs syntaxTree::where_compare_analysis_column_and_literal_char(dbm::shared_ptr<dbm::Item> itemPtr,GramToken & valuesOne, GramToken & compareSymbol, GramToken & valuesTwo, vector<CDIT>& columnInfoInTable)
 	 {
 		 columnPosi columnPosi;
 		 syntaxCondition temp;
@@ -2965,7 +3004,8 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		 }
 		 temp.conditionSymbol = gram_convert_to_queryData(compareSymbol.getGram());
 		 temp.conditionType = gram_data_type_convert_to_AttributeType(valuesTwo.getGram());
-		 temp.valueOne = valuesOne.getString();
+		// temp.valueOne = valuesOne.getString();
+		 temp.valueOne = (*itemPtr).item[get_column_name_position_in_connect_table(valuesOne.getString(), columnInfoInTable)].get_data();
 		 temp.valueTwo = valuesTwo.getString();
 		 if (semantic_analysis_where_compare(temp)) {
 			 return wcs_ture;
@@ -2974,7 +3014,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 			 return wcs_false;
 		 }
 	 }
-	 wcs syntaxTree::where_compare_analysis_both_literal_char(GramToken & valuesOne, GramToken & compareSymbol, GramToken & valuesTwo)
+	 wcs syntaxTree::where_compare_analysis_both_literal_char( GramToken & valuesOne, GramToken & compareSymbol, GramToken & valuesTwo)
 	 {
 		 syntaxCondition temp;
 		 if (valuesOne.getGram() != valuesTwo.getGram()) {
@@ -2994,7 +3034,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		 vector<int>posi;
 		 columnPosi temp;
 		 int position = 0;
-		 if (vec.size() == 1) {	
+		 if (vec.size() == 1&&vec[0].getString()=="*") {	
 			 for (i = 0; i < columnInfoInTable.size(); i++) {
 				 for (j = 0; j < columnInfoInTable[i].columnInfo.size(); j++) {
 					 cout << columnInfoInTable[i].columnInfo[j].colName << " ";
@@ -3009,10 +3049,14 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 				 temp = get_column_position_in_connect_table(vec[i].getString(), columnInfoInTable);
 				 if (temp.flag == false)return wcs_error;
 				 for (j = 0; j <= temp.tableIndex; j++)
-					 for (k = 0; k <= temp.tableIndex; k++) 
+					 for (k = 0; k < temp.columnIndex; k++)
 						 position++;
+				 cout << columnInfoInTable[temp.tableIndex].columnInfo[temp.columnIndex].colName << " ";
 				 posi.push_back(position);
+				 position = 0;
+				
 			 }
+			 cout << endl;
 		 }
 		 display_select_statement(ptr, posi);
 		 return wcs_ture;
@@ -3020,9 +3064,11 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	 void syntaxTree::display_select_statement(dbm::resultData_ptr ptr, vector<int>& posi)
 	 {
 		 int i,cot;
-		 set<int>s;
+		 set<int>s, posiSet;
 		 list<dbm::Page>::iterator pageBegin=ptr->page.begin(), pageEnd=ptr->page.end();
 		 list<shared_ptr<dbm::Item>>::iterator itemBegin, itemEnd;
+		 for (i = 0; i < posi.size(); i++)
+			 posiSet.insert(posi[i]);
 		 for (; pageBegin != pageEnd; pageBegin++) {
 			 dbm::Page page = *pageBegin;
 			 itemBegin = page.itemPtrSet.begin();
@@ -3034,6 +3080,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 			 for (; itemBegin != itemEnd; itemBegin++,cot++) {
 				 if (s.count(cot) != 0)continue;
 				 for (i = 0; i < (*itemBegin)->item.size(); i++) {
+					 if (posiSet.count(i) == 0)continue;
 					 cout << (*itemBegin)->item[i].get_data() << " ";
 				 }
 				 cout << endl;

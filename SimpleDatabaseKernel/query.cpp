@@ -77,13 +77,14 @@ namespace dbm {
 	{
 		dbm::resultData_ptr ptr = new dbm::resultData();
 		list<dbm::Page>::iterator ptrOnePageBegin(ptrOne->page.begin()), ptrOnePageEnd(ptrOne->page.end()),
-			ptrTwoPageBegin(ptrTwo->page.begin()), ptrTwoPageEnd(ptrTwo->page.end());
+			ptrTwoPageBegin, ptrTwoPageEnd;
 		dbm::Page_ptr pagePtr = new dbm::Page();
 		list<shared_ptr<dbm::Item>>::iterator itemOneBegin, itemTwoBegin, itemOneEnd, itemTwoEnd;
 		for (; ptrOnePageBegin != ptrOnePageEnd; ptrOnePageBegin++) {
 			itemOneBegin = (*ptrOnePageBegin).itemPtrSet.begin();
 			itemOneEnd = (*ptrOnePageBegin).itemPtrSet.end();
 			for (; itemOneBegin != itemOneEnd; itemOneBegin++) {
+				ptrTwoPageBegin=ptrTwo->page.begin(), ptrTwoPageEnd=ptrTwo->page.end();
 				for (; ptrTwoPageBegin != ptrTwoPageEnd; ptrTwoPageBegin++) {
 					itemTwoBegin = (*ptrTwoPageBegin).itemPtrSet.begin();
 					itemTwoEnd = (*ptrTwoPageBegin).itemPtrSet.end();
@@ -92,11 +93,13 @@ namespace dbm {
 						(*itemTemp) = (**itemOneBegin);
 						(*itemTemp) += (**itemTwoBegin);
 						pagePtr->itemPtrSet.push_back(itemTemp);
+						pagePtr->itemSize++;
 					}
 
 				}
 			}
 		}
+		ptr->page.push_back(*pagePtr);
 		return ptr;
 	}
 	/*

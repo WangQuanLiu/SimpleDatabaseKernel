@@ -317,7 +317,7 @@ namespace dbm {
 							fscanf(file, "%s", ch);
 							itemPtr->item.push_back(DataType(ch));
 						}
-						fscanf(file, "%s", ch);
+					//	fscanf(file, "%s", ch);
 						//	itemPtr->nextDataNumber = atoi(ch);
 						page->itemPtrSet.push_back(itemPtr);
 						itemPtr = nullptr;
