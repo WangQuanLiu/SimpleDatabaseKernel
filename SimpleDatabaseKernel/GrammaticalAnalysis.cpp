@@ -2619,13 +2619,13 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  vector<dbm::AttributeType>atrributeType;
 		  vector<string>values;
 		  for (i = 5; i < vec.size() - 1; i += 2) {
-			  if (vec[i].getGram() == e_str) {
+			 /* if (vec[i].getGram() == e_str) {
 				  string str;
 				  for (j = 1; j < vec[i].getString().size() - 1; j++)
 					  str += vec[i].getString()[j];
 				  values.push_back(str);
 
-			  }else
+			  }else*/
 			  values.push_back(vec[i].getString());
 			  atrributeType.push_back(gram_data_type_convert_to_AttributeType(vec[i].getGram()));
 		  }
@@ -2650,7 +2650,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
   */
   bool syntaxTree::semantic_analysis_delete_table(vector<GramTokenType>& vec)
   {
-	  if (queryMangement.query_name(dbm::NameQuery(vec[2].getString()))) {
+	  if (queryMangement.query_name(dbm::NameQuery(queryMangement.get_currently_library_name(), vec[2].getString()))) {
 		  queryMangement.delete_talbe_or_library(dbm::NameQuery(queryMangement.get_currently_library_name(), vec[2].getString()));
 		  return true;
 	  }

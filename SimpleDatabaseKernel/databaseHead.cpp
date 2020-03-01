@@ -204,6 +204,7 @@ namespace dbm {
 			for (i = 0; i < type.size(); i++) {
 				if (type[i] == '(') {
 					flag = true;
+					continue;
 				}
 				else if (type[i] == ')')break;
 				if (flag)temp += type[i];
