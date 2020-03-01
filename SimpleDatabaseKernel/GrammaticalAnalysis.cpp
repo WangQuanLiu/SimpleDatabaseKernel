@@ -2255,14 +2255,14 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  			statusStack.pop(i);//出栈i+1个元素		
 		  			statusStack.push(redu[j].statusNumber); 
 					reduNum = k;
-					cout << j << endl;
+				cout << j << endl;
 		  			gramStack.push(redu[j].gram.getGramName());
 					if (redu[j].gram.getGramName() != e_s) {
 						reduer = redu[j].gram.getGramName();
 					}
 				
 		  			i = gramStack.size() - 1;
-		  				cout << "归约" << endl;
+		  			cout << "归约" << endl;
 		  				break;
 		  		}
 
@@ -2287,7 +2287,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  str = str.substr(1, str.size() - 1);
 	  statusStack.push(atoi(str.c_str()));
 	  gramStack.push(symbol);
-	  cout << "移进" << endl;
+	 cout << "移进" << endl;
 	  reuction_empty(statusStack, gramStack);
 	  return true;
   }
@@ -2314,7 +2314,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 			  if (vecTemp[i].ls.size() == 1 && vecTemp[i].ls[0] == e_empty) {
 				  emptyIndex = i;
 				  if (gram == vecTemp[i].symbol) {
-					  cout << gram_map_to_string(gram) << "  " << gram_map_to_string(vecTemp[i].symbol) << endl;
+					 cout << gram_map_to_string(gram) << "  " << gram_map_to_string(vecTemp[i].symbol) << endl;
 					  break;
 				  }
 			  }
@@ -2891,7 +2891,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 				// position += columnInfoInTable[i].columnInfo.size();
 			 }
 			 for (j = 0; j < columnInfoInTable[i].columnInfo.size(); j++) {
-				 if (columnInfoInTable[i].columnInfo[j].colName == columnName) {
+				 if (columnInfoInTable[i].columnInfo[j].colName == columnNameTemp) {
 					 temp.columnIndex = j;
 					 temp.flag = true;
 					 break;
