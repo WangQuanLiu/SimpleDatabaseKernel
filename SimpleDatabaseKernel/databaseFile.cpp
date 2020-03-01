@@ -307,7 +307,7 @@ namespace dbm {
 					while (fscanf(file, "%s", ch) && strcmp(ch, "<deletedFlag_end>")) { //添加已删除的项
 						page->deletedFlag.push_back(atoi(ch));
 					}
-					for (j = 0; j < page->itemSize /*+ page->deletedFlag.size()*/; j++) {	//数据个数
+					for (j = 0; j < page->itemSize + page->deletedFlag.size(); j++) {	//数据个数
 						itemPtr = make_shared<Item>(new Item());
 						if (itemPtr == nullptr) {
 							cerr << "read_table_data DatabaseFile iterPtr memory  allocation failure!" << endl;

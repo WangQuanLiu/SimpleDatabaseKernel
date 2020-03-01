@@ -2643,23 +2643,24 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
   }
   bool syntaxTree::semantic_analysis_delete_element(vector<GramTokenType>& vec)
   {
-	  if (!queryMangement.query_name(dbm::NameQuery( queryMangement.get_currently_library_name(), vec[2].getString()))) {
-		  vector<GramTokenType> whereStatement(vec.begin() + 2, vec.end());
+	  if (queryMangement.query_name(dbm::NameQuery( queryMangement.get_currently_library_name(), vec[2].getString()))) {
+		  vector<GramTokenType> whereStatement(vec.begin() + 3, vec.end());
 		  dbm::resultData_ptr ptr = queryMangement.table_data(vec[2].getString());
-		  list<dbm::Page>::iterator pageBegin(ptr->page.begin()), pageEnd(ptr->page.end());
+		  list<dbm::Page>::iterator pageBegin, pageEnd;
 		  list<shared_ptr<dbm::Item>>::iterator itemBegin, itemEnd;
 		  vector<string>tableName;
 		  int i;
 		  tableName.push_back( vec[2].getString());
 		  vector<CDIT>columnDetails = get_column_details(tableName);
 		  dbm::DeleteData deleteData;
-		  for (; pageBegin != pageEnd; pageBegin++) {
+		 
+		  for (pageBegin=ptr->page.begin(),pageEnd=ptr->page.end(); pageBegin != pageEnd; pageBegin++) {
 			  itemBegin = (*pageBegin).itemPtrSet.begin();
-			  itemEnd = (*pageEnd).itemPtrSet.end();
+			  itemEnd = (*pageBegin).itemPtrSet.end();
 			  for (; itemBegin != itemEnd; itemBegin++) {
-				cfe::wcs wcs= semantic_analysis_where(*itemBegin, vec, columnDetails);
+				cfe::wcs wcs= semantic_analysis_where(*itemBegin, whereStatement, columnDetails);
 				if (wcs == wcs_error)return false;
-				if (wcs == wcs_false) {
+				if (wcs == wcs_ture) {
 					deleteData.tableName = vec[2].getString();
 					for (i = 0; i < (*itemBegin)->item.size(); i++) {
 						deleteData.values.push_back((*itemBegin)->item[i].get_data());
@@ -2717,6 +2718,9 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
   }
   bool syntaxTree::semantic_analysis_update(vector<GramTokenType>& vec)
   {
+	/*  if (queryMangement.query_name(queryMangement.get_currently_library_name(), vec[1].getString())) {
+
+	  }*/
 	  return false;
   }
   /*

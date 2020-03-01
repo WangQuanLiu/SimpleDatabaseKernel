@@ -586,7 +586,11 @@ namespace dbm {
 				for (j = 0; j < deleteIndex; j++) {
 					itemBegin++;
 				}
-				*(*itemBegin) = item;
+				shared_ptr<Item>& temp = (*itemBegin);
+				/*temp->item = item.item;*/
+				temp->item.clear();
+				for (j = 0; j < item.item.size(); j++)
+					temp->item.push_back(item.item[j].get_data());
 			}
 			else
 				(*pageTemp)->itemPtrSet.push_back(make_shared<Item>(item));//Ôö¼ÓÔö
