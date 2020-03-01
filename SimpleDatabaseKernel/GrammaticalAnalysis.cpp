@@ -2779,8 +2779,12 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  vector<string> tableName;
 		  tableName.push_back(vec[1].getString());
 		  vector<CDIT>columnDetails = get_column_details(tableName);
-		  unsigned posi = get_column_name_position_in_connect_table(vec[3].getString(), columnDetails);
+		  string temp;
 		  int i;
+		  for (i = 1; i < vec[5].getString().size()-1; i++) {
+			  temp += vec[5].getString()[i];
+		  }
+		  unsigned posi = get_column_name_position_in_connect_table(vec[3].getString(), columnDetails);
 		  for (pageBegin = ptr->page.begin(), pageEnd = ptr->page.end(); pageBegin != pageEnd; pageBegin++) {
 			  itemBegin = pageBegin->itemPtrSet.begin();
 			  itemEnd = pageBegin->itemPtrSet.end();
@@ -2797,7 +2801,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 					  dbm::InsertData insertData;
 					  for (i = 0; i < (*itemBegin)->item.size(); i++) {
 						  if (i == posi) {
-							  insertData.data.values.push_back(vec[5].getString());
+							  insertData.data.values.push_back(temp);
 							  continue;
 						  }
 						  insertData.data.values.push_back((*itemBegin)->item[i].get_data());

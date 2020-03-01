@@ -162,7 +162,7 @@ namespace dbm {
 			if (columnMangement.size() != type.size())return false;
 			for (i = 0; i<columnMangement.size(); i++) {
 				if (columnMangement[i].attributeType != type[i]||
-					(type[i] == a_string&&columnMangement[i].type_size()<str.size()-1)) {
+					(type[i] == a_string&&columnMangement[i].type_size()<str[i].size()-1)) {
 					return false;
 				}
 			}

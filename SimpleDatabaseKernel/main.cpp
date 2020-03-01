@@ -95,7 +95,7 @@ Compile::Compile(int argc,char*argv[])
 }
 int main(int argc,char *argv[]) {
 	argv = (char**)malloc(sizeof(char *[3]));
-//argv[2] = "C:\\Users\\THINKPAD\\Desktop\\sql.txt";
+	argv[2] = "C:\\Users\\THINKPAD\\Desktop\\sql.txt";
 	//cout << string(argv[0]) << endl;
 	//cout << string(argv[1]) << endl;
 	//cout << string(argv[2]) << endl;
