@@ -1206,7 +1206,7 @@ bool GrammaticalAnalysis::check_grammatical()
 			return false;
 		}
 		else if (as == acc&&reduer!=e_s) {
-			syntax.execute(reduer, vec);
+			if(!syntax.execute(reduer, vec))return false;
 			reduer = e_s;
 			vec.clear();
 		}
@@ -2459,6 +2459,8 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  if (!semantic_analysis_delete_element(token))return false;
 		  break;
 	  case e_update_def:
+		  if (!semantic_analysis_update(token))return false;
+		  break;
 	  case e_create_index_def:
 	  case e_drop_index_def:
 	  default:
@@ -2634,6 +2636,13 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
   {
 	  if (!queryMangement.query_name(dbm::NameQuery(vec[2].getString()))) {
 		  queryMangement.add_table_or_library(dbm::NameQuery(vec[2].getString()));
+		  vector<GramTokenType>useStatement;
+		  GramTokenType gram;
+		  gram.setString("use");
+		  gram.setGram(cfe::e_use);
+		  useStatement.push_back(gram);
+		  useStatement.push_back(vec[2]);
+		  semantic_analysis_use_database(useStatement);
 		  return true;
 	  }
 	  else {
@@ -2725,7 +2734,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  dbm::resultData_ptr ptr = queryMangement.table_data(vec[1].getString());
 		  list<dbm::Page>::iterator pageBegin, pageEnd;
 		  list<shared_ptr<dbm::Item>>::iterator itemBegin, itemEnd;
-		  vector<GramTokenType>whereStatement(vec.begin() + 5, vec.end());
+		  vector<GramTokenType>whereStatement(vec.begin() + 6, vec.end());
 		  vector<string> tableName;
 		  tableName.push_back(vec[1].getString());
 		  vector<CDIT>columnDetails = get_column_details(tableName);
@@ -2738,15 +2747,25 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 				  wcs wcsTemp = semantic_analysis_where(ptr, whereStatement, columnDetails);
 				  if (wcsTemp == wcs_error)return false;
 				  if (wcsTemp == wcs_ture) {
-					  shared_ptr<dbm::Item> item = *itemBegin;
-					  for (i = 0; i < item->item.size(); i++) {
-						  if (posi == i) {
-							  item->item[i].set_data(vec[5].getString());
-							  break;
-						  }
+					  dbm::DeleteData deleteData;
+					  for (i = 0; i < (*itemBegin)->item.size(); i++) {
+						  deleteData.values.push_back((*itemBegin)->item[i].get_data());
 					  }
+					  deleteData.tableName = vec[1].getString();
+					  queryMangement.delete_data(deleteData);
+					  dbm::InsertData insertData;
+					  for (i = 0; i < (*itemBegin)->item.size(); i++) {
+						  if (i == posi) {
+							  insertData.data.values.push_back(vec[5].getString());
+							  continue;
+						  }
+						  insertData.data.values.push_back((*itemBegin)->item[i].get_data());
+					  }
+					  insertData.tableName = vec[1].getString();
+					  queryMangement.add_data(insertData);
 				  }
 			  }
+			
 		  }
 		  return true;
 	  }
