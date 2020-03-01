@@ -2449,8 +2449,14 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  case e_insert_def:
 		  if (!semantic_analysis_insert_data(token))return false;
 		  break;
+	  case e_create_database_def:
+		  if (!semantic_analysis_create_database(token))return false;
+		  break;
 	  case e_delete_table_def:
+		  if (!semantic_analysis_delete_table(token))return false;
+		  break;
 	  case e_delete_element_def:
+		  if (!semantic_analysis_delete_element(token))return false;
 		  break;
 	  case e_update_def:
 	  case e_create_index_def:
@@ -2643,13 +2649,23 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  list<dbm::Page>::iterator pageBegin(ptr->page.begin()), pageEnd(ptr->page.end());
 		  list<shared_ptr<dbm::Item>>::iterator itemBegin, itemEnd;
 		  vector<string>tableName;
+		  int i;
 		  tableName.push_back( vec[2].getString());
 		  vector<CDIT>columnDetails = get_column_details(tableName);
+		  dbm::DeleteData deleteData;
 		  for (; pageBegin != pageEnd; pageBegin++) {
 			  itemBegin = (*pageBegin).itemPtrSet.begin();
 			  itemEnd = (*pageEnd).itemPtrSet.end();
 			  for (; itemBegin != itemEnd; itemBegin++) {
-				  semantic_analysis_where(*itemBegin, vec, columnDetails);
+				cfe::wcs wcs= semantic_analysis_where(*itemBegin, vec, columnDetails);
+				if (wcs == wcs_error)return false;
+				if (wcs == wcs_false) {
+					deleteData.tableName = vec[2].getString();
+					for (i = 0; i < (*itemBegin)->item.size(); i++) {
+						deleteData.values.push_back((*itemBegin)->item[i].get_data());
+					}
+					queryMangement.delete_data(deleteData);
+				}
 			  }
 		  }
 		  return true;
