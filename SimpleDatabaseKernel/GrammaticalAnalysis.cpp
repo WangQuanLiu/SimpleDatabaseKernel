@@ -2590,6 +2590,13 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  for (i = 1; i < fromPosi; i+=2) {
 		  displayName.push_back(vec[i]);
 	  }
+	  for (i = 0; i < tableName.size(); i++) {
+		  if (!queryMangement.query_name(dbm::NameQuery( 
+			  queryMangement.get_currently_library_name(), tableName[i])) ){
+			  printf_symbol_status(tableName[i], "±íÃû", "doesn't exist!");
+			  return false;
+		  }
+	  }
 	  vector<CDIT>columnDetails=get_column_details(tableName);
 	dbm::resultData_ptr ptr=queryMangement.table_data(tableName[0]),ptrTemp;
 	for (i = 1; i < tableName.size(); i++) {
@@ -2779,11 +2786,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  vector<string> tableName;
 		  tableName.push_back(vec[1].getString());
 		  vector<CDIT>columnDetails = get_column_details(tableName);
-		  string temp;
 		  int i;
-		  for (i = 1; i < vec[5].getString().size()-1; i++) {
-			  temp += vec[5].getString()[i];
-		  }
 		  unsigned posi = get_column_name_position_in_connect_table(vec[3].getString(), columnDetails);
 		  for (pageBegin = ptr->page.begin(), pageEnd = ptr->page.end(); pageBegin != pageEnd; pageBegin++) {
 			  itemBegin = pageBegin->itemPtrSet.begin();
@@ -2801,7 +2804,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 					  dbm::InsertData insertData;
 					  for (i = 0; i < (*itemBegin)->item.size(); i++) {
 						  if (i == posi) {
-							  insertData.data.values.push_back(temp);
+							  insertData.data.values.push_back(vec[5].getString());
 							  continue;
 						  }
 						  insertData.data.values.push_back((*itemBegin)->item[i].get_data());
