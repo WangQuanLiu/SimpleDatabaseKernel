@@ -20,7 +20,9 @@ namespace cfe {
 #define EMPTY "-1"
 #define GOTO_TABLE_MAX 800
 #define RANGE_MAX 1000
-#define CONFIGURATION_FILE_HOME(x) string(string("C:\\Users\\THINKPAD\\Desktop\\")+string(x)) 
+#define HOME_FILE "C:\\databaseMangementSystem"
+#define CONFIGURATION_FILE_HOME(x) string(string(HOME_FILE)+"\\ini\\"+string(x)) 
+#define DEBUG_GRAMMATICAL false
 	using CFilePtr = File *;
 	enum GramCategory {
 		gram,//ÎÄ·¨ grammatical
@@ -382,6 +384,7 @@ namespace cfe {
 		bool read_GotoTable();
 		bool read_redu();
 		bool read_file();
+		void init_file();
 		string get_original_string(string str);
 		bool reduction(const Gram&symbol, stack<int>&statusStack, stack<Gram>&gramStack,Gram& reduer);
 		bool shift_in(const Gram&symbol, stack<int>&statusStack, stack<Gram>&gramStack);

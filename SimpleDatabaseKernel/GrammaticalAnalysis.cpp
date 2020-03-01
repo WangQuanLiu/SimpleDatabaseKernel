@@ -1178,7 +1178,7 @@ void GrammaticalAnalysis::init()
 			gramArray[i].vec[j].setGramName(static_cast<Gram>(i));
 		}
 	}
-
+	init_file();
 	generate_firstSet();
 }
 bool GrammaticalAnalysis::check_grammatical()
@@ -2214,6 +2214,21 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  return read_status()&&read_redu()&&read_GotoTable();
   }
 
+  void GrammaticalAnalysis::init_file()
+  {
+	  if (_access(HOME_FILE, 0) == -1) {
+		  _mkdir(HOME_FILE);
+		  FILE*file = fopen(string(string(HOME_FILE)+ string("\\") + "database.ini").c_str(),"w");
+		  if (file != NULL) {
+			  fprintf(file, "0");
+			  fclose(file);
+		  }
+	  }
+	  if (_access(string(string(HOME_FILE) + "\\ini").c_str(), 0) == -1) {
+		  _mkdir(string(string(HOME_FILE) + "\\ini").c_str());
+	  }
+  }
+
   string GrammaticalAnalysis::get_original_string( string str)
   {
 	  if (str == "e_l_bracket") {
@@ -2255,14 +2270,18 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  			statusStack.pop(i);//出栈i+1个元素		
 		  			statusStack.push(redu[j].statusNumber); 
 					reduNum = k;
+			#if(DEBUG_GRAMMATICAL)
 				cout << j << endl;
+			#endif
 		  			gramStack.push(redu[j].gram.getGramName());
 					if (redu[j].gram.getGramName() != e_s) {
 						reduer = redu[j].gram.getGramName();
 					}
 				
 		  			i = gramStack.size() - 1;
+#if(DEBUG_GRAMMATICAL)
 		  			cout << "归约" << endl;
+#endif
 		  				break;
 		  		}
 
@@ -2287,7 +2306,9 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 	  str = str.substr(1, str.size() - 1);
 	  statusStack.push(atoi(str.c_str()));
 	  gramStack.push(symbol);
+#if(DEBUG_GRAMMATICAL)
 	 cout << "移进" << endl;
+#endif
 	  reuction_empty(statusStack, gramStack);
 	  return true;
   }
@@ -2306,7 +2327,9 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  int emptyIndex = -1;
 		  vector<GramDataType>&vecTemp = this->status[statusStack.top()];
 		  if (temp!="") {
+#if(DEBUG_GRAMMATICAL)
 			  cout << temp << endl;
+#endif
 			  gram = string_convert_to_GramToken(temp).getGram();
 		  }
 
@@ -2314,7 +2337,9 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 			  if (vecTemp[i].ls.size() == 1 && vecTemp[i].ls[0] == e_empty) {
 				  emptyIndex = i;
 				  if (gram == vecTemp[i].symbol) {
+#if(DEBUG_GRAMMATICAL)
 					 cout << gram_map_to_string(gram) << "  " << gram_map_to_string(vecTemp[i].symbol) << endl;
+#endif
 					  break;
 				  }
 			  }
