@@ -69,7 +69,12 @@ void Compile::run()
 	
 	lexical_run(file->get_file());
 	cout << "词法分析完成！" << endl;
-	grammatical_run("C:\\Users\\THINKPAD\\Desktop\\sql.lex");
+	string str = file->get_file();
+	str[str.size() - 3] = 'l';
+	str[str.size() - 2] = 'e';
+	str[str.size() - 1] = 'x';
+	//cout << str << endl;
+	grammatical_run(str);
 
 }
 void Compile::lexical_run(string filePath)
@@ -85,13 +90,16 @@ void Compile::grammatical_run(string Path)noexcept
 }
 Compile::Compile(int argc,char*argv[])
 {
-	string str = "C:\\Users\\THINKPAD\\Desktop\\sql.txt";
+	string str = argv[2];
 	file = new cfe::LexicalAnalysisFile(str);
 }
 int main(int argc,char *argv[]) {
-	argv = (char**)malloc(sizeof(char *[3]));
-	argv[2] = "C:\\Users\\THINKPAD\\Desktop\\sql.txt";
-	cout << argv[2] << endl;
+	//argv = (char**)malloc(sizeof(char *[3]));
+	//argv[2] = "C:\\Users\\THINKPAD\\Desktop\\sql.txt";
+	//cout << string(argv[0]) << endl;
+	//cout << string(argv[1]) << endl;
+	//cout << string(argv[2]) << endl;
+
 	Compile compile(argc, argv);
 	compile.run();
 
