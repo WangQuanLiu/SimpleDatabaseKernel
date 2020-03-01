@@ -2671,6 +2671,9 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 		  }
 		  return true;
 	  }
+	  else {
+		  printf_symbol_status("library name", vec[2].getString(), "doesn't exist");
+	  }
 
 	  return false;
   }
@@ -2718,9 +2721,38 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
   }
   bool syntaxTree::semantic_analysis_update(vector<GramTokenType>& vec)
   {
-	/*  if (queryMangement.query_name(queryMangement.get_currently_library_name(), vec[1].getString())) {
-
-	  }*/
+	  if (queryMangement.query_name(dbm::NameQuery( queryMangement.get_currently_library_name(), vec[1].getString()))) {
+		  dbm::resultData_ptr ptr = queryMangement.table_data(vec[1].getString());
+		  list<dbm::Page>::iterator pageBegin, pageEnd;
+		  list<shared_ptr<dbm::Item>>::iterator itemBegin, itemEnd;
+		  vector<GramTokenType>whereStatement(vec.begin() + 5, vec.end());
+		  vector<string> tableName;
+		  tableName.push_back(vec[1].getString());
+		  vector<CDIT>columnDetails = get_column_details(tableName);
+		  unsigned posi = get_column_name_position_in_connect_table(vec[3].getString(), columnDetails);
+		  int i;
+		  for (pageBegin = ptr->page.begin(), pageEnd = ptr->page.end(); pageBegin != pageEnd; pageBegin++) {
+			  itemBegin = pageBegin->itemPtrSet.begin();
+			  itemEnd = pageBegin->itemPtrSet.end();
+			  for (; itemBegin != itemEnd; itemBegin++) {
+				  wcs wcsTemp = semantic_analysis_where(ptr, whereStatement, columnDetails);
+				  if (wcsTemp == wcs_error)return false;
+				  if (wcsTemp == wcs_ture) {
+					  shared_ptr<dbm::Item> item = *itemBegin;
+					  for (i = 0; i < item->item.size(); i++) {
+						  if (posi == i) {
+							  item->item[i].set_data(vec[5].getString());
+							  break;
+						  }
+					  }
+				  }
+			  }
+		  }
+		  return true;
+	  }
+	  else {
+		  printf_symbol_status("table name", vec[1].getString(), "doesn't exist");
+	  }
 	  return false;
   }
   /*
