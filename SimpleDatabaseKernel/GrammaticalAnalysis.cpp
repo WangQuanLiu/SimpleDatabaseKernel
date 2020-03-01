@@ -2614,11 +2614,18 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
   bool syntaxTree::semantic_analysis_insert_data(vector<GramTokenType>& vec)
   {
 	  if (queryMangement.query_name(dbm::NameQuery(queryMangement.get_currently_library_name(), vec[2].getString()))) {
-		  int i;
+		  int i,j;
 		  bool flag;
 		  vector<dbm::AttributeType>atrributeType;
 		  vector<string>values;
 		  for (i = 5; i < vec.size() - 1; i += 2) {
+			  if (vec[i].getGram() == e_str) {
+				  string str;
+				  for (j = 1; j < vec[i].getString().size() - 1; j++)
+					  str += vec[i].getString()[j];
+				  values.push_back(str);
+
+			  }else
 			  values.push_back(vec[i].getString());
 			  atrributeType.push_back(gram_data_type_convert_to_AttributeType(vec[i].getGram()));
 		  }
@@ -2735,11 +2742,20 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
   */
   bool syntaxTree::semantic_analysis_create(vector<GramTokenType>& vec)
   {
-	  int i;
+	  int i,j;
 	  if (!queryMangement.query_name(dbm::NameQuery(queryMangement.get_currently_library_name(), vec[2].getString()))) {
 		  vector<string>type, id;
 		  for (i = 4; i < vec.size(); i += 3) {
 			  id.push_back(vec[i].getString());
+			  if (vec[i + 1].getString()[0] == 'c') {
+				  string str = vec[i + 1].getString();
+				  str += "(";
+				  str += vec[i + 3].getString();
+				  str += ")";
+				  i += 3;
+				  type.push_back(str);
+				  continue;
+			  }
 			  type.push_back( vec[i + 1].getString());
 		  }
 		  queryMangement.add_table_or_library(dbm::NameQuery(queryMangement.get_currently_library_name(), vec[2].getString()));

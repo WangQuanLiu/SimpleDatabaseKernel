@@ -158,7 +158,7 @@ namespace dbm {
 		int i;
 		const NameQueryIndex index = query_name_inner(NameQuery(libraryName, tableName));
 		if (index.flag) {
-			vector<CNT>&columnMangement = this->nameMangementFilePtr->nameTable.tableMangement[index.tableNameIndex].column;
+			vector<CNT> columnMangement = this->nameMangementFilePtr->nameTable.tableMangement[index.tableNameIndex].column;
 			if (columnMangement.size() != type.size())return false;
 			for (i = 0; i<columnMangement.size(); i++) {
 				if (columnMangement[i].attributeType != type[i]||
@@ -563,7 +563,7 @@ namespace dbm {
 		for (j = 0; j < this->databaseFile.nameMangementTablePtr->nameTable.tableMangement[i].colSize; j++) {
 			colSize += this->databaseFile.nameMangementTablePtr->nameTable.tableMangement[i].column[j].type_size();
 		}
-		list<shared_ptr<Page>>&page = this->databaseFile.dataMangementPtr->table[i].pagePtrSet;
+		list<shared_ptr<Page>> page = this->databaseFile.dataMangementPtr->table[i].pagePtrSet;
 		list<shared_ptr<Page>>::iterator pageBegin(page.begin()), pageEnd(page.end());
 		list<shared_ptr<Page>>::iterator pageTemp = page.begin();
 		for (j = 0; j < pageSize; j++) {//±éÀúÒ³

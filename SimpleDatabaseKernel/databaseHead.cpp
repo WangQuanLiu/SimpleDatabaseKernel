@@ -196,7 +196,7 @@ namespace dbm {
 	size_t ColNameAndType::type_size()
 	{
 		if (attributeType == a_int)return sizeof(int);
-		else if (attributeType = a_flaot)return sizeof(float);
+		else if (attributeType == a_flaot)return sizeof(float);
 		else {
 			int i;
 			bool flag = false;
