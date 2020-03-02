@@ -93,10 +93,11 @@ namespace dbm {
 				
 			}
 			else if (temp.queryType == q_table_name) {//删除表名
+				
+				delete_talbe_or_library(dbm::NameQuery(nameQuery.libraryName, nameQuery.tableName));
 				vector<TableNameMangement>::iterator iter = nameMangementFilePtr->nameTable.tableMangement.begin() + temp.tableNameIndex;
 				nameMangementFilePtr->nameTable.tableMangement.erase(iter);
 				nameMangementFilePtr->nameTable.tableSize = nameMangementFilePtr->nameTable.tableMangement.size();
-				delete_talbe_or_library(dbm::NameQuery(nameQuery.libraryName, nameQuery.tableName));
 			}
 			//删除列名
 			else {
