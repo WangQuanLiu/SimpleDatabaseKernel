@@ -4,6 +4,7 @@
 #include<Windows.h>
 #include<io.h>
 #include<time.h>
+#include<set>
 namespace dbm {
 #define _DATABASE_
 #define NAME_QUERY_INDEX_ERROR -1

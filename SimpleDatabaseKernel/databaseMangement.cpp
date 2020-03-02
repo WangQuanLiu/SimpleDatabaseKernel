@@ -367,7 +367,7 @@ namespace dbm {
 
 			else {//库名或表名
 			//	flag  = this->nameMangement.delete_name(nameQuery);//delete at 2020/2/16
-				//flag =delete_name(nameQuery);
+				flag =delete_name(nameQuery);//add at 2020/3/2
 				if (nameQuery.queryType == q_library_name) {//库名
 					filePath = DATABASE_HOME_PATH(nameQuery.libraryName);
 				}
@@ -633,6 +633,9 @@ namespace dbm {
 			list<shared_ptr<Item>>::iterator itemBegin, itemEnd;
 			bool flag = false;
 			Item item;
+			set<unsigned>s;
+			int t;
+			
 			unsigned deletedIndex = 0;
 			for (j = 0; j < data.values.size(); j++) {
 				item.item.push_back(data.values[j]);
@@ -641,12 +644,15 @@ namespace dbm {
 				itemBegin = (*pageBegin)->itemPtrSet.begin(),
 					itemEnd = (*pageBegin)->itemPtrSet.end();
 				deletedIndex = 0;
+				for (t = 0; t<(*pageBegin)->deletedFlag.size(); t++)
+					s.insert((*pageBegin)->deletedFlag[t]);
 				for (; itemBegin != itemEnd; itemBegin++, deletedIndex++) {//寻找数据
-					if (item == *(*itemBegin)) {
+					if (item == *(*itemBegin)&&s.count(deletedIndex)==0) {
 						flag = true;
 						break;
 					}
 				}
+				s.clear();
 				if (flag)break;
 			}
 			if (!flag)return false;

@@ -2714,6 +2714,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 						deleteData.values.push_back((*itemBegin)->item[i].get_data());
 					}
 					queryMangement.delete_data(deleteData);
+					deleteData.values.clear();
 				}
 			  }
 		  }
