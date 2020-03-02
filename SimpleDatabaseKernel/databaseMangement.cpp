@@ -367,7 +367,8 @@ namespace dbm {
 
 			else {//库名或表名
 			//	flag  = this->nameMangement.delete_name(nameQuery);//delete at 2020/2/16
-				flag =delete_name(nameQuery);//add at 2020/3/2
+				//flag =delete_name(nameQuery);//add at 2020/3/2
+				
 				if (nameQuery.queryType == q_library_name) {//库名
 					filePath = DATABASE_HOME_PATH(nameQuery.libraryName);
 				}

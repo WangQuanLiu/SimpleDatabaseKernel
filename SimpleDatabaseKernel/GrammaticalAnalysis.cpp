@@ -2658,7 +2658,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
   bool syntaxTree::semantic_analysis_delete_table(vector<GramTokenType>& vec)
   {
 	  if (queryMangement.query_name(dbm::NameQuery(queryMangement.get_currently_library_name(), vec[2].getString()))) {
-		  queryMangement.delete_talbe_or_library(dbm::NameQuery(queryMangement.get_currently_library_name(), vec[2].getString()));
+		  queryMangement.delete_name(dbm::NameQuery(queryMangement.get_currently_library_name(), vec[2].getString()));
 		  return true;
 	  }
 	  else {
@@ -2793,7 +2793,7 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 			  itemBegin = pageBegin->itemPtrSet.begin();
 			  itemEnd = pageBegin->itemPtrSet.end();
 			  for (; itemBegin != itemEnd; itemBegin++) {
-				  wcs wcsTemp = semantic_analysis_where(ptr, whereStatement, columnDetails);
+				  wcs wcsTemp = semantic_analysis_where((*itemBegin), whereStatement, columnDetails);
 				  if (wcsTemp == wcs_error)return false;
 				  if (wcsTemp == wcs_ture) {
 					  dbm::DeleteData deleteData;
