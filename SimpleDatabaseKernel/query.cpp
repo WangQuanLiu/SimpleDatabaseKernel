@@ -79,16 +79,24 @@ namespace dbm {
 		list<dbm::Page>::iterator ptrOnePageBegin(ptrOne->page.begin()), ptrOnePageEnd(ptrOne->page.end()),
 			ptrTwoPageBegin, ptrTwoPageEnd;
 		dbm::Page_ptr pagePtr = new dbm::Page();
+		int t, x;
 		list<shared_ptr<dbm::Item>>::iterator itemOneBegin, itemTwoBegin, itemOneEnd, itemTwoEnd;
 		for (; ptrOnePageBegin != ptrOnePageEnd; ptrOnePageBegin++) {
 			itemOneBegin = (*ptrOnePageBegin).itemPtrSet.begin();
 			itemOneEnd = (*ptrOnePageBegin).itemPtrSet.end();
-			for (; itemOneBegin != itemOneEnd; itemOneBegin++) {
+			set<unsigned>sOne,sTwo;
+			for (t = 0; t < (*ptrOnePageBegin).deletedFlag.size(); t++)
+				sOne.insert((*ptrOnePageBegin).deletedFlag[t]);
+			for (t=0; itemOneBegin != itemOneEnd; itemOneBegin++,t++) {
+				if (sOne.count(t) != 0)continue;
 				ptrTwoPageBegin=ptrTwo->page.begin(), ptrTwoPageEnd=ptrTwo->page.end();
 				for (; ptrTwoPageBegin != ptrTwoPageEnd; ptrTwoPageBegin++) {
+					for (x = 0; x < (*ptrTwoPageBegin).deletedFlag.size(); x++)
+						sTwo.insert((*ptrTwoPageBegin).deletedFlag[x]);
 					itemTwoBegin = (*ptrTwoPageBegin).itemPtrSet.begin();
 					itemTwoEnd = (*ptrTwoPageBegin).itemPtrSet.end();
-					for (; itemTwoBegin != itemTwoEnd; itemTwoBegin++) {
+					for (x=0; itemTwoBegin != itemTwoEnd; itemTwoBegin++,x++) {
+						if (sTwo.count(x) != 0)continue;
 						shared_ptr < dbm::Item > itemTemp = make_shared<dbm::Item>(new dbm::Item());
 						(*itemTemp) = (**itemOneBegin);
 						(*itemTemp) += (**itemTwoBegin);
