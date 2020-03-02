@@ -8,23 +8,25 @@ Implement a simple database kernel
 2.if you want to learn DFA,NFA,simple grammar translate,implement of B+ tree or you want to implement to analogous the project then the project wile be help to you.
 本项目仅支持简单的SQL语句,有如下   
 the project support simple SQL statement,as follow   
-create database id  
-use database id  
-drop id  
-create table id(  
-id int,  
+create database id  创建库  
+use id  使用库  
+drop id  删除库  
+create table id(  创建表   
+id int,   
 id float,  
-id char( )  
+id char( 数字)   最后一个不要有逗号，这是个BUG，因为时间原因，还未解决  
 )  
-drop table id  
-select *from  id,id...  
-update id  
-set column_id = values  
-where column_id = values and ... operator = <= >= > <  
-insert into id values(values,values...)  
-delete id from   
-where ...  
+仅支持int,float,char(数字)三种类型  
+delete table id  删除表  
+delete from id 删除数据  
+where ….  
+select *from  id,id...  查询  
+update id  更新数据  
+set column_id = values    
+where column_id = values and ... operator = <= >= > <    
+insert into id values(values,values...)  插入数据  
 运行方式：  
-在cmd上寻找程序文件，然后输入simpleDatabaseKernel -c 文件路径及名字  
+在cmd上寻找程序文件，然后输入simpleDatabaseKernel -c 文件路径及名字   
+
 running mode:  
 First find program file in cmd ,and then input simpleDatabaserKernel -c file path and name  
