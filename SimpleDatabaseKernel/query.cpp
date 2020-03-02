@@ -80,17 +80,19 @@ namespace dbm {
 			ptrTwoPageBegin, ptrTwoPageEnd;
 		dbm::Page_ptr pagePtr = new dbm::Page();
 		int t, x;
+		set<unsigned>sOne, sTwo;
 		list<shared_ptr<dbm::Item>>::iterator itemOneBegin, itemTwoBegin, itemOneEnd, itemTwoEnd;
 		for (; ptrOnePageBegin != ptrOnePageEnd; ptrOnePageBegin++) {
 			itemOneBegin = (*ptrOnePageBegin).itemPtrSet.begin();
 			itemOneEnd = (*ptrOnePageBegin).itemPtrSet.end();
-			set<unsigned>sOne,sTwo;
+			sOne.clear();
 			for (t = 0; t < (*ptrOnePageBegin).deletedFlag.size(); t++)
 				sOne.insert((*ptrOnePageBegin).deletedFlag[t]);
 			for (t=0; itemOneBegin != itemOneEnd; itemOneBegin++,t++) {
 				if (sOne.count(t) != 0)continue;
 				ptrTwoPageBegin=ptrTwo->page.begin(), ptrTwoPageEnd=ptrTwo->page.end();
 				for (; ptrTwoPageBegin != ptrTwoPageEnd; ptrTwoPageBegin++) {
+					sTwo.clear();
 					for (x = 0; x < (*ptrTwoPageBegin).deletedFlag.size(); x++)
 						sTwo.insert((*ptrTwoPageBegin).deletedFlag[x]);
 					itemTwoBegin = (*ptrTwoPageBegin).itemPtrSet.begin();
