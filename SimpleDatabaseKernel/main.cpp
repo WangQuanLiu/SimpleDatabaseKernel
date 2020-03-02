@@ -24,7 +24,7 @@ The project address :https://github.com/WangQuanLiu/SimpleDatabaseKernel
 completed date:2020/3/1 21:22
 create by WangQuanLiu
 E-mail:wangquanliu@163.com
-
+environment:Visual studio 2015
 */
 #ifndef _LexicalAnalysis_
 #include"LexicalAnalysis.h"
