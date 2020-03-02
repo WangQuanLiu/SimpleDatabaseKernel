@@ -3168,9 +3168,12 @@ GramTokenType::GramTokenType(const GramTokenType & obj)
 			 for (i = 0; i < vec.size(); i++) {
 				 temp = get_column_position_in_connect_table(vec[i].getString(), columnInfoInTable);
 				 if (temp.flag == false)return wcs_error;
-				 for (j = 0; j <= temp.tableIndex; j++)
-					 for (k = 0; k < temp.columnIndex; k++)
-						 position++;
+				 for (j = 0; j < temp.tableIndex; j++)
+					 position += columnInfoInTable[temp.tableIndex].columnInfo.size();
+				// position--;
+				 position += temp.columnIndex;
+					/* for (k = 0; k < temp.columnIndex; k++)
+						 position++;*/
 				 cout << columnInfoInTable[temp.tableIndex].columnInfo[temp.columnIndex].colName << " ";
 				 posi.push_back(position);
 				 position = 0;
