@@ -21,7 +21,7 @@ delete table id  删除表
 delete from id 删除数据  
 where ….  
 select *from  id,id...  查询  
-select column_name,column_name where id compare_symob id logic id......
+select column_name,column_name where id compare_symob id logic id......   
 update id  更新数据  
 set column_id = values    
 where column_id = values and ... operator = <= >= > <    
